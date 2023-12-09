@@ -227,6 +227,39 @@ ipcMain.handle('clear-cache-files', (_event, images: string[]) => {
   })
 })
 
+// 获取缓存文件列表
+ipcMain.handle('get-cache-files', () => {
+  const files: string[] = fs.readdirSync(tempPath)
+  const cacheFiles: { name: string; data: string }[] = []
+  if (!files || files.length === 0) {
+    return cacheFiles
+  }
+  files.forEach((file) => {
+    cacheFiles.push({
+      name: file,
+      data: fs.readFileSync(join(tempPath, file)).toString('base64')
+    })
+  })
+  return cacheFiles
+})
+
+// 添加缓存文件
+ipcMain.handle('add-cache-files', (_event, cacheFiles: { name: string; data: string }[]) => {
+  let resultFlag = false
+  if (!cacheFiles || cacheFiles.length === 0) {
+    return resultFlag
+  }
+  cacheFiles.forEach((file) => {
+    try {
+      fs.writeFileSync(join(tempPath, file.name), Buffer.from(file.data, 'base64'))
+      resultFlag = true
+    } catch (e) {
+      console.error('add-cache-files error：', e)
+    }
+  })
+  return resultFlag
+})
+
 // 选择文件并读取内容
 ipcMain.handle('select-file-and-read', (_event, extensions = ['*']) => {
   const result = dialog.showOpenDialogSync(mainWindow, {

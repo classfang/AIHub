@@ -34,6 +34,16 @@ export const clearCacheFiles = async (images: string[]) => {
   return await window.electron.ipcRenderer.invoke('clear-cache-files', images)
 }
 
+export const getCacheFiles = async (): Promise<{ name: string; data: string }[]> => {
+  return await window.electron.ipcRenderer.invoke('get-cache-files')
+}
+
+export const addCacheFiles = async (
+  cacheFiles: { name: string; data: string }[]
+): Promise<boolean> => {
+  return await window.electron.ipcRenderer.invoke('add-cache-files', cacheFiles)
+}
+
 export const selectFileAndRead = async (filters: string[]) => {
   return await window.electron.ipcRenderer.invoke('select-file-and-read', filters)
 }

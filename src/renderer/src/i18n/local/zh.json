@@ -47,7 +47,6 @@
       "importSuccess": "导入成功",
       "importNone": "未导入任何数据",
       "importError": "导入失败",
-      "cacheBackup": "注意：缓存文件请前往缓存目录自行备份",
       "setting": {
         "name": "设置备份",
         "export": "导出设置",

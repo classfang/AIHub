@@ -9,7 +9,9 @@ import {
   getAppVersion,
   clearCacheFiles,
   selectFileAndRead,
-  onMainWindowFocus
+  onMainWindowFocus,
+  getCacheFiles,
+  addCacheFiles
 } from '@renderer/utils/ipc-util'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { useCollectionSetStore } from '@renderer/store/collection-set'
@@ -83,21 +85,26 @@ const clearCacheHandle = async () => {
 }
 
 const exportSettingBackup = () => {
+  systemStore.globalLoading = true
   exportTextFile(
     `setting-${formatDateTime(new Date(), 'YYYYMMDDHHmmss')}.aihub`,
     settingStore.getStoreJson
   )
+  systemStore.globalLoading = false
 }
 
-const exportDataBackup = () => {
+const exportDataBackup = async () => {
+  systemStore.globalLoading = true
   exportTextFile(
     `data-${formatDateTime(new Date(), 'YYYYMMDDHHmmss')}.aihub`,
     JSON.stringify({
       userStore: userStore.getStoreJson,
       assistantStore: assistantStore.getStoreJson,
-      collectionSetStore: collectionSetStore.getStoreJson
+      collectionSetStore: collectionSetStore.getStoreJson,
+      cacheFiles: await getCacheFiles()
     })
   )
+  systemStore.globalLoading = false
 }
 
 const importSettingBackup = () => {
@@ -146,6 +153,7 @@ const importDataBackup = () => {
           importFlag = assistantStore.setStoreFromJson(dataBackup.assistantStore) || importFlag
           importFlag =
             collectionSetStore.setStoreFromJson(dataBackup.collectionSetStore) || importFlag
+          importFlag = (await addCacheFiles(dataBackup.cacheFiles)) || importFlag
           if (importFlag) {
             Message.success(t('setting.backup.importSuccess'))
           } else {
@@ -302,15 +310,6 @@ onMounted(() => {
                     </a-button>
                   </a-space>
                 </div>
-              </a-space>
-              <a-space direction="vertical" :size="10">
-                <div>{{ $t('setting.backup.cacheBackup') }}</div>
-                <a-button size="mini" @click="openCacheDir()">
-                  <a-space :size="5">
-                    <icon-folder />
-                    <span>{{ $t('setting.app.cache.path') }}</span>
-                  </a-space>
-                </a-button>
               </a-space>
             </a-space>
           </a-tab-pane>

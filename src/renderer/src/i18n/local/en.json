@@ -47,7 +47,6 @@
       "importSuccess": "Import success",
       "importNone": "No data has been imported",
       "importError": "Import error",
-      "cacheBackup": "Note: Please go to the cache directory to back up the cached files",
       "setting": {
         "name": "Settings backup",
         "export": "Export settings",
