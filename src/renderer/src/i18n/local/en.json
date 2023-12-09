@@ -100,6 +100,9 @@
     "ERNIEBot": "ERNIE Bot",
     "Tongyi": "Tongyi Qianwen"
   },
+  "translationProvider": {
+    "Youdao": "Youdao Translation"
+  },
   "assistantList": {
     "new": "New Assistant",
     "name": "Name",
@@ -146,5 +149,17 @@
   "collectionSet": {
     "search": "Search favorites",
     "empty": "Collect inspiration for chatting with AI"
+  },
+  "translator": {
+    "name": "Text translation",
+    "queryPlaceholder": "Please enter your text to be translated",
+    "returnPlaceholder": "Translation result",
+    "returnDetailPlaceholder": "Translation details",
+    "configMiss": {
+      "Youdao": "Youdao Translation is not configured"
+    },
+    "error": {
+      "Youdao": "Youdao Translation call error, please check your configuration"
+    }
   }
 }

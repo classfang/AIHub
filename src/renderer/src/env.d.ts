@@ -8,6 +8,7 @@ declare module '*.vue' {
 }
 
 type BigModelProvider = 'OpenAI' | 'Spark' | 'ERNIEBot' | 'Tongyi'
+type TranslatorProvider = 'Youdao'
 type AssistantType = 'chat' | 'drawing'
 type ChatMsgType = 'text' | 'img'
 type ChatRole = 'user' | 'assistant' | 'system'

@@ -100,6 +100,9 @@
     "ERNIEBot": "文心一言",
     "Tongyi": "通义千问"
   },
+  "translationProvider": {
+    "Youdao": "有道翻译"
+  },
   "assistantList": {
     "new": "新增助手",
     "name": "名称",
@@ -146,5 +149,17 @@
   "collectionSet": {
     "search": "搜索收藏",
     "empty": "收藏与AI对话的灵感"
+  },
+  "translator": {
+    "name": "文本翻译",
+    "queryPlaceholder": "输入要翻译的文本",
+    "returnPlaceholder": "翻译结果",
+    "returnDetailPlaceholder": "翻译详情",
+    "configMiss": {
+      "Youdao": "有道翻译未配置"
+    },
+    "error": {
+      "Youdao": "有道翻译调用错误，请检查你的配置"
+    }
   }
 }

@@ -21,7 +21,7 @@ const data = reactive({
 const { currentPage } = toRefs(data)
 
 // 主题设置监听
-let stopDarkThemeListener
+let stopDarkThemeListener: any = null
 watch(
   () => settingStore.app.themeModel,
   () => {
@@ -105,7 +105,7 @@ onMounted(() => {
     <div v-show="currentPage === 'web-app'" class="app-body">
       <WebApp />
     </div>
-    <div v-show="currentPage === 'web-app'" class="app-body">
+    <div v-show="currentPage === 'translator'" class="app-body">
       <Translator />
     </div>
 
