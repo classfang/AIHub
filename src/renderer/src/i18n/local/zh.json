@@ -82,6 +82,11 @@
     "tongyi": {
       "name": "通义千问",
       "apiKey": "API Key"
+    },
+    "youdao": {
+      "name": "有道翻译",
+      "appId": "应用ID",
+      "secret": "应用密钥"
     }
   },
   "userSetting": {

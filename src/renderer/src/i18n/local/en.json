@@ -82,6 +82,11 @@
     "tongyi": {
       "name": "Tongyi Qianwen",
       "apiKey": "API Key"
+    },
+    "youdao": {
+      "name": "Youdao Translation",
+      "appId": "App ID",
+      "secret": "App Secret"
     }
   },
   "userSetting": {

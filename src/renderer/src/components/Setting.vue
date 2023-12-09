@@ -250,9 +250,7 @@ onMounted(() => {
                     >
                       <a-button
                         size="mini"
-                        @click="
-                          openInBrowser('https://github.com/classfang/AIHub/releases')
-                        "
+                        @click="openInBrowser('https://github.com/classfang/AIHub/releases')"
                       >
                         <a-space :size="5">
                           <icon-download />
@@ -414,6 +412,32 @@ onMounted(() => {
                   v-model="settingStore.tongyi.apiKey"
                   size="small"
                   :placeholder="$t('common.pleaseEnter') + ' ' + $t('setting.tongyi.apiKey')"
+                />
+              </a-space>
+            </a-space>
+          </a-tab-pane>
+          <a-tab-pane key="youdao" :title="$t('setting.youdao.name')">
+            <a-space direction="vertical" :size="20" fill>
+              <a-space direction="vertical" :size="10" fill>
+                <div>{{ $t('setting.officialWebsite') }}</div>
+                <a-link @click="openInBrowser('https://ai.youdao.com/')"
+                  >https://ai.youdao.com/</a-link
+                >
+              </a-space>
+              <a-space direction="vertical" :size="10" fill>
+                <div>{{ $t('setting.youdao.appId') }}</div>
+                <a-input
+                  v-model="settingStore.youdao.appId"
+                  size="small"
+                  :placeholder="$t('common.pleaseEnter') + ' ' + $t('setting.youdao.appId')"
+                />
+              </a-space>
+              <a-space direction="vertical" :size="10" fill>
+                <div>{{ $t('setting.youdao.secret') }}</div>
+                <a-input-password
+                  v-model="settingStore.youdao.secret"
+                  size="small"
+                  :placeholder="$t('common.pleaseEnter') + ' ' + $t('setting.youdao.secret')"
                 />
               </a-space>
             </a-space>

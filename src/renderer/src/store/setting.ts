@@ -25,7 +25,10 @@ export const useSettingStore = defineStore({
     tongyi: {
       apiKey: ''
     },
-    youdao: {}
+    youdao: {
+      appId: '',
+      secret: ''
+    }
   }),
   getters: {
     getStoreJson(): string {
