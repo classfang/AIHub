@@ -37,7 +37,8 @@ export const useSettingStore = defineStore({
         openAI: this.openAI,
         spark: this.spark,
         ernieBot: this.ernieBot,
-        tongyi: this.tongyi
+        tongyi: this.tongyi,
+        youdao: this.youdao
       })
     }
   },
@@ -66,6 +67,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.tongyi !== undefined) {
         this.tongyi = settingBackup.tongyi
+        importFlag = true
+      }
+      if (settingBackup.youdao !== undefined) {
+        this.youdao = settingBackup.youdao
         importFlag = true
       }
       return importFlag
