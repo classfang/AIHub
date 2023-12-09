@@ -1,0 +1,145 @@
+{
+  "common": {
+    "slogan": "The era of artificial intelligence has dawned.",
+    "ok": "Confirm",
+    "cancel": "Cancel",
+    "pleaseEnter": "Please enter",
+    "required": "is required",
+    "edit": "Edit",
+    "delete": "Delete",
+    "export": "Export",
+    "deleteConfirm": "Do you want to delete it?",
+    "deleteConfirmContent": "After being deleted, it cannot be restored.",
+    "clear": "Clear",
+    "clearConfirm": "Are you sure to clear your chat history?",
+    "clearConfirmContent": "Chat history will not be restored after clearing.",
+    "loadErrorRetry": "Failed to load, click retry",
+    "copySuccess": "Copied to clipboard"
+  },
+  "setting": {
+    "name": "Settings",
+    "officialWebsite": "Official Website",
+    "app": {
+      "name": "Application",
+      "theme": {
+        "name": "Theme",
+        "system": "System",
+        "light": "Light",
+        "dark": "Dark"
+      },
+      "local": "Language",
+      "version": {
+        "name": "Version",
+        "current": "Current Version",
+        "download": "Download new version"
+      },
+      "cache": {
+        "name": "Cache",
+        "path": "Cache directory",
+        "clear": "Clear cache",
+        "clearSuccess": "Cache clearing complete"
+      },
+      "proxy": "Proxy address"
+    },
+    "backup": {
+      "name": "Backup",
+      "importOk": "Select file",
+      "importSuccess": "Import success",
+      "importNone": "No data has been imported",
+      "importError": "Import error",
+      "cacheBackup": "Note: Please go to the cache directory to back up the cached files",
+      "setting": {
+        "name": "Settings backup",
+        "export": "Export settings",
+        "import": "Import settings",
+        "importConfirm": "Import settings warning",
+        "importConfirmContent": "Select backup file import, the existing application Settings will be overwritten, the operation cannot be restored!"
+      },
+      "data": {
+        "name": "Data backup",
+        "export": "Export application data",
+        "import": "Import application data",
+        "importConfirm": "Import data warning",
+        "importConfirmContent": "Select backup file import, the existing application data will be overwritten, the operation cannot be restored!"
+      }
+    },
+    "openAI": {
+      "name": "OpenAI",
+      "baseUrl": "Server URL",
+      "key": "OpenAI Key"
+    },
+    "spark": {
+      "name": "iFLYTEK Spark",
+      "appId": "APPID",
+      "secret": "APISecret",
+      "key": "APIKey"
+    },
+    "ernieBot": {
+      "name": "ERNIE Bot",
+      "apiKey": "API Key",
+      "secretKey": "Secret Key"
+    },
+    "tongyi": {
+      "name": "Tongyi Qianwen",
+      "apiKey": "API Key"
+    }
+  },
+  "userSetting": {
+    "name": "User Info",
+    "selectAvatar": "Select",
+    "nickname": "Nickname"
+  },
+  "bigModelProvider": {
+    "OpenAI": "OpenAI",
+    "Spark": "iFLYTEK Spark",
+    "ERNIEBot": "ERNIE Bot",
+    "Tongyi": "Tongyi Qianwen"
+  },
+  "assistantList": {
+    "new": "New Assistant",
+    "name": "Name",
+    "instruction": "Instruction",
+    "provider": "Provider",
+    "model": "Model",
+    "maxTokens": "Generated Max Tokens",
+    "inputMaxTokens": "Input Max Tokens",
+    "contextSize": "Context Size",
+    "type": "Assistant Type",
+    "chat": "Chat",
+    "drawing": "Drawing",
+    "imageSize": "Image Size",
+    "search": "Search assistant"
+  },
+  "assistantItem": {
+    "content": {
+      "image": "[Image]",
+      "empty": "[No chat]"
+    }
+  },
+  "chatWindow": {
+    "chatInputPlaceholder": "Enter your question here (Shift + Enter line wrap)",
+    "stop": "Stop",
+    "send": "Send",
+    "selectImage": "Select image",
+    "copy": "Copy",
+    "multipleChoice": "Multiple choice",
+    "selectSuccess": "Added to favorites",
+    "inputTokensLimit": "Input tokens limit",
+    "configMiss": {
+      "OpenAI": "OpenAI is not configured",
+      "Spark": "iFLYTEK Spark is not configured",
+      "ERNIEBot": "ERNIE Bot is not configured",
+      "Tongyi": "Tongyi Qianwen is not configured"
+    },
+    "error": {
+      "OpenAI": "OpenAI call error, please check your configuration",
+      "Spark": "iFLYTEK Spark call error, please check your configuration",
+      "ERNIEBot": "ERNIE Bot call error, please check your configuration",
+      "Tongyi": "Tongyi Qianwen call error, please check your configuration"
+    }
+  },
+  "collectionSet": {
+    "search": "Search favorites",
+    "empty": "Collect inspiration for chatting with AI"
+  }
+}

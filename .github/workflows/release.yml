@@ -1,0 +1,34 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+# Example:
+# git commit -am v1.0.9
+# git tag v1.0.9
+# git push && git push --tags
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: Build/release Electron app
+        uses: classfang/action-electron-builder@v1.0.0
+        with:
+          # GitHub token, automatically provided to the action
+          github_token: ${{ secrets.github_token }}
+          release: true

@@ -1,0 +1,145 @@
+{
+  "common": {
+    "slogan": "人工智能时代已然到来",
+    "ok": "确定",
+    "cancel": "取消",
+    "pleaseEnter": "请输入",
+    "required": "不能为空",
+    "edit": "编辑",
+    "delete": "删除",
+    "export": "导出",
+    "deleteConfirm": "确认删除吗？",
+    "deleteConfirmContent": "删除后将无法恢复。",
+    "clear": "清空",
+    "clearConfirm": "确认清空聊天记录吗？",
+    "clearConfirmContent": "聊天记录清空后将无法恢复。",
+    "loadErrorRetry": "加载失败，点击重试",
+    "copySuccess": "已复制到剪贴板"
+  },
+  "setting": {
+    "name": "设置",
+    "officialWebsite": "官网地址",
+    "app": {
+      "name": "应用",
+      "theme": {
+        "name": "主题",
+        "system": "系统",
+        "light": "明亮",
+        "dark": "黑暗"
+      },
+      "local": "语言",
+      "version": {
+        "name": "版本",
+        "current": "当前版本",
+        "download": "下载新版"
+      },
+      "cache": {
+        "name": "缓存",
+        "path": "缓存目录",
+        "clear": "清理缓存",
+        "clearSuccess": "缓存清理完成"
+      },
+      "proxy": "代理地址"
+    },
+    "backup": {
+      "name": "备份",
+      "importOk": "选择文件",
+      "importSuccess": "导入成功",
+      "importNone": "未导入任何数据",
+      "importError": "导入失败",
+      "cacheBackup": "注意：缓存文件请前往缓存目录自行备份",
+      "setting": {
+        "name": "设置备份",
+        "export": "导出设置",
+        "import": "导入设置",
+        "importConfirm": "导入设置警告",
+        "importConfirmContent": "选择备份文件导入，将覆盖现有应用设置，操作不可恢复！"
+      },
+      "data": {
+        "name": "数据备份",
+        "export": "导出应用数据",
+        "import": "导入应用数据",
+        "importConfirm": "导入数据警告",
+        "importConfirmContent": "选择备份文件导入，将覆盖现有应用数据，操作不可恢复！"
+      }
+    },
+    "openAI": {
+      "name": "OpenAI",
+      "baseUrl": "服务器地址",
+      "key": "OpenAI Key"
+    },
+    "spark": {
+      "name": "讯飞星火",
+      "appId": "APPID",
+      "secret": "APISecret",
+      "key": "APIKey"
+    },
+    "ernieBot": {
+      "name": "文心一言",
+      "apiKey": "API Key",
+      "secretKey": "Secret Key"
+    },
+    "tongyi": {
+      "name": "通义千问",
+      "apiKey": "API Key"
+    }
+  },
+  "userSetting": {
+    "name": "用户信息",
+    "selectAvatar": "选择",
+    "nickname": "昵称"
+  },
+  "bigModelProvider": {
+    "OpenAI": "OpenAI",
+    "Spark": "讯飞星火",
+    "ERNIEBot": "文心一言",
+    "Tongyi": "通义千问"
+  },
+  "assistantList": {
+    "new": "新增助手",
+    "name": "名称",
+    "instruction": "指令",
+    "provider": "提供商",
+    "model": "模型",
+    "maxTokens": "生成最大Token数",
+    "inputMaxTokens": "输入最大Token数",
+    "contextSize": "上下文大小",
+    "type": "助手类型",
+    "chat": "对话",
+    "drawing": "绘画",
+    "imageSize": "图片大小",
+    "search": "搜索助手"
+  },
+  "assistantItem": {
+    "content": {
+      "image": "[图片]",
+      "empty": "[暂无对话]"
+    }
+  },
+  "chatWindow": {
+    "chatInputPlaceholder": "在此输入你的问题（Shift + Enter 换行）",
+    "stop": "停止",
+    "send": "发送",
+    "selectImage": "选择图片",
+    "copy": "复制",
+    "multipleChoice": "多选",
+    "selectSuccess": "已添加至收藏夹",
+    "inputTokensLimit": "输入Token数超限制",
+    "configMiss": {
+      "OpenAI": "OpenAI未配置",
+      "Spark": "星火大模型未配置",
+      "ERNIEBot": "文心一言大模型未配置",
+      "Tongyi": "通义千问大模型未配置"
+    },
+    "error": {
+      "OpenAI": "OpenAI调用错误，请检查你的配置",
+      "Spark": "星火大模型调用错误，请检查你的配置",
+      "ERNIEBot": "文心一言大模型调用错误，请检查你的配置",
+      "Tongyi": "通义千问大模型调用错误，请检查你的配置"
+    }
+  },
+  "collectionSet": {
+    "search": "搜索收藏",
+    "empty": "收藏与AI对话的灵感"
+  }
+}

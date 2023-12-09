@@ -1,0 +1,94 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family:
+    Roboto,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Open Sans',
+    sans-serif;
+}
+
+* {
+  // 内容不允许选中
+  user-select: none;
+}
+
+img {
+  // 图片不允许拖拽
+  -webkit-user-drag: none;
+}
+
+// 文字可选择
+.select-text {
+  user-select: text;
+
+  * {
+    user-select: text;
+  }
+}
+
+// 可拖拽
+.drag-area {
+  -webkit-app-region: drag;
+}
+
+// 不可拖拽
+.no-drag-area {
+  -webkit-app-region: no-drag;
+}
+
+// 遮罩不可拖拽
+.arco-modal-mask {
+  -webkit-app-region: no-drag;
+}
+
+// 全局滚动条样式
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  position: absolute;
+}
+
+::-webkit-scrollbar-button {
+  width: 4px;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: var(--color-fill-4);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-fill-4);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-fill-4);
+}
+
+// vue过渡动画
+.slide2top-enter-active,
+.slide2top-leave-active {
+  transition: transform 300ms;
+}
+
+.slide2top-enter-from,
+.slide2top-leave-to {
+  transform: translateY(100%);
+}
+
+.slide2top-enter-to,
+.slide2top-leave-from {
+  transform: translateY(0);
+}
