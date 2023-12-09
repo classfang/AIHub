@@ -4,73 +4,34 @@ import { useI18n } from 'vue-i18n'
 import { reactive, toRefs } from 'vue'
 import { Message } from '@arco-design/web-vue'
 import { debounce } from '@renderer/utils/debounce-util'
-import { SHA256, enc } from 'crypto-js'
-import axios from 'axios'
+import { translate, TranslateResult } from '@renderer/utils/translator'
 
 const settingStore = useSettingStore()
 const { t } = useI18n()
 
 const data = reactive({
   provider: 'Youdao' as TranslatorProvider,
-  langType: [
-    {
-      code: 'auto',
-      label: '自动'
-    },
-    {
-      code: 'zh-CHS',
-      label: '中文'
-    },
-    {
-      code: 'en',
-      label: '英语'
-    },
-    {
-      code: 'ja',
-      label: '日语'
-    },
-    {
-      code: 'ko',
-      label: '韩语'
-    },
-    {
-      code: 'fr',
-      label: '法语'
-    }
-  ],
   queryType: 'auto',
   resultType: 'auto',
   query: '',
-  result: '',
-  speakUrl: '',
-  tSpeakUrl: '',
-  explains: '',
-  wfs: '',
-  us: {
-    phonetic: '',
-    speech: ''
-  },
-  uk: {
-    phonetic: '',
-    speech: ''
-  },
+  translateResult: {
+    result: '',
+    speakUrl: '',
+    tSpeakUrl: '',
+    explains: '',
+    wfs: '',
+    us: {
+      phonetic: '',
+      speech: ''
+    },
+    uk: {
+      phonetic: '',
+      speech: ''
+    }
+  } as TranslateResult,
   isLoading: false
 })
-const {
-  provider,
-  langType,
-  query,
-  result,
-  speakUrl,
-  tSpeakUrl,
-  queryType,
-  resultType,
-  explains,
-  wfs,
-  us,
-  uk,
-  isLoading
-} = toRefs(data)
+const { provider, query, queryType, resultType, translateResult, isLoading } = toRefs(data)
 
 const queryTextareaInput = (): void => {
   let configMiss = false
@@ -89,99 +50,46 @@ const queryTextareaInput = (): void => {
 }
 
 const debounceQuery = debounce(() => {
-  youdaoApi()
-}, 500)
-
-const youdaoApi = (): void => {
+  const option = {
+    appId: settingStore.youdao.appId,
+    secretKey: settingStore.youdao.secret,
+    query: data.query,
+    queryType: data.queryType,
+    resultType: data.resultType,
+    success: (result: TranslateResult) => {
+      clearResult()
+      data.translateResult = result
+      data.isLoading = false
+    },
+    error: (err?: any) => {
+      clearResult()
+      data.translateResult.result = 'Error: ' + err
+      data.isLoading = false
+    }
+  }
   if (!data.query) {
     clearResult()
     return
   }
   data.isLoading = true
-
-  const appKey = settingStore.youdao.appId
-  const key = settingStore.youdao.secret
-  const salt = new Date().getTime()
-  const curtime = Math.round(new Date().getTime() / 1000)
-  const query = data.query
-  const from = data.queryType
-  const to = data.resultType
-  const str1 = appKey + youdaoApiQueryTruncate(query) + salt + curtime + key
-
-  const sign = SHA256(str1).toString(enc.Hex)
-  axios
-    .get('https://openapi.youdao.com/api', {
-      params: {
-        q: query,
-        appKey: appKey,
-        salt: salt,
-        from: from,
-        to: to,
-        sign: sign,
-        signType: 'v3',
-        curtime: curtime
-      }
-    })
-    .then((res) => {
-      clearResult()
-      if (res.data.errorCode != 0) {
-        data.result = '错误代码：' + res.data.errorCode
-        return
-      }
-      data.result = res.data.translation.join(',')
-      data.result = data.result.replace('\\n', '\n')
-      if (res.data.speakUrl) {
-        data.speakUrl = res.data.speakUrl
-      }
-      if (res.data.tSpeakUrl) {
-        data.tSpeakUrl = res.data.tSpeakUrl
-      }
-      if (res.data.basic.explains) {
-        data.explains = res.data.basic.explains.join('\n')
-      }
-      if (res.data.basic.explains) {
-        data.explains = res.data.basic.explains.join('\n')
-      }
-      if (res.data.basic.wfs) {
-        data.wfs = res.data.basic.wfs.map((wf) => wf.wf.name + ': ' + wf.wf.value).join('\n')
-      }
-      if (res.data.basic['uk-phonetic']) {
-        data.uk.phonetic = res.data.basic['uk-phonetic']
-      }
-      if (res.data.basic['uk-speech']) {
-        data.uk.speech = res.data.basic['uk-speech']
-      }
-      if (res.data.basic['us-phonetic']) {
-        data.us.phonetic = res.data.basic['us-phonetic']
-      }
-      if (res.data.basic['us-speech']) {
-        data.us.speech = res.data.basic['us-speech']
-      }
-    })
-    .finally(() => {
-      data.isLoading = false
-    })
-}
-
-const youdaoApiQueryTruncate = (q): string => {
-  const len = q.length
-  if (len <= 20) return q
-  return q.substring(0, 10) + len + q.substring(len - 10, len)
-}
+  translate(data.provider, option)
+}, 500)
 
 const clearResult = (): void => {
-  data.result = ''
-  data.speakUrl = ''
-  data.tSpeakUrl = ''
-  data.explains = ''
-  data.wfs = ''
-  data.uk = {
-    phonetic: '',
-    speech: ''
-  }
-  data.us = {
-    phonetic: '',
-    speech: ''
+  data.translateResult = {
+    result: '',
+    speakUrl: '',
+    tSpeakUrl: '',
+    explains: '',
+    wfs: '',
+    us: {
+      phonetic: '',
+      speech: ''
+    },
+    uk: {
+      phonetic: '',
+      speech: ''
+    }
   }
 }
 
@@ -201,13 +109,14 @@ const queryClear = (): void => {
 }
 
 const copyResult = (): void => {
-  navigator.clipboard.writeText(data.result)
+  navigator.clipboard.writeText(data.translateResult.result)
   Message.success(t('common.copySuccess'))
 }
 </script>
 
 <template>
   <div class="translator">
+    <!-- 头部 -->
     <div class="translator-header drag-area">
       <div class="translator-header-title">{{ $t('translator.name') }}</div>
       <div class="translator-header-provider-select no-drag-area">
@@ -216,21 +125,31 @@ const copyResult = (): void => {
         </a-select>
       </div>
     </div>
+    <!-- 主体 -->
     <div class="translator-body">
+      <!-- 输入区域 -->
       <div class="query-area">
+        <!-- 语言选择 -->
         <div class="lang-type">
           <a-select v-model="queryType" class="lang-type-select" allow-search :allow-clear="false">
-            <a-option v-for="lt in langType" :key="lt.code" :value="lt.code">{{
-              lt.label
-            }}</a-option>
+            <a-option value="auto">{{ $t('translator.langType.auto') }}</a-option>
+            <a-option value="zh-CHS">{{ $t('translator.langType.zh-CHS') }}</a-option>
+            <a-option value="en">{{ $t('translator.langType.en') }}</a-option>
+            <a-option value="ja">{{ $t('translator.langType.ja') }}</a-option>
+            <a-option value="ko">{{ $t('translator.langType.ko') }}</a-option>
+            <a-option value="fr">{{ $t('translator.langType.fr') }}</a-option>
           </a-select>
           <icon-swap :size="30" class="lang-type-swap-btn" @click="swapLangType" />
           <a-select v-model="resultType" class="lang-type-select" allow-search :allow-clear="false">
-            <a-option v-for="lt in langType" :key="lt.code" :value="lt.code">{{
-              lt.label
-            }}</a-option>
+            <a-option value="auto">{{ $t('translator.langType.auto') }}</a-option>
+            <a-option value="zh-CHS">{{ $t('translator.langType.zh-CHS') }}</a-option>
+            <a-option value="en">{{ $t('translator.langType.en') }}</a-option>
+            <a-option value="ja">{{ $t('translator.langType.ja') }}</a-option>
+            <a-option value="ko">{{ $t('translator.langType.ko') }}</a-option>
+            <a-option value="fr">{{ $t('translator.langType.fr') }}</a-option>
           </a-select>
         </div>
+        <!-- 输入 -->
         <div class="query">
           <textarea
             v-model="query"
@@ -239,58 +158,81 @@ const copyResult = (): void => {
             @input="queryTextareaInput"
           ></textarea>
           <div class="query-footer">
-            <icon-sound v-if="speakUrl" class="speech-btn" @click="speechAudioPlay(speakUrl)" />
+            <icon-sound
+              v-if="translateResult.speakUrl"
+              class="speech-btn"
+              @click="speechAudioPlay(translateResult.speakUrl)"
+            />
             <icon-sound v-else class="speech-btn-disabled" />
             <icon-delete v-if="query" class="clear-btn" @click="queryClear" />
             <icon-delete v-else class="clear-btn-disabled" />
           </div>
         </div>
       </div>
+      <!-- 结果区域 -->
       <div class="return-area">
+        <!-- 翻译结果 -->
         <a-spin :loading="isLoading" tip="">
           <div class="result">
             <textarea
-              v-model="result"
+              v-model="translateResult.result"
               :placeholder="t('translator.returnPlaceholder')"
               class="result-textarea"
             ></textarea>
             <div class="result-footer">
-              <icon-sound v-if="tSpeakUrl" class="speech-btn" @click="speechAudioPlay(tSpeakUrl)" />
+              <icon-sound
+                v-if="translateResult.tSpeakUrl"
+                class="speech-btn"
+                @click="speechAudioPlay(translateResult.tSpeakUrl)"
+              />
               <icon-sound v-else class="speech-btn-disabled" />
-              <icon-copy v-if="result" class="copy-btn" @click="copyResult" />
+              <icon-copy v-if="translateResult.result" class="copy-btn" @click="copyResult" />
               <icon-copy v-else class="copy-btn-disabled" />
             </div>
           </div>
         </a-spin>
-
+        <!-- 翻译详情 -->
         <div class="result-detail select-text">
           <div
-            v-if="!uk.phonetic && !uk.speech && !us.phonetic && !uk.speech && !explains && !wfs"
+            v-if="
+              !translateResult.uk.phonetic &&
+              !translateResult.uk.speech &&
+              !translateResult.us.phonetic &&
+              !translateResult.uk.speech &&
+              !translateResult.explains &&
+              !translateResult.wfs
+            "
             class="result-detail-placeholder"
           >
             {{ $t('translator.returnDetailPlaceholder') }}
           </div>
           <div class="phonetic-and-speech">
             <div>
-              <span v-if="uk.phonetic || uk.speech"> [UK] </span>
-              {{ uk.phonetic }}
-              <template v-if="uk.speech">
-                <icon-sound class="speech-btn" @click="speechAudioPlay(uk.speech)" />
+              <span v-if="translateResult.uk.phonetic || translateResult.uk.speech"> [UK] </span>
+              {{ translateResult.uk.phonetic }}
+              <template v-if="translateResult.uk.speech">
+                <icon-sound
+                  class="speech-btn"
+                  @click="speechAudioPlay(translateResult.uk.speech)"
+                />
               </template>
             </div>
             <div>
-              <span v-if="us.phonetic || us.speech"> [US] </span>
-              {{ us.phonetic }}
-              <template v-if="us.speech">
-                <icon-sound class="speech-btn" @click="speechAudioPlay(us.speech)" />
+              <span v-if="translateResult.us.phonetic || translateResult.us.speech"> [US] </span>
+              {{ translateResult.us.phonetic }}
+              <template v-if="translateResult.us.speech">
+                <icon-sound
+                  class="speech-btn"
+                  @click="speechAudioPlay(translateResult.us.speech)"
+                />
               </template>
             </div>
           </div>
           <div>
-            {{ explains }}
+            {{ translateResult.explains }}
           </div>
           <div>
-            {{ wfs }}
+            {{ translateResult.wfs }}
           </div>
         </div>
       </div>

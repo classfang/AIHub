@@ -160,6 +160,14 @@
     },
     "error": {
       "Youdao": "Youdao Translation call error, please check your configuration"
+    },
+    "langType": {
+      "auto": "Auto",
+      "zh-CHS": "Chinese",
+      "en": "English",
+      "ja": "Japanese",
+      "ko": "Korean",
+      "fr": "French"
     }
   }
 }
