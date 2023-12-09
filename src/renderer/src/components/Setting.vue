@@ -84,14 +84,14 @@ const clearCacheHandle = async () => {
 
 const exportSettingBackup = () => {
   exportTextFile(
-    `setting-${formatDateTime(new Date(), 'YYYYMMDDHHmmss')}.c2a`,
+    `setting-${formatDateTime(new Date(), 'YYYYMMDDHHmmss')}.aihub`,
     settingStore.getStoreJson
   )
 }
 
 const exportDataBackup = () => {
   exportTextFile(
-    `data-${formatDateTime(new Date(), 'YYYYMMDDHHmmss')}.c2a`,
+    `data-${formatDateTime(new Date(), 'YYYYMMDDHHmmss')}.aihub`,
     JSON.stringify({
       userStore: userStore.getStoreJson,
       assistantStore: assistantStore.getStoreJson,
@@ -108,7 +108,7 @@ const importSettingBackup = () => {
     cancelText: t('common.cancel'),
     onOk: async () => {
       try {
-        const selectFileResult = await selectFileAndRead(['c2a'])
+        const selectFileResult = await selectFileAndRead(['aihub'])
         if (selectFileResult) {
           systemStore.globalLoading = true
           const importFlag = settingStore.setStoreFromJson(
@@ -137,7 +137,7 @@ const importDataBackup = () => {
     cancelText: t('common.cancel'),
     onOk: async () => {
       try {
-        const selectFileResult = await selectFileAndRead(['c2a'])
+        const selectFileResult = await selectFileAndRead(['aihub'])
         if (selectFileResult) {
           let importFlag = false
           systemStore.globalLoading = true
