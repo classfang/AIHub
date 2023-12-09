@@ -276,13 +276,13 @@ const copyResult = (): void => {
     flex-grow: 1;
     min-height: 0;
     display: flex;
+    gap: 10px;
+    box-sizing: border-box;
+    padding: 15px;
 
     .query-area {
       flex: 1;
       height: 100%;
-      border-right: 1px solid var(--color-border-1);
-      box-sizing: border-box;
-      padding: 15px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -358,9 +358,6 @@ const copyResult = (): void => {
     .return-area {
       flex: 1;
       height: 100%;
-      border-right: 1px solid var(--color-border-1);
-      box-sizing: border-box;
-      padding: 15px;
       display: flex;
       flex-direction: column;
       gap: 10px;

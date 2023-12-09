@@ -61,26 +61,28 @@ export const youdaoTranslate = async (option: CommonTranslateOption) => {
       if (res.data.tSpeakUrl) {
         returnObj.tSpeakUrl = res.data.tSpeakUrl
       }
-      if (res.data.basic.explains) {
-        returnObj.explains = res.data.basic.explains.join('\n')
-      }
-      if (res.data.basic.explains) {
-        returnObj.explains = res.data.basic.explains.join('\n')
-      }
-      if (res.data.basic.wfs) {
-        returnObj.wfs = res.data.basic.wfs.map((wf) => wf.wf.name + ': ' + wf.wf.value).join('\n')
-      }
-      if (res.data.basic['uk-phonetic']) {
-        returnObj.uk.phonetic = res.data.basic['uk-phonetic']
-      }
-      if (res.data.basic['uk-speech']) {
-        returnObj.uk.speech = res.data.basic['uk-speech']
-      }
-      if (res.data.basic['us-phonetic']) {
-        returnObj.us.phonetic = res.data.basic['us-phonetic']
-      }
-      if (res.data.basic['us-speech']) {
-        returnObj.us.speech = res.data.basic['us-speech']
+      if (res.data.basic) {
+        if (res.data.basic.explains) {
+          returnObj.explains = res.data.basic.explains.join('\n')
+        }
+        if (res.data.basic.explains) {
+          returnObj.explains = res.data.basic.explains.join('\n')
+        }
+        if (res.data.basic.wfs) {
+          returnObj.wfs = res.data.basic.wfs.map((wf) => wf.wf.name + ': ' + wf.wf.value).join('\n')
+        }
+        if (res.data.basic['uk-phonetic']) {
+          returnObj.uk.phonetic = res.data.basic['uk-phonetic']
+        }
+        if (res.data.basic['uk-speech']) {
+          returnObj.uk.speech = res.data.basic['uk-speech']
+        }
+        if (res.data.basic['us-phonetic']) {
+          returnObj.us.phonetic = res.data.basic['us-phonetic']
+        }
+        if (res.data.basic['us-speech']) {
+          returnObj.us.speech = res.data.basic['us-speech']
+        }
       }
       if (success) {
         success(returnObj)
