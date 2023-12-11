@@ -199,7 +199,7 @@ onMounted(() => {
       width="80vw"
     >
       <template #title> {{ $t('setting.name') }} </template>
-      <div style="height: 60vh; overflow-y: auto">
+      <div class="setting-page">
         <a-tabs position="left">
           <a-tab-pane key="app" :title="$t('setting.app.name')">
             <a-space direction="vertical" :size="20" fill>
@@ -447,4 +447,9 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.setting-page {
+  height: 60vh;
+  overflow-y: auto;
+}
+</style>
