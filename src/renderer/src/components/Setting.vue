@@ -214,8 +214,8 @@ onMounted(() => {
               <a-space direction="vertical" :size="10" fill>
                 <div>{{ $t('setting.app.local') }}</div>
                 <a-select v-model="settingStore.app.locale" size="small">
-                  <a-option value="zh">中文</a-option>
-                  <a-option value="en">English</a-option>
+                  <a-option value="zh_CN">中文</a-option>
+                  <a-option value="en_US">English</a-option>
                 </a-select>
               </a-space>
               <a-space direction="vertical" :size="10" fill>

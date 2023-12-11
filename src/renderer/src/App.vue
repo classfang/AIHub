@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { startDarkThemeListener, changeTheme } from '@renderer/utils/theme-util'
+import { useSystemStore } from '@renderer/store/system'
+import { useSettingStore } from '@renderer/store/setting'
+import { onMounted, reactive, toRefs, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import Setting from '@renderer/components/Setting.vue'
 import Chat2Assistant from '@renderer/components/views/chat2assistant/Chat2Assistant.vue'
 import CollectionSet from '@renderer/components/views/CollectionSet.vue'
 import WebApp from '@renderer/components/views/WebApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
-import { useSystemStore } from '@renderer/store/system'
-import { useSettingStore } from '@renderer/store/setting'
-import { onMounted, reactive, toRefs, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
