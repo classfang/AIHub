@@ -62,6 +62,15 @@
         "importConfirmContent": "Select backup file import, the existing application data will be overwritten, the operation cannot be restored!"
       }
     },
+    "developer": {
+      "name": "Developer",
+      "sourceCode": "Source address",
+      "contactAuthor": "Contact author",
+      "devTools": {
+        "name": "Developer tools",
+        "openDevTools": "Open dev tools"
+      }
+    },
     "openAI": {
       "name": "OpenAI",
       "baseUrl": "Server URL",

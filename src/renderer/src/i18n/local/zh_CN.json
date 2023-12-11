@@ -62,6 +62,15 @@
         "importConfirmContent": "选择备份文件导入，将覆盖现有应用数据，操作不可恢复！"
       }
     },
+    "developer": {
+      "name": "开发者",
+      "sourceCode": "源码地址",
+      "contactAuthor": "联系作者",
+      "devTools": {
+        "name": "开发者工具",
+        "openDevTools": "打开开发者控制台"
+      }
+    },
     "openAI": {
       "name": "OpenAI",
       "baseUrl": "服务器地址",

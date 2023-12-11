@@ -1,7 +1,7 @@
-import { app, shell, BrowserWindow, ipcMain, clipboard, dialog, globalShortcut } from 'electron'
+import { app, BrowserWindow, clipboard, dialog, ipcMain, shell } from 'electron'
 import { join } from 'path'
 import fs from 'fs'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { appConfig, mainWindowConfig } from './config'
 import Store from 'electron-store'
@@ -55,7 +55,9 @@ function createWindow(): void {
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
+    shell.openExternal(details.url).then(() => {
+      console.log('openExternal', details.url)
+    })
     return { action: 'deny' }
   })
 
@@ -72,9 +74,13 @@ function createWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']).then(() => {
+      console.log('mainWindow.loadURL')
+    })
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html')).then(() => {
+      console.log('mainWindow.loadFile')
+    })
   }
 }
 
@@ -100,12 +106,6 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-
-  // 注册全局快捷键
-  globalShortcut.register('CommandOrControl+T', () => {
-    console.log('CommandOrControl+T is pressed')
-    mainWindow?.webContents.openDevTools()
   })
 })
 
@@ -188,7 +188,7 @@ ipcMain.handle('save-file-by-path', async (_event, path: string, fileName: strin
 
 // 打开缓存目录
 ipcMain.handle('open-cache-dir', () => {
-  shell.openPath(tempPath)
+  return shell.openPath(tempPath)
 })
 
 // 读取本地图片为base64字符串
@@ -196,13 +196,12 @@ ipcMain.handle('read-local-image-base64', (_event, path: string) => {
   // 读取图片文件
   const data = fs.readFileSync(path)
   // 将图片数据转换为Base64
-  const base64Data = Buffer.from(data).toString('base64')
-  return base64Data
+  return Buffer.from(data).toString('base64')
 })
 
 // 设置代理地址
 ipcMain.handle('set-proxy', (_event, proxyUrl: string) => {
-  mainWindow?.webContents.session.setProxy({ proxyRules: proxyUrl })
+  return mainWindow?.webContents.session.setProxy({ proxyRules: proxyUrl })
 })
 
 // 复制文本到剪贴板

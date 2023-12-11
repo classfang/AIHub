@@ -11,7 +11,8 @@ import {
   selectFileAndRead,
   onMainWindowFocus,
   getCacheFiles,
-  addCacheFiles
+  addCacheFiles,
+  openDevTools
 } from '@renderer/utils/ipc-util'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { useCollectionSetStore } from '@renderer/store/collection-set'
@@ -306,6 +307,32 @@ onMounted(() => {
                       <a-space :size="5">
                         <icon-upload />
                         <span>{{ $t('setting.backup.data.import') }}</span>
+                      </a-space>
+                    </a-button>
+                  </a-space>
+                </div>
+              </a-space>
+            </a-space>
+          </a-tab-pane>
+          <a-tab-pane key="developer" :title="$t('setting.developer.name')">
+            <a-space direction="vertical" :size="20" fill>
+              <a-space direction="vertical" :size="10" fill>
+                <div>{{ $t('setting.developer.sourceCode') }}</div>
+                <a-link @click="openInBrowser('https://github.com/classfang/AIHub')"
+                  >https://github.com/classfang/AIHub</a-link
+                >
+              </a-space>
+              <a-space direction="vertical" :size="10" fill>
+                <div>{{ $t('setting.developer.contactAuthor') }}</div>
+                <a-link href="mailto:fangjunjievip@hotmail.com">fangjunjievip@hotmail.com</a-link>
+              </a-space>
+              <a-space direction="vertical" :size="10">
+                <div>{{ $t('setting.developer.devTools.name') }}</div>
+                <div>
+                  <a-space :size="20">
+                    <a-button size="mini" @click="openDevTools()">
+                      <a-space :size="5">
+                        <span>{{ $t('setting.developer.devTools.openDevTools') }}</span>
                       </a-space>
                     </a-button>
                   </a-space>
