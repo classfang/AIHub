@@ -2,7 +2,7 @@
 import { startDarkThemeListener, changeTheme } from '@renderer/utils/theme-util'
 import { useSystemStore } from '@renderer/store/system'
 import { useSettingStore } from '@renderer/store/setting'
-import { onMounted, reactive, toRefs, watch } from 'vue'
+import { computed, onMounted, reactive, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import Setting from '@renderer/components/Setting.vue'
@@ -10,10 +10,17 @@ import Chat2Assistant from '@renderer/components/views/chat2assistant/Chat2Assis
 import CollectionSet from '@renderer/components/views/CollectionSet.vue'
 import WebApp from '@renderer/components/views/WebApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
+import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
+import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
 const { locale } = useI18n()
+
+const arcoDesignLocales = {
+  zh_CN: zhCN,
+  en_US: enUS
+}
 
 const data = reactive({
   currentPage: 'chat'
@@ -47,6 +54,11 @@ watch(
   }
 )
 
+// ArcoDesign 语言
+const arcoDesignLocal = computed(() => {
+  return arcoDesignLocales[settingStore.app.locale]
+})
+
 // 页面切换
 const changePage = (page: string) => {
   if (systemStore.chatWindowLoading) {
@@ -64,56 +76,58 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app">
-    <!-- 侧边栏 -->
-    <div class="app-sidebar drag-area">
-      <UserAvatar class="no-drag-area" :editable="true" :size="36" />
-      <icon-message
-        class="app-sidebar-item no-drag-area"
-        :class="{ 'app-sidebar-item-active': currentPage === 'chat' }"
-        @click="changePage('chat')"
-      />
-      <icon-common
-        class="app-sidebar-item no-drag-area"
-        :class="{ 'app-sidebar-item-active': currentPage === 'collect' }"
-        @click="changePage('collect')"
-      />
-      <icon-public
-        class="app-sidebar-item no-drag-area"
-        :class="{ 'app-sidebar-item-active': currentPage === 'web-app' }"
-        @click="changePage('web-app')"
-      />
-      <icon-translate
-        class="app-sidebar-item no-drag-area"
-        :class="{ 'app-sidebar-item-active': currentPage === 'translator' }"
-        @click="changePage('translator')"
-      />
-      <Setting style="margin-top: auto">
-        <template #default>
-          <icon-settings class="app-sidebar-item no-drag-area" />
-        </template>
-      </Setting>
-    </div>
+  <a-config-provider :locale="arcoDesignLocal">
+    <div class="app">
+      <!-- 侧边栏 -->
+      <div class="app-sidebar drag-area">
+        <UserAvatar class="no-drag-area" :editable="true" :size="36" />
+        <icon-message
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'chat' }"
+          @click="changePage('chat')"
+        />
+        <icon-common
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'collect' }"
+          @click="changePage('collect')"
+        />
+        <icon-public
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'web-app' }"
+          @click="changePage('web-app')"
+        />
+        <icon-translate
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'translator' }"
+          @click="changePage('translator')"
+        />
+        <Setting style="margin-top: auto">
+          <template #default>
+            <icon-settings class="app-sidebar-item no-drag-area" />
+          </template>
+        </Setting>
+      </div>
 
-    <!-- 多页面 -->
-    <div v-show="currentPage === 'chat'" class="app-body">
-      <Chat2Assistant />
-    </div>
-    <div v-show="currentPage === 'collect'" class="app-body">
-      <CollectionSet />
-    </div>
-    <div v-show="currentPage === 'web-app'" class="app-body">
-      <WebApp />
-    </div>
-    <div v-show="currentPage === 'translator'" class="app-body">
-      <Translator />
-    </div>
+      <!-- 多页面 -->
+      <div v-show="currentPage === 'chat'" class="app-body">
+        <Chat2Assistant />
+      </div>
+      <div v-show="currentPage === 'collect'" class="app-body">
+        <CollectionSet />
+      </div>
+      <div v-show="currentPage === 'web-app'" class="app-body">
+        <WebApp />
+      </div>
+      <div v-show="currentPage === 'translator'" class="app-body">
+        <Translator />
+      </div>
 
-    <!-- 全局加载遮罩 -->
-    <div v-if="systemStore.globalLoading" class="global-loading z-index-max">
-      <a-spin :size="26" />
+      <!-- 全局加载遮罩 -->
+      <div v-if="systemStore.globalLoading" class="global-loading z-index-max">
+        <a-spin :size="26" />
+      </div>
     </div>
-  </div>
+  </a-config-provider>
 </template>
 
 <style lang="less">
