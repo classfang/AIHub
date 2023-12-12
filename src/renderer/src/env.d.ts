@@ -14,19 +14,26 @@ type ChatMsgType = 'text' | 'img'
 type ChatRole = 'user' | 'assistant' | 'system'
 
 interface Assistant {
+  // 通用
   id: string
   type: AssistantType
   name: string
-  instruction: string
   provider: BigModelProvider
   model: string
-  inputMaxTokens: number
-  maxTokens: number
-  contextSize: number
-  imageSize: string
   createTime: number
   lastUpdateTime: number
   chatMessageList: ChatMessage[]
+
+  // 对话
+  instruction: string
+  inputMaxTokens: number
+  maxTokens: number
+  contextSize: number
+
+  // 生图
+  imageSize: string
+  imageQuality: string
+  imageStyle: string
 }
 
 interface BaseMessage {

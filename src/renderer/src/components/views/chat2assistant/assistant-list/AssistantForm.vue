@@ -154,13 +154,35 @@ const newFormTypeChange = (value: string | number | boolean) => {
         </a-select>
       </a-form-item>
       <!-- 图片大小 -->
-      <a-form-item field="model" :label="$t('assistantList.imageSize')">
+      <a-form-item field="imageSize" :label="$t('assistantList.imageSize')">
         <a-select v-if="assistantForm.provider === 'OpenAI'" v-model="assistantForm.imageSize">
           <a-option v-if="assistantForm.model === 'dall-e-2'" value="256x256">256x256</a-option>
           <a-option v-if="assistantForm.model === 'dall-e-2'" value="512x512">512x512</a-option>
           <a-option value="1024x1024">1024x1024</a-option>
           <a-option v-if="assistantForm.model === 'dall-e-3'" value="1792x1024">1792x1024</a-option>
           <a-option v-if="assistantForm.model === 'dall-e-3'" value="1024x1792">1024x1792</a-option>
+        </a-select>
+      </a-form-item>
+      <!-- 图片质量 -->
+      <a-form-item
+        v-if="assistantForm.provider === 'OpenAI' && assistantForm.model === 'dall-e-3'"
+        field="imageQuality"
+        :label="$t('assistantList.imageQuality')"
+      >
+        <a-select v-model="assistantForm.imageQuality">
+          <a-option value="standard">standard</a-option>
+          <a-option value="hd">hd</a-option>
+        </a-select>
+      </a-form-item>
+      <!-- 图片风格 -->
+      <a-form-item
+        v-if="assistantForm.provider === 'OpenAI' && assistantForm.model === 'dall-e-3'"
+        field="imageStyle"
+        :label="$t('assistantList.imageStyle')"
+      >
+        <a-select v-model="assistantForm.imageStyle">
+          <a-option value="vivid">vivid</a-option>
+          <a-option value="natural">natural</a-option>
         </a-select>
       </a-form-item>
     </template>

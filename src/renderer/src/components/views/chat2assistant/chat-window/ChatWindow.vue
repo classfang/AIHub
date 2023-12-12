@@ -190,6 +190,8 @@ const useBigModel = async (sessionId: string) => {
         maxTokens: data.currentAssistant.maxTokens,
         imagePrompt: question,
         imageSize: data.currentAssistant.imageSize,
+        imageQuality: data.currentAssistant.imageQuality,
+        imageStyle: data.currentAssistant.imageStyle,
         appendAnswer: (content: string) => {
           data.currentAssistant.chatMessageList[
             data.currentAssistant.chatMessageList.length - 1

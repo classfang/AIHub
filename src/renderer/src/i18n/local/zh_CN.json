@@ -124,7 +124,9 @@
     "chat": "对话",
     "drawing": "绘画",
     "imageSize": "图片大小",
-    "search": "搜索助手"
+    "search": "搜索助手",
+    "imageQuality": "图片质量",
+    "imageStyle": "图片风格"
   },
   "assistantItem": {
     "content": {

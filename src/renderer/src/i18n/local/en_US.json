@@ -124,7 +124,9 @@
     "chat": "Chat",
     "drawing": "Drawing",
     "imageSize": "Image Size",
-    "search": "Search assistant"
+    "search": "Search assistant",
+    "imageQuality": "Image quality",
+    "imageStyle": "Image style"
   },
   "assistantItem": {
     "content": {

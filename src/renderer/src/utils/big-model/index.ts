@@ -21,6 +21,8 @@ export interface CommonChatOption {
   messages?: ChatMessage[]
   imagePrompt?: string
   imageSize?: string
+  imageQuality?: string
+  imageStyle?: string
   abortCtr?: AbortController
   checkSession?: () => boolean
   startAnswer?: (content: string) => void
