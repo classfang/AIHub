@@ -33,7 +33,7 @@ const data = reactive({
 })
 const { provider, query, queryType, resultType, translateResult, isLoading } = toRefs(data)
 
-const queryTextareaInput = (): void => {
+const checkConfig = () => {
   let configMiss = false
   switch (data.provider) {
     case 'Youdao':
@@ -44,12 +44,18 @@ const queryTextareaInput = (): void => {
   }
   if (configMiss) {
     Message.error(t('translator.configMiss.' + data.provider))
-    return
   }
+  return configMiss
+}
+
+const queryTextareaInput = (): void => {
   debounceQuery()
 }
 
 const debounceQuery = debounce(() => {
+  if (checkConfig()) {
+    return
+  }
   const option = {
     appId: settingStore.youdao.appId,
     secretKey: settingStore.youdao.secret,
