@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSystemStore } from '@renderer/store/system'
-import { onMounted, reactive, ref, toRefs } from 'vue'
+import { nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import MultipleChoiceConsole from '@renderer/components/views/chat2assistant/chat-window/MultipleChoiceConsole.vue'
@@ -36,6 +36,8 @@ const abortCtr = new AbortController()
 
 // 数据绑定
 const data = reactive({
+  // 聊天窗口加载完毕
+  isLoad: false,
   // 用于判断是否切换聊天窗口
   sessionId: randomUUID(),
   // 当前的助手
@@ -52,6 +54,7 @@ const data = reactive({
   multipleChoiceList: [] as string[]
 })
 const {
+  isLoad,
   currentAssistant,
   question,
   selectImageList,
@@ -325,7 +328,10 @@ const calcMessageTime = (current: ChatMessage, isFirst: boolean) => {
 
 // 挂载完毕
 onMounted(() => {
-  scrollToBottom(chatMessageListRef.value)
+  scrollToBottom(chatMessageListRef.value, () => {
+    // 防止滚动闪烁
+    data.isLoad = true
+  })
 })
 </script>
 
@@ -335,7 +341,11 @@ onMounted(() => {
     <ChatWindowHeader :current-assistant="currentAssistant" />
 
     <!-- 消息列表 -->
-    <div ref="chatMessageListRef" class="chat-message-list">
+    <div
+      ref="chatMessageListRef"
+      :class="{ 'chat-message-list-show': isLoad }"
+      class="chat-message-list"
+    >
       <template v-for="(msg, index) in currentAssistant.chatMessageList" :key="msg.id">
         <div v-if="calcMessageTime(msg, index === 0)" class="chat-message-time">
           {{ calcMessageTime(msg, index === 0) }}
@@ -479,4 +489,13 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @import '../../../../assets/css/chat-window.less';
+
+.chat-message-list {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+.chat-message-list-show {
+  opacity: 1;
+}
 </style>
