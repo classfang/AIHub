@@ -2,6 +2,7 @@
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { useSystemStore } from '@renderer/store/system'
+import dayjs from 'dayjs'
 
 const systemStore = useSystemStore()
 const assistantStore = useAssistantStore()
@@ -19,6 +20,18 @@ const assistantItemActive = () => {
   }
   assistantStore.currentAssistantId = props.assistant.id
 }
+
+// 计算显示的消息时间
+const calcMessageTime = (current: ChatMessage) => {
+  if (current) {
+    if (dayjs(current.createTime).format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')) {
+      return dayjs(current.createTime).format('HH:mm')
+    } else {
+      return dayjs(current.createTime).format('YYYY/MM/DD')
+    }
+  }
+  return null
+}
 </script>
 
 <template>
@@ -29,7 +42,12 @@ const assistantItemActive = () => {
   >
     <AssistantAvatar :provider="assistant.provider" :size="35" class="assistant-item-avatar" />
     <div class="assistant-item-body">
-      <div class="assistant-item-name">{{ assistant.name }}</div>
+      <div class="assistant-item-header">
+        <div class="assistant-item-name">{{ assistant.name }}</div>
+        <div class="assistant-item-time">
+          {{ calcMessageTime(assistant.chatMessageList[assistant.chatMessageList.length - 1]) }}
+        </div>
+      </div>
       <div class="assistant-item-content">
         {{
           assistant.chatMessageList[assistant.chatMessageList.length - 1]
@@ -67,12 +85,26 @@ const assistantItemActive = () => {
     flex-direction: column;
     justify-content: space-between;
 
-    .assistant-item-name {
-      font-size: 15px;
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .assistant-item-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 5px;
+
+      .assistant-item-name {
+        flex-grow: 1;
+        font-size: 15px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .assistant-item-time {
+        flex-shrink: 0;
+        font-size: 11px;
+        color: var(--color-text-3);
+      }
     }
 
     .assistant-item-content {

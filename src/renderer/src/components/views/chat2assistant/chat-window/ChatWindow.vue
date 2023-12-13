@@ -18,6 +18,7 @@ import { clipboardWriteText, startDockBounce } from '@renderer/utils/ipc-util'
 import { scrollToBottom } from '@renderer/utils/element-util'
 import { saveFileByPath } from '@renderer/utils/ipc-util'
 import { CommonChatOption, chat2bigModel } from '@renderer/utils/big-model'
+import dayjs from 'dayjs'
 
 // store
 const systemStore = useSystemStore()
@@ -302,6 +303,26 @@ const multipleChoiceClose = () => {
   data.multipleChoiceFlag = false
 }
 
+// 计算显示的消息时间
+let lastShowTime: number = 0
+let lastShowTimeMessageId: string = ''
+const calcMessageTime = (current: ChatMessage, isFirst: boolean) => {
+  if (
+    isFirst ||
+    (current.createTime - lastShowTime) / 1000 / 60 >= 5 ||
+    current.id === lastShowTimeMessageId
+  ) {
+    lastShowTime = current.createTime
+    lastShowTimeMessageId = current.id
+    if (dayjs(current.createTime).format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')) {
+      return dayjs(current.createTime).format('HH:mm')
+    } else {
+      return dayjs(current.createTime).format('YYYY-MM-DD HH:mm')
+    }
+  }
+  return null
+}
+
 // 挂载完毕
 onMounted(() => {
   scrollToBottom(chatMessageListRef.value)
@@ -315,77 +336,77 @@ onMounted(() => {
 
     <!-- 消息列表 -->
     <div ref="chatMessageListRef" class="chat-message-list">
-      <!-- 右键点击菜单 -->
-      <a-dropdown
-        v-for="(msg, index) in currentAssistant.chatMessageList"
-        :key="msg.id"
-        :align-point="true"
-        trigger="contextMenu"
-      >
-        <!-- 消息块 -->
-        <div class="chat-message">
-          <!-- 多选框 -->
-          <a-checkbox
-            v-if="multipleChoiceFlag"
-            class="chat-message-checkbox"
-            :default-checked="multipleChoiceList.includes(msg.id)"
-            @change="multipleChoiceChange(msg.id)"
-          />
-          <!-- 消息头像 -->
-          <div class="chat-message-avatar">
-            <UserAvatar v-if="msg.role === 'user'" :size="30" />
-            <AssistantAvatar
-              v-else-if="msg.role === 'assistant'"
-              :provider="currentAssistant.provider"
-              :size="30"
-            />
-          </div>
-          <!-- 消息内容 -->
-          <div class="chat-message-content select-text">
-            <!-- 用户消息：文本内容 -->
-            <div v-if="msg.role === 'user'">{{ msg.content }}</div>
-            <!-- 大模型消息：markdown 内容 -->
-            <div
-              v-else-if="msg.role === 'assistant'"
-              class="chat-message-md"
-              v-html="
-                renderMarkdown(
-                  msg.content,
-                  index === currentAssistant.chatMessageList.length - 1 &&
-                    systemStore.chatWindowLoading
-                )
-              "
-            ></div>
-            <!-- 消息内容携带的图片 -->
-            <a-image
-              v-if="msg.image"
-              class="chat-message-img"
-              width="300"
-              height="300"
-              :src="`file://${msg.image}`"
-              show-loader
-              fit="cover"
-            >
-              <template #preview-actions>
-                <a-image-preview-action
-                  name="下载"
-                  @click="downloadFile(`file://${msg.image}`, `img-${msg.id}.png`)"
-                  ><icon-download
-                /></a-image-preview-action>
-              </template>
-            </a-image>
-          </div>
+      <template v-for="(msg, index) in currentAssistant.chatMessageList" :key="msg.id">
+        <div v-if="calcMessageTime(msg, index === 0)" class="chat-message-time">
+          {{ calcMessageTime(msg, index === 0) }}
         </div>
-        <!-- 右键菜单内容 -->
-        <template #content>
-          <a-doption @click="clipboardWriteText(msg.content)">{{
-            $t('chatWindow.copy')
-          }}</a-doption>
-          <a-doption @click="multipleChoiceOpen(msg.id)">{{
-            $t('chatWindow.multipleChoice')
-          }}</a-doption>
-        </template>
-      </a-dropdown>
+        <!-- 右键点击菜单 -->
+        <a-dropdown :align-point="true" trigger="contextMenu">
+          <!-- 消息块 -->
+          <div class="chat-message">
+            <!-- 多选框 -->
+            <a-checkbox
+              v-if="multipleChoiceFlag"
+              class="chat-message-checkbox"
+              :default-checked="multipleChoiceList.includes(msg.id)"
+              @change="multipleChoiceChange(msg.id)"
+            />
+            <!-- 消息头像 -->
+            <div class="chat-message-avatar">
+              <UserAvatar v-if="msg.role === 'user'" :size="30" />
+              <AssistantAvatar
+                v-else-if="msg.role === 'assistant'"
+                :provider="currentAssistant.provider"
+                :size="30"
+              />
+            </div>
+            <!-- 消息内容 -->
+            <div class="chat-message-content select-text">
+              <!-- 用户消息：文本内容 -->
+              <div v-if="msg.role === 'user'">{{ msg.content }}</div>
+              <!-- 大模型消息：markdown 内容 -->
+              <div
+                v-else-if="msg.role === 'assistant'"
+                class="chat-message-md"
+                v-html="
+                  renderMarkdown(
+                    msg.content,
+                    index === currentAssistant.chatMessageList.length - 1 &&
+                      systemStore.chatWindowLoading
+                  )
+                "
+              ></div>
+              <!-- 消息内容携带的图片 -->
+              <a-image
+                v-if="msg.image"
+                class="chat-message-img"
+                width="300"
+                height="300"
+                :src="`file://${msg.image}`"
+                show-loader
+                fit="cover"
+              >
+                <template #preview-actions>
+                  <a-image-preview-action
+                    name="下载"
+                    @click="downloadFile(`file://${msg.image}`, `img-${msg.id}.png`)"
+                    ><icon-download
+                  /></a-image-preview-action>
+                </template>
+              </a-image>
+            </div>
+          </div>
+          <!-- 右键菜单内容 -->
+          <template #content>
+            <a-doption @click="clipboardWriteText(msg.content)">{{
+              $t('chatWindow.copy')
+            }}</a-doption>
+            <a-doption @click="multipleChoiceOpen(msg.id)">{{
+              $t('chatWindow.multipleChoice')
+            }}</a-doption>
+          </template>
+        </a-dropdown>
+      </template>
       <!-- 等待回答占位显示 -->
       <div v-if="waitAnswer" class="chat-message">
         <div class="chat-message-avatar">

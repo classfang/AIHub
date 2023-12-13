@@ -13,7 +13,8 @@
       "@renderer/*": [
         "src/renderer/src/*"
       ]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "skipLibCheck": true,
   "references": [

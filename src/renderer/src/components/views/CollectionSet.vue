@@ -177,7 +177,7 @@ const exportChatMessageList = (id: string) => {
   overflow: hidden;
   .collection-set-left {
     flex-shrink: 0;
-    width: 250px;
+    width: 270px;
     height: 100%;
     overflow: hidden;
     display: flex;

@@ -32,7 +32,7 @@ const assistantStore = useAssistantStore()
 
   .chat-assistant-left {
     flex-shrink: 0;
-    width: 250px;
+    width: 270px;
     height: 100%;
     overflow: hidden;
     display: flex;
