@@ -126,7 +126,17 @@
     "imageSize": "图片大小",
     "search": "搜索助手",
     "imageQuality": "图片质量",
-    "imageStyle": "图片风格"
+    "imageStyle": "图片风格",
+    "imageStyleOption": {
+      "auto": "自动",
+      "3dCartoon": "3D卡通",
+      "anime": "动画",
+      "oilPainting": "油画",
+      "watercolor": "水彩",
+      "sketch": "素描",
+      "chinesePainting": "中国画",
+      "flatIllustration": "扁平插画"
+    }
   },
   "assistantItem": {
     "content": {

@@ -245,12 +245,28 @@ const useBigModel = async (sessionId: string) => {
     case 'Tongyi':
       otherOption = {
         apiKey: settingStore.tongyi.apiKey,
+        type: data.currentAssistant.type,
+        imagePrompt: question,
+        imageSize: data.currentAssistant.imageSize,
+        imageStyle: data.currentAssistant.imageStyle,
         abortCtr,
         appendAnswer: (content: string) => {
           data.currentAssistant.chatMessageList[
             data.currentAssistant.chatMessageList.length - 1
           ].content = content
           scrollToBottom(chatMessageListRef.value)
+        },
+        imageGenerated: (imageUrl: string) => {
+          data.currentAssistant.chatMessageList.push({
+            id: randomUUID(),
+            type: 'img',
+            role: 'assistant' as ChatRole,
+            content: '',
+            image: imageUrl,
+            createTime: nowTimestamp()
+          })
+          scrollToBottom(chatMessageListRef.value)
+          data.waitAnswer = false
         }
       }
       break

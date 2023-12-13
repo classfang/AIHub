@@ -126,7 +126,17 @@
     "imageSize": "Image Size",
     "search": "Search assistant",
     "imageQuality": "Image quality",
-    "imageStyle": "Image style"
+    "imageStyle": "Image style",
+    "imageStyleOption": {
+      "auto": "auto",
+      "3dCartoon": "3D cartoon",
+      "anime": "anime",
+      "oilPainting": "oil painting",
+      "watercolor": "watercolor",
+      "sketch": "sketch",
+      "chinesePainting": "chinese painting",
+      "flatIllustration": "flat illustration"
+    }
   },
   "assistantItem": {
     "content": {

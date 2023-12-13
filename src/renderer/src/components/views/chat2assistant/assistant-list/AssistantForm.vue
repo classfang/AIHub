@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 
 const props = defineProps({
   assistant: {
@@ -20,24 +20,65 @@ watchEffect(() => {
   emit('update:assistant', assistantForm.value)
 })
 
-const newFormTypeChange = (value: string | number | boolean) => {
-  assistantForm.value.provider = 'OpenAI'
-  switch (value) {
-    case 'chat':
-      assistantForm.value.model = 'gpt-4-vision-preview'
-      break
-    case 'drawing':
-      assistantForm.value.model = 'dall-e-3'
-      break
+watch(
+  () => assistantForm.value.type,
+  (value) => {
+    assistantForm.value.provider = 'OpenAI'
+    switch (value) {
+      case 'chat':
+        assistantForm.value.model = 'gpt-4-vision-preview'
+        break
+      case 'drawing':
+        assistantForm.value.model = 'dall-e-3'
+        break
+    }
   }
-}
+)
+
+watch(
+  () => assistantForm.value.provider,
+  (value) => {
+    switch (value) {
+      case 'OpenAI':
+        assistantForm.value.model =
+          assistantForm.value.type === 'chat' ? 'gpt-4-vision-preview' : 'dall-e-3'
+        break
+      case 'Spark':
+        assistantForm.value.model = 'v3.1'
+        break
+      case 'ERNIEBot':
+        assistantForm.value.model = 'ERNIE-Bot 4.0'
+        break
+      case 'Tongyi':
+        assistantForm.value.model = assistantForm.value.type === 'chat' ? 'qwen-vl-plus' : 'wanx-v1'
+        break
+    }
+  }
+)
+
+watch(
+  () => assistantForm.value.model,
+  () => {
+    if (assistantForm.value.type === 'drawing') {
+      assistantForm.value.imageSize = '1024x1024'
+      switch (assistantForm.value.provider) {
+        case 'OpenAI':
+          assistantForm.value.imageStyle = 'vivid'
+          break
+        case 'Tongyi':
+          assistantForm.value.imageStyle = '<auto>'
+          break
+      }
+    }
+  }
+)
 </script>
 
 <template>
   <a-form :model="assistantForm" layout="vertical">
     <!-- 助手类型选择器 -->
     <a-form-item v-if="typeChange" field="type" :label="$t('assistantList.type')">
-      <a-radio-group v-model="assistantForm.type" @change="newFormTypeChange">
+      <a-radio-group v-model="assistantForm.type">
         <a-radio value="chat">{{ $t('assistantList.chat') }}</a-radio>
         <a-radio value="drawing">{{ $t('assistantList.drawing') }}</a-radio>
       </a-radio-group>
@@ -63,18 +104,10 @@ const newFormTypeChange = (value: string | number | boolean) => {
       <!-- 提供商 -->
       <a-form-item field="provider" :label="$t('assistantList.provider')">
         <a-select v-model="assistantForm.provider">
-          <a-option value="OpenAI" @click="() => (assistantForm.model = 'gpt-4-vision-preview')">{{
-            $t('bigModelProvider.OpenAI')
-          }}</a-option>
-          <a-option value="Spark" @click="() => (assistantForm.model = 'v3.1')">{{
-            $t('bigModelProvider.Spark')
-          }}</a-option>
-          <a-option value="ERNIEBot" @click="() => (assistantForm.model = 'ERNIE-Bot 4.0')">{{
-            $t('bigModelProvider.ERNIEBot')
-          }}</a-option>
-          <a-option value="Tongyi" @click="() => (assistantForm.model = 'qwen-vl-plus')">{{
-            $t('bigModelProvider.Tongyi')
-          }}</a-option>
+          <a-option value="OpenAI">{{ $t('bigModelProvider.OpenAI') }}</a-option>
+          <a-option value="Spark">{{ $t('bigModelProvider.Spark') }}</a-option>
+          <a-option value="ERNIEBot">{{ $t('bigModelProvider.ERNIEBot') }}</a-option>
+          <a-option value="Tongyi">{{ $t('bigModelProvider.Tongyi') }}</a-option>
         </a-select>
       </a-form-item>
       <!-- 模型 -->
@@ -140,27 +173,66 @@ const newFormTypeChange = (value: string | number | boolean) => {
       <a-form-item field="provider" :label="$t('assistantList.provider')">
         <a-select v-model="assistantForm.provider">
           <a-option value="OpenAI">{{ $t('bigModelProvider.OpenAI') }}</a-option>
+          <a-option value="Tongyi">{{ $t('bigModelProvider.Tongyi') }}</a-option>
         </a-select>
       </a-form-item>
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
-        <a-select v-if="assistantForm.provider === 'OpenAI'" v-model="assistantForm.model">
-          <a-option value="dall-e-3" @click="() => (assistantForm.imageSize = '1024x1024')"
-            >dall-e-3</a-option
-          >
-          <a-option value="dall-e-2" @click="() => (assistantForm.imageSize = '1024x1024')"
-            >dall-e-2</a-option
-          >
+        <a-select v-model="assistantForm.model">
+          <template v-if="assistantForm.provider === 'OpenAI'">
+            <a-option value="dall-e-3">dall-e-3</a-option>
+            <a-option value="dall-e-2">dall-e-2</a-option>
+          </template>
+          <template v-else-if="assistantForm.provider === 'Tongyi'">
+            <a-option value="wanx-v1">wanx-v1</a-option>
+          </template>
         </a-select>
       </a-form-item>
       <!-- 图片大小 -->
       <a-form-item field="imageSize" :label="$t('assistantList.imageSize')">
-        <a-select v-if="assistantForm.provider === 'OpenAI'" v-model="assistantForm.imageSize">
-          <a-option v-if="assistantForm.model === 'dall-e-2'" value="256x256">256x256</a-option>
-          <a-option v-if="assistantForm.model === 'dall-e-2'" value="512x512">512x512</a-option>
+        <a-select v-model="assistantForm.imageSize">
+          <template v-if="assistantForm.model === 'dall-e-2'">
+            <a-option value="256x256">256x256</a-option>
+            <a-option value="512x512">512x512</a-option>
+          </template>
           <a-option value="1024x1024">1024x1024</a-option>
-          <a-option v-if="assistantForm.model === 'dall-e-3'" value="1792x1024">1792x1024</a-option>
-          <a-option v-if="assistantForm.model === 'dall-e-3'" value="1024x1792">1024x1792</a-option>
+          <template v-if="assistantForm.model === 'dall-e-3'">
+            <a-option value="1792x1024">1792x1024</a-option>
+            <a-option value="1024x1792">1024x1792</a-option>
+          </template>
+          <template v-if="assistantForm.model === 'Tongyi'">
+            <a-option value="720x1280">720x1280</a-option>
+            <a-option value="1280x720">1280x720</a-option>
+          </template>
+        </a-select>
+      </a-form-item>
+      <!-- 图片风格 -->
+      <a-form-item field="imageStyle" :label="$t('assistantList.imageStyle')">
+        <a-select v-model="assistantForm.imageStyle">
+          <template v-if="assistantForm.model === 'dall-e-3'">
+            <a-option value="vivid">vivid</a-option>
+            <a-option value="natural">natural</a-option>
+          </template>
+          <template v-else-if="assistantForm.provider === 'Tongyi'">
+            <a-option value="<auto>">{{ $t('assistantList.imageStyleOption.auto') }}</a-option>
+            <a-option value="<3d cartoon>">{{
+              $t('assistantList.imageStyleOption.3dCartoon')
+            }}</a-option>
+            <a-option value="<anime>">{{ $t('assistantList.imageStyleOption.anime') }}</a-option>
+            <a-option value="<oil painting>">{{
+              $t('assistantList.imageStyleOption.oilPainting')
+            }}</a-option>
+            <a-option value="<watercolor>">{{
+              $t('assistantList.imageStyleOption.watercolor')
+            }}</a-option>
+            <a-option value="<sketch>">{{ $t('assistantList.imageStyleOption.sketch') }}</a-option>
+            <a-option value="<chinese painting>">{{
+              $t('assistantList.imageStyleOption.chinesePainting')
+            }}</a-option>
+            <a-option value="<flat illustration>">{{
+              $t('assistantList.imageStyleOption.flatIllustration')
+            }}</a-option>
+          </template>
         </a-select>
       </a-form-item>
       <!-- 图片质量 -->
@@ -172,17 +244,6 @@ const newFormTypeChange = (value: string | number | boolean) => {
         <a-select v-model="assistantForm.imageQuality">
           <a-option value="standard">standard</a-option>
           <a-option value="hd">hd</a-option>
-        </a-select>
-      </a-form-item>
-      <!-- 图片风格 -->
-      <a-form-item
-        v-if="assistantForm.provider === 'OpenAI' && assistantForm.model === 'dall-e-3'"
-        field="imageStyle"
-        :label="$t('assistantList.imageStyle')"
-      >
-        <a-select v-model="assistantForm.imageStyle">
-          <a-option value="vivid">vivid</a-option>
-          <a-option value="natural">natural</a-option>
         </a-select>
       </a-form-item>
     </template>
