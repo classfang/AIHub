@@ -363,7 +363,11 @@ onMounted(() => {
       class="chat-message-list"
     >
       <template v-for="(msg, index) in currentAssistant.chatMessageList" :key="msg.id">
-        <div v-if="calcMessageTime(msg, index === 0)" class="chat-message-time">
+        <div
+          v-if="calcMessageTime(msg, index === 0)"
+          :key="`chat-message-time-${msg.id}-${systemStore.dayKey}`"
+          class="chat-message-time"
+        >
           {{ calcMessageTime(msg, index === 0) }}
         </div>
         <!-- 右键点击菜单 -->
