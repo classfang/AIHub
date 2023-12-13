@@ -12,7 +12,6 @@ import WebApp from '@renderer/components/views/WebApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
-import dayjs from 'dayjs'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
