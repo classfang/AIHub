@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSystemStore } from '@renderer/store/system'
-import { nextTick, onMounted, reactive, ref, toRefs } from 'vue'
+import { onMounted, reactive, ref, toRefs } from 'vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import MultipleChoiceConsole from '@renderer/components/views/chat2assistant/chat-window/MultipleChoiceConsole.vue'
