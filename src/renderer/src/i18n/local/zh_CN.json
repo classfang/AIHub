@@ -135,7 +135,10 @@
     }
   },
   "chatWindow": {
-    "chatInputPlaceholder": "在此输入你的问题（Shift + Enter 换行）",
+    "inputPlaceholder": {
+      "chat": "在此输入你的问题（Shift + Enter 换行）",
+      "drawing": "在此输入图片描述（Shift + Enter 换行）"
+    },
     "stop": "停止",
     "send": "发送",
     "selectImage": "选择图片",

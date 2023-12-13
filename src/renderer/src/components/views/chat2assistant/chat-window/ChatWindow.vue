@@ -402,7 +402,7 @@ onMounted(() => {
       <a-textarea
         v-model="question"
         class="chat-input-textarea"
-        :placeholder="$t('chatWindow.chatInputPlaceholder')"
+        :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
         :auto-size="{
           minRows: 4,
           maxRows: 4

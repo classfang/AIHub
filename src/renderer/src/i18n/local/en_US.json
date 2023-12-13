@@ -135,7 +135,10 @@
     }
   },
   "chatWindow": {
-    "chatInputPlaceholder": "Enter your question here (Shift + Enter line wrap)",
+    "inputPlaceholder": {
+      "chat": "Enter your question here (Shift + Enter line wrap)",
+      "drawing": "Enter the image description here (Shift + Enter line wrap)"
+    },
     "stop": "Stop",
     "send": "Send",
     "selectImage": "Select image",
