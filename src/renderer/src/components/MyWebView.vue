@@ -16,12 +16,11 @@ const props = defineProps({
 })
 
 const data = reactive({
-  currentUrl: props.url,
   isWebviewLoading: false,
   isWebviewLoadingError: false,
   startTimestamp: nowTimestamp()
 })
-const { currentUrl, isWebviewLoading, isWebviewLoadingError } = toRefs(data)
+const { isWebviewLoading, isWebviewLoadingError } = toRefs(data)
 
 // webview加载完开始
 const webviewStartLoad = (): void => {
@@ -41,6 +40,7 @@ const webviewEndLoad = (event): void => {
 
 // 重新加载
 const reload = () => {
+  console.log('webviewReload', props.url)
   data.isWebviewLoadingError = false
   data.startTimestamp = nowTimestamp()
   webviewRef.value.reload()
@@ -56,7 +56,7 @@ defineExpose({
     <webview
       ref="webviewRef"
       class="webview"
-      :src="currentUrl"
+      :src="url"
       :allowpopups="allowpopups"
       @did-start-loading="webviewStartLoad"
       @did-stop-loading="webviewEndLoad"
