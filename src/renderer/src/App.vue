@@ -2,7 +2,7 @@
 import { startDarkThemeListener, changeTheme } from '@renderer/utils/theme-util'
 import { useSystemStore } from '@renderer/store/system'
 import { useSettingStore } from '@renderer/store/setting'
-import { computed, onMounted, reactive, toRefs, watch } from 'vue'
+import { computed, nextTick, onMounted, reactive, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import Setting from '@renderer/components/Setting.vue'
@@ -23,9 +23,10 @@ const arcoDesignLocales = {
 }
 
 const data = reactive({
+  isLoad: false,
   currentPage: 'chat'
 })
-const { currentPage } = toRefs(data)
+const { isLoad, currentPage } = toRefs(data)
 
 // 主题设置监听
 let stopDarkThemeListener: any = null
@@ -74,12 +75,16 @@ onMounted(() => {
   locale.value = settingStore.app.locale
   // 刷新 dayKey，用于更具日期自动刷新组件
   systemStore.startDayKeyInterval()
+  // 显示主界面，防止夜间主题从白色闪烁到黑色
+  setTimeout(() => {
+    data.isLoad = true
+  })
 })
 </script>
 
 <template>
   <a-config-provider :locale="arcoDesignLocal">
-    <div class="app">
+    <div class="app" :class="{ 'app-show': isLoad }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
         <UserAvatar class="no-drag-area" :editable="true" :size="36" />
@@ -140,6 +145,7 @@ onMounted(() => {
   display: flex;
   background-color: var(--color-bg-1);
   color: var(--color-text-1);
+  opacity: 0;
 
   .app-sidebar {
     flex-shrink: 0;
@@ -181,5 +187,9 @@ onMounted(() => {
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.3);
   }
+}
+
+.app-show {
+  opacity: 1;
 }
 </style>
