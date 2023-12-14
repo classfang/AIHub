@@ -109,6 +109,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
       return
     }
 
+    // 提交生成图片任务
     fetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', {
       signal: abortCtr?.signal,
       method: 'POST',
