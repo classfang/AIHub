@@ -77,7 +77,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
           }
         }
         if (appendAnswer) {
-          let content = ''
+          let content: string
           if (model === 'qwen-vl-plus') {
             content = JSON.parse(e.data).output?.choices[0]?.message?.content[0]?.text ?? ''
           } else {
