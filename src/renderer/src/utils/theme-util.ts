@@ -1,7 +1,7 @@
 export const startDarkThemeListener = () => {
   const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
 
-  const handleColorSchemeChange = (e) => {
+  const handleColorSchemeChange = (e: any) => {
     if (e.matches) {
       document.body.setAttribute('arco-theme', 'dark')
     } else {
