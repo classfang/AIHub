@@ -2,7 +2,7 @@
 import { startDarkThemeListener, changeTheme } from '@renderer/utils/theme-util'
 import { useSystemStore } from '@renderer/store/system'
 import { useSettingStore } from '@renderer/store/setting'
-import { computed, nextTick, onMounted, reactive, toRefs, watch } from 'vue'
+import { computed, onMounted, reactive, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import Setting from '@renderer/components/Setting.vue'
