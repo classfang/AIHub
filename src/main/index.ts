@@ -38,6 +38,7 @@ function createWindow(): void {
       x: 5,
       y: 5
     },
+    // 动态背景色
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#28282B' : '#d2d3d4',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
