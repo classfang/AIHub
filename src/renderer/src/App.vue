@@ -84,7 +84,7 @@ onMounted(() => {
 
 <template>
   <a-config-provider :locale="arcoDesignLocal">
-    <div class="app" :class="{ 'app-show': isLoad }">
+    <div class="app fade-in-from" :class="{ 'fade-in-to': isLoad }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
         <UserAvatar class="no-drag-area" :editable="true" :size="36" />
@@ -145,7 +145,6 @@ onMounted(() => {
   display: flex;
   background-color: var(--color-bg-1);
   color: var(--color-text-1);
-  opacity: 0;
 
   .app-sidebar {
     flex-shrink: 0;
@@ -187,9 +186,5 @@ onMounted(() => {
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.3);
   }
-}
-
-.app-show {
-  opacity: 1;
 }
 </style>

@@ -18,13 +18,6 @@ body {
   background-size: 180px 180px;
 }
 
-// 夜间背景色
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #28282B;
-  }
-}
-
 * {
   // 内容不允许选中
   user-select: none;
@@ -106,6 +99,15 @@ img {
 .slide2top-enter-to,
 .slide2top-leave-from {
   transform: translateY(0);
+}
+
+// 淡入
+.fade-in-from {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+.fade-in-to {
+  opacity: 1;
 }
 
 // 置顶显示

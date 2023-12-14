@@ -362,8 +362,8 @@ onMounted(() => {
     <!-- 消息列表 -->
     <div
       ref="chatMessageListRef"
-      :class="{ 'chat-message-list-show': isLoad }"
-      class="chat-message-list"
+      :class="{ 'fade-in-to': isLoad }"
+      class="chat-message-list fade-in-from"
     >
       <template v-for="(msg, index) in currentAssistant.chatMessageList" :key="msg.id">
         <div
@@ -513,13 +513,4 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @import '../../../../assets/css/chat-window.less';
-
-.chat-message-list {
-  opacity: 0;
-  transition: opacity 300ms;
-}
-
-.chat-message-list-show {
-  opacity: 1;
-}
 </style>

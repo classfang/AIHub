@@ -1,4 +1,4 @@
-import { app, BrowserWindow, clipboard, dialog, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, clipboard, dialog, ipcMain, shell, nativeTheme } from 'electron'
 import { join } from 'path'
 import fs from 'fs'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
@@ -38,6 +38,7 @@ function createWindow(): void {
       x: 5,
       y: 5
     },
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#28282B' : '#d2d3d4',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
