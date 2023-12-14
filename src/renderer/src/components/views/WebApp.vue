@@ -8,7 +8,7 @@ const ernieBotWebviewRef = ref()
 const tongyiWebviewRef = ref()
 
 const data = reactive({
-  activeKey: '1'
+  activeKey: 'OpenAI'
 })
 const { activeKey } = toRefs(data)
 </script>
@@ -16,12 +16,12 @@ const { activeKey } = toRefs(data)
 <template>
   <div class="web-app drag-area">
     <a-tabs v-model:active-key="activeKey" lazy-load>
-      <a-tab-pane key="1">
+      <a-tab-pane key="OpenAI">
         <template #title>
           <div class="tab-title no-drag-area">
             <div>{{ $t('bigModelProvider.OpenAI') }}</div>
             <a-button
-              v-if="activeKey === '1'"
+              v-if="activeKey === 'OpenAI'"
               type="text"
               size="mini"
               shape="circle"
@@ -38,12 +38,12 @@ const { activeKey } = toRefs(data)
           class="web-app-webview no-drag-area"
         />
       </a-tab-pane>
-      <a-tab-pane key="2">
+      <a-tab-pane key="Spark">
         <template #title>
           <div class="tab-title no-drag-area">
             <div>{{ $t('bigModelProvider.Spark') }}</div>
             <a-button
-              v-if="activeKey === '2'"
+              v-if="activeKey === 'Spark'"
               type="text"
               size="mini"
               shape="circle"
@@ -60,12 +60,12 @@ const { activeKey } = toRefs(data)
           class="web-app-webview no-drag-area"
         />
       </a-tab-pane>
-      <a-tab-pane key="3">
+      <a-tab-pane key="ERNIEBot">
         <template #title>
           <div class="tab-title no-drag-area">
             <div>{{ $t('bigModelProvider.ERNIEBot') }}</div>
             <a-button
-              v-if="activeKey === '3'"
+              v-if="activeKey === 'ERNIEBot'"
               type="text"
               size="mini"
               shape="circle"
@@ -82,12 +82,12 @@ const { activeKey } = toRefs(data)
           class="web-app-webview no-drag-area"
         />
       </a-tab-pane>
-      <a-tab-pane key="4">
+      <a-tab-pane key="Tongyi">
         <template #title>
           <div class="tab-title no-drag-area">
             <div>{{ $t('bigModelProvider.Tongyi') }}</div>
             <a-button
-              v-if="activeKey === '4'"
+              v-if="activeKey === 'Tongyi'"
               type="text"
               size="mini"
               shape="circle"
