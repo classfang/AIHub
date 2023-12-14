@@ -30,6 +30,7 @@ const { t } = useI18n()
 
 // 元素 ref
 const chatMessageListRef = ref()
+const chatInputTextareaRef = ref()
 
 // 阻断控制
 const abortCtr = new AbortController()
@@ -348,6 +349,8 @@ onMounted(() => {
     // 防止滚动闪烁
     data.isLoad = true
   })
+  // 聚焦输入框
+  chatInputTextareaRef.value.focus()
 })
 </script>
 
@@ -451,6 +454,7 @@ onMounted(() => {
     <div class="chat-input">
       <!-- 文本域 -->
       <a-textarea
+        ref="chatInputTextareaRef"
         v-model="question"
         class="chat-input-textarea"
         :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
