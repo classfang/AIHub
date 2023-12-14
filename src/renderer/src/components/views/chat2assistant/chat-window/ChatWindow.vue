@@ -95,30 +95,30 @@ const sendQuestion = async (event?: KeyboardEvent) => {
 // 使用大模型
 const useBigModel = async (sessionId: string) => {
   // 检查大模型配置
-  let configErrorFalg = false
+  let configErrorFlag = false
   switch (data.currentAssistant.provider) {
     case 'OpenAI':
       if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
-        configErrorFalg = true
+        configErrorFlag = true
       }
       break
     case 'Spark':
       if (!settingStore.spark.appId || !settingStore.spark.secret || !settingStore.spark.key) {
-        configErrorFalg = true
+        configErrorFlag = true
       }
       break
     case 'ERNIEBot':
       if (!settingStore.ernieBot.apiKey || !settingStore.ernieBot.secretKey) {
-        configErrorFalg = true
+        configErrorFlag = true
       }
       break
     case 'Tongyi':
       if (!settingStore.tongyi.apiKey) {
-        configErrorFalg = true
+        configErrorFlag = true
       }
       break
   }
-  if (configErrorFalg) {
+  if (configErrorFlag) {
     Message.error(t(`chatWindow.configMiss.${data.currentAssistant.provider}`))
     return
   }
