@@ -160,6 +160,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
             .then((res) => res.json())
             .then((respJson) => {
               const taskStatus = respJson?.output?.task_status
+              // 非正常任务状态，直接停止轮询并报错
               if (!['PENDING', 'RUNNING', 'SUCCEEDED'].includes(taskStatus)) {
                 clearInterval(interval)
                 if (end) {
@@ -167,6 +168,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
                 }
                 return
               }
+              // 成功任务状态，获取结果中的图片地址，保存本地并返回
               if (taskStatus === 'SUCCEEDED') {
                 clearInterval(interval)
                 const imageUrl = respJson?.output?.results[0].url ?? ''
