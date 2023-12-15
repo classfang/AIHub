@@ -182,6 +182,7 @@
       "Tongyi": "通义千问大模型未配置"
     },
     "error": {
+      "imageRequires": "你必须上传一张图片",
       "OpenAI": "OpenAI调用错误，请检查你的配置",
       "Gemini": "Gemini调用错误，请检查你的配置",
       "Spark": "星火大模型调用错误，请检查你的配置",

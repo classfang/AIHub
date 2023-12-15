@@ -129,6 +129,14 @@ const useBigModel = async (sessionId: string) => {
     return
   }
 
+  // 模型特有错误检查
+  if (data.currentAssistant.model === 'gemini-pro-vision') {
+    if (!data.selectImageList[0]) {
+      Message.error(t('chatWindow.error.imageRequires'))
+      return
+    }
+  }
+
   // 开启等待
   systemStore.chatWindowLoading = true
   data.waitAnswer = true

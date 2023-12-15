@@ -182,6 +182,7 @@
       "Tongyi": "Tongyi Qianwen is not configured"
     },
     "error": {
+      "imageRequires": "You have to upload a picture",
       "OpenAI": "OpenAI call error, please check your configuration",
       "Gemini": "Gemini call error, please check your configuration",
       "Spark": "iFLYTEK Spark call error, please check your configuration",
