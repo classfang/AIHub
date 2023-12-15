@@ -105,6 +105,7 @@ watch(
       <a-form-item field="provider" :label="$t('assistantList.provider')">
         <a-select v-model="assistantForm.provider">
           <a-option value="OpenAI">{{ $t('bigModelProvider.OpenAI') }}</a-option>
+          <a-option value="Gemini">{{ $t('bigModelProvider.Gemini') }}</a-option>
           <a-option value="Spark">{{ $t('bigModelProvider.Spark') }}</a-option>
           <a-option value="ERNIEBot">{{ $t('bigModelProvider.ERNIEBot') }}</a-option>
           <a-option value="Tongyi">{{ $t('bigModelProvider.Tongyi') }}</a-option>
@@ -119,6 +120,10 @@ watch(
           <a-option value="gpt-4">gpt-4</a-option>
           <a-option value="gpt-3.5-turbo-16k">gpt-3.5-turbo-16k</a-option>
           <a-option value="gpt-3.5-turbo">gpt-3.5-turbo</a-option>
+        </a-select>
+        <a-select v-if="assistantForm.provider === 'Gemini'" v-model="assistantForm.model">
+          <a-option value="gemini-pro">gemini-pro</a-option>
+          <a-option value="gemini-pro-version">gemini-pro-version</a-option>
         </a-select>
         <a-select v-else-if="assistantForm.provider === 'Spark'" v-model="assistantForm.model">
           <a-option value="v3.1">spark-v3.0</a-option>
@@ -140,7 +145,7 @@ watch(
       </a-form-item>
       <!-- 生成token限制 -->
       <a-form-item
-        v-if="assistantForm.provider === 'OpenAI'"
+        v-if="['OpenAI', 'Gemini'].includes(assistantForm.provider)"
         field="maxTokens"
         :label="$t('assistantList.maxTokens')"
       >
