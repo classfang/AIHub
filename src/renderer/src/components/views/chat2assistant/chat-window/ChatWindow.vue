@@ -19,7 +19,6 @@ import { scrollToBottom } from '@renderer/utils/element-util'
 import { saveFileByPath } from '@renderer/utils/ipc-util'
 import { CommonChatOption, chat2bigModel } from '@renderer/utils/big-model'
 import dayjs from 'dayjs'
-import { simulateThreadWait } from '@renderer/utils/thread-util'
 
 // store
 const systemStore = useSystemStore()

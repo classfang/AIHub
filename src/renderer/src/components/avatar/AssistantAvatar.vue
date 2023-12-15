@@ -36,6 +36,8 @@ defineProps({
 
 <style lang="less" scoped>
 .assistant-avatar {
-  background-color: var(--color-bg-white);
+  :deep(.arco-avatar-image) {
+    background-color: var(--color-bg-white);
+  }
 }
 </style>
