@@ -44,7 +44,10 @@ const calcMessageTime = (current: ChatMessage) => {
     <div class="assistant-item-body">
       <div class="assistant-item-header">
         <div class="assistant-item-name">{{ assistant.name }}</div>
-        <div class="assistant-item-time">
+        <div
+          :key="`assistant-item-time-${assistant.id}-${systemStore.dayKey}`"
+          class="assistant-item-time"
+        >
           {{ calcMessageTime(assistant.chatMessageList[assistant.chatMessageList.length - 1]) }}
         </div>
       </div>

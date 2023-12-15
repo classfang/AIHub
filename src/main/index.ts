@@ -39,7 +39,7 @@ function createWindow(): void {
       y: 5
     },
     // 动态背景色
-    backgroundColor: nativeTheme.shouldUseDarkColors ? '#28282B' : '#d2d3d4',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#28282B' : '#F2F3F5',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
