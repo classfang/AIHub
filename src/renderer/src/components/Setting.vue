@@ -333,7 +333,7 @@ onMounted(() => {
                     />
                   </a-space>
                   <a-space direction="vertical" :size="10" fill>
-                    <div>{{ $t('setting.openAI.key') }}</div>
+                    <div>{{ $t('setting.bigModel.openAI.key') }}</div>
                     <a-input-password
                       v-model="settingStore.openAI.key"
                       size="small"
