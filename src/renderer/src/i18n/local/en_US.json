@@ -70,6 +70,11 @@
         "baseUrl": "Server URL",
         "key": "OpenAI Key"
       },
+      "gemini": {
+        "name": "Gemini",
+        "baseUrl": "Server URL",
+        "key": "Gemini Key"
+      },
       "spark": {
         "name": "iFLYTEK Spark",
         "appId": "APPID",
@@ -116,6 +121,7 @@
   },
   "bigModelProvider": {
     "OpenAI": "OpenAI",
+    "Gemini": "Gemini",
     "Spark": "iFLYTEK Spark",
     "ERNIEBot": "ERNIE Bot",
     "Tongyi": "Tongyi Qianwen"
@@ -170,12 +176,14 @@
     "inputTokensLimit": "Input tokens limit",
     "configMiss": {
       "OpenAI": "OpenAI is not configured",
+      "Gemini": "Gemini is not configured",
       "Spark": "iFLYTEK Spark is not configured",
       "ERNIEBot": "ERNIE Bot is not configured",
       "Tongyi": "Tongyi Qianwen is not configured"
     },
     "error": {
       "OpenAI": "OpenAI call error, please check your configuration",
+      "Gemini": "Gemini call error, please check your configuration",
       "Spark": "iFLYTEK Spark call error, please check your configuration",
       "ERNIEBot": "ERNIE Bot call error, please check your configuration",
       "Tongyi": "Tongyi Qianwen call error, please check your configuration"

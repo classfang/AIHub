@@ -13,6 +13,10 @@ export const useSettingStore = defineStore({
       baseUrl: 'https://api.openai.com/v1',
       key: ''
     },
+    gemini: {
+      baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+      key: ''
+    },
     spark: {
       appId: '',
       secret: '',

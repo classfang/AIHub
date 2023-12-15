@@ -70,6 +70,11 @@
         "baseUrl": "服务器地址",
         "key": "OpenAI Key"
       },
+      "gemini": {
+        "name": "Gemini",
+        "baseUrl": "服务器地址",
+        "key": "Gemini Key"
+      },
       "spark": {
         "name": "讯飞星火",
         "appId": "APPID",
@@ -116,6 +121,7 @@
   },
   "bigModelProvider": {
     "OpenAI": "OpenAI",
+    "Gemini": "Gemini",
     "Spark": "讯飞星火",
     "ERNIEBot": "文心一言",
     "Tongyi": "通义千问"
@@ -170,12 +176,14 @@
     "inputTokensLimit": "输入Token数超限制",
     "configMiss": {
       "OpenAI": "OpenAI未配置",
+      "Gemini": "Gemini未配置",
       "Spark": "星火大模型未配置",
       "ERNIEBot": "文心一言大模型未配置",
       "Tongyi": "通义千问大模型未配置"
     },
     "error": {
       "OpenAI": "OpenAI调用错误，请检查你的配置",
+      "Gemini": "Gemini调用错误，请检查你的配置",
       "Spark": "星火大模型调用错误，请检查你的配置",
       "ERNIEBot": "文心一言大模型调用错误，请检查你的配置",
       "Tongyi": "通义千问大模型调用错误，请检查你的配置"

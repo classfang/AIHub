@@ -7,7 +7,7 @@ declare module '*.vue' {
   export default component
 }
 
-type BigModelProvider = 'OpenAI' | 'Spark' | 'ERNIEBot' | 'Tongyi'
+type BigModelProvider = 'OpenAI' | 'Spark' | 'ERNIEBot' | 'Tongyi' | 'Gemini'
 type TranslatorProvider = 'Youdao'
 type AssistantType = 'chat' | 'drawing'
 type ChatMsgType = 'text' | 'img'

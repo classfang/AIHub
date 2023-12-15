@@ -344,6 +344,37 @@ onMounted(() => {
                   </a-space>
                 </a-space>
               </a-tab-pane>
+              <!-- Gemini -->
+              <a-tab-pane key="gemini" :title="$t('setting.bigModel.gemini.name')">
+                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('common.officialWebsite') }}</div>
+                    <a-link @click="openInBrowser('https://ai.google.dev/docs/gemini_api_overview')"
+                      >https://ai.google.dev/docs/gemini_api_overview</a-link
+                    >
+                  </a-space>
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('setting.bigModel.gemini.baseUrl') }}</div>
+                    <a-input
+                      v-model="settingStore.gemini.baseUrl"
+                      size="small"
+                      :placeholder="
+                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.gemini.baseUrl')
+                      "
+                    />
+                  </a-space>
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('setting.bigModel.gemini.key') }}</div>
+                    <a-input-password
+                      v-model="settingStore.gemini.key"
+                      size="small"
+                      :placeholder="
+                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.gemini.key')
+                      "
+                    />
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
               <!-- 讯飞星火 -->
               <a-tab-pane key="spark" :title="$t('setting.bigModel.spark.name')">
                 <a-space direction="vertical" :size="20" fill class="setting-tab-content">
