@@ -35,6 +35,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
 
   if (!apiKey || !secretKey || !messages) {
     console.log('chat2ernieBot params miss')
+    end && end()
     return
   }
 
@@ -47,6 +48,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
   const accessToken = tokenRespJson.access_token
 
   if (checkSession && !checkSession()) {
+    end && end()
     return
   }
 
@@ -59,30 +61,23 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
     }),
     onmessage: (e) => {
       if (checkSession && !checkSession()) {
+        end && end()
         return
       }
       console.log('文心一言大模型回复：', e)
       if (waitAnswer) {
         waitAnswer = false
-        if (startAnswer) {
-          startAnswer('')
-        }
+        startAnswer && startAnswer('')
       }
-      if (appendAnswer) {
-        appendAnswer(JSON.parse(e.data).result ?? '')
-      }
+      appendAnswer && appendAnswer(JSON.parse(e.data).result ?? '')
     },
     onclose: () => {
       console.log('文心一言大模型关闭连接')
-      if (end) {
-        end()
-      }
+      end && end()
     },
     onerror: (err: any) => {
       console.log('文心一言大模型错误：', err)
-      if (end) {
-        end(err)
-      }
+      end && end(err)
       // 抛出异常防止重连
       if (err instanceof Error) {
         throw err

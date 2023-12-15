@@ -19,6 +19,7 @@ import { scrollToBottom } from '@renderer/utils/element-util'
 import { saveFileByPath } from '@renderer/utils/ipc-util'
 import { CommonChatOption, chat2bigModel } from '@renderer/utils/big-model'
 import dayjs from 'dayjs'
+import { simulateThreadWait } from '@renderer/utils/thread-util'
 
 // store
 const systemStore = useSystemStore()
@@ -141,8 +142,11 @@ const useBigModel = async (sessionId: string) => {
   let questionImage = ''
   if (data.selectImageList[0]) {
     const imagePath = data.selectImageList[0].file?.path
-    // 只有 gpt-4-vision-preview 模型支持，将图片本地链接保存
-    if (data.currentAssistant.model === 'gpt-4-vision-preview' && imagePath) {
+    // 只有 gpt-4-vision-preview、gemini-pro-vision 模型支持，将图片本地链接保存
+    if (
+      ['gpt-4-vision-preview', 'gemini-pro-vision'].includes(data.currentAssistant.model) &&
+      imagePath
+    ) {
       questionImage = await saveFileByPath(
         imagePath,
         `${randomUUID()}${imagePath.substring(imagePath.lastIndexOf('.'))}`
@@ -181,8 +185,16 @@ const useBigModel = async (sessionId: string) => {
       scrollToBottom(chatMessageListRef.value)
       data.waitAnswer = false
     },
-    end: () => {
+    appendAnswer: (content: string) => {
+      data.currentAssistant.chatMessageList[
+        data.currentAssistant.chatMessageList.length - 1
+      ].content += content
+      scrollToBottom(chatMessageListRef.value)
+    },
+    end: (errMsg: any) => {
+      errMsg && Message.error(errMsg)
       // 关闭等待
+      data.waitAnswer = false
       systemStore.chatWindowLoading = false
       // dock栏跳动
       startDockBounce()
@@ -202,12 +214,6 @@ const useBigModel = async (sessionId: string) => {
         imageSize: data.currentAssistant.imageSize,
         imageQuality: data.currentAssistant.imageQuality,
         imageStyle: data.currentAssistant.imageStyle,
-        appendAnswer: (content: string) => {
-          data.currentAssistant.chatMessageList[
-            data.currentAssistant.chatMessageList.length - 1
-          ].content += content
-          scrollToBottom(chatMessageListRef.value)
-        },
         imageGenerated: (imageUrl: string) => {
           data.currentAssistant.chatMessageList.push({
             id: randomUUID(),
@@ -227,39 +233,21 @@ const useBigModel = async (sessionId: string) => {
         apiKey: settingStore.gemini.key,
         baseURL: settingStore.gemini.baseUrl,
         maxTokens: data.currentAssistant.maxTokens,
-        abortCtr: abortCtr,
-        appendAnswer: (content: string) => {
-          data.currentAssistant.chatMessageList[
-            data.currentAssistant.chatMessageList.length - 1
-          ].content += content
-          scrollToBottom(chatMessageListRef.value)
-        }
+        abortCtr: abortCtr
       }
       break
     case 'Spark':
       otherOption = {
         appId: settingStore.spark.appId,
         secretKey: settingStore.spark.secret,
-        apiKey: settingStore.spark.key,
-        appendAnswer: (content: string) => {
-          data.currentAssistant.chatMessageList[
-            data.currentAssistant.chatMessageList.length - 1
-          ].content += content
-          scrollToBottom(chatMessageListRef.value)
-        }
+        apiKey: settingStore.spark.key
       }
       break
     case 'ERNIEBot':
       otherOption = {
         apiKey: settingStore.ernieBot.apiKey,
         secretKey: settingStore.ernieBot.secretKey,
-        abortCtr: abortCtr,
-        appendAnswer: (content: string) => {
-          data.currentAssistant.chatMessageList[
-            data.currentAssistant.chatMessageList.length - 1
-          ].content += content
-          scrollToBottom(chatMessageListRef.value)
-        }
+        abortCtr: abortCtr
       }
       break
     case 'Tongyi':
@@ -270,12 +258,6 @@ const useBigModel = async (sessionId: string) => {
         imageSize: data.currentAssistant.imageSize,
         imageStyle: data.currentAssistant.imageStyle,
         abortCtr,
-        appendAnswer: (content: string) => {
-          data.currentAssistant.chatMessageList[
-            data.currentAssistant.chatMessageList.length - 1
-          ].content = content
-          scrollToBottom(chatMessageListRef.value)
-        },
         imageGenerated: (imageUrl: string) => {
           data.currentAssistant.chatMessageList.push({
             id: randomUUID(),
@@ -486,9 +468,9 @@ onMounted(() => {
       />
       <!-- 输入框区域底部 -->
       <div class="chat-input-bottom">
-        <!-- 图片选择：暂只支持 gpt-4-vision-preview -->
+        <!-- 图片选择：暂只支持 gpt-4-vision-preview、gemini-pro-vision -->
         <div
-          v-if="currentAssistant.model === 'gpt-4-vision-preview'"
+          v-if="['gpt-4-vision-preview', 'gemini-pro-vision'].includes(currentAssistant.model)"
           class="chat-input-select-image"
         >
           <a-upload

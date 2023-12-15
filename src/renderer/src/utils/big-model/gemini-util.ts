@@ -1,7 +1,7 @@
 import { CommonChatOption } from '@renderer/utils/big-model/index'
 import { readLocalImageBase64 } from '@renderer/utils/ipc-util'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
-import { fetchEventSource } from '@microsoft/fetch-event-source'
+import { simulateThreadWait } from '@renderer/utils/thread-util'
 
 export const chat2gemini = async (option: CommonChatOption) => {
   const {
@@ -22,55 +22,57 @@ export const chat2gemini = async (option: CommonChatOption) => {
 
   if (!apiKey || !baseURL || !maxTokens || !messages) {
     console.log('chat2gemini params miss')
+    end && end()
     return
   }
 
-  let waitAnswer = true
-
-  await fetchEventSource(`${baseURL}/models/${model}:streamGenerateContent?key=${apiKey}`, {
-    signal: abortCtr?.signal,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      contents: await getGeminiMessages(messages, instruction, inputMaxTokens, contextSize),
-      generationConfig: {
-        maxOutputTokens: maxTokens
-      }
-    }),
-    onmessage: (e) => {
-      if (checkSession && !checkSession()) {
-        return
-      }
-      console.log('Gemini大模型回复：', e)
-      if (waitAnswer) {
-        waitAnswer = false
-        if (startAnswer) {
-          startAnswer('')
+  let respJson: any
+  try {
+    const resp = await fetch(`${baseURL}/models/${model}:generateContent?key=${apiKey}`, {
+      signal: abortCtr?.signal,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: await getGeminiMessages(messages, instruction, inputMaxTokens, contextSize),
+        generationConfig: {
+          maxOutputTokens: maxTokens
         }
-      }
-      if (appendAnswer) {
-        appendAnswer(JSON.parse(e.data).candidates[0].content.parts[0].text ?? '')
-      }
-    },
-    onclose: () => {
-      console.log('Gemini大模型关闭连接')
-      if (end) {
-        end()
-      }
-    },
-    onerror: (err: any) => {
-      console.log('Gemini大模型错误：', err)
-      if (end) {
-        end(err)
-      }
-      // 抛出异常防止重连
-      if (err instanceof Error) {
-        throw err
-      }
+      })
+    })
+    respJson = await resp.json()
+  } catch (err) {
+    console.log('Gemini大模型错误：', err)
+    end && end(err)
+  }
+
+  if (!respJson) {
+    end && end()
+    return
+  }
+
+  const errMsg = respJson.error?.message
+
+  if (errMsg) {
+    end && end(errMsg)
+    return
+  }
+
+  const answer = respJson.candidates[0]?.content.parts[0].text ?? ''
+
+  startAnswer && startAnswer('')
+
+  for (const c of answer.split('')) {
+    await simulateThreadWait(10)
+    if (checkSession && !checkSession()) {
+      end && end()
+      return
     }
-  })
+    appendAnswer && appendAnswer(c)
+  }
+
+  end && end()
 }
 
 export const getGeminiMessages = async (

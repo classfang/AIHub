@@ -39,10 +39,12 @@ export const chat2tongyi = async (option: CommonChatOption) => {
 
   if (!apiKey || !messages) {
     console.log('chat2tongyi params miss')
+    end && end()
     return
   }
 
   let waitAnswer = true
+  let answerIndex = 0
 
   if (type === 'chat') {
     await fetchEventSource(getTongyiChatUrl(model), {
@@ -67,36 +69,36 @@ export const chat2tongyi = async (option: CommonChatOption) => {
       }),
       onmessage: (e) => {
         if (checkSession && !checkSession()) {
+          end && end()
           return
         }
         console.log('通义千问大模型回复：', e)
         if (waitAnswer) {
           waitAnswer = false
           if (startAnswer) {
-            startAnswer('')
+            startAnswer && startAnswer('')
           }
         }
-        if (appendAnswer) {
-          let content: string
+        let content: string
+        try {
           if (model === 'qwen-vl-plus') {
             content = JSON.parse(e.data).output?.choices[0]?.message?.content[0]?.text ?? ''
           } else {
             content = JSON.parse(e.data).output?.text ?? ''
           }
-          appendAnswer(content)
+          appendAnswer && appendAnswer(content.substring(answerIndex))
+          answerIndex = content.length
+        } catch (e) {
+          end && end(e)
         }
       },
       onclose: () => {
         console.log('通义千问大模型关闭连接')
-        if (end) {
-          end()
-        }
+        end && end()
       },
       onerror: (err: any) => {
         console.log('通义千问大模型错误：', err)
-        if (end) {
-          end(err)
-        }
+        end && end(err)
         // 抛出异常防止重连
         if (err instanceof Error) {
           throw err
@@ -136,19 +138,19 @@ export const chat2tongyi = async (option: CommonChatOption) => {
         const taskId = respJson?.output?.task_id
         const errMsg = respJson?.message
         if (!taskId) {
-          if (end) {
-            end(errMsg)
-          }
+          end && end(errMsg)
           return
         }
 
         // 轮询任务结果
         if (checkSession && !checkSession()) {
+          end && end()
           return
         }
         const interval = setInterval(() => {
           if (checkSession && !checkSession()) {
             clearInterval(interval)
+            end && end()
             return
           }
           fetch(`https://dashscope.aliyuncs.com/api/v1/tasks/${taskId}`, {
@@ -164,9 +166,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
               // 非正常任务状态，直接停止轮询并报错
               if (!['PENDING', 'RUNNING', 'SUCCEEDED'].includes(taskStatus)) {
                 clearInterval(interval)
-                if (end) {
-                  end('task error')
-                }
+                end && end('task error')
                 return
               }
               // 成功任务状态，获取结果中的图片地址，保存本地并返回
@@ -175,23 +175,17 @@ export const chat2tongyi = async (option: CommonChatOption) => {
                 const imageUrl = respJson?.output?.results[0].url ?? ''
                 if (imageUrl) {
                   saveFileByUrl(imageUrl, `${randomUUID()}.png`).then((localPath) => {
-                    if (imageGenerated) {
-                      imageGenerated(localPath)
-                    }
+                    imageGenerated && imageGenerated(localPath)
                   })
                 }
-                if (end) {
-                  end()
-                }
+                end && end()
               }
             })
         }, 3000)
       })
       .catch((err) => {
         console.log('通义万相大模型错误：', err)
-        if (end) {
-          end(err)
-        }
+        end && end(err)
       })
   }
 }

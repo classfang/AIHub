@@ -64,6 +64,7 @@ export const chat2spark = async (option: CommonChatOption) => {
 
   if (!appId || !apiKey || !secretKey || !messages) {
     console.log('chat2spark params miss')
+    end && end()
     return
   }
 
@@ -72,6 +73,7 @@ export const chat2spark = async (option: CommonChatOption) => {
   const sparkClient = new WebSocket(getSparkWsUrl(model, secretKey, apiKey))
   sparkClient.onopen = async () => {
     if (checkSession && !checkSession()) {
+      end && end()
       return
     }
     console.log('星火服务器【已连接】')
@@ -85,36 +87,24 @@ export const chat2spark = async (option: CommonChatOption) => {
   }
   sparkClient.onmessage = (message) => {
     if (checkSession && !checkSession()) {
+      end && end()
       return
     }
     console.log(`星火服务器【消息】: ${message.data}`)
     if (waitAnswer) {
       waitAnswer = false
-      if (startAnswer) {
-        startAnswer('')
-      }
+      startAnswer && startAnswer('')
     }
-    if (appendAnswer) {
+    appendAnswer &&
       appendAnswer(JSON.parse(message.data.toString())?.payload?.choices?.text[0]?.content ?? '')
-    }
   }
   sparkClient.onclose = () => {
-    if (checkSession && !checkSession()) {
-      return
-    }
     console.log('星火服务器【连接已关闭】')
-    if (end) {
-      end()
-    }
+    end && end()
   }
   sparkClient.onerror = (e) => {
-    if (checkSession && !checkSession()) {
-      return
-    }
     console.log('星火服务器【连接错误】', e)
-    if (end) {
-      end()
-    }
+    end && end(e)
   }
 }
 

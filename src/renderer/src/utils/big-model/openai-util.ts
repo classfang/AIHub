@@ -29,6 +29,7 @@ export const chat2openai = async (option: CommonChatOption) => {
 
   if (!apiKey || !baseURL || !type || !maxTokens) {
     console.log('chat2openai params miss')
+    end && end()
     return
   }
 
@@ -51,6 +52,7 @@ export const chat2openai = async (option: CommonChatOption) => {
       max_tokens: maxTokens
     })
     if (checkSession && !checkSession()) {
+      end && end()
       return
     }
     if (startAnswer) {
@@ -58,6 +60,7 @@ export const chat2openai = async (option: CommonChatOption) => {
     }
     for await (const chunk of stream) {
       if (checkSession && !checkSession()) {
+        end && end()
         return
       }
       console.log(`OpenAi【消息】: ${JSON.stringify(chunk.choices[0])}`)
@@ -75,6 +78,7 @@ export const chat2openai = async (option: CommonChatOption) => {
       style: imageStyle as 'vivid' | 'natural' | null
     })
     if (checkSession && !checkSession()) {
+      end && end()
       return
     }
     console.log(`OpenAi【消息】: ${JSON.stringify(imagesResponse)}`)
@@ -82,13 +86,9 @@ export const chat2openai = async (option: CommonChatOption) => {
     if (imageUrl) {
       imageUrl = await saveFileByUrl(imageUrl, `${randomUUID()}.png`)
     }
-    if (imageGenerated) {
-      imageGenerated(imageUrl)
-    }
+    imageGenerated && imageGenerated(imageUrl)
   }
-  if (end) {
-    end()
-  }
+  end && end()
 }
 
 export const getOpenAIMessages = async (
