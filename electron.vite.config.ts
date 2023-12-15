@@ -15,6 +15,15 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [vue()]
+    plugins: [
+      vue({
+        template: {
+          compilerOptions: {
+            // webview是electron原生组件，在此声明避免vue警告
+            isCustomElement: (tag) => tag === 'webview'
+          }
+        }
+      })
+    ]
   }
 })
