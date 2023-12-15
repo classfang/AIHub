@@ -1,7 +1,7 @@
 import { CommonChatOption } from '@renderer/utils/big-model/index'
 import { readLocalImageBase64 } from '@renderer/utils/ipc-util'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
-import { simulateThreadWait } from '@renderer/utils/thread-util'
+// import { simulateThreadWait } from '@renderer/utils/thread-util'
 
 export const chat2gemini = async (option: CommonChatOption) => {
   const {
@@ -16,7 +16,7 @@ export const chat2gemini = async (option: CommonChatOption) => {
     abortCtr,
     checkSession,
     startAnswer,
-    appendAnswer,
+    // appendAnswer,
     end
   } = option
 
@@ -61,16 +61,20 @@ export const chat2gemini = async (option: CommonChatOption) => {
 
   const answer = respJson.candidates[0]?.content.parts[0].text ?? ''
 
-  startAnswer && startAnswer('')
-
-  for (const c of answer.split('')) {
-    await simulateThreadWait(10)
-    if (checkSession && !checkSession()) {
-      end && end()
-      return
-    }
-    appendAnswer && appendAnswer(c)
+  if (checkSession && !checkSession()) {
+    end && end()
+    return
   }
+  startAnswer && startAnswer(answer)
+
+  // for (const c of answer.split('')) {
+  //   await simulateThreadWait(10)
+  //   if (checkSession && !checkSession()) {
+  //     end && end()
+  //     return
+  //   }
+  //   appendAnswer && appendAnswer(c)
+  // }
 
   end && end()
 }
