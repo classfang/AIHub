@@ -103,6 +103,11 @@ const useBigModel = async (sessionId: string) => {
         configErrorFlag = true
       }
       break
+    case 'Gemini':
+      if (!settingStore.gemini.baseUrl || !settingStore.gemini.key) {
+        configErrorFlag = true
+      }
+      break
     case 'Spark':
       if (!settingStore.spark.appId || !settingStore.spark.secret || !settingStore.spark.key) {
         configErrorFlag = true
@@ -214,6 +219,19 @@ const useBigModel = async (sessionId: string) => {
           })
           scrollToBottom(chatMessageListRef.value)
           data.waitAnswer = false
+        }
+      }
+      break
+    case 'Gemini':
+      otherOption = {
+        apiKey: settingStore.gemini.key,
+        baseURL: settingStore.gemini.baseUrl,
+        maxTokens: data.currentAssistant.maxTokens,
+        appendAnswer: (content: string) => {
+          data.currentAssistant.chatMessageList[
+            data.currentAssistant.chatMessageList.length - 1
+          ].content += content
+          scrollToBottom(chatMessageListRef.value)
         }
       }
       break
