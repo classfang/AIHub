@@ -52,6 +52,16 @@ const handleEditModalBeforeOk = async () => {
       reject()
       return
     }
+    // 助手默认值
+    if (!data.assistantForm.inputMaxTokens) {
+      data.assistantForm.inputMaxTokens = 1024
+    }
+    if (!data.assistantForm.maxTokens) {
+      data.assistantForm.maxTokens = 1024
+    }
+    if (!data.assistantForm.contextSize) {
+      data.assistantForm.contextSize = 1
+    }
     data.assistantForm.lastUpdateTime = nowTimestamp()
     assistantUpdate(data.assistantForm)
 

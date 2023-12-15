@@ -227,6 +227,7 @@ const useBigModel = async (sessionId: string) => {
         apiKey: settingStore.gemini.key,
         baseURL: settingStore.gemini.baseUrl,
         maxTokens: data.currentAssistant.maxTokens,
+        abortCtr: abortCtr,
         appendAnswer: (content: string) => {
           data.currentAssistant.chatMessageList[
             data.currentAssistant.chatMessageList.length - 1

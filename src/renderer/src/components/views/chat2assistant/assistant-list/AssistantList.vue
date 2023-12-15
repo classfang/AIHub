@@ -29,7 +29,7 @@ const newFormDefault = {
 
 const data = reactive({
   newModalVisible: false,
-  assistantForm: copyObj(newFormDefault),
+  assistantForm: copyObj(newFormDefault) as Assistant,
   keyword: ''
 })
 const { newModalVisible, assistantForm, keyword } = toRefs(data)
@@ -45,6 +45,16 @@ const handleNewModalBeforeOk = async () => {
       Message.error(`${t('assistantList.model')} ${t('common.required')}`)
       reject()
       return
+    }
+    // 助手默认值
+    if (!data.assistantForm.inputMaxTokens) {
+      data.assistantForm.inputMaxTokens = 1024
+    }
+    if (!data.assistantForm.maxTokens) {
+      data.assistantForm.maxTokens = 1024
+    }
+    if (!data.assistantForm.contextSize) {
+      data.assistantForm.contextSize = 1
     }
     assistantStore.assistantList.unshift(
       copyObj({

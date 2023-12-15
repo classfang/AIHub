@@ -1,4 +1,5 @@
 import { chat2openai } from '@renderer/utils/big-model/openai-util'
+import { chat2gemini } from '@renderer/utils/big-model/gemini-util'
 import { chat2spark } from '@renderer/utils/big-model/spark-util'
 import { chat2ernieBot } from '@renderer/utils/big-model/ernie-bot-util'
 import { chat2tongyi } from '@renderer/utils/big-model/tongyi-util'
@@ -33,6 +34,7 @@ export interface CommonChatOption {
 
 const chatFunctionMap: ChatFunctionMap = {
   OpenAI: chat2openai,
+  Gemini: chat2gemini,
   Spark: chat2spark,
   ERNIEBot: chat2ernieBot,
   Tongyi: chat2tongyi
