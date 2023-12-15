@@ -43,6 +43,9 @@ watch(
         assistantForm.value.model =
           assistantForm.value.type === 'chat' ? 'gpt-4-vision-preview' : 'dall-e-3'
         break
+      case 'Gemini':
+        assistantForm.value.model = 'gemini-pro-vision'
+        break
       case 'Spark':
         assistantForm.value.model = 'v3.1'
         break
@@ -122,8 +125,8 @@ watch(
           <a-option value="gpt-3.5-turbo">gpt-3.5-turbo</a-option>
         </a-select>
         <a-select v-if="assistantForm.provider === 'Gemini'" v-model="assistantForm.model">
+          <a-option value="gemini-pro-vision">gemini-pro-vision</a-option>
           <a-option value="gemini-pro">gemini-pro</a-option>
-          <a-option value="gemini-pro-version">gemini-pro-version</a-option>
         </a-select>
         <a-select v-else-if="assistantForm.provider === 'Spark'" v-model="assistantForm.model">
           <a-option value="v3.1">spark-v3.0</a-option>
