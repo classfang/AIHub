@@ -52,14 +52,23 @@ export const chat2gemini = async (option: CommonChatOption) => {
     return
   }
 
-  const errMsg = respJson.error?.message
+  let errMsg = respJson.error?.message
 
   if (errMsg) {
     end && end(errMsg)
     return
   }
 
-  const answer = respJson.candidates[0]?.content.parts[0].text ?? ''
+  if (!respJson.candidates || !respJson.candidates[0]) {
+    errMsg = 'No candidates returned'
+    if (respJson.promptFeedback?.blockReason) {
+      errMsg = 'block reason: ' + respJson.promptFeedback?.blockReason
+    }
+    end && end(errMsg)
+    return
+  }
+
+  const answer = respJson.candidates[0].content.parts[0].text ?? ''
 
   if (checkSession && !checkSession()) {
     end && end()
