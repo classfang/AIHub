@@ -32,7 +32,7 @@ function createWindow(): void {
     show: false,
     autoHideMenuBar: true,
     // mac下不显示标题栏
-    titleBarStyle: 'hiddenInset',
+    titleBarStyle: 'hidden',
     // mac下红绿灯位置
     trafficLightPosition: {
       x: 5,
