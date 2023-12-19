@@ -71,8 +71,8 @@ export const chat2gemini = async (option: CommonChatOption) => {
       if (
         !respJson ||
         !respJson.candidates ||
-        !respJson.candidates[0]?.content.parts ||
-        !respJson.candidates[0]?.content.parts[0]
+        !respJson.candidates[0]?.content?.parts ||
+        !respJson.candidates[0].content.parts[0]
       ) {
         end && end('no answer')
         return
