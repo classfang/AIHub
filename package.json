@@ -32,7 +32,6 @@
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
     "electron-store": "^8.1.0",
-    "generativeai-js-wrapper": "https://github.com/classfang/generative-ai-js",
     "gpt-tokenizer": "^2.1.2",
     "highlight.js": "^11.9.0",
     "markdown-it": "^13.0.2",
