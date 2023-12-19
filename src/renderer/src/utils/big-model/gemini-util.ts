@@ -83,7 +83,7 @@ export const chat2gemini = async (option: CommonChatOption) => {
         startAnswer && startAnswer('')
       }
 
-      appendAnswer && appendAnswer(respJson.candidates[0]?.content.parts[0]?.text ?? '')
+      appendAnswer && appendAnswer(respJson.candidates[0].content.parts[0].text ?? '')
     },
     onclose: () => {
       console.log('Gemini大模型关闭连接')
