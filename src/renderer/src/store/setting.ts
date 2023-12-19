@@ -61,6 +61,10 @@ export const useSettingStore = defineStore({
         this.openAI = settingBackup.openAI
         importFlag = true
       }
+      if (settingBackup.gemini !== undefined) {
+        this.gemini = settingBackup.gemini
+        importFlag = true
+      }
       if (settingBackup.spark !== undefined) {
         this.spark = settingBackup.spark
         importFlag = true
