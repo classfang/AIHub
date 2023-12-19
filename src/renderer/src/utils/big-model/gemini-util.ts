@@ -51,14 +51,11 @@ export const chat2gemini = async (option: CommonChatOption) => {
       }
     },
     onmessage: (e) => {
+      console.log('Gemini大模型回复：', e)
+
       if (checkSession && !checkSession()) {
         end && end()
         return
-      }
-      console.log('Gemini大模型回复：', e)
-      if (waitAnswer) {
-        waitAnswer = false
-        startAnswer && startAnswer('')
       }
 
       const respJson = JSON.parse(e.data)
@@ -72,15 +69,21 @@ export const chat2gemini = async (option: CommonChatOption) => {
         return
       }
       if (
+        !respJson ||
         !respJson.candidates ||
         !respJson.candidates[0]?.content.parts ||
-        !respJson.candidates[0]?.content.parts[0]?.text
+        !respJson.candidates[0]?.content.parts[0]
       ) {
-        end && end('No candidates returned')
+        end && end('no answer')
         return
       }
 
-      appendAnswer && appendAnswer(respJson.candidates[0]?.content.parts[0]?.text)
+      if (waitAnswer) {
+        waitAnswer = false
+        startAnswer && startAnswer('')
+      }
+
+      appendAnswer && appendAnswer(respJson.candidates[0]?.content.parts[0]?.text ?? '')
     },
     onclose: () => {
       console.log('Gemini大模型关闭连接')

@@ -77,29 +77,43 @@ export const chat2tongyi = async (option: CommonChatOption) => {
         }
       },
       onmessage: (e) => {
+        console.log('通义千问大模型回复：', e)
+
         if (checkSession && !checkSession()) {
           end && end()
           return
         }
-        console.log('通义千问大模型回复：', e)
+
+        const respJson = JSON.parse(e.data)
+        let content: string
+        if (model === 'qwen-vl-plus') {
+          if (
+            !respJson ||
+            !respJson.output?.choices ||
+            !respJson.output?.choices[0]?.message?.content ||
+            !respJson.output?.choices[0]?.message?.content[0]
+          ) {
+            end && end('no answer')
+            return
+          }
+          content = JSON.parse(e.data).output.choices[0].message.content[0].text ?? ''
+        } else {
+          if (!respJson || !respJson.output?.text) {
+            end && end('no answer')
+            return
+          }
+          content = JSON.parse(e.data).output.text ?? ''
+        }
+
         if (waitAnswer) {
           waitAnswer = false
           if (startAnswer) {
             startAnswer && startAnswer('')
           }
         }
-        let content: string
-        try {
-          if (model === 'qwen-vl-plus') {
-            content = JSON.parse(e.data).output?.choices[0]?.message?.content[0]?.text ?? ''
-          } else {
-            content = JSON.parse(e.data).output?.text ?? ''
-          }
-          appendAnswer && appendAnswer(content.substring(answerIndex))
-          answerIndex = content.length
-        } catch (e) {
-          end && end(e)
-        }
+
+        appendAnswer && appendAnswer(content.substring(answerIndex))
+        answerIndex = content.length
       },
       onclose: () => {
         console.log('通义千问大模型关闭连接')

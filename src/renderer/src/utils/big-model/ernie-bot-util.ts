@@ -69,16 +69,25 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
       }
     },
     onmessage: (e) => {
+      console.log('文心一言大模型回复：', e)
+
       if (checkSession && !checkSession()) {
         end && end()
         return
       }
-      console.log('文心一言大模型回复：', e)
+
+      const respJson = JSON.parse(e.data)
+      if (!respJson) {
+        end && end('no answer')
+        return
+      }
+
       if (waitAnswer) {
         waitAnswer = false
         startAnswer && startAnswer('')
       }
-      appendAnswer && appendAnswer(JSON.parse(e.data).result ?? '')
+
+      appendAnswer && appendAnswer(respJson.result ?? '')
     },
     onclose: () => {
       console.log('文心一言大模型关闭连接')
