@@ -115,9 +115,9 @@ const exportDataBackup = async () => {
 
 const importSettingBackup = () => {
   Modal.confirm({
-    title: t('setting.backup.setting.importConfirm'),
-    content: t('setting.backup.setting.importConfirmContent'),
-    okText: t('setting.backup.importOk'),
+    title: t('setting.app.backup.setting.importConfirm'),
+    content: t('setting.app.backup.setting.importConfirmContent'),
+    okText: t('setting.app.backup.importOk'),
     cancelText: t('common.cancel'),
     onOk: async () => {
       try {
@@ -128,13 +128,13 @@ const importSettingBackup = () => {
             new TextDecoder().decode(selectFileResult)
           )
           if (importFlag) {
-            Message.success(t('setting.backup.importSuccess'))
+            Message.success(t('setting.app.backup.importSuccess'))
           } else {
-            Message.error(t('setting.backup.importNone'))
+            Message.error(t('setting.app.backup.importNone'))
           }
         }
       } catch (e) {
-        Message.error(t('setting.backup.importError'))
+        Message.error(t('setting.app.backup.importError'))
       } finally {
         systemStore.globalLoading = false
       }
@@ -144,9 +144,9 @@ const importSettingBackup = () => {
 
 const importDataBackup = () => {
   Modal.confirm({
-    title: t('setting.backup.data.importConfirm'),
-    content: t('setting.backup.data.importConfirmContent'),
-    okText: t('setting.backup.importOk'),
+    title: t('setting.app.backup.data.importConfirm'),
+    content: t('setting.app.backup.data.importConfirmContent'),
+    okText: t('setting.app.backup.importOk'),
     cancelText: t('common.cancel'),
     onOk: async () => {
       try {
@@ -161,13 +161,13 @@ const importDataBackup = () => {
             collectionSetStore.setStoreFromJson(dataBackup.collectionSetStore) || importFlag
           importFlag = (await addCacheFiles(dataBackup.cacheFiles)) || importFlag
           if (importFlag) {
-            Message.success(t('setting.backup.importSuccess'))
+            Message.success(t('setting.app.backup.importSuccess'))
           } else {
-            Message.error(t('setting.backup.importNone'))
+            Message.error(t('setting.app.backup.importNone'))
           }
         }
       } catch (e) {
-        Message.error(t('setting.backup.importError'))
+        Message.error(t('setting.app.backup.importError'))
       } finally {
         systemStore.globalLoading = false
       }
