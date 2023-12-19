@@ -102,7 +102,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
             end && end('no answer')
             return
           }
-          content = JSON.parse(e.data).output.text ?? ''
+          content = respJson.output.text ?? ''
         }
 
         if (waitAnswer) {

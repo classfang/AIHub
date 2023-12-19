@@ -86,17 +86,23 @@ export const chat2spark = async (option: CommonChatOption) => {
     )
   }
   sparkClient.onmessage = (message) => {
+    console.log(`星火服务器【消息】: ${message.data}`)
     if (checkSession && !checkSession()) {
       end && end()
       return
     }
-    console.log(`星火服务器【消息】: ${message.data}`)
+
+    const respJson = JSON.parse(message.data.toString())
+    if (!respJson || !respJson.payload?.choices?.text || !respJson.payload?.choices?.text[0]) {
+      end && end('no answer')
+      return
+    }
+
     if (waitAnswer) {
       waitAnswer = false
       startAnswer && startAnswer('')
     }
-    appendAnswer &&
-      appendAnswer(JSON.parse(message.data.toString())?.payload?.choices?.text[0]?.content ?? '')
+    appendAnswer && appendAnswer(respJson.payload.choices.text[0].content ?? '')
   }
   sparkClient.onclose = () => {
     console.log('星火服务器【连接已关闭】')
