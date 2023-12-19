@@ -76,7 +76,17 @@ const exportChatMessageList = (id: string) => {
         >
           <div class="collection-body">
             <AssistantAvatar :provider="c.provider" class="collection-avatar" />
-            <div class="collection-content">{{ c.chatMessageList[0].content }}</div>
+            <div class="collection-content">
+              {{ c.chatMessageList[0].content }}
+
+              {{
+                c.chatMessageList[0].content
+                  ? c.chatMessageList[0].content
+                  : c.chatMessageList[0].image
+                    ? $t('assistantItem.content.image')
+                    : ''
+              }}
+            </div>
           </div>
           <div class="collection-footer">
             <div class="collection-time">{{ formatDateTime(new Date(c.createTime)) }}</div>
