@@ -11,7 +11,7 @@ A collection of large model capabilities, AI capabilities Electron client, with 
 
 ![demo](/demo/demo.png)
 
-> now supported：OpenAI, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
+> now supported：OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
 
 ## 1. Use application
 
