@@ -23,7 +23,9 @@ A collection of large model capabilities, AI capabilities Electron client, with 
 
 Open the terminal, enter the following command, and execute:
 
-`sudo xattr -d com.apple.quarantine /Applications/xxxx.app`
+```shell
+sudo xattr -d com.apple.quarantine /Applications/xxxx.app
+```
 
 Note: Replace /Applications/xxxx.app with your App path.
 

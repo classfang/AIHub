@@ -23,7 +23,9 @@
 
 打开终端，输入以下命令，并执行：
 
-`sudo xattr -d com.apple.quarantine /Applications/xxxx.app`
+```shell
+sudo xattr -d com.apple.quarantine /Applications/xxxx.app
+```
 
 注意：/Applications/xxxx.app 换成你的App路径。
 
