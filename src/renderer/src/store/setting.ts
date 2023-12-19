@@ -39,6 +39,7 @@ export const useSettingStore = defineStore({
       return JSON.stringify({
         app: this.app,
         openAI: this.openAI,
+        gemini: this.gemini,
         spark: this.spark,
         ernieBot: this.ernieBot,
         tongyi: this.tongyi,
