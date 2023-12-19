@@ -87,7 +87,7 @@ const clearCacheHandle = async () => {
   )
   await clearCacheFiles(images)
   data.clearCacheFlag = false
-  Message.success(t('setting.app.cache.clearSuccess'))
+  Message.success(t('setting.app.backup.cache.clearSuccess'))
 }
 
 const exportSettingBackup = () => {
