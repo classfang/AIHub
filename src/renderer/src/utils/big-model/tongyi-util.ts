@@ -68,7 +68,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
         }
       }),
       async onopen(response) {
-        if (response.ok && response.headers.get('content-type') === EventStreamContentType) {
+        if (response.ok && response.headers.get('content-type')?.includes(EventStreamContentType)) {
           return
         } else {
           const respText = await response.text()

@@ -60,7 +60,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
       stream: true
     }),
     async onopen(response) {
-      if (response.ok && response.headers.get('content-type') === EventStreamContentType) {
+      if (response.ok && response.headers.get('content-type')?.includes(EventStreamContentType)) {
         return
       } else {
         const respText = await response.text()
