@@ -1,4 +1,4 @@
-import { fetchEventSource } from '@microsoft/fetch-event-source'
+import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { CommonChatOption } from '.'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 
@@ -59,6 +59,15 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
       messages: await getERNIEBotMessages(messages, instruction, inputMaxTokens, contextSize),
       stream: true
     }),
+    async onopen(response) {
+      if (response.ok && response.headers.get('content-type') === EventStreamContentType) {
+        return
+      } else {
+        const respText = await response.text()
+        console.log('文心一言大模型连接错误', respText)
+        throw new Error(respText)
+      }
+    },
     onmessage: (e) => {
       if (checkSession && !checkSession()) {
         end && end()
@@ -77,7 +86,6 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
     },
     onerror: (err: any) => {
       console.log('文心一言大模型错误：', err)
-      end && end(err)
       // 抛出异常防止重连
       if (err instanceof Error) {
         throw err

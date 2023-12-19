@@ -1,7 +1,7 @@
 import { CommonChatOption } from '@renderer/utils/big-model/index'
 import { readLocalImageBase64 } from '@renderer/utils/ipc-util'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
-import { fetchEventSource } from '@microsoft/fetch-event-source'
+import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 // import { simulateThreadWait } from '@renderer/utils/thread-util'
 
 export const chat2gemini = async (option: CommonChatOption) => {
@@ -41,6 +41,15 @@ export const chat2gemini = async (option: CommonChatOption) => {
         maxOutputTokens: maxTokens
       }
     }),
+    async onopen(response) {
+      if (response.ok && response.headers.get('content-type') === EventStreamContentType) {
+        return
+      } else {
+        const respText = await response.text()
+        console.log('Gemini大模型连接错误', respText)
+        throw new Error(respText)
+      }
+    },
     onmessage: (e) => {
       if (checkSession && !checkSession()) {
         end && end()
@@ -79,7 +88,6 @@ export const chat2gemini = async (option: CommonChatOption) => {
     },
     onerror: (err: any) => {
       console.log('Gemini大模型错误：', err)
-      end && end(err)
       // 抛出异常防止重连
       if (err instanceof Error) {
         throw err

@@ -1,4 +1,4 @@
-import { fetchEventSource } from '@microsoft/fetch-event-source'
+import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { CommonChatOption } from '.'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 import { saveFileByUrl } from '@renderer/utils/ipc-util'
@@ -67,6 +67,15 @@ export const chat2tongyi = async (option: CommonChatOption) => {
           )
         }
       }),
+      async onopen(response) {
+        if (response.ok && response.headers.get('content-type') === EventStreamContentType) {
+          return
+        } else {
+          const respText = await response.text()
+          console.log('通义千问大模型连接错误', respText)
+          throw new Error(respText)
+        }
+      },
       onmessage: (e) => {
         if (checkSession && !checkSession()) {
           end && end()
@@ -98,7 +107,6 @@ export const chat2tongyi = async (option: CommonChatOption) => {
       },
       onerror: (err: any) => {
         console.log('通义千问大模型错误：', err)
-        end && end(err)
         // 抛出异常防止重连
         if (err instanceof Error) {
           throw err
