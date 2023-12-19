@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, toRefs } from 'vue'
+import { onMounted, reactive, toRefs } from 'vue'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { Message } from '@arco-design/web-vue'
 import { useI18n } from 'vue-i18n'
@@ -73,6 +73,11 @@ const handleNewModalBeforeOk = async () => {
 const clearNewModal = () => {
   data.assistantForm = copyObj(newFormDefault)
 }
+
+onMounted(() => {
+  // 将当前助手显示到视窗
+  document.querySelector('.assistant-item-active')?.scrollIntoView()
+})
 </script>
 
 <template>
