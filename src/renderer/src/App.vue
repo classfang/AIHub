@@ -12,6 +12,7 @@ import WebApp from '@renderer/components/views/WebApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
+import { startDockAnimation, stopDockAnimation } from '@renderer/utils/ipc-util'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
@@ -67,6 +68,18 @@ const changePage = (page: string) => {
   }
   data.currentPage = page
 }
+
+// 监听聊天框加载中状态
+watch(
+  () => systemStore.chatWindowLoading,
+  (value) => {
+    if (value) {
+      startDockAnimation()
+    } else {
+      stopDockAnimation()
+    }
+  }
+)
 
 onMounted(() => {
   // 更新主题

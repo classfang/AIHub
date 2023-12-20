@@ -48,6 +48,8 @@ export const chat2tongyi = async (option: CommonChatOption) => {
 
   if (type === 'chat') {
     await fetchEventSource(getTongyiChatUrl(model), {
+      // 保持后台运行
+      openWhenHidden: true,
       signal: abortCtr?.signal,
       method: 'POST',
       headers: {

@@ -30,6 +30,8 @@ export const chat2gemini = async (option: CommonChatOption) => {
   let waitAnswer = true
 
   await fetchEventSource(`${baseURL}/models/${model}:streamGenerateContent?key=${apiKey}&alt=sse`, {
+    // 保持后台运行
+    openWhenHidden: true,
     signal: abortCtr?.signal,
     method: 'POST',
     headers: {

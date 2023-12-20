@@ -53,6 +53,8 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
   }
 
   await fetchEventSource(`${getErnieBotChatUrl(model)}?access_token=${accessToken}`, {
+    // 保持后台运行
+    openWhenHidden: true,
     signal: abortCtr?.signal,
     method: 'POST',
     body: JSON.stringify({
