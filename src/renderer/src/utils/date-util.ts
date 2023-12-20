@@ -3,12 +3,6 @@ export const nowTimestamp = () => {
 }
 
 export const formatDateTime = (date: Date, format?: string) => {
-  // 检查输入是否为有效的日期对象
-  if (!(date instanceof Date)) {
-    console.error('Invalid Date object')
-    return
-  }
-
   // 默认格式字符串
   format = format || 'YYYY-MM-DD HH:mm:ss'
 
