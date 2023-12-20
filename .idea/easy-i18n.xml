@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectSettingsService">
-    <option name="localesDirectory" value="$PROJECT_DIR$/src/renderer/src/i18n/local" />
-    <option name="defaultNamespace" value="" />
-  </component>
-</project>
