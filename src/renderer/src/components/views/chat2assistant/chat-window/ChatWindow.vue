@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSystemStore } from '@renderer/store/system'
-import { onMounted, reactive, ref, toRefs } from 'vue'
+import { computed, onMounted, reactive, ref, toRefs } from 'vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import MultipleChoiceConsole from '@renderer/components/views/chat2assistant/chat-window/MultipleChoiceConsole.vue'
@@ -63,6 +63,11 @@ const {
   multipleChoiceFlag,
   multipleChoiceList
 } = toRefs(data)
+
+// 支持图片上传（只有 gpt-4-vision-preview、gemini-pro-vision 模型支持）
+const isSupportImage = computed(() => {
+  return ['gpt-4-vision-preview', 'gemini-pro-vision'].includes(data.currentAssistant.model)
+})
 
 // 发送提问
 const sendQuestion = async (event?: KeyboardEvent) => {
@@ -149,11 +154,8 @@ const useBigModel = async (sessionId: string) => {
   let questionImage = ''
   if (data.selectImageList[0]) {
     const imagePath = data.selectImageList[0].file?.path
-    // 只有 gpt-4-vision-preview、gemini-pro-vision 模型支持，将图片本地链接保存
-    if (
-      ['gpt-4-vision-preview', 'gemini-pro-vision'].includes(data.currentAssistant.model) &&
-      imagePath
-    ) {
+    // 将图片本地链接保存
+    if (isSupportImage.value && imagePath) {
       questionImage = await saveFileByPath(
         imagePath,
         `${randomUUID()}${imagePath.substring(imagePath.lastIndexOf('.'))}`
@@ -476,10 +478,7 @@ onMounted(() => {
       <!-- 输入框区域底部 -->
       <div class="chat-input-bottom">
         <!-- 图片选择：暂只支持 gpt-4-vision-preview、gemini-pro-vision -->
-        <div
-          v-if="['gpt-4-vision-preview', 'gemini-pro-vision'].includes(currentAssistant.model)"
-          class="chat-input-select-image"
-        >
+        <div v-if="isSupportImage" class="chat-input-select-image">
           <a-upload
             :file-list="selectImageList"
             :limit="1"
