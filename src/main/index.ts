@@ -98,6 +98,9 @@ function createWindow(): void {
 // dock图片转动
 let dockAnimationInterval: NodeJS.Timeout | null = null
 function startDockAnimation() {
+  if (process.platform !== 'darwin') {
+    return
+  }
   const animationInterval = 50
   let iconIndex = 0
 
@@ -175,7 +178,7 @@ ipcMain.handle('open-dev-tools', () => {
 // 开始Dock栏图标跳动
 ipcMain.handle('start-dock-bounce', () => {
   // 获得焦点时不跳动
-  if (!mainWindow.isFocused()) {
+  if (process.platform === 'darwin' && !mainWindow.isFocused()) {
     app.dock.bounce('informational')
   }
 })
