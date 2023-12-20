@@ -477,7 +477,7 @@ onMounted(() => {
       />
       <!-- 输入框区域底部 -->
       <div class="chat-input-bottom">
-        <!-- 图片选择：暂只支持 gpt-4-vision-preview、gemini-pro-vision -->
+        <!-- 图片选择 -->
         <div v-if="isSupportImage" class="chat-input-select-image">
           <a-upload
             :file-list="selectImageList"
