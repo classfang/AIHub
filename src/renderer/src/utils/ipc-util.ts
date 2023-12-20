@@ -2,6 +2,14 @@ export const startDockBounce = () => {
   return window.electron.ipcRenderer.invoke('start-dock-bounce')
 }
 
+export const startDockAnimation = () => {
+  return window.electron.ipcRenderer.invoke('start-dock-animation')
+}
+
+export const stopDockAnimation = () => {
+  return window.electron.ipcRenderer.invoke('stop-dock-animation')
+}
+
 export const openCacheDir = () => {
   return window.electron.ipcRenderer.invoke('open-cache-dir')
 }

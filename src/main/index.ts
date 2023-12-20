@@ -3,8 +3,17 @@ import { join } from 'path'
 import fs from 'fs'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import icon10deg from '../../resources/icon-10deg.png?asset'
+import icon20deg from '../../resources/icon-20deg.png?asset'
+import icon30deg from '../../resources/icon-30deg.png?asset'
+import icon40deg from '../../resources/icon-40deg.png?asset'
+import icon50deg from '../../resources/icon-50deg.png?asset'
 import { appConfig, mainWindowConfig } from './config'
 import Store from 'electron-store'
+import { clearInterval } from 'node:timers'
+
+// 图标列表
+const iconArray = [icon, icon10deg, icon20deg, icon30deg, icon40deg, icon50deg]
 
 // 临时缓存目录
 const tempPath = join(app.getPath('userData'), 'temp')
@@ -86,6 +95,27 @@ function createWindow(): void {
   }
 }
 
+// dock图片转动
+let dockAnimationInterval: NodeJS.Timeout | null = null
+function startDockAnimation() {
+  const animationInterval = 50
+  let iconIndex = 0
+
+  if (dockAnimationInterval) {
+    clearInterval(dockAnimationInterval)
+  }
+  dockAnimationInterval = setInterval(() => {
+    iconIndex = (iconIndex + 1) % iconArray.length
+    app.dock.setIcon(iconArray[iconIndex])
+  }, animationInterval)
+}
+function stopDockAnimation() {
+  if (dockAnimationInterval) {
+    clearInterval(dockAnimationInterval)
+  }
+  app.dock.setIcon(iconArray[0])
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -100,9 +130,17 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  // 创建目录
   creatTempPath()
 
+  // 创建窗口
   createWindow()
+
+  // dock图标动画
+  startDockAnimation()
+  setTimeout(() => {
+    stopDockAnimation()
+  }, 5000)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -140,6 +178,16 @@ ipcMain.handle('start-dock-bounce', () => {
   if (!mainWindow.isFocused()) {
     app.dock.bounce('informational')
   }
+})
+
+// 开始Dock栏图标动画
+ipcMain.handle('start-dock-animation', () => {
+  startDockAnimation()
+})
+
+// 停止Dock栏图标动画
+ipcMain.handle('stop-dock-animation', () => {
+  stopDockAnimation()
 })
 
 // 存储相关
