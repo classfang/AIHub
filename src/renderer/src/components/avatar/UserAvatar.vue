@@ -54,8 +54,8 @@ const selectImageRequest = (option: RequestOption) => {
     :size="size"
     @click="modalVisible = !systemStore.chatWindowLoading && editable"
   >
-    <img v-if="userStore.avatar" :src="'file://' + userStore.avatar" alt="" />
-    <icon-user v-else />
+    <img v-if="userStore.avatar" class="no-drag-area" :src="'file://' + userStore.avatar" alt="" />
+    <icon-user v-else class="no-drag-area" />
   </a-avatar>
   <!-- 用户设置Modal -->
   <a-modal

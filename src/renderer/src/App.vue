@@ -87,7 +87,7 @@ onMounted(() => {
     <div class="app fade-in-from" :class="{ 'fade-in-to': isLoad }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
-        <UserAvatar class="no-drag-area" :editable="true" :size="36" />
+        <UserAvatar :editable="true" :size="36" />
         <icon-message
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': currentPage === 'chat' }"
