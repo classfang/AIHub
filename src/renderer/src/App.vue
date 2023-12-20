@@ -154,13 +154,14 @@ onMounted(() => {
     align-items: center;
     gap: 25px;
     box-sizing: border-box;
-    padding: 65px 0 15px 0;
+    padding: 60px 0 15px 0;
     background-color: var(--color-fill-2);
 
     .app-sidebar-item {
       font-size: 30px;
       stroke-width: 2;
       color: var(--color-text-2);
+      transition: all 500ms;
     }
 
     .app-sidebar-item-active {
