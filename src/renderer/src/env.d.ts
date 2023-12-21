@@ -56,3 +56,17 @@ interface ChatMessageSet {
   chatMessageList: ChatMessage[]
   createTime: number
 }
+
+interface KnowledgeBase {
+  id: string
+  name: string
+  redisConfig: RedisConfig
+  createTime: number
+}
+
+interface RedisConfig {
+  url: string
+  username?: string
+  password?: string
+  database?: number
+}

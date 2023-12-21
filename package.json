@@ -34,10 +34,12 @@
     "electron-store": "^8.1.0",
     "gpt-tokenizer": "^2.1.2",
     "highlight.js": "^11.9.0",
+    "langchain": "^0.0.211",
     "markdown-it": "^13.0.2",
     "openai": "^4.23.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
+    "redis": "^4.6.12",
     "uuid": "^9.0.1",
     "vue-i18n": "^9.8.0",
     "vuedraggable": "^4.1.0"

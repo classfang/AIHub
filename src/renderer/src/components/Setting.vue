@@ -2,6 +2,9 @@
 import { useSettingStore } from '@renderer/store/setting'
 import { computed, onMounted, reactive, toRefs } from 'vue'
 import { useSystemStore } from '@renderer/store/system'
+import { useAssistantStore } from '@renderer/store/assistant'
+import { useCollectionSetStore } from '@renderer/store/collection-set'
+import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import { openInBrowser } from '@renderer/utils/window-util'
 import {
   openCacheDir,
@@ -14,8 +17,6 @@ import {
   addCacheFiles,
   openDevTools
 } from '@renderer/utils/ipc-util'
-import { useAssistantStore } from '@renderer/store/assistant'
-import { useCollectionSetStore } from '@renderer/store/collection-set'
 import { Message, Modal } from '@arco-design/web-vue'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@renderer/store/user'
@@ -27,6 +28,7 @@ const settingStore = useSettingStore()
 const userStore = useUserStore()
 const assistantStore = useAssistantStore()
 const collectionSetStore = useCollectionSetStore()
+const knowledgeBaseStore = useKnowledgeBaseStore()
 const { t } = useI18n()
 
 const data = reactive({
@@ -107,6 +109,7 @@ const exportDataBackup = async () => {
       userStore: userStore.getStoreJson,
       assistantStore: assistantStore.getStoreJson,
       collectionSetStore: collectionSetStore.getStoreJson,
+      knowledgeBaseStore: knowledgeBaseStore.getStoreJson,
       cacheFiles: await getCacheFiles()
     })
   )
@@ -159,6 +162,8 @@ const importDataBackup = () => {
           importFlag = assistantStore.setStoreFromJson(dataBackup.assistantStore) || importFlag
           importFlag =
             collectionSetStore.setStoreFromJson(dataBackup.collectionSetStore) || importFlag
+          importFlag =
+            knowledgeBaseStore.setStoreFromJson(dataBackup.knowledgeBaseStore) || importFlag
           importFlag = (await addCacheFiles(dataBackup.cacheFiles)) || importFlag
           if (importFlag) {
             Message.success(t('setting.app.backup.importSuccess'))

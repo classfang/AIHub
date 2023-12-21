@@ -10,6 +10,7 @@ import Chat2Assistant from '@renderer/components/views/chat2assistant/Chat2Assis
 import CollectionSet from '@renderer/components/views/CollectionSet.vue'
 import WebApp from '@renderer/components/views/WebApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
+import KnowledgeBase from '@renderer/components/views/KnowledgeBase.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 import { startDockAnimation, stopDockAnimation } from '@renderer/utils/ipc-util'
@@ -121,6 +122,11 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': currentPage === 'translator' }"
           @click="changePage('translator')"
         />
+        <icon-book
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'knowledge-base' }"
+          @click="changePage('knowledge-base')"
+        />
         <Setting style="margin-top: auto">
           <template #default>
             <icon-settings class="app-sidebar-item no-drag-area" />
@@ -140,6 +146,9 @@ onMounted(() => {
       </div>
       <div v-show="currentPage === 'translator'" class="app-body">
         <Translator />
+      </div>
+      <div v-show="currentPage === 'knowledge-base'" class="app-body">
+        <KnowledgeBase />
       </div>
 
       <!-- 全局加载遮罩 -->
