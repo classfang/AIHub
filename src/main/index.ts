@@ -349,7 +349,7 @@ ipcMain.handle(
     // redis 向量库
     const vectorStore = new RedisVectorStore(
       new OpenAIEmbeddings({
-        // openAIApiKey: openaiConfig.key,
+        openAIApiKey: openaiConfig.key,
         configuration: {
           baseURL: openaiConfig.baseUrl
         }
