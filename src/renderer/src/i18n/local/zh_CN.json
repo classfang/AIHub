@@ -230,6 +230,9 @@
         "password": "Redis 密码",
         "database": "Redis 数据库号"
       }
+    },
+    "window": {
+      "search": "输入问题或者关键字检索知识库"
     }
   }
 }

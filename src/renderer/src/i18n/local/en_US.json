@@ -230,6 +230,9 @@
         "password": "Redis password",
         "database": "Redis database number"
       }
+    },
+    "window": {
+      "search": "Enter questions or keywords to search the knowledge base"
     }
   }
 }
