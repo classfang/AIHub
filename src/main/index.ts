@@ -342,12 +342,14 @@ ipcMain.handle(
     indexName: string,
     text: string
   ) => {
+    // redis 连接
     const client = createClient(redisClientOptions)
     await client.connect()
 
+    // redis 向量库
     const vectorStore = new RedisVectorStore(
       new OpenAIEmbeddings({
-        openAIApiKey: openaiConfig.key,
+        // openAIApiKey: openaiConfig.key,
         configuration: {
           baseURL: openaiConfig.baseUrl
         }
@@ -358,22 +360,30 @@ ipcMain.handle(
       }
     )
 
+    // 文本分段
     const textSplitter = new RecursiveCharacterTextSplitter({
+      // 最长1000字符
       chunkSize: 1000,
+      // 重复50字符，便于连接上下文
       chunkOverlap: 50
     })
-
     const splitStrs = await textSplitter.splitText(text)
 
+    // 缓存全文本
     const fileKey = 'files:' + indexName + ':' + new Date().getTime()
     await client.set(fileKey, text)
 
+    // 保存文段文本向量数据
     await vectorStore.addDocuments(
       splitStrs.map((str) => {
         return { pageContent: str, metadata: { fileKey: fileKey } }
       })
     )
 
+    // redis 断连
     await client.disconnect()
+
+    // 返回全文本的缓存key
+    return fileKey
   }
 )

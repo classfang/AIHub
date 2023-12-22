@@ -92,13 +92,18 @@ const handleNewFileModalBeforeOk = async () => {
       settingStore.openAI,
       data.currentKnowledgeBase.indexName,
       data.newFileForm.text
-    ).then(() => {
-      data.fileList.unshift({
-        key: new Date().getTime().toString(),
-        text: data.newFileForm.text
+    )
+      .then((fileKey: string) => {
+        data.fileList.unshift({
+          key: fileKey,
+          text: data.newFileForm.text
+        })
+        resolve()
       })
-      resolve()
-    })
+      .catch((err: Error) => {
+        Message.error(err.message)
+        reject()
+      })
   })
   return true
 }
