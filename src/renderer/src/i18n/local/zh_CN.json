@@ -131,6 +131,7 @@
   },
   "assistantList": {
     "new": "新增助手",
+    "edit": "编辑助手",
     "name": "名称",
     "instruction": "指令",
     "provider": "提供商",
@@ -219,6 +220,7 @@
     "list": {
       "search": "搜索知识库",
       "new": "新建知识库",
+      "edit": "编辑知识库",
       "name": "名称",
       "description": "描述",
       "indexName": "索引名称",

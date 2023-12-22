@@ -193,7 +193,7 @@ const assistantDelete = () => {
       width="80vw"
       :on-before-ok="handleEditModalBeforeOk"
     >
-      <template #title> {{ $t('assistantList.new') }} </template>
+      <template #title> {{ $t('assistantList.edit') }} </template>
       <div style="height: 60vh; overflow-y: auto">
         <AssistantForm :assistant="assistantForm" />
       </div>

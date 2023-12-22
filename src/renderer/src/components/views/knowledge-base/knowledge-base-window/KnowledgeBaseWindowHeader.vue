@@ -15,7 +15,7 @@ const { t } = useI18n()
 
 const props = defineProps({
   currentKnowledgeBase: {
-    type: Object as () => Assistant,
+    type: Object as () => KnowledgeBase,
     default: () => {}
   }
 })
@@ -134,7 +134,7 @@ const knowledgeBaseDelete = () => {
       </template>
     </a-popover>
 
-    <!-- 编辑助手Modal -->
+    <!-- 编辑Modal -->
     <a-modal
       v-model:visible="editModalVisible"
       :ok-text="$t('common.ok')"
@@ -144,7 +144,7 @@ const knowledgeBaseDelete = () => {
       width="80vw"
       :on-before-ok="handleEditModalBeforeOk"
     >
-      <template #title> {{ $t('knowledge-baseList.new') }} </template>
+      <template #title> {{ $t('knowledgeBase.list.edit') }} </template>
       <div style="height: 60vh; overflow-y: auto">
         <KnowledgeBaseForm :knowledge-base="knowledgeBaseForm" />
       </div>
