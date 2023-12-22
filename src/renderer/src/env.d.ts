@@ -60,7 +60,9 @@ interface ChatMessageSet {
 interface KnowledgeBase {
   id: string
   name: string
+  description: string
   redisConfig: RedisConfig
+  indexName: string
   createTime: number
 }
 

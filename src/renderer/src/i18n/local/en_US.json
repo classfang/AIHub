@@ -213,5 +213,9 @@
       "ko": "Korean",
       "fr": "French"
     }
+  },
+  "knowledgeBase": {
+    "search": "Search knowledge base",
+    "empty": "Endless wisdom, all in the AI knowledge base"
   }
 }

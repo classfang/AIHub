@@ -95,7 +95,7 @@ onMounted(() => {
     <draggable
       v-if="assistantStore.assistantList.filter((a) => a.name.includes(keyword)).length > 0"
       v-model="assistantStore.assistantList"
-      group="people"
+      group="assistant-list"
       item-key="id"
       class="assistant-list-container"
     >

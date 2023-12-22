@@ -107,6 +107,11 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': currentPage === 'chat' }"
           @click="changePage('chat')"
         />
+        <icon-book
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'knowledge-base' }"
+          @click="changePage('knowledge-base')"
+        />
         <icon-common
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': currentPage === 'collect' }"
@@ -122,11 +127,6 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': currentPage === 'translator' }"
           @click="changePage('translator')"
         />
-        <icon-book
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'knowledge-base' }"
-          @click="changePage('knowledge-base')"
-        />
         <Setting style="margin-top: auto">
           <template #default>
             <icon-settings class="app-sidebar-item no-drag-area" />
@@ -138,6 +138,9 @@ onMounted(() => {
       <div v-show="currentPage === 'chat'" class="app-body">
         <Chat2Assistant />
       </div>
+      <div v-show="currentPage === 'knowledge-base'" class="app-body">
+        <KnowledgeBase />
+      </div>
       <div v-show="currentPage === 'collect'" class="app-body">
         <CollectionSet />
       </div>
@@ -146,9 +149,6 @@ onMounted(() => {
       </div>
       <div v-show="currentPage === 'translator'" class="app-body">
         <Translator />
-      </div>
-      <div v-show="currentPage === 'knowledge-base'" class="app-body">
-        <KnowledgeBase />
       </div>
 
       <!-- 全局加载遮罩 -->
