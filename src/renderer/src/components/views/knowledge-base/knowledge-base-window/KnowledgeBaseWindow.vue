@@ -33,7 +33,15 @@ const sendQuestion = () => {
   setTimeout(() => {
     data.answer = questionText
     systemStore.knowledgeBaseWindowLoading = false
-  })
+  }, 3000)
+}
+
+// 返回文件列表
+const backFileList = () => {
+  if (systemStore.knowledgeBaseWindowLoading) {
+    return
+  }
+  data.answer = ''
 }
 </script>
 
@@ -41,20 +49,44 @@ const sendQuestion = () => {
   <div class="knowledge-base-window">
     <!-- 头部 -->
     <KnowledgeBaseWindowHeader :current-knowledge-base="currentKnowledgeBase" />
-    <!-- 检索结果 -->
-    <div v-if="answer" class="knowledge-base-result">
-      <div>
-        <a-button size="mini" @click="data.answer = ''">
-          <template #icon>
-            <icon-arrow-left />
-          </template>
-          <template #default>{{ $t('knowledgeBase.window.backFileList') }}</template>
-        </a-button>
-      </div>
-      <div class="knowledge-base-answer select-text">{{ answer }}</div>
+    <div class="knowledge-base-body">
+      <!-- 检索结果 -->
+      <template v-if="answer">
+        <div>
+          <a-button size="mini" @click="backFileList">
+            <template #icon>
+              <icon-arrow-left />
+            </template>
+            <template #default>{{ $t('knowledgeBase.window.backFileList') }}</template>
+          </a-button>
+        </div>
+        <a-spin
+          :loading="systemStore.knowledgeBaseWindowLoading"
+          class="knowledge-base-answer"
+          tip=""
+        >
+          <div class="select-text">{{ answer }}</div>
+        </a-spin>
+      </template>
+      <!-- 文件列表 -->
+      <template v-else>
+        <div>
+          <a-button size="mini" @click="">
+            <template #icon>
+              <icon-plus />
+            </template>
+            <template #default>{{ $t('knowledgeBase.window.newFile') }}</template>
+          </a-button>
+        </div>
+        <a-spin
+          :loading="systemStore.knowledgeBaseWindowLoading"
+          class="knowledge-base-file-list"
+          tip=""
+        >
+          <div></div>
+        </a-spin>
+      </template>
     </div>
-    <!-- 文件列表 -->
-    <div v-else class="knowledge-base-file-list"></div>
     <!-- 输入框 -->
     <div class="knowledge-base-search-input">
       <a-input
@@ -82,7 +114,7 @@ const sendQuestion = () => {
   flex-direction: column;
   gap: 15px;
 
-  .knowledge-base-result {
+  .knowledge-base-body {
     flex: 1;
     min-height: 0;
     box-sizing: border-box;
@@ -90,23 +122,27 @@ const sendQuestion = () => {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    position: relative;
 
     .knowledge-base-answer {
       flex: 1;
       overflow-y: auto;
-      white-space: pre-wrap;
-      line-break: anywhere;
       background-color: var(--color-fill-1);
       padding: 10px;
       border-radius: var(--border-radius-small);
+      white-space: pre-wrap;
+      line-break: anywhere;
       cursor: text;
       line-height: 1.3rem;
     }
-  }
 
-  .knowledge-base-file-list {
-    flex: 1;
-    min-height: 0;
+    .knowledge-base-file-list {
+      flex: 1;
+      overflow-y: auto;
+      background-color: var(--color-fill-1);
+      padding: 10px;
+      border-radius: var(--border-radius-small);
+    }
   }
 
   .knowledge-base-search-input {

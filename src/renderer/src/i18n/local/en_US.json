@@ -233,7 +233,8 @@
     },
     "window": {
       "search": "Enter questions or keywords to search the knowledge base",
-      "backFileList": "Return to file list"
+      "backFileList": "Return to file list",
+      "newFile": "New knowledge file"
     }
   }
 }
