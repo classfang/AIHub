@@ -58,7 +58,7 @@ const itemActive = () => {
 
     .knowledge-base-item-header {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 5px;
 
