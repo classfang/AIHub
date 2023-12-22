@@ -91,7 +91,11 @@ onMounted(() => {
       </a-button>
     </div>
     <draggable
-      v-if="knowledgeBaseStore.knowledgeBaseList.filter((a) => a.name.includes(keyword)).length > 0"
+      v-if="
+        knowledgeBaseStore.knowledgeBaseList.filter(
+          (kb) => kb.name.includes(keyword) || kb.description.includes(keyword)
+        ).length > 0
+      "
       v-model="knowledgeBaseStore.knowledgeBaseList"
       group="knowledge-base-list"
       item-key="id"
@@ -99,7 +103,7 @@ onMounted(() => {
     >
       <template #item="{ element }">
         <KnowledgeBaseItem
-          v-show="element.name.includes(keyword)"
+          v-show="element.name.includes(keyword) || element.description.includes(keyword)"
           :knowledge-base="element"
           class="knowledge-base-item"
         />

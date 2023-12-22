@@ -49,7 +49,7 @@ const itemActive = () => {
   gap: 10px;
 
   .knowledge-base-item-body {
-    height: 35px;
+    height: 40px;
     flex-grow: 1;
     min-width: 0;
     display: flex;
