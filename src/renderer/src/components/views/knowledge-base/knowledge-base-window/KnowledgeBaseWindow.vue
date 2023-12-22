@@ -11,9 +11,11 @@ const data = reactive({
   // 当前的助手
   currentKnowledgeBase: knowledgeBaseStore.getCurrentKnowledgeBase,
   // 问题
-  question: ''
+  question: '',
+  // 回答
+  answer: ''
 })
-const { currentKnowledgeBase, question } = toRefs(data)
+const { currentKnowledgeBase, question, answer } = toRefs(data)
 
 // 提问
 const sendQuestion = () => {
@@ -25,8 +27,11 @@ const sendQuestion = () => {
   <div class="knowledge-base-window">
     <!-- 头部 -->
     <KnowledgeBaseWindowHeader :current-knowledge-base="currentKnowledgeBase" />
-    <!-- 主体 -->
-    <div class="knowledge-base-search-result"></div>
+    <!-- 检索结果 -->
+    <div v-if="answer" class="knowledge-base-search-result"></div>
+    <!-- 文件列表 -->
+    <div v-else class="knowledge-base-file-list"></div>
+    <!-- 输入框 -->
     <div class="knowledge-base-search-input">
       <a-input
         v-model="question"
@@ -52,6 +57,11 @@ const sendQuestion = () => {
   flex-direction: column;
 
   .knowledge-base-search-result {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .knowledge-base-file-list {
     flex: 1;
     min-height: 0;
   }
