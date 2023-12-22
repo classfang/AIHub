@@ -24,9 +24,14 @@ const sendQuestion = () => {
   if (systemStore.knowledgeBaseWindowLoading) {
     return
   }
+  const questionText = data.question.trim()
+  data.question = ''
+  if (questionText.length === 0) {
+    return
+  }
   systemStore.knowledgeBaseWindowLoading = true
   setTimeout(() => {
-    data.answer = data.question
+    data.answer = questionText
     systemStore.knowledgeBaseWindowLoading = false
   })
 }
@@ -38,6 +43,14 @@ const sendQuestion = () => {
     <KnowledgeBaseWindowHeader :current-knowledge-base="currentKnowledgeBase" />
     <!-- 检索结果 -->
     <div v-if="answer" class="knowledge-base-result">
+      <div>
+        <a-button size="mini" @click="data.answer = ''">
+          <template #icon>
+            <icon-arrow-left />
+          </template>
+          <template #default>{{ $t('knowledgeBase.window.backFileList') }}</template>
+        </a-button>
+      </div>
       <div class="knowledge-base-answer select-text">{{ answer }}</div>
     </div>
     <!-- 文件列表 -->
@@ -76,6 +89,7 @@ const sendQuestion = () => {
     padding: 0 15px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 
     .knowledge-base-answer {
       flex: 1;
@@ -86,6 +100,7 @@ const sendQuestion = () => {
       padding: 10px;
       border-radius: var(--border-radius-small);
       cursor: text;
+      line-height: 1.3rem;
     }
   }
 

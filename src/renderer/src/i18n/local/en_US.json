@@ -232,7 +232,8 @@
       }
     },
     "window": {
-      "search": "Enter questions or keywords to search the knowledge base"
+      "search": "Enter questions or keywords to search the knowledge base",
+      "backFileList": "Return to file list"
     }
   }
 }
