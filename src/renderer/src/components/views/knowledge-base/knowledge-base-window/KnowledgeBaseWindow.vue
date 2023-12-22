@@ -3,21 +3,40 @@ import { reactive, toRefs } from 'vue'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import KnowledgeBaseWindowHeader from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindowHeader.vue'
 import { useSystemStore } from '@renderer/store/system'
+import { Message } from '@arco-design/web-vue'
+import { useI18n } from 'vue-i18n'
+import { exportTextFile } from '@renderer/utils/download-util'
 
 // store
 const systemStore = useSystemStore()
 const knowledgeBaseStore = useKnowledgeBaseStore()
 
+// i18n
+const { t } = useI18n()
+
 // 数据绑定
 const data = reactive({
-  // 当前的助手
   currentKnowledgeBase: knowledgeBaseStore.getCurrentKnowledgeBase,
-  // 问题
   question: '',
-  // 回答
-  answer: ''
+  answer: '',
+  fileList: [] as KnowledgeFile[],
+  newFileVisible: false,
+  newFileForm: {
+    text: ''
+  },
+  fileDetailVisible: false,
+  fileDetail: {} as KnowledgeFile
 })
-const { currentKnowledgeBase, question, answer } = toRefs(data)
+const {
+  currentKnowledgeBase,
+  question,
+  answer,
+  fileList,
+  newFileVisible,
+  newFileForm,
+  fileDetailVisible,
+  fileDetail
+} = toRefs(data)
 
 // 提问
 const sendQuestion = () => {
@@ -27,6 +46,10 @@ const sendQuestion = () => {
   const questionText = data.question.trim()
   data.question = ''
   if (questionText.length === 0) {
+    return
+  }
+  if (data.fileList.length === 0) {
+    Message.error(t('knowledgeBase.window.empty'))
     return
   }
   systemStore.knowledgeBaseWindowLoading = true
@@ -42,6 +65,53 @@ const backFileList = () => {
     return
   }
   data.answer = ''
+}
+
+// 新增文件
+const newFile = () => {
+  if (systemStore.knowledgeBaseWindowLoading) {
+    return
+  }
+  data.newFileVisible = true
+}
+
+// 新增文件表单提交
+const handleNewFileModalBeforeOk = async () => {
+  await new Promise<void>((resolve, reject) => {
+    if (data.newFileForm.text.trim().length === 0) {
+      Message.error(`${t('knowledgeBase.window.newFileText')} ${t('common.required')}`)
+      reject()
+      return
+    }
+
+    data.fileList.unshift({
+      key: new Date().getTime().toString(),
+      text: data.newFileForm.text
+    })
+    resolve()
+  })
+  return true
+}
+
+// 新增文件表单清空
+const clearNewFileModal = () => {
+  data.newFileForm.text = ''
+}
+
+// 打开文件详情
+const openFileDetail = (file: KnowledgeFile) => {
+  data.fileDetailVisible = true
+  data.fileDetail = file
+}
+
+// 删除文件
+const deleteFile = (file: KnowledgeFile) => {
+  data.fileDetailVisible = false
+  systemStore.knowledgeBaseWindowLoading = true
+  setTimeout(() => {
+    data.fileList = data.fileList.filter((f) => f.key != file.key)
+    systemStore.knowledgeBaseWindowLoading = false
+  }, 3000)
 }
 </script>
 
@@ -71,7 +141,7 @@ const backFileList = () => {
       <!-- 文件列表 -->
       <template v-else>
         <div>
-          <a-button size="mini" @click="">
+          <a-button size="mini" @click="newFile">
             <template #icon>
               <icon-plus />
             </template>
@@ -83,7 +153,23 @@ const backFileList = () => {
           class="knowledge-base-file-list"
           tip=""
         >
-          <div></div>
+          <div v-if="fileList.length === 0" class="knowledge-base-file-list-empty">
+            <a-empty>
+              <template #image>
+                <icon-file />
+              </template>
+              {{ $t('knowledgeBase.window.empty') }}
+            </a-empty>
+          </div>
+          <div
+            v-for="f in fileList"
+            v-else
+            :key="f.key"
+            class="knowledge-base-file-item"
+            @click="openFileDetail(f)"
+          >
+            <div class="knowledge-base-file-content">{{ f.text }}</div>
+          </div>
         </a-spin>
       </template>
     </div>
@@ -102,6 +188,54 @@ const backFileList = () => {
         </template>
       </a-input>
     </div>
+
+    <!-- 新增文件Modal -->
+    <a-modal
+      v-model:visible="newFileVisible"
+      :ok-text="$t('common.ok')"
+      :cancel-text="$t('common.cancel')"
+      unmount-on-close
+      title-align="start"
+      width="80vw"
+      :on-before-ok="handleNewFileModalBeforeOk"
+      @close="clearNewFileModal"
+    >
+      <template #title> {{ $t('knowledgeBase.window.newFile') }} </template>
+      <div style="height: 60vh; overflow-y: auto">
+        <a-form :model="newFileForm" layout="vertical">
+          <a-form-item field="name" :label="$t('knowledgeBase.window.newFileText')">
+            <a-textarea
+              v-model="newFileForm.text"
+              :auto-size="{ minRows: 15, maxRows: 15 }"
+              :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
+            />
+          </a-form-item>
+        </a-form>
+      </div>
+    </a-modal>
+
+    <!-- 文件详情Modal -->
+    <a-modal
+      v-model:visible="fileDetailVisible"
+      :ok-text="$t('common.ok')"
+      :cancel-text="$t('common.cancel')"
+      unmount-on-close
+      title-align="start"
+      width="80vw"
+    >
+      <template #title> {{ $t('knowledgeBase.window.fileDetail') }} </template>
+      <div style="height: 60vh; overflow-y: auto; white-space: pre-wrap; line-break: anywhere">
+        {{ fileDetail }}
+      </div>
+      <template #footer>
+        <a-button @click="exportTextFile('file.txt', fileDetail.text)">{{
+          $t('common.export')
+        }}</a-button>
+        <a-button status="danger" @click="deleteFile(fileDetail)">{{
+          $t('common.delete')
+        }}</a-button>
+      </template>
+    </a-modal>
   </div>
 </template>
 
@@ -121,7 +255,7 @@ const backFileList = () => {
     padding: 0 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     position: relative;
 
     .knowledge-base-answer {
@@ -139,9 +273,36 @@ const backFileList = () => {
     .knowledge-base-file-list {
       flex: 1;
       overflow-y: auto;
-      background-color: var(--color-fill-1);
-      padding: 10px;
-      border-radius: var(--border-radius-small);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .knowledge-base-file-list-empty {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .knowledge-base-file-item {
+        box-sizing: border-box;
+        padding: 10px;
+        background-color: var(--color-fill-1);
+        border-radius: var(--border-radius-small);
+
+        .knowledge-base-file-content {
+          font-size: 14px;
+          line-height: 1.3rem;
+          overflow: hidden;
+          display: -webkit-box;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          line-break: anywhere;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+        }
+      }
     }
   }
 

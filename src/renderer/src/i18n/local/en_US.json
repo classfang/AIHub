@@ -234,7 +234,10 @@
     "window": {
       "search": "Enter questions or keywords to search the knowledge base",
       "backFileList": "Return to file list",
-      "newFile": "New knowledge file"
+      "newFile": "New knowledge file",
+      "empty": "No knowledge file",
+      "newFileText": "Knowledge file text",
+      "fileDetail": "Knowledge file detail"
     }
   }
 }

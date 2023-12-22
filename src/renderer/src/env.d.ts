@@ -73,3 +73,8 @@ interface RedisConfig {
   password?: string
   database: number
 }
+
+interface KnowledgeFile {
+  key: string
+  text: string
+}

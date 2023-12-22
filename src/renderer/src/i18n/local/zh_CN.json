@@ -234,7 +234,10 @@
     "window": {
       "search": "输入问题或者关键字检索知识库",
       "backFileList": "返回文件列表",
-      "newFile": "新增知识文件"
+      "newFile": "新增知识文件",
+      "empty": "暂无知识文件",
+      "newFileText": "知识文件文本",
+      "fileDetail": "知识文件详情"
     }
   }
 }
