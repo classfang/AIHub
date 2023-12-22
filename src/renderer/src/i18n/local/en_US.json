@@ -215,7 +215,19 @@
     }
   },
   "knowledgeBase": {
-    "search": "Search knowledge base",
-    "empty": "Endless wisdom, all in the AI knowledge base"
+    "slogan": "Endless wisdom, all in the AI knowledge base",
+    "list": {
+      "search": "Search knowledge base",
+      "new": "New knowledge Base",
+      "name": "Name",
+      "description": "Description",
+      "indexName": "Index name",
+      "redisConfig": {
+        "url": "Redis server url",
+        "username": "Redis username",
+        "password": "Redis password",
+        "database": "Redis database number"
+      }
+    }
   }
 }

@@ -10,7 +10,7 @@ import Chat2Assistant from '@renderer/components/views/chat2assistant/Chat2Assis
 import CollectionSet from '@renderer/components/views/CollectionSet.vue'
 import WebApp from '@renderer/components/views/WebApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
-import KnowledgeBase from '@renderer/components/views/KnowledgeBase.vue'
+import KnowledgeBase from '@renderer/components/views/knowledge-base/KnowledgeBase.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 import { startDockAnimation, stopDockAnimation } from '@renderer/utils/ipc-util'

@@ -64,11 +64,12 @@ interface KnowledgeBase {
   redisConfig: RedisConfig
   indexName: string
   createTime: number
+  lastUpdateTime: number
 }
 
 interface RedisConfig {
   url: string
   username?: string
   password?: string
-  database?: number
+  database: number
 }

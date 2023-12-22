@@ -215,7 +215,19 @@
     }
   },
   "knowledgeBase": {
-    "search": "搜索知识库",
-    "empty": "无尽智慧，尽在AI知识库"
+    "slogan": "无尽智慧，尽在AI知识库",
+    "list": {
+      "search": "搜索知识库",
+      "new": "新建知识库",
+      "name": "名称",
+      "description": "描述",
+      "indexName": "索引名称",
+      "redisConfig": {
+        "url": "Redis 服务器地址",
+        "username": "Redis 用户名",
+        "password": "Redis 密码",
+        "database": "Redis 数据库号"
+      }
+    }
   }
 }
