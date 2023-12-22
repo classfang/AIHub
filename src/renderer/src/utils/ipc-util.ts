@@ -1,3 +1,5 @@
+import { copyObj } from '@renderer/utils/object-util'
+
 export const startDockBounce = () => {
   return window.electron.ipcRenderer.invoke('start-dock-bounce')
 }
@@ -62,4 +64,22 @@ export const onMainWindowFocus = (action: () => void) => {
   window.electron.ipcRenderer.on('main-window-focus', () => {
     action()
   })
+}
+
+export const langChainRedisAddFile = (
+  redisConfig: RedisConfig,
+  openaiConfig: {
+    baseUrl: string
+    key: string
+  },
+  indexName: string,
+  text: string
+) => {
+  return window.electron.ipcRenderer.invoke(
+    'lang-chain-redis-add-file',
+    copyObj(redisConfig),
+    copyObj(openaiConfig),
+    indexName,
+    text
+  )
 }

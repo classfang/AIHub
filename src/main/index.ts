@@ -11,6 +11,11 @@ import icon50deg from '../../resources/icon-50deg.png?asset'
 import { appConfig, mainWindowConfig } from './config'
 import Store from 'electron-store'
 import { clearInterval } from 'node:timers'
+import { createClient } from 'redis'
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
+import { RedisVectorStore } from 'langchain/vectorstores/redis'
+import { RedisClientOptions } from '@redis/client/dist/lib/client'
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 
 // 图标列表
 const iconArray = [icon, icon10deg, icon20deg, icon30deg, icon40deg, icon50deg]
@@ -323,3 +328,52 @@ ipcMain.handle('select-file-and-read', (_event, extensions = ['*']) => {
   }
   return null
 })
+
+// langChain-redis 新增文件
+ipcMain.handle(
+  'lang-chain-redis-add-file',
+  async (
+    _event,
+    redisClientOptions: RedisClientOptions,
+    openaiConfig: {
+      baseUrl: string
+      key: string
+    },
+    indexName: string,
+    text: string
+  ) => {
+    const client = createClient(redisClientOptions)
+    await client.connect()
+
+    const vectorStore = new RedisVectorStore(
+      new OpenAIEmbeddings({
+        openAIApiKey: openaiConfig.key,
+        configuration: {
+          baseURL: openaiConfig.baseUrl
+        }
+      }),
+      {
+        redisClient: client,
+        indexName: indexName
+      }
+    )
+
+    const textSplitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 50
+    })
+
+    const splitStrs = await textSplitter.splitText(text)
+
+    const fileKey = 'files:' + indexName + ':' + new Date().getTime()
+    await client.set(fileKey, text)
+
+    await vectorStore.addDocuments(
+      splitStrs.map((str) => {
+        return { pageContent: str, metadata: { fileKey: fileKey } }
+      })
+    )
+
+    await client.disconnect()
+  }
+)

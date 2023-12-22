@@ -71,7 +71,6 @@ interface RedisConfig {
   url: string
   username?: string
   password?: string
-  database: number
 }
 
 interface KnowledgeFile {

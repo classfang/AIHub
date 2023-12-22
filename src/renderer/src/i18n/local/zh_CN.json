@@ -227,8 +227,7 @@
       "redisConfig": {
         "url": "Redis 服务器地址",
         "username": "Redis 用户名",
-        "password": "Redis 密码",
-        "database": "Redis 数据库号"
+        "password": "Redis 密码"
       }
     },
     "window": {

@@ -62,15 +62,6 @@ watchEffect(() => {
         "
       />
     </a-form-item>
-    <a-form-item field="database" :label="$t('knowledgeBase.list.redisConfig.database')">
-      <a-input-number
-        v-model="knowledgeBaseForm.redisConfig.database"
-        :placeholder="
-          $t('common.pleaseEnter') + ' ' + $t('knowledgeBase.list.redisConfig.database')
-        "
-        :min="0"
-      />
-    </a-form-item>
   </a-form>
 </template>
 

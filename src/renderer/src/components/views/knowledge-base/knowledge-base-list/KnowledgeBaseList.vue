@@ -19,8 +19,7 @@ const newFormDefault = {
   redisConfig: {
     url: 'redis://localhost:6379',
     username: '',
-    password: '',
-    database: 0
+    password: ''
   },
   indexName: ''
 }
@@ -46,11 +45,6 @@ const handleNewModalBeforeOk = async () => {
     }
     if (data.knowledgeBaseForm.redisConfig.url.length === 0) {
       Message.error(`${t('knowledgeBase.list.redisConfig.url')} ${t('common.required')}`)
-      reject()
-      return
-    }
-    if (isNaN(data.knowledgeBaseForm.redisConfig.database)) {
-      Message.error(`${t('knowledgeBase.list.redisConfig.database')} ${t('common.required')}`)
       reject()
       return
     }

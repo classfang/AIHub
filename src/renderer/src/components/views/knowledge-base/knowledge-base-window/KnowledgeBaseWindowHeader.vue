@@ -52,11 +52,6 @@ const handleEditModalBeforeOk = async () => {
       reject()
       return
     }
-    if (isNaN(data.knowledgeBaseForm.redisConfig.database)) {
-      Message.error(`${t('knowledgeBase.list.redisConfig.database')} ${t('common.required')}`)
-      reject()
-      return
-    }
 
     data.knowledgeBaseForm.lastUpdateTime = nowTimestamp()
     knowledgeBaseUpdate(data.knowledgeBaseForm)

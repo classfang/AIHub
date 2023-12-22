@@ -6,10 +6,13 @@ import { useSystemStore } from '@renderer/store/system'
 import { Message } from '@arco-design/web-vue'
 import { useI18n } from 'vue-i18n'
 import { exportTextFile } from '@renderer/utils/download-util'
+import { langChainRedisAddFile } from '@renderer/utils/ipc-util'
+import { useSettingStore } from '@renderer/store/setting'
 
 // store
 const systemStore = useSystemStore()
 const knowledgeBaseStore = useKnowledgeBaseStore()
+const settingStore = useSettingStore()
 
 // i18n
 const { t } = useI18n()
@@ -84,11 +87,18 @@ const handleNewFileModalBeforeOk = async () => {
       return
     }
 
-    data.fileList.unshift({
-      key: new Date().getTime().toString(),
-      text: data.newFileForm.text
+    langChainRedisAddFile(
+      data.currentKnowledgeBase.redisConfig,
+      settingStore.openAI,
+      data.currentKnowledgeBase.indexName,
+      data.newFileForm.text
+    ).then(() => {
+      data.fileList.unshift({
+        key: new Date().getTime().toString(),
+        text: data.newFileForm.text
+      })
+      resolve()
     })
-    resolve()
   })
   return true
 }
