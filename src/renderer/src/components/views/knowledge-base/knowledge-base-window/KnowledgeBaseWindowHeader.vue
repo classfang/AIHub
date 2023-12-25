@@ -13,15 +13,7 @@ const knowledgeBaseStore = useKnowledgeBaseStore()
 const systemStore = useSystemStore()
 const { t } = useI18n()
 
-const props = defineProps({
-  currentKnowledgeBase: {
-    type: Object as () => KnowledgeBase,
-    default: () => {}
-  }
-})
-
 const data = reactive({
-  currentKnowledgeBase: props.currentKnowledgeBase,
   editModalVisible: false,
   knowledgeBaseForm: {} as KnowledgeBase
 })
@@ -31,7 +23,7 @@ const edit = () => {
   if (systemStore.knowledgeBaseWindowLoading) {
     return
   }
-  data.knowledgeBaseForm = copyObj(data.currentKnowledgeBase)
+  data.knowledgeBaseForm = copyObj(knowledgeBaseStore.getCurrentKnowledgeBase)
   data.editModalVisible = true
 }
 
@@ -88,7 +80,7 @@ const knowledgeBaseUpdate = (newKnowledgeBase: KnowledgeBase) => {
 
 const knowledgeBaseDelete = () => {
   knowledgeBaseStore.knowledgeBaseList = knowledgeBaseStore.knowledgeBaseList.filter(
-    (kb) => kb.id != data.currentKnowledgeBase.id
+    (kb) => kb.id != knowledgeBaseStore.currentKnowledgeBaseId
   )
   knowledgeBaseStore.currentKnowledgeBaseId = null
 }
@@ -96,14 +88,9 @@ const knowledgeBaseDelete = () => {
 
 <template>
   <div class="knowledge-base-window-header drag-area">
-    <div class="knowledge-base-name">{{ currentKnowledgeBase.name }}</div>
+    <div class="knowledge-base-name">{{ knowledgeBaseStore.getCurrentKnowledgeBase.name }}</div>
     <div class="knowledge-base-desc"></div>
-    <a-popover
-      v-if="currentKnowledgeBase"
-      position="br"
-      trigger="click"
-      :content-style="{ padding: '5px' }"
-    >
+    <a-popover position="br" trigger="click" :content-style="{ padding: '5px' }">
       <icon-more
         :class="{ 'no-drag-area': !systemStore.knowledgeBaseWindowLoading }"
         style="font-size: 24px; flex-shrink: 0"

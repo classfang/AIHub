@@ -83,3 +83,11 @@ export const langChainRedisAddFile = (
     text
   )
 }
+
+export const langChainRedisListFile = (redisConfig: RedisConfig, indexName: string) => {
+  return window.electron.ipcRenderer.invoke(
+    'lang-chain-redis-list-file',
+    copyObj(redisConfig),
+    indexName
+  )
+}

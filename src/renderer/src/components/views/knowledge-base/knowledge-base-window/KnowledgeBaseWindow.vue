@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, watch } from 'vue'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import KnowledgeBaseWindowHeader from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindowHeader.vue'
 import { useSystemStore } from '@renderer/store/system'
 import { Message } from '@arco-design/web-vue'
 import { useI18n } from 'vue-i18n'
 import { exportTextFile } from '@renderer/utils/download-util'
-import { langChainRedisAddFile } from '@renderer/utils/ipc-util'
+import { langChainRedisAddFile, langChainRedisListFile } from '@renderer/utils/ipc-util'
 import { useSettingStore } from '@renderer/store/setting'
 
 // store
@@ -19,7 +19,6 @@ const { t } = useI18n()
 
 // 数据绑定
 const data = reactive({
-  currentKnowledgeBase: knowledgeBaseStore.getCurrentKnowledgeBase,
   question: '',
   answer: '',
   fileList: [] as KnowledgeFile[],
@@ -30,16 +29,17 @@ const data = reactive({
   fileDetailVisible: false,
   fileDetail: {} as KnowledgeFile
 })
-const {
-  currentKnowledgeBase,
-  question,
-  answer,
-  fileList,
-  newFileVisible,
-  newFileForm,
-  fileDetailVisible,
-  fileDetail
-} = toRefs(data)
+const { question, answer, fileList, newFileVisible, newFileForm, fileDetailVisible, fileDetail } =
+  toRefs(data)
+
+// 监听当前知识库
+watch(
+  () => knowledgeBaseStore.getCurrentKnowledgeBase,
+  () => {
+    fetchFileList()
+  },
+  { deep: true }
+)
 
 // 提问
 const sendQuestion = () => {
@@ -88,9 +88,9 @@ const handleNewFileModalBeforeOk = async () => {
     }
 
     langChainRedisAddFile(
-      data.currentKnowledgeBase.redisConfig,
+      knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
       settingStore.openAI,
-      data.currentKnowledgeBase.indexName,
+      knowledgeBaseStore.getCurrentKnowledgeBase.indexName,
       data.newFileForm.text
     )
       .then((fileKey: string) => {
@@ -119,6 +119,21 @@ const openFileDetail = (file: KnowledgeFile) => {
   data.fileDetail = file
 }
 
+// 查询文件列表
+const fetchFileList = () => {
+  data.fileList = []
+  langChainRedisListFile(
+    knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
+    knowledgeBaseStore.getCurrentKnowledgeBase.indexName
+  )
+    .then((res) => {
+      data.fileList = res
+    })
+    .catch((err: Error) => {
+      Message.error(err.message)
+    })
+}
+
 // 删除文件
 const deleteFile = (file: KnowledgeFile) => {
   data.fileDetailVisible = false
@@ -128,12 +143,17 @@ const deleteFile = (file: KnowledgeFile) => {
     systemStore.knowledgeBaseWindowLoading = false
   }, 3000)
 }
+
+// 暴露方法
+defineExpose({
+  fetchFileList
+})
 </script>
 
 <template>
   <div class="knowledge-base-window">
     <!-- 头部 -->
-    <KnowledgeBaseWindowHeader :current-knowledge-base="currentKnowledgeBase" />
+    <KnowledgeBaseWindowHeader />
     <div class="knowledge-base-body">
       <!-- 检索结果 -->
       <template v-if="answer">

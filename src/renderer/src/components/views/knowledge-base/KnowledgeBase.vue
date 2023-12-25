@@ -3,8 +3,21 @@ import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import EmptyKnowledgeBaseWindow from '@renderer/components/views/knowledge-base/knowledge-base-window/EmptyKnowledgeBaseWindow.vue'
 import KnowledgeBaseWindow from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindow.vue'
 import KnowledgeBaseList from '@renderer/components/views/knowledge-base/knowledge-base-list/KnowledgeBaseList.vue'
+import { ref } from 'vue'
 
 const knowledgeBaseStore = useKnowledgeBaseStore()
+
+const knowledgeBaseWindowRef = ref()
+
+// 页面显示
+const onShow = () => {
+  knowledgeBaseWindowRef.value.fetchFileList()
+}
+
+// 暴露方法
+defineExpose({
+  onShow
+})
 </script>
 
 <template>
@@ -15,7 +28,7 @@ const knowledgeBaseStore = useKnowledgeBaseStore()
     <div class="knowledge-base-right">
       <KnowledgeBaseWindow
         v-if="knowledgeBaseStore.currentKnowledgeBaseId"
-        :key="'knowledge-base-window-' + knowledgeBaseStore.currentKnowledgeBaseId"
+        ref="knowledgeBaseWindowRef"
         class="knowledge-base-window"
       />
       <EmptyKnowledgeBaseWindow v-else />

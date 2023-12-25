@@ -387,3 +387,32 @@ ipcMain.handle(
     return fileKey
   }
 )
+
+// langChain-redis 文件列表
+ipcMain.handle(
+  'lang-chain-redis-list-file',
+  async (_event, redisClientOptions: RedisClientOptions, indexName: string) => {
+    // redis 连接
+    const client = createClient(redisClientOptions)
+    await client.connect()
+
+    // 获取全文本列表
+    const fileKeys = await client.keys('files:' + indexName + ':*')
+    if (fileKeys.length === 0) {
+      return []
+    }
+    const files: { key: string; text: string }[] = []
+    for (const fileKey of fileKeys) {
+      files.push({
+        key: fileKey,
+        text: (await client.get(fileKey)) ?? ''
+      })
+    }
+
+    // redis 断连
+    await client.disconnect()
+
+    // 返回全文本的缓存key
+    return files
+  }
+)
