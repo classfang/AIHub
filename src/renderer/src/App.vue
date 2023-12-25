@@ -2,7 +2,7 @@
 import { startDarkThemeListener, changeTheme } from '@renderer/utils/theme-util'
 import { useSystemStore } from '@renderer/store/system'
 import { useSettingStore } from '@renderer/store/setting'
-import { computed, onMounted, reactive, ref, toRefs, watch, watchEffect } from 'vue'
+import { computed, onMounted, reactive, toRefs, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import Setting from '@renderer/components/Setting.vue'
@@ -18,8 +18,6 @@ import { startDockAnimation, stopDockAnimation } from '@renderer/utils/ipc-util'
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
 const { locale } = useI18n()
-
-const knowledgeBaseRef = ref()
 
 const arcoDesignLocales = {
   zh_CN: zhCN,
@@ -70,11 +68,6 @@ const changePage = (page: string) => {
     return
   }
   data.currentPage = page
-
-  // 页面显示事件
-  if (page === 'knowledge-base') {
-    knowledgeBaseRef.value.onShow()
-  }
 }
 
 // 监听聊天框加载中状态
@@ -147,7 +140,7 @@ onMounted(() => {
         <Chat2Assistant />
       </div>
       <div v-show="currentPage === 'knowledge-base'" class="app-body">
-        <KnowledgeBase ref="knowledgeBaseRef" />
+        <KnowledgeBase />
       </div>
       <div v-show="currentPage === 'collect'" class="app-body">
         <CollectionSet />

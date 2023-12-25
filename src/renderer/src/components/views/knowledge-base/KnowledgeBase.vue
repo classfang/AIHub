@@ -8,16 +8,6 @@ import { ref } from 'vue'
 const knowledgeBaseStore = useKnowledgeBaseStore()
 
 const knowledgeBaseWindowRef = ref()
-
-// 页面显示
-const onShow = () => {
-  knowledgeBaseWindowRef.value.fetchFileList()
-}
-
-// 暴露方法
-defineExpose({
-  onShow
-})
 </script>
 
 <template>

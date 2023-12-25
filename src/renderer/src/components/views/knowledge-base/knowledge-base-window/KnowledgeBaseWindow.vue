@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, toRefs, watch } from 'vue'
+import { reactive, toRefs, watchEffect } from 'vue'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import KnowledgeBaseWindowHeader from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindowHeader.vue'
 import { useSystemStore } from '@renderer/store/system'
@@ -50,15 +50,6 @@ const {
   fileDetailVisible,
   fileDetail
 } = toRefs(data)
-
-// 监听当前知识库
-watch(
-  () => knowledgeBaseStore.getCurrentKnowledgeBase,
-  () => {
-    fetchFileList()
-  },
-  { deep: true }
-)
 
 // 提问
 const sendQuestion = () => {
@@ -239,9 +230,16 @@ const deleteFile = (file: KnowledgeFile) => {
   })
 }
 
-// 暴露方法
-defineExpose({
-  fetchFileList
+// 监听当前知识库
+watchEffect(() => {
+  data.answer = ''
+  data.currentQuestion = ''
+  data.question = ''
+  if (knowledgeBaseStore.getCurrentKnowledgeBase.id) {
+    fetchFileList()
+  } else {
+    data.fileList = []
+  }
 })
 </script>
 

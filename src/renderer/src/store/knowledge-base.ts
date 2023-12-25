@@ -4,6 +4,7 @@ export const useKnowledgeBaseStore = defineStore({
   id: 'knowledge-base',
   state: () => ({
     knowledgeBaseList: [] as KnowledgeBase[],
+    // 不持久化
     currentKnowledgeBaseId: null as null | string
   }),
   getters: {
@@ -38,5 +39,7 @@ export const useKnowledgeBaseStore = defineStore({
       return importFlag
     }
   },
-  persist: true
+  persist: {
+    paths: ['knowledgeBaseList']
+  }
 })
