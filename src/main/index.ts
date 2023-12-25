@@ -16,6 +16,8 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { RedisVectorStore } from 'langchain/vectorstores/redis'
 import { RedisClientOptions } from '@redis/client/dist/lib/client'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { RetrievalQAChain } from 'langchain/chains'
+import { ChatOpenAI } from 'langchain/chat_models/openai'
 
 // 图标列表
 const iconArray = [icon, icon10deg, icon20deg, icon30deg, icon40deg, icon50deg]
@@ -441,5 +443,59 @@ ipcMain.handle(
 
     // redis 断连
     await client.disconnect()
+  }
+)
+
+// langChain-redis 提问
+ipcMain.handle(
+  'lang-chain-redis-question',
+  async (
+    _event,
+    redisClientOptions: RedisClientOptions,
+    openaiConfig: {
+      baseUrl: string
+      key: string
+    },
+    indexName: string,
+    question: string
+  ) => {
+    // redis 连接
+    const client = createClient(redisClientOptions)
+    await client.connect()
+
+    // redis 向量库
+    const vectorStore = new RedisVectorStore(
+      new OpenAIEmbeddings({
+        openAIApiKey: openaiConfig.key,
+        configuration: {
+          baseURL: openaiConfig.baseUrl
+        }
+      }),
+      {
+        redisClient: client,
+        indexName: indexName
+      }
+    )
+
+    // 对话模型
+    const model = new ChatOpenAI({
+      modelName: 'gpt-3.5-turbo',
+      openAIApiKey: openaiConfig.key,
+      configuration: {
+        baseURL: openaiConfig.baseUrl
+      }
+    })
+    const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever())
+
+    // 提问
+    const response = await chain.call({
+      query: question
+    })
+
+    // redis 断连
+    await client.disconnect()
+
+    // 返回结果
+    return response
   }
 )

@@ -9,7 +9,8 @@ import { exportTextFile } from '@renderer/utils/download-util'
 import {
   langChainRedisAddFile,
   langChainRedisDeleteFile,
-  langChainRedisListFile
+  langChainRedisListFile,
+  langChainRedisQuestion
 } from '@renderer/utils/ipc-util'
 import { useSettingStore } from '@renderer/store/setting'
 
@@ -60,10 +61,21 @@ const sendQuestion = () => {
     return
   }
   systemStore.knowledgeBaseWindowLoading = true
-  setTimeout(() => {
-    data.answer = questionText
-    systemStore.knowledgeBaseWindowLoading = false
-  }, 3000)
+  langChainRedisQuestion(
+    knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
+    settingStore.openAI,
+    knowledgeBaseStore.getCurrentKnowledgeBase.indexName,
+    questionText
+  )
+    .then((res) => {
+      data.answer = res?.text
+    })
+    .catch((err: Error) => {
+      Message.error(err.message)
+    })
+    .finally(() => {
+      systemStore.knowledgeBaseWindowLoading = false
+    })
 }
 
 // 返回文件列表
@@ -297,12 +309,17 @@ defineExpose({
         {{ fileDetail.text }}
       </div>
       <template #footer>
-        <a-button @click="exportTextFile('knowledge-file.txt', fileDetail.text)">{{
-          $t('common.export')
-        }}</a-button>
-        <a-button status="danger" @click="deleteFile(fileDetail)">{{
-          $t('common.delete')
-        }}</a-button>
+        <div style="display: flex; gap: 10px">
+          <a-button @click="exportTextFile('knowledge-file.txt', fileDetail.text)">{{
+            $t('common.export')
+          }}</a-button>
+          <a-button status="danger" @click="deleteFile(fileDetail)">{{
+            $t('common.delete')
+          }}</a-button>
+          <a-button style="margin-left: auto" @click="fileDetailVisible = false">{{
+            $t('common.close')
+          }}</a-button>
+        </div>
       </template>
     </a-modal>
   </div>

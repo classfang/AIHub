@@ -104,3 +104,21 @@ export const langChainRedisDeleteFile = (
     fileKey
   )
 }
+
+export const langChainRedisQuestion = (
+  redisConfig: RedisConfig,
+  openaiConfig: {
+    baseUrl: string
+    key: string
+  },
+  indexName: string,
+  question: string
+) => {
+  return window.electron.ipcRenderer.invoke(
+    'lang-chain-redis-question',
+    copyObj(redisConfig),
+    copyObj(openaiConfig),
+    indexName,
+    question
+  )
+}
