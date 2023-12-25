@@ -228,7 +228,8 @@
         "url": "Redis 服务器地址",
         "username": "Redis 用户名",
         "password": "Redis 密码"
-      }
+      },
+      "redisDoc": "如何安装 Redis Stack？"
     },
     "window": {
       "search": "输入问题或者关键字检索知识库",

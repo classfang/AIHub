@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
+import { openInBrowser } from '@renderer/utils/window-util'
 
 const props = defineProps({
   knowledgeBase: {
@@ -61,6 +62,11 @@ watchEffect(() => {
           $t('common.pleaseEnter') + ' ' + $t('knowledgeBase.list.redisConfig.password')
         "
       />
+    </a-form-item>
+    <a-form-item>
+      <a-link @click="openInBrowser('https://redis.io/docs/install/install-stack/')">{{
+        $t('knowledgeBase.list.redisDoc')
+      }}</a-link>
     </a-form-item>
   </a-form>
 </template>
