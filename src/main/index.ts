@@ -400,9 +400,6 @@ ipcMain.handle(
 
     // 获取全文本列表
     const fileKeys = await client.keys('files:' + indexName + ':*')
-    if (fileKeys.length === 0) {
-      return []
-    }
     const files: { key: string; text: string }[] = []
     for (const fileKey of fileKeys) {
       files.push({
@@ -411,11 +408,17 @@ ipcMain.handle(
       })
     }
 
+    // 获取向量数据数量
+    const vectorKeys = await client.keys('doc:' + indexName + ':*')
+
     // redis 断连
     await client.disconnect()
 
-    // 返回全文本的缓存key
-    return files
+    // 返回全文本列表
+    return {
+      files,
+      docCount: vectorKeys.length
+    }
   }
 )
 

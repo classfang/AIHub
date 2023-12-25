@@ -13,6 +13,17 @@ const knowledgeBaseStore = useKnowledgeBaseStore()
 const systemStore = useSystemStore()
 const { t } = useI18n()
 
+defineProps({
+  fileCount: {
+    type: Number,
+    default: 0
+  },
+  docCount: {
+    type: Number,
+    default: 0
+  }
+})
+
 const data = reactive({
   editModalVisible: false,
   knowledgeBaseForm: {} as KnowledgeBase
@@ -89,7 +100,12 @@ const knowledgeBaseDelete = () => {
 <template>
   <div class="knowledge-base-window-header drag-area">
     <div class="knowledge-base-name">{{ knowledgeBaseStore.getCurrentKnowledgeBase.name }}</div>
-    <div class="knowledge-base-desc"></div>
+    <div class="knowledge-base-desc">
+      <a-space v-if="!systemStore.knowledgeBaseWindowLoading" :size="10">
+        <a-tag>{{ fileCount }} {{ $t('knowledgeBase.window.knowledgeFile') }}</a-tag>
+        <a-tag>{{ docCount }} {{ $t('knowledgeBase.window.knowledgeDoc') }}</a-tag>
+      </a-space>
+    </div>
     <a-popover position="br" trigger="click" :content-style="{ padding: '5px' }">
       <icon-more
         :class="{ 'no-drag-area': !systemStore.knowledgeBaseWindowLoading }"

@@ -234,11 +234,13 @@
     },
     "window": {
       "search": "Enter questions or keywords to search the knowledge base",
-      "backFileList": "Return to file list",
+      "backFileList": "Return to knowledge list",
       "newFile": "New knowledge file",
       "empty": "No knowledge file",
-      "newFileText": "Knowledge file text",
-      "fileDetail": "Knowledge file detail"
+      "newFileText": "Knowledge text",
+      "fileDetail": "Knowledge file detail",
+      "knowledgeFile": "Knowledge file",
+      "knowledgeDoc": "Knowledge fragment"
     }
   }
 }

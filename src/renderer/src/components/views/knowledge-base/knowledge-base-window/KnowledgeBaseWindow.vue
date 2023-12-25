@@ -28,6 +28,7 @@ const data = reactive({
   currentQuestion: '',
   answer: '',
   fileList: [] as KnowledgeFile[],
+  docCount: 0,
   newFileVisible: false,
   newFileForm: {
     text: ''
@@ -40,6 +41,7 @@ const {
   currentQuestion,
   answer,
   fileList,
+  docCount,
   newFileVisible,
   newFileForm,
   fileDetailVisible,
@@ -120,19 +122,14 @@ const handleNewFileModalBeforeOk = async () => {
       knowledgeBaseStore.getCurrentKnowledgeBase.indexName,
       data.newFileForm.text
     )
-      .then((fileKey: string) => {
-        data.fileList.unshift({
-          key: fileKey,
-          text: data.newFileForm.text
-        })
+      .then(() => {
+        fetchFileList()
         resolve()
       })
       .catch((err: Error) => {
         Message.error(err.message)
-        reject()
-      })
-      .finally(() => {
         systemStore.knowledgeBaseWindowLoading = false
+        reject()
       })
   })
   return true
@@ -158,7 +155,8 @@ const fetchFileList = () => {
     knowledgeBaseStore.getCurrentKnowledgeBase.indexName
   )
     .then((res) => {
-      data.fileList = res
+      data.fileList = res.files
+      data.docCount = res.docCount
     })
     .catch((err: Error) => {
       Message.error(err.message)
@@ -184,13 +182,10 @@ const deleteFile = (file: KnowledgeFile) => {
         file.key
       )
         .then(() => {
-          data.fileList = data.fileList.filter((f) => f.key != file.key)
-          systemStore.knowledgeBaseWindowLoading = false
+          fetchFileList()
         })
         .catch((err: Error) => {
           Message.error(err.message)
-        })
-        .finally(() => {
           systemStore.knowledgeBaseWindowLoading = false
         })
     }
@@ -206,7 +201,7 @@ defineExpose({
 <template>
   <div class="knowledge-base-window">
     <!-- 头部 -->
-    <KnowledgeBaseWindowHeader />
+    <KnowledgeBaseWindowHeader :file-count="fileList.length" :doc-count="docCount" />
     <div class="knowledge-base-body">
       <!-- 检索结果 -->
       <template v-if="currentQuestion">

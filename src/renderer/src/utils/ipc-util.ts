@@ -84,7 +84,13 @@ export const langChainRedisAddFile = (
   )
 }
 
-export const langChainRedisListFile = (redisConfig: RedisConfig, indexName: string) => {
+export const langChainRedisListFile = (
+  redisConfig: RedisConfig,
+  indexName: string
+): Promise<{
+  files: KnowledgeFile[]
+  docCount: number
+}> => {
   return window.electron.ipcRenderer.invoke(
     'lang-chain-redis-list-file',
     copyObj(redisConfig),
