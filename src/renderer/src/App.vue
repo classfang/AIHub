@@ -2,7 +2,7 @@
 import { startDarkThemeListener, changeTheme } from '@renderer/utils/theme-util'
 import { useSystemStore } from '@renderer/store/system'
 import { useSettingStore } from '@renderer/store/setting'
-import { computed, onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { computed, onMounted, reactive, ref, toRefs, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import Setting from '@renderer/components/Setting.vue'
@@ -78,16 +78,13 @@ const changePage = (page: string) => {
 }
 
 // 监听聊天框加载中状态
-watch(
-  () => systemStore.chatWindowLoading,
-  (value) => {
-    if (value) {
-      startDockAnimation()
-    } else {
-      stopDockAnimation()
-    }
+watchEffect(() => {
+  if (systemStore.chatWindowLoading || systemStore.knowledgeBaseWindowLoading) {
+    startDockAnimation()
+  } else {
+    stopDockAnimation()
   }
-)
+})
 
 onMounted(() => {
   // 更新主题
