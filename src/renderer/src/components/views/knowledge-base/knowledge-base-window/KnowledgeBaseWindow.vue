@@ -25,6 +25,7 @@ const { t } = useI18n()
 // 数据绑定
 const data = reactive({
   question: '',
+  currentQuestion: '',
   answer: '',
   fileList: [] as KnowledgeFile[],
   newFileVisible: false,
@@ -34,8 +35,16 @@ const data = reactive({
   fileDetailVisible: false,
   fileDetail: {} as KnowledgeFile
 })
-const { question, answer, fileList, newFileVisible, newFileForm, fileDetailVisible, fileDetail } =
-  toRefs(data)
+const {
+  question,
+  currentQuestion,
+  answer,
+  fileList,
+  newFileVisible,
+  newFileForm,
+  fileDetailVisible,
+  fileDetail
+} = toRefs(data)
 
 // 监听当前知识库
 watch(
@@ -51,9 +60,9 @@ const sendQuestion = () => {
   if (systemStore.knowledgeBaseWindowLoading) {
     return
   }
-  const questionText = data.question.trim()
+  data.currentQuestion = data.question.trim()
   data.question = ''
-  if (questionText.length === 0) {
+  if (data.currentQuestion.length === 0) {
     return
   }
   if (data.fileList.length === 0) {
@@ -65,7 +74,7 @@ const sendQuestion = () => {
     knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
     settingStore.openAI,
     knowledgeBaseStore.getCurrentKnowledgeBase.indexName,
-    questionText
+    data.currentQuestion
   )
     .then((res) => {
       data.answer = res?.text
@@ -208,6 +217,7 @@ defineExpose({
             <template #default>{{ $t('knowledgeBase.window.backFileList') }}</template>
           </a-button>
         </div>
+        <div class="knowledge-base-question">{{ currentQuestion }}</div>
         <a-spin
           :loading="systemStore.knowledgeBaseWindowLoading"
           class="knowledge-base-answer"
@@ -343,6 +353,15 @@ defineExpose({
     flex-direction: column;
     gap: 15px;
     position: relative;
+
+    .knowledge-base-question {
+      flex-shrink: 0;
+      background-color: var(--color-fill-1);
+      padding: 10px;
+      border-radius: var(--border-radius-small);
+      cursor: text;
+      line-height: 1.3rem;
+    }
 
     .knowledge-base-answer {
       flex: 1;
