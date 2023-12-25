@@ -14,7 +14,6 @@ import {
 } from '@renderer/utils/ipc-util'
 import { useSettingStore } from '@renderer/store/setting'
 import dayjs from 'dayjs'
-import { number } from '@intlify/core-base'
 
 // store
 const systemStore = useSystemStore()
@@ -73,6 +72,12 @@ const sendQuestion = () => {
     Message.error(t('knowledgeBase.window.empty'))
     return
   }
+
+  if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
+    Message.error(t(`chatWindow.configMiss.OpenAI`))
+    return
+  }
+
   systemStore.knowledgeBaseWindowLoading = true
   langChainRedisQuestion(
     knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
@@ -113,6 +118,12 @@ const handleNewFileModalBeforeOk = async () => {
   await new Promise<void>((resolve, reject) => {
     if (data.newFileForm.text.trim().length === 0) {
       Message.error(`${t('knowledgeBase.window.newFileText')} ${t('common.required')}`)
+      reject()
+      return
+    }
+
+    if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
+      Message.error(t(`chatWindow.configMiss.OpenAI`))
       reject()
       return
     }
