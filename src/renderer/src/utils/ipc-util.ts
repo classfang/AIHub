@@ -80,8 +80,7 @@ export const langChainRedisAddFile = (
     copyObj(redisConfig),
     copyObj(openaiConfig),
     indexName,
-    text,
-    fileKey
+    text
   )
 }
 

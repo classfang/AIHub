@@ -372,10 +372,13 @@ ipcMain.handle(
     const splitStrs = await textSplitter.splitText(text)
 
     // 缓存全文本
-    if (!fileKey) {
-      fileKey = 'files:' + indexName + ':' + new Date().getTime()
-    }
-    await client.set(fileKey, text)
+    const now = new Date().getTime()
+    const fileKey = 'files:' + indexName + ':' + now
+    await client.hSet(fileKey, {
+      text: text,
+      createTime: now,
+      updateTime: now
+    })
 
     // 保存文段文本向量数据
     await vectorStore.addDocuments(
@@ -402,11 +405,14 @@ ipcMain.handle(
 
     // 获取全文本列表
     const fileKeys = await client.keys('files:' + indexName + ':*')
-    const files: { key: string; text: string }[] = []
+    const files: { key: string; text: string; createTime: number; updateTime: number }[] = []
     for (const fileKey of fileKeys) {
+      const file = await client.hGetAll(fileKey)
       files.push({
         key: fileKey,
-        text: (await client.get(fileKey)) ?? ''
+        text: file.text ?? '',
+        createTime: file.createTime ? Number(file.createTime) : 0,
+        updateTime: file.updateTime ? Number(file.updateTime) : 0
       })
     }
 

@@ -76,4 +76,6 @@ interface RedisConfig {
 interface KnowledgeFile {
   key: string
   text: string
+  createTime: number
+  updateTime: number
 }

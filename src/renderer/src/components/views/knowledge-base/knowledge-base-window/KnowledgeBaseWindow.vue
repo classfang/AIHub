@@ -271,11 +271,7 @@ defineExpose({
             <div class="knowledge-base-file-footer">
               <div>
                 {{ $t('common.updateTime') }}:
-                {{
-                  dayjs(Number(f.key.substring(f.key.lastIndexOf(':') + 1))).format(
-                    'YYYY-MM-DD HH:mm'
-                  )
-                }}
+                {{ dayjs(f.updateTime).format('YYYY-MM-DD HH:mm') }}
               </div>
               <div>{{ f.text.length }} {{ $t('common.charCount') }}</div>
             </div>
