@@ -342,7 +342,8 @@ ipcMain.handle(
       key: string
     },
     indexName: string,
-    text: string
+    text: string,
+    fileKey?: string
   ) => {
     // redis 连接
     const client = createClient(redisClientOptions)
@@ -372,7 +373,9 @@ ipcMain.handle(
     const splitStrs = await textSplitter.splitText(text)
 
     // 缓存全文本
-    const fileKey = 'files:' + indexName + ':' + new Date().getTime()
+    if (!fileKey) {
+      fileKey = 'files:' + indexName + ':' + new Date().getTime()
+    }
     await client.set(fileKey, text)
 
     // 保存文段文本向量数据

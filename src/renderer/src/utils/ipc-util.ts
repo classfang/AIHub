@@ -73,14 +73,16 @@ export const langChainRedisAddFile = (
     key: string
   },
   indexName: string,
-  text: string
+  text: string,
+  fileKey?: string
 ) => {
   return window.electron.ipcRenderer.invoke(
     'lang-chain-redis-add-file',
     copyObj(redisConfig),
     copyObj(openaiConfig),
     indexName,
-    text
+    text,
+    fileKey
   )
 }
 

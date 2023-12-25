@@ -140,6 +140,39 @@ const clearNewFileModal = () => {
   data.newFileForm.text = ''
 }
 
+// 更新文件
+const updateFile = () => {
+  systemStore.knowledgeBaseWindowLoading = true
+  // 先删除
+  langChainRedisDeleteFile(
+    knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
+    knowledgeBaseStore.getCurrentKnowledgeBase.indexName,
+    data.fileDetail.key
+  )
+    .then(() => {
+      // 再指定key新增
+      langChainRedisAddFile(
+        knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
+        settingStore.openAI,
+        knowledgeBaseStore.getCurrentKnowledgeBase.indexName,
+        data.fileDetail.text,
+        data.fileDetail.key
+      )
+        .then(() => {
+          fetchFileList()
+          data.fileDetailVisible = false
+        })
+        .catch((err: Error) => {
+          Message.error(err.message)
+          systemStore.knowledgeBaseWindowLoading = false
+        })
+    })
+    .catch((err: Error) => {
+      Message.error(err.message)
+      systemStore.knowledgeBaseWindowLoading = false
+    })
+}
+
 // 打开文件详情
 const openFileDetail = (file: KnowledgeFile) => {
   data.fileDetailVisible = true
@@ -308,11 +341,16 @@ defineExpose({
       width="80vw"
     >
       <template #title> {{ $t('knowledgeBase.window.fileDetail') }} </template>
-      <div
-        class="select-text"
-        style="height: 60vh; overflow-y: auto; white-space: pre-wrap; line-break: anywhere"
-      >
-        {{ fileDetail.text }}
+      <div style="height: 60vh; overflow-y: auto">
+        <a-form :model="fileDetail" layout="vertical">
+          <a-form-item field="name" :label="$t('knowledgeBase.window.newFileText')">
+            <a-textarea
+              v-model="fileDetail.text"
+              :auto-size="{ minRows: 15, maxRows: 15 }"
+              :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
+            />
+          </a-form-item>
+        </a-form>
       </div>
       <template #footer>
         <div style="display: flex; gap: 10px">
@@ -323,8 +361,14 @@ defineExpose({
             $t('common.delete')
           }}</a-button>
           <a-button style="margin-left: auto" @click="fileDetailVisible = false">{{
-            $t('common.close')
+            $t('common.cancel')
           }}</a-button>
+          <a-button
+            type="primary"
+            :loading="systemStore.knowledgeBaseWindowLoading"
+            @click="updateFile"
+            >{{ $t('common.ok') }}</a-button
+          >
         </div>
       </template>
     </a-modal>
