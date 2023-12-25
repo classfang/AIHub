@@ -416,3 +416,30 @@ ipcMain.handle(
     return files
   }
 )
+
+// langChain-redis 文件删除
+ipcMain.handle(
+  'lang-chain-redis-delete-file',
+  async (_event, redisClientOptions: RedisClientOptions, indexName: string, fileKey: string) => {
+    // redis 连接
+    const client = createClient(redisClientOptions)
+    await client.connect()
+
+    // 首先删除文本对应的向量数据
+    const vectorKeys = await client.keys('doc:' + indexName + ':*')
+    if (vectorKeys.length > 0) {
+      for (const vectorKey of vectorKeys) {
+        const metadata = await client.hGet(vectorKey, 'metadata')
+        if (metadata && JSON.parse(metadata).fileKey === fileKey) {
+          await client.del(vectorKey)
+        }
+      }
+    }
+
+    // 删除文本数据
+    await client.del(fileKey)
+
+    // redis 断连
+    await client.disconnect()
+  }
+)

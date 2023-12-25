@@ -91,3 +91,16 @@ export const langChainRedisListFile = (redisConfig: RedisConfig, indexName: stri
     indexName
   )
 }
+
+export const langChainRedisDeleteFile = (
+  redisConfig: RedisConfig,
+  indexName: string,
+  fileKey: string
+) => {
+  return window.electron.ipcRenderer.invoke(
+    'lang-chain-redis-delete-file',
+    copyObj(redisConfig),
+    indexName,
+    fileKey
+  )
+}

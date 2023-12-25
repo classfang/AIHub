@@ -3,10 +3,14 @@ import { reactive, toRefs, watch } from 'vue'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import KnowledgeBaseWindowHeader from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindowHeader.vue'
 import { useSystemStore } from '@renderer/store/system'
-import { Message } from '@arco-design/web-vue'
+import { Message, Modal } from '@arco-design/web-vue'
 import { useI18n } from 'vue-i18n'
 import { exportTextFile } from '@renderer/utils/download-util'
-import { langChainRedisAddFile, langChainRedisListFile } from '@renderer/utils/ipc-util'
+import {
+  langChainRedisAddFile,
+  langChainRedisDeleteFile,
+  langChainRedisListFile
+} from '@renderer/utils/ipc-util'
 import { useSettingStore } from '@renderer/store/setting'
 
 // store
@@ -87,6 +91,7 @@ const handleNewFileModalBeforeOk = async () => {
       return
     }
 
+    systemStore.knowledgeBaseWindowLoading = true
     langChainRedisAddFile(
       knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
       settingStore.openAI,
@@ -103,6 +108,9 @@ const handleNewFileModalBeforeOk = async () => {
       .catch((err: Error) => {
         Message.error(err.message)
         reject()
+      })
+      .finally(() => {
+        systemStore.knowledgeBaseWindowLoading = false
       })
   })
   return true
@@ -122,6 +130,7 @@ const openFileDetail = (file: KnowledgeFile) => {
 // 查询文件列表
 const fetchFileList = () => {
   data.fileList = []
+  systemStore.knowledgeBaseWindowLoading = true
   langChainRedisListFile(
     knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
     knowledgeBaseStore.getCurrentKnowledgeBase.indexName
@@ -132,16 +141,38 @@ const fetchFileList = () => {
     .catch((err: Error) => {
       Message.error(err.message)
     })
+    .finally(() => {
+      systemStore.knowledgeBaseWindowLoading = false
+    })
 }
 
 // 删除文件
 const deleteFile = (file: KnowledgeFile) => {
-  data.fileDetailVisible = false
-  systemStore.knowledgeBaseWindowLoading = true
-  setTimeout(() => {
-    data.fileList = data.fileList.filter((f) => f.key != file.key)
-    systemStore.knowledgeBaseWindowLoading = false
-  }, 3000)
+  Modal.confirm({
+    title: t('common.deleteConfirm'),
+    content: t('common.deleteConfirmContent'),
+    okText: t('common.ok'),
+    cancelText: t('common.cancel'),
+    onOk: () => {
+      data.fileDetailVisible = false
+      systemStore.knowledgeBaseWindowLoading = true
+      langChainRedisDeleteFile(
+        knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
+        knowledgeBaseStore.getCurrentKnowledgeBase.indexName,
+        file.key
+      )
+        .then(() => {
+          data.fileList = data.fileList.filter((f) => f.key != file.key)
+          systemStore.knowledgeBaseWindowLoading = false
+        })
+        .catch((err: Error) => {
+          Message.error(err.message)
+        })
+        .finally(() => {
+          systemStore.knowledgeBaseWindowLoading = false
+        })
+    }
+  })
 }
 
 // 暴露方法
@@ -259,11 +290,14 @@ defineExpose({
       width="80vw"
     >
       <template #title> {{ $t('knowledgeBase.window.fileDetail') }} </template>
-      <div style="height: 60vh; overflow-y: auto; white-space: pre-wrap; line-break: anywhere">
-        {{ fileDetail }}
+      <div
+        class="select-text"
+        style="height: 60vh; overflow-y: auto; white-space: pre-wrap; line-break: anywhere"
+      >
+        {{ fileDetail.text }}
       </div>
       <template #footer>
-        <a-button @click="exportTextFile('file.txt', fileDetail.text)">{{
+        <a-button @click="exportTextFile('knowledge-file.txt', fileDetail.text)">{{
           $t('common.export')
         }}</a-button>
         <a-button status="danger" @click="deleteFile(fileDetail)">{{
