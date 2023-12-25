@@ -236,6 +236,7 @@
     },
     "window": {
       "search": "输入问题或者关键字检索知识库",
+      "searchFile": "搜索知识文件",
       "backFileList": "返回知识列表",
       "newFile": "新增知识文件",
       "empty": "暂无知识文件",

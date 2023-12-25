@@ -29,6 +29,7 @@ const data = reactive({
   currentQuestion: '',
   answer: '',
   fileList: [] as KnowledgeFile[],
+  fileKeyword: '',
   docCount: 0,
   newFileVisible: false,
   newFileForm: {
@@ -42,6 +43,7 @@ const {
   currentQuestion,
   answer,
   fileList,
+  fileKeyword,
   docCount,
   newFileVisible,
   newFileForm,
@@ -250,8 +252,14 @@ defineExpose({
     <div class="knowledge-base-body">
       <!-- 文件列表 -->
       <template v-if="!currentQuestion">
-        <div>
-          <a-button size="mini" @click="newFile">
+        <div class="knowledge-base-file-search">
+          <a-input-search
+            v-model="fileKeyword"
+            size="small"
+            :placeholder="$t('knowledgeBase.window.searchFile')"
+            class="search-input no-drag-area"
+          />
+          <a-button size="small" @click="newFile">
             <template #icon>
               <icon-plus />
             </template>
@@ -263,7 +271,10 @@ defineExpose({
           class="knowledge-base-file-list"
           tip=""
         >
-          <div v-if="fileList.length === 0" class="knowledge-base-file-list-empty">
+          <div
+            v-if="fileList.filter((f) => f.text.includes(fileKeyword)).length === 0"
+            class="knowledge-base-file-list-empty"
+          >
             <a-empty>
               <template #image>
                 <icon-file />
@@ -272,7 +283,7 @@ defineExpose({
             </a-empty>
           </div>
           <div
-            v-for="f in fileList"
+            v-for="f in fileList.filter((f1) => f1.text.includes(fileKeyword))"
             v-else
             :key="f.key"
             class="knowledge-base-file-item"
@@ -292,7 +303,7 @@ defineExpose({
       <!-- 检索结果 -->
       <template v-else>
         <div>
-          <a-button size="mini" @click="backFileList">
+          <a-button size="small" @click="backFileList">
             <template #icon>
               <icon-arrow-left />
             </template>
@@ -320,7 +331,7 @@ defineExpose({
         @press-enter="sendQuestion"
       >
         <template #suffix>
-          <icon-search style="cursor: pointer" @click="sendQuestion" />
+          <icon-arrow-up style="cursor: pointer" @click="sendQuestion" />
         </template>
       </a-input>
     </div>
@@ -412,6 +423,18 @@ defineExpose({
     flex-direction: column;
     gap: 15px;
     position: relative;
+
+    .knowledge-base-file-search {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      .search-input {
+        border: none;
+        background-color: var(--color-fill-2);
+      }
+    }
 
     .knowledge-base-question {
       flex-shrink: 0;

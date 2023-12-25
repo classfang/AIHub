@@ -236,6 +236,7 @@
     },
     "window": {
       "search": "Enter questions or keywords to search the knowledge base",
+      "searchFile": "Search knowledge file",
       "backFileList": "Return to knowledge list",
       "newFile": "New knowledge file",
       "empty": "No knowledge file",
