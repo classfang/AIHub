@@ -93,7 +93,7 @@ const backFileList = () => {
     return
   }
   data.answer = ''
-  data.question = ''
+  data.currentQuestion = ''
 }
 
 // 新增文件
@@ -209,7 +209,7 @@ defineExpose({
     <KnowledgeBaseWindowHeader />
     <div class="knowledge-base-body">
       <!-- 检索结果 -->
-      <template v-if="question">
+      <template v-if="currentQuestion">
         <div>
           <a-button size="mini" @click="backFileList">
             <template #icon>
