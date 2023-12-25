@@ -203,27 +203,8 @@ defineExpose({
     <!-- 头部 -->
     <KnowledgeBaseWindowHeader :file-count="fileList.length" :doc-count="docCount" />
     <div class="knowledge-base-body">
-      <!-- 检索结果 -->
-      <template v-if="currentQuestion">
-        <div>
-          <a-button size="mini" @click="backFileList">
-            <template #icon>
-              <icon-arrow-left />
-            </template>
-            <template #default>{{ $t('knowledgeBase.window.backFileList') }}</template>
-          </a-button>
-        </div>
-        <div class="knowledge-base-question">{{ currentQuestion }}</div>
-        <a-spin
-          :loading="systemStore.knowledgeBaseWindowLoading"
-          class="knowledge-base-answer"
-          tip=""
-        >
-          <div class="select-text">{{ answer }}</div>
-        </a-spin>
-      </template>
       <!-- 文件列表 -->
-      <template v-else>
+      <template v-if="!currentQuestion">
         <div>
           <a-button size="mini" @click="newFile">
             <template #icon>
@@ -254,6 +235,25 @@ defineExpose({
           >
             <div class="knowledge-base-file-content">{{ f.text }}</div>
           </div>
+        </a-spin>
+      </template>
+      <!-- 检索结果 -->
+      <template v-else>
+        <div>
+          <a-button size="mini" @click="backFileList">
+            <template #icon>
+              <icon-arrow-left />
+            </template>
+            <template #default>{{ $t('knowledgeBase.window.backFileList') }}</template>
+          </a-button>
+        </div>
+        <div class="knowledge-base-question">{{ currentQuestion }}</div>
+        <a-spin
+          :loading="systemStore.knowledgeBaseWindowLoading"
+          class="knowledge-base-answer"
+          tip=""
+        >
+          <div class="select-text">{{ answer }}</div>
         </a-spin>
       </template>
     </div>
