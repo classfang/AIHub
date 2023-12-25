@@ -79,7 +79,11 @@ const changePage = (page: string) => {
 
 // 监听聊天框加载中状态
 watchEffect(() => {
-  if (systemStore.chatWindowLoading || systemStore.knowledgeBaseWindowLoading) {
+  if (
+    systemStore.globalLoading ||
+    systemStore.chatWindowLoading ||
+    systemStore.knowledgeBaseWindowLoading
+  ) {
     startDockAnimation()
   } else {
     stopDockAnimation()
