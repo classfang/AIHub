@@ -13,6 +13,8 @@ import {
   langChainRedisQuestion
 } from '@renderer/utils/ipc-util'
 import { useSettingStore } from '@renderer/store/setting'
+import dayjs from 'dayjs'
+import { number } from '@intlify/core-base'
 
 // store
 const systemStore = useSystemStore()
@@ -155,8 +157,7 @@ const updateFile = () => {
         knowledgeBaseStore.getCurrentKnowledgeBase.redisConfig,
         settingStore.openAI,
         knowledgeBaseStore.getCurrentKnowledgeBase.indexName,
-        data.fileDetail.text,
-        data.fileDetail.key
+        data.fileDetail.text
       )
         .then(() => {
           fetchFileList()
@@ -267,6 +268,17 @@ defineExpose({
             @click="openFileDetail(f)"
           >
             <div class="knowledge-base-file-content">{{ f.text }}</div>
+            <div class="knowledge-base-file-footer">
+              <div>
+                {{ $t('common.updateTime') }}:
+                {{
+                  dayjs(Number(f.key.substring(f.key.lastIndexOf(':') + 1))).format(
+                    'YYYY-MM-DD HH:mm'
+                  )
+                }}
+              </div>
+              <div>{{ f.text.length }} {{ $t('common.charCount') }}</div>
+            </div>
           </div>
         </a-spin>
       </template>
@@ -446,6 +458,15 @@ defineExpose({
           line-break: anywhere;
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 2;
+        }
+
+        .knowledge-base-file-footer {
+          font-size: 13px;
+          color: var(--color-text-3);
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
       }
     }

@@ -342,8 +342,7 @@ ipcMain.handle(
       key: string
     },
     indexName: string,
-    text: string,
-    fileKey?: string
+    text: string
   ) => {
     // redis 连接
     const client = createClient(redisClientOptions)

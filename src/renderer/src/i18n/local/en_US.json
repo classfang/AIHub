@@ -16,7 +16,9 @@
     "clearConfirmContent": "Chat history will not be restored after clearing.",
     "loadErrorRetry": "Failed to load, click retry",
     "copySuccess": "Copied to clipboard",
-    "officialWebsite": "Official Website"
+    "officialWebsite": "Official Website",
+    "updateTime": "Update time",
+    "charCount": "Characters"
   },
   "setting": {
     "name": "Settings",

@@ -16,7 +16,9 @@
     "clearConfirmContent": "聊天记录清空后将无法恢复。",
     "loadErrorRetry": "加载失败，点击重试",
     "copySuccess": "已复制到剪贴板",
-    "officialWebsite": "官网地址"
+    "officialWebsite": "官网地址",
+    "updateTime": "更新时间",
+    "charCount": "字"
   },
   "setting": {
     "name": "设置",
