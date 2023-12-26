@@ -1,4 +1,13 @@
-import { app, BrowserWindow, clipboard, dialog, ipcMain, shell, nativeTheme } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  clipboard,
+  dialog,
+  ipcMain,
+  shell,
+  nativeTheme,
+  nativeImage
+} from 'electron'
 import { join } from 'path'
 import fs from 'fs'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
@@ -123,7 +132,7 @@ function stopDockAnimation() {
   if (dockAnimationInterval) {
     clearInterval(dockAnimationInterval)
   }
-  app.dock.setIcon(iconArray[0])
+  app.dock.setIcon(nativeImage.createEmpty())
 }
 
 // This method will be called when Electron has finished
