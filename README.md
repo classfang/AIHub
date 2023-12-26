@@ -11,7 +11,7 @@ A collection of large model capabilities, AI capabilities Electron client, with 
 
 <h4 align="center">
 
-Now supported: OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
+🎉Now supported: OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
 
 </h4>
 
@@ -23,7 +23,7 @@ Now supported: OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
 
 ### 1. Download the application package in release
 
-[下载最新版本](https://github.com/classfang/AIHub/releases)
+[Download the latest version](https://github.com/classfang/AIHub/releases)
 
 ### 2. The App under macOS indicates that it is damaged and cannot open the solution
 
