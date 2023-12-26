@@ -283,22 +283,23 @@ watchEffect(() => {
               {{ $t('knowledgeBase.window.empty') }}
             </a-empty>
           </div>
-          <div
-            v-for="f in fileList.filter((f1) => f1.text.includes(fileKeyword))"
-            v-else
-            :key="f.key"
-            class="knowledge-base-file-item"
-            @click="openFileDetail(f)"
-          >
-            <div class="knowledge-base-file-content">{{ f.text }}</div>
-            <div class="knowledge-base-file-footer">
-              <div>
-                {{ $t('common.updateTime') }}:
-                {{ dayjs(f.updateTime).format('YYYY-MM-DD HH:mm') }}
+          <transition-group name="fadein">
+            <div
+              v-for="f in fileList.filter((f1) => f1.text.includes(fileKeyword))"
+              :key="f.key"
+              class="knowledge-base-file-item"
+              @click="openFileDetail(f)"
+            >
+              <div class="knowledge-base-file-content">{{ f.text }}</div>
+              <div class="knowledge-base-file-footer">
+                <div>
+                  {{ $t('common.updateTime') }}:
+                  {{ dayjs(f.updateTime).format('YYYY-MM-DD HH:mm') }}
+                </div>
+                <div>{{ f.text.length }} {{ $t('common.charCount') }}</div>
               </div>
-              <div>{{ f.text.length }} {{ $t('common.charCount') }}</div>
             </div>
-          </div>
+          </transition-group>
         </a-spin>
       </template>
       <!-- 检索结果 -->

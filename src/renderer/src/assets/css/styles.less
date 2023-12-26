@@ -90,23 +90,33 @@ img {
 .slide2top-leave-active {
   transition: transform 500ms;
 }
-
 .slide2top-enter-from,
 .slide2top-leave-to {
   transform: translateY(100%);
 }
-
 .slide2top-enter-to,
 .slide2top-leave-from {
   transform: translateY(0);
 }
 
+.fadein-enter-active{
+  transition: opacity 500ms;
+}
+.fadein-enter-from,
+.fadein-leave-to {
+  opacity: 0;
+}
+.fadein-enter-to,
+.fadein-leave-from {
+  opacity: 1;
+}
+
 // 淡入
-.fade-in-from {
+.fadein-from {
   opacity: 0;
   transition: opacity 500ms;
 }
-.fade-in-to {
+.fadein-to {
   opacity: 1;
 }
 
