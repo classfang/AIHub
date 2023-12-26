@@ -11,13 +11,13 @@
 
 <h4 align="center">
 
-🎉现已支持：OpenAI，谷歌 Gemini，讯飞星火大模型，文心一言大模型，通义千问大模型
+🎉🎉🎉 现已支持：OpenAI，谷歌 Gemini，讯飞星火大模型，文心一言大模型，通义千问大模型
 
 </h4>
 
 ![demo](/demo/demo-zh.png)
 
-## 使用应用 🚀
+## 使用应用  🚀
 
 `应用包未签名和公证，如遇无法正常安装，可克隆代码本地打包。`
 
@@ -35,7 +35,7 @@ sudo xattr -d com.apple.quarantine /Applications/xxxx.app
 
 注意：/Applications/xxxx.app 换成你的App路径。
 
-## 项目开发 ⚒️
+## 项目开发  ⚒️
 
 ### 1. 安装
 
