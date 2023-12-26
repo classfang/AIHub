@@ -270,7 +270,10 @@ watchEffect(() => {
           tip=""
         >
           <div
-            v-if="fileList.filter((f) => f.text.includes(fileKeyword)).length === 0"
+            v-if="
+              !systemStore.knowledgeBaseWindowLoading &&
+              fileList.filter((f) => f.text.includes(fileKeyword)).length === 0
+            "
             class="knowledge-base-file-list-empty"
           >
             <a-empty>
