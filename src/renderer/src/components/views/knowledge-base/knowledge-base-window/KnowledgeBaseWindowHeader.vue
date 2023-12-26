@@ -101,10 +101,12 @@ const knowledgeBaseDelete = () => {
   <div class="knowledge-base-window-header drag-area">
     <div class="knowledge-base-name">{{ knowledgeBaseStore.getCurrentKnowledgeBase.name }}</div>
     <div class="knowledge-base-desc">
-      <a-space v-if="!systemStore.knowledgeBaseWindowLoading" :size="10">
-        <a-tag>{{ fileCount }} {{ $t('knowledgeBase.window.knowledgeFile') }}</a-tag>
-        <a-tag>{{ docCount }} {{ $t('knowledgeBase.window.knowledgeDoc') }}</a-tag>
-      </a-space>
+      <transition name="fadein">
+        <a-space v-if="!systemStore.knowledgeBaseWindowLoading" :size="10">
+          <a-tag>{{ fileCount }} {{ $t('knowledgeBase.window.knowledgeFile') }}</a-tag>
+          <a-tag>{{ docCount }} {{ $t('knowledgeBase.window.knowledgeDoc') }}</a-tag>
+        </a-space>
+      </transition>
     </div>
     <a-popover position="br" trigger="click" :content-style="{ padding: '5px' }">
       <icon-more
