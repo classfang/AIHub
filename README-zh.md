@@ -9,7 +9,7 @@
 </p>
 
 <h4 align="center">
-  [中文简介](README-zh.md) | [English README](README.md)
+  [中文简介](/README-zh.md) | [English README](/README.md)
 </h4>
 
 <h4 align="center">
