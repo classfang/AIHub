@@ -1,21 +1,32 @@
-<h1 align="center">AIHub</h1>
-<h3 align="center">
-一款集合众多大模型能力、AI能力的Electron客户端，具有极简的界面，将在未来支持更多AI能力 ✨✨
-</h3>
+<p align="center">
+  <img src="/resources/icon.png" alt="logo" width="120">
+</p>
+<p align="center">
+  <h1 align="center">AIHub</h1>
+  <h3 align="center">
+    一款集合众多大模型能力、AI能力的Electron客户端，具有极简的界面，将在未来支持更多AI能力 ✨✨
+  </h3>
+</p>
 
 <h4 align="center">
-
-[中文简介](README-zh.md) | [English README](README.md)
-
+  [中文简介](README-zh.md) | [English README](README.md)
 </h4>
 
 <h4 align="center">
-
-🎉🎉🎉 现已支持：OpenAI，谷歌 Gemini，讯飞星火大模型，文心一言大模型，通义千问大模型
-
+  🎉🎉🎉 现已支持：OpenAI，谷歌 Gemini，讯飞星火大模型，文心一言大模型，通义千问大模型
 </h4>
 
-![demo](/demo/demo-zh.png)
+## 功能介绍  🖥️
+
+### 1. 支持多个厂商的大模型API
+
+### 2. 支持多语言、多主题配置
+
+### 3. 自定义你的AI助手
+
+### 4. 创建你的个人知识库
+
+### 5. 收藏与AI对话的灵感
 
 ## 使用应用  🚀
 
