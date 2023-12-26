@@ -16,7 +16,7 @@
   🎉🎉🎉 Now supported: OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
 </h4>
 
-## Function introduction  🖥️
+## 🖥️ Function introduction
 
 ### 1. Support for big model apis from multiple vendors
 
@@ -28,7 +28,7 @@
 
 ### 5. Collect inspiration for conversations with AI
 
-## Application  🚀
+## 🚀 Application
 
 `Application package is not signed and notarized, in case of failure to install, you can clone the code local packaging`
 
@@ -46,7 +46,7 @@ sudo xattr -d com.apple.quarantine /Applications/xxxx.app
 
 Note: Replace /Applications/xxxx.app with your App path.
 
-## Development  ⚒️
+## ⚒️ Development
 
 ### 1. Install
 
