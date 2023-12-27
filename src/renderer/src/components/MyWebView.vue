@@ -22,9 +22,10 @@ const data = reactive({
 })
 const { isWebviewLoading, isWebviewLoadingError } = toRefs(data)
 
-// webview加载完开始
+// webview加载开始
 const webviewStartLoad = (): void => {
   console.log('webviewStartLoad', props.url)
+  data.startTimestamp = nowTimestamp()
   data.isWebviewLoading = true
 }
 
@@ -42,7 +43,6 @@ const webviewEndLoad = (event): void => {
 const reload = () => {
   console.log('webviewReload', props.url)
   data.isWebviewLoadingError = false
-  data.startTimestamp = nowTimestamp()
   webviewRef.value.reload()
 }
 
