@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { nowTimestamp } from '@renderer/utils/date-util'
 import { reactive, ref, toRefs } from 'vue'
 
 const webviewRef = ref()
@@ -17,25 +16,26 @@ const props = defineProps({
 
 const data = reactive({
   isWebviewLoading: false,
-  isWebviewLoadingError: false,
-  startTimestamp: nowTimestamp()
+  isWebviewLoadingError: false
 })
 const { isWebviewLoading, isWebviewLoadingError } = toRefs(data)
 
 // webview加载开始
-const webviewStartLoad = (): void => {
-  console.log('webviewStartLoad', props.url)
-  data.startTimestamp = nowTimestamp()
+const webviewStartLoading = (): void => {
+  console.log('webviewStartLoading', props.url)
   data.isWebviewLoading = true
 }
 
 // webview加载完毕
-const webviewEndLoad = (event): void => {
-  console.log('webviewEndLoad', props.url, event)
-  // 加载时间超过50秒，认为超时
-  if ((nowTimestamp() - data.startTimestamp) / 1000 > 50) {
-    data.isWebviewLoadingError = true
-  }
+const webviewStopLoading = (event: any): void => {
+  console.log('webviewStopLoading', props.url, event)
+  data.isWebviewLoading = false
+}
+
+// webview加载失败
+const webviewFailLoad = (event: any): void => {
+  console.log('webviewFailLoad', props.url, event)
+  data.isWebviewLoadingError = true
   data.isWebviewLoading = false
 }
 
@@ -58,8 +58,9 @@ defineExpose({
       class="webview"
       :src="url"
       :allowpopups="allowpopups"
-      @did-start-loading="webviewStartLoad"
-      @did-stop-loading="webviewEndLoad"
+      @did-start-loading="webviewStartLoading"
+      @did-stop-loading="webviewStopLoading"
+      @did-fail-load="webviewFailLoad"
     ></webview>
     <div v-if="isWebviewLoading" class="webview-loading">
       <a-spin dot />
