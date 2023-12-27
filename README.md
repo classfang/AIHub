@@ -16,6 +16,8 @@
   🎉🎉🎉 现已支持：OpenAI，谷歌 Gemini，讯飞星火大模型，文心一言大模型，通义千问大模型
 </h4>
 
+https://github.com/classfang/AIHub/assets/27616248/d95a1fcb-01e8-4296-8b5b-154eba4d567b
+
 ## 🖥️ 功能介绍
 
 ### 1. 支持多个厂商的大模型API
