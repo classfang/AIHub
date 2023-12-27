@@ -77,8 +77,6 @@ const exportChatMessageList = (id: string) => {
           <div class="collection-body">
             <AssistantAvatar :provider="c.provider" class="collection-avatar" />
             <div class="collection-content">
-              {{ c.chatMessageList[0].content }}
-
               {{
                 c.chatMessageList[0].content
                   ? c.chatMessageList[0].content
