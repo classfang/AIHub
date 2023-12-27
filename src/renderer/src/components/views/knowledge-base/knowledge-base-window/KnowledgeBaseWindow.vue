@@ -264,62 +264,67 @@ watchEffect(() => {
             <template #default>{{ $t('knowledgeBase.window.newFile') }}</template>
           </a-button>
         </div>
-        <a-spin
-          :loading="systemStore.knowledgeBaseWindowLoading"
-          class="knowledge-base-file-list"
-          tip=""
-        >
-          <div
-            v-if="
-              !systemStore.knowledgeBaseWindowLoading &&
-              fileList.filter((f) => f.text.includes(fileKeyword)).length === 0
-            "
-            class="knowledge-base-file-list-empty"
+        <a-spin :loading="systemStore.knowledgeBaseWindowLoading" tip="">
+          <a-scrollbar
+            outer-class="arco-scrollbar-small"
+            style="height: calc(100vh - 175px); overflow-y: auto"
           >
-            <a-empty>
-              <template #image>
-                <icon-file />
-              </template>
-              {{ $t('knowledgeBase.window.empty') }}
-            </a-empty>
-          </div>
-          <transition-group name="fadein">
-            <div
-              v-for="f in fileList.filter((f1) => f1.text.includes(fileKeyword))"
-              :key="f.key"
-              class="knowledge-base-file-item"
-              @click="openFileDetail(f)"
-            >
-              <div class="knowledge-base-file-content">{{ f.text }}</div>
-              <div class="knowledge-base-file-footer">
-                <div>
-                  {{ $t('common.updateTime') }}:
-                  {{ dayjs(f.updateTime).format('YYYY-MM-DD HH:mm') }}
-                </div>
-                <div>{{ f.text.length }} {{ $t('common.charCount') }}</div>
+            <div class="knowledge-base-file-list">
+              <div
+                v-if="
+                  !systemStore.knowledgeBaseWindowLoading &&
+                  fileList.filter((f) => f.text.includes(fileKeyword)).length === 0
+                "
+                class="knowledge-base-file-list-empty"
+              >
+                <a-empty>
+                  <template #image>
+                    <icon-file />
+                  </template>
+                  {{ $t('knowledgeBase.window.empty') }}
+                </a-empty>
               </div>
+              <transition-group name="fadein">
+                <div
+                  v-for="f in fileList.filter((f1) => f1.text.includes(fileKeyword))"
+                  :key="f.key"
+                  class="knowledge-base-file-item"
+                  @click="openFileDetail(f)"
+                >
+                  <div class="knowledge-base-file-content">{{ f.text }}</div>
+                  <div class="knowledge-base-file-footer">
+                    <div>
+                      {{ $t('common.updateTime') }}:
+                      {{ dayjs(f.updateTime).format('YYYY-MM-DD HH:mm') }}
+                    </div>
+                    <div>{{ f.text.length }} {{ $t('common.charCount') }}</div>
+                  </div>
+                </div>
+              </transition-group>
             </div>
-          </transition-group>
+          </a-scrollbar>
         </a-spin>
       </template>
       <!-- 检索结果 -->
       <template v-else>
-        <div>
-          <a-button size="small" @click="backFileList">
-            <template #icon>
-              <icon-arrow-left />
-            </template>
-            <template #default>{{ $t('knowledgeBase.window.backFileList') }}</template>
-          </a-button>
+        <div class="knowledge-base-result">
+          <div>
+            <a-button size="small" @click="backFileList">
+              <template #icon>
+                <icon-arrow-left />
+              </template>
+              <template #default>{{ $t('knowledgeBase.window.backFileList') }}</template>
+            </a-button>
+          </div>
+          <div class="knowledge-base-question">{{ currentQuestion }}</div>
+          <a-spin
+            :loading="systemStore.knowledgeBaseWindowLoading"
+            class="knowledge-base-answer"
+            tip=""
+          >
+            <div class="select-text">{{ answer }}</div>
+          </a-spin>
         </div>
-        <div class="knowledge-base-question">{{ currentQuestion }}</div>
-        <a-spin
-          :loading="systemStore.knowledgeBaseWindowLoading"
-          class="knowledge-base-answer"
-          tip=""
-        >
-          <div class="select-text">{{ answer }}</div>
-        </a-spin>
       </template>
     </div>
     <!-- 输入框 -->
@@ -419,18 +424,19 @@ watchEffect(() => {
   .knowledge-base-body {
     flex: 1;
     min-height: 0;
-    box-sizing: border-box;
-    padding: 0 15px;
     display: flex;
     flex-direction: column;
     gap: 15px;
     position: relative;
 
     .knowledge-base-file-search {
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      box-sizing: border-box;
+      padding: 0 15px;
 
       .search-input {
         border: none;
@@ -438,33 +444,49 @@ watchEffect(() => {
       }
     }
 
-    .knowledge-base-question {
-      flex-shrink: 0;
-      background-color: var(--color-fill-1);
-      padding: 10px;
-      border-radius: var(--border-radius-small);
-      cursor: text;
-      line-height: 1.3rem;
-    }
-
-    .knowledge-base-answer {
+    .knowledge-base-result {
       flex: 1;
-      overflow-y: auto;
-      background-color: var(--color-fill-1);
-      padding: 10px;
-      border-radius: var(--border-radius-small);
-      white-space: pre-wrap;
-      line-break: anywhere;
-      cursor: text;
-      line-height: 1.3rem;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-sizing: border-box;
+      padding: 0 15px;
+
+      .knowledge-base-question {
+        flex-shrink: 0;
+        background-color: var(--color-fill-1);
+        border-radius: var(--border-radius-small);
+        cursor: text;
+        line-height: 1.3rem;
+        box-sizing: border-box;
+        padding: 10px;
+      }
+
+      .knowledge-base-answer {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        background-color: var(--color-fill-1);
+        border-radius: var(--border-radius-small);
+        white-space: pre-wrap;
+        line-break: anywhere;
+        cursor: text;
+        line-height: 1.3rem;
+        box-sizing: border-box;
+        padding: 10px;
+      }
     }
 
     .knowledge-base-file-list {
       flex: 1;
+      min-height: 0;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      box-sizing: border-box;
+      padding: 0 15px;
 
       .knowledge-base-file-list-empty {
         width: 100%;

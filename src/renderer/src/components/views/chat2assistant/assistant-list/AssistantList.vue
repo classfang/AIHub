@@ -92,21 +92,26 @@ onMounted(() => {
         <icon-robot-add :size="16" />
       </a-button>
     </div>
-    <draggable
+    <a-scrollbar
       v-if="assistantStore.assistantList.filter((a) => a.name.includes(keyword)).length > 0"
-      v-model="assistantStore.assistantList"
-      group="assistant-list"
-      item-key="id"
-      class="assistant-list-container"
+      outer-class="assistant-list-container arco-scrollbar-small"
+      style="height: calc(100vh - 75px); overflow-y: auto"
     >
-      <template #item="{ element }">
-        <AssistantItem
-          v-show="element.name.includes(keyword)"
-          :assistant="element"
-          class="assistant-item"
-        />
-      </template>
-    </draggable>
+      <draggable
+        v-model="assistantStore.assistantList"
+        group="assistant-list"
+        item-key="id"
+        class="assistant-list-draggable"
+      >
+        <template #item="{ element }">
+          <AssistantItem
+            v-show="element.name.includes(keyword)"
+            :assistant="element"
+            class="assistant-item"
+          />
+        </template>
+      </draggable>
+    </a-scrollbar>
     <div v-else class="assistant-list-empty">
       <a-empty description=" " />
     </div>
@@ -165,13 +170,13 @@ onMounted(() => {
   }
 
   .assistant-list-container {
-    flex-grow: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-sizing: border-box;
-    padding: 0 15px;
+    .assistant-list-draggable {
+      box-sizing: border-box;
+      padding: 0 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
   }
 
   .assistant-list-empty {

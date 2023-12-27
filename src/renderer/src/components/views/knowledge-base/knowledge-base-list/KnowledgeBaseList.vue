@@ -84,25 +84,30 @@ onMounted(() => {
         <icon-plus :size="16" />
       </a-button>
     </div>
-    <draggable
+    <a-scrollbar
       v-if="
         knowledgeBaseStore.knowledgeBaseList.filter(
           (kb) => kb.name.includes(keyword) || kb.description.includes(keyword)
         ).length > 0
       "
-      v-model="knowledgeBaseStore.knowledgeBaseList"
-      group="knowledge-base-list"
-      item-key="id"
-      class="knowledge-base-list-container"
+      outer-class="knowledge-base-list-container arco-scrollbar-small"
+      style="height: calc(100vh - 75px); overflow-y: auto"
     >
-      <template #item="{ element }">
-        <KnowledgeBaseItem
-          v-show="element.name.includes(keyword) || element.description.includes(keyword)"
-          :knowledge-base="element"
-          class="knowledge-base-item"
-        />
-      </template>
-    </draggable>
+      <draggable
+        v-model="knowledgeBaseStore.knowledgeBaseList"
+        group="knowledge-base-list"
+        item-key="id"
+        class="knowledge-base-list-draggable"
+      >
+        <template #item="{ element }">
+          <KnowledgeBaseItem
+            v-show="element.name.includes(keyword) || element.description.includes(keyword)"
+            :knowledge-base="element"
+            class="knowledge-base-item"
+          />
+        </template>
+      </draggable>
+    </a-scrollbar>
     <div v-else class="knowledge-base-list-empty">
       <a-empty description=" " />
     </div>
@@ -161,13 +166,13 @@ onMounted(() => {
   }
 
   .knowledge-base-list-container {
-    flex-grow: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-sizing: border-box;
-    padding: 0 15px;
+    .knowledge-base-list-draggable {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-sizing: border-box;
+      padding: 0 15px;
+    }
   }
 
   .knowledge-base-list-empty {

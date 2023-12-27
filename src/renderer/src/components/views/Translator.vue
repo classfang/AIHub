@@ -288,6 +288,7 @@ const copyResult = (): void => {
 
     .query-area {
       flex: 1;
+      min-height: 0;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -363,6 +364,7 @@ const copyResult = (): void => {
 
     .return-area {
       flex: 1;
+      min-height: 0;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -370,11 +372,13 @@ const copyResult = (): void => {
 
       :deep(.arco-spin) {
         flex: 1;
+        min-height: 0;
         display: flex;
       }
 
       .result {
         flex: 1;
+        min-height: 0;
         display: flex;
         flex-direction: column;
 
@@ -426,6 +430,7 @@ const copyResult = (): void => {
 
       .result-detail {
         flex: 1;
+        min-height: 0;
         background-color: var(--color-fill-1);
         box-sizing: border-box;
         padding: 10px;
