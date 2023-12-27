@@ -4,63 +4,63 @@
 <p align="center">
   <h1 align="center">AIHub</h1>
   <h3 align="center">
-    A collection of large model capabilities, AI capabilities Electron client, with a minimalist interface, will support more AI capabilities in the future ✨✨
+    一款集合众多大模型能力、AI能力的Electron客户端，具有极简的界面，将在未来支持更多AI能力 ✨✨
   </h3>
 </p>
 
 <h4 align="center">
-  <a href="/README-zh.md">中文简介</a> | <a href="/README.md">English README</a>
+  <a href="/README.md">中文简介</a> | <a href="/README_en.md">English README</a>
 </h4>
 
 <h4 align="center">
-  🎉🎉🎉 Now supported: OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
+  🎉🎉🎉 现已支持：OpenAI，谷歌 Gemini，讯飞星火大模型，文心一言大模型，通义千问大模型
 </h4>
 
-## 🖥️ Function introduction
+## 🖥️ 功能介绍
 
-### 1. Support for big model apis from multiple vendors
+### 1. 支持多个厂商的大模型API
 
-### 2. Supports multi-language and multi-theme configurations
+### 2. 支持多语言、多主题配置
 
-### 3. Customize your AI assistant
+### 3. 自定义你的AI助手
 
-### 4. Create your personal knowledge base
+### 4. 创建你的个人知识库
 
-### 5. Collect inspiration for conversations with AI
+### 5. 收藏与AI对话的灵感
 
-## 🚀 Application
+## 🚀 使用应用
 
-`Application package is not signed and notarized, in case of failure to install, you can clone the code local packaging`
+`应用包未签名和公证，如遇无法正常安装，可克隆代码本地打包。`
 
-### 1. Download the application package in release
+### 1. 在 release 中下载对于的应用包即可
 
-[Download the latest version](https://github.com/classfang/AIHub/releases)
+[下载最新版本](https://github.com/classfang/AIHub/releases)
 
-### 2. The App under macOS indicates that it is damaged and cannot open the solution
+### 2. App 在 macOS 下提示已损坏无法打开解决办法
 
-Open the terminal, enter the following command, and execute:
+打开终端，输入以下命令，并执行：
 
 ```shell
 sudo xattr -d com.apple.quarantine /Applications/xxxx.app
 ```
 
-Note: Replace /Applications/xxxx.app with your App path.
+注意：/Applications/xxxx.app 换成你的App路径。
 
-## ⚒️ Development
+## ⚒️ 项目开发
 
-### 1. Install
+### 1. 安装
 
 ```bash
 $ yarn
 ```
 
-### 2. Dev
+### 2. 开发
 
 ```bash
 $ yarn dev
 ```
 
-### 3. Build
+### 3. 构建
 
 ```bash
 # For windows
