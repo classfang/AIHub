@@ -190,7 +190,11 @@ onMounted(() => {
       font-size: 30px;
       stroke-width: 2;
       color: var(--color-text-2);
-      transition: all 500ms;
+      transition: all 200ms;
+
+      &:hover {
+        stroke-width: 3;
+      }
     }
 
     .app-sidebar-item-active {
