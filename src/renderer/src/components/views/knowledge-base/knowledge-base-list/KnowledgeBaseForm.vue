@@ -56,7 +56,7 @@ watchEffect(() => {
       />
     </a-form-item>
     <a-form-item field="password" :label="$t('knowledgeBase.list.redisConfig.password')">
-      <a-input
+      <a-input-password
         v-model="knowledgeBaseForm.redisConfig.password"
         :placeholder="
           $t('common.pleaseEnter') + ' ' + $t('knowledgeBase.list.redisConfig.password')
