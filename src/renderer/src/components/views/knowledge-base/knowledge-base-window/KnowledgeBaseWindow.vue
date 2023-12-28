@@ -266,24 +266,11 @@ watchEffect(() => {
         </div>
         <a-spin :loading="systemStore.knowledgeBaseWindowLoading" tip="">
           <a-scrollbar
+            v-if="fileList.filter((f) => f.text.includes(fileKeyword)).length > 0"
             outer-class="arco-scrollbar-small"
             style="height: calc(100vh - 175px); overflow-y: auto"
           >
             <div class="knowledge-base-file-list">
-              <div
-                v-if="
-                  !systemStore.knowledgeBaseWindowLoading &&
-                  fileList.filter((f) => f.text.includes(fileKeyword)).length === 0
-                "
-                class="knowledge-base-file-list-empty"
-              >
-                <a-empty>
-                  <template #image>
-                    <icon-file />
-                  </template>
-                  {{ $t('knowledgeBase.window.empty') }}
-                </a-empty>
-              </div>
               <transition-group name="fadein">
                 <div
                   v-for="f in fileList.filter((f1) => f1.text.includes(fileKeyword))"
@@ -304,6 +291,20 @@ watchEffect(() => {
             </div>
           </a-scrollbar>
         </a-spin>
+        <div
+          v-if="
+            !systemStore.knowledgeBaseWindowLoading &&
+            fileList.filter((f) => f.text.includes(fileKeyword)).length === 0
+          "
+          class="knowledge-base-file-list-empty"
+        >
+          <a-empty>
+            <template #image>
+              <icon-file />
+            </template>
+            {{ $t('knowledgeBase.window.empty') }}
+          </a-empty>
+        </div>
       </template>
       <!-- 检索结果 -->
       <template v-else>
@@ -479,22 +480,12 @@ watchEffect(() => {
     }
 
     .knowledge-base-file-list {
-      flex: 1;
-      min-height: 0;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
       box-sizing: border-box;
       padding: 0 15px;
-
-      .knowledge-base-file-list-empty {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
 
       .knowledge-base-file-item {
         box-sizing: border-box;
@@ -523,6 +514,13 @@ watchEffect(() => {
           justify-content: space-between;
         }
       }
+    }
+
+    .knowledge-base-file-list-empty {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
