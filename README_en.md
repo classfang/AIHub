@@ -22,15 +22,25 @@ https://github.com/classfang/AIHub/assets/27616248/d95a1fcb-01e8-4296-8b5b-154eb
 
 ## 🖥️ Function introduction
 
-### 1. Support for big model apis from multiple vendors
+### 1. Strong AI capability support
 
-### 2. Supports multi-language and multi-theme configurations
+Easy access to large model apis from multiple vendors.
+
+### 2. Rich configuration
+
+Multi-language, multi-theme configuration.
 
 ### 3. Customize your AI assistant
 
-### 4. Create your personal knowledge base
+Support: text dialogue, picture dialogue; AI painting.
 
-### 5. Collect inspiration for conversations with AI
+### 4. Build a personal knowledge base
+
+Developed based on LangChain. Simple operation can complete personal knowledge base construction.
+
+### 5. More features under development
+
+If you have good ideas, you are welcome to submit issues.
 
 ## 🚀 Application
 
