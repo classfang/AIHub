@@ -358,7 +358,7 @@ watchEffect(() => {
       :on-before-ok="handleNewFileModalBeforeOk"
       @close="clearNewFileModal"
     >
-      <template #title> {{ $t('knowledgeBase.window.newFile') }} </template>
+      <template #title> {{ $t('knowledgeBase.window.newFile') }}</template>
       <div style="height: 60vh; overflow-y: auto">
         <a-form :model="newFileForm" layout="vertical">
           <a-form-item field="name" :label="$t('knowledgeBase.window.newFileText')">
@@ -381,7 +381,7 @@ watchEffect(() => {
       title-align="start"
       width="80vw"
     >
-      <template #title> {{ $t('knowledgeBase.window.fileDetail') }} </template>
+      <template #title> {{ $t('knowledgeBase.window.fileDetail') }}</template>
       <div style="height: 60vh; overflow-y: auto">
         <a-form :model="fileDetail" layout="vertical">
           <a-form-item field="name" :label="$t('knowledgeBase.window.newFileText')">
@@ -395,21 +395,21 @@ watchEffect(() => {
       </div>
       <template #footer>
         <div style="display: flex; gap: 10px">
-          <a-button @click="exportTextFile('knowledge-file.txt', fileDetail.text)">{{
-            $t('common.export')
-          }}</a-button>
-          <a-button status="danger" @click="deleteFile(fileDetail)">{{
-            $t('common.delete')
-          }}</a-button>
-          <a-button style="margin-left: auto" @click="fileDetailVisible = false">{{
-            $t('common.cancel')
-          }}</a-button>
+          <a-button @click="exportTextFile('knowledge-file.txt', fileDetail.text)"
+            >{{ $t('common.export') }}
+          </a-button>
+          <a-button status="danger" @click="deleteFile(fileDetail)"
+            >{{ $t('common.delete') }}
+          </a-button>
+          <a-button style="margin-left: auto" @click="fileDetailVisible = false"
+            >{{ $t('common.cancel') }}
+          </a-button>
           <a-button
             type="primary"
             :loading="systemStore.knowledgeBaseWindowLoading"
             @click="updateFile"
-            >{{ $t('common.ok') }}</a-button
-          >
+            >{{ $t('common.ok') }}
+          </a-button>
         </div>
       </template>
     </a-modal>
