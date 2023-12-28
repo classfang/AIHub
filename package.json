@@ -45,7 +45,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@arco-design/web-vue": "^2.53.3",
+    "@arco-design/web-vue": "^2.54.1",
     "@electron-toolkit/eslint-config": "^1.0.1",
     "@electron-toolkit/eslint-config-ts": "^1.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
