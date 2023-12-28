@@ -102,7 +102,9 @@ onMounted(() => {
     <div class="app fade-in-from" :class="{ 'fade-in-to': isLoad }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
-        <UserAvatar :editable="true" :size="36" />
+        <div class="app-sidebar-avatar">
+          <UserAvatar :editable="true" :size="36" />
+        </div>
         <icon-message
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': currentPage === 'chat' }"
@@ -177,8 +179,12 @@ onMounted(() => {
     align-items: center;
     gap: 25px;
     box-sizing: border-box;
-    padding: 60px 0 15px 0;
+    padding: 15px;
     background-color: var(--color-fill-2);
+
+    .app-sidebar-avatar {
+      margin: 45px 0 10px 0;
+    }
 
     .app-sidebar-item {
       font-size: 30px;
