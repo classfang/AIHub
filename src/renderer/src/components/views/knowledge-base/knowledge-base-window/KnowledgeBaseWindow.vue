@@ -264,7 +264,11 @@ watchEffect(() => {
             <template #default>{{ $t('knowledgeBase.window.newFile') }}</template>
           </a-button>
         </div>
-        <a-spin :loading="systemStore.knowledgeBaseWindowLoading" tip="">
+        <a-spin
+          :loading="systemStore.knowledgeBaseWindowLoading"
+          tip=""
+          class="knowledge-base-file-list-spin"
+        >
           <a-scrollbar
             v-if="fileList.filter((f) => f.text.includes(fileKeyword)).length > 0"
             outer-class="arco-scrollbar-small"
@@ -290,21 +294,20 @@ watchEffect(() => {
               </transition-group>
             </div>
           </a-scrollbar>
+          <template v-else>
+            <div
+              v-if="!systemStore.knowledgeBaseWindowLoading"
+              class="knowledge-base-file-list-empty"
+            >
+              <a-empty>
+                <template #image>
+                  <icon-file />
+                </template>
+                {{ $t('knowledgeBase.window.empty') }}
+              </a-empty>
+            </div>
+          </template>
         </a-spin>
-        <div
-          v-if="
-            !systemStore.knowledgeBaseWindowLoading &&
-            fileList.filter((f) => f.text.includes(fileKeyword)).length === 0
-          "
-          class="knowledge-base-file-list-empty"
-        >
-          <a-empty>
-            <template #image>
-              <icon-file />
-            </template>
-            {{ $t('knowledgeBase.window.empty') }}
-          </a-empty>
-        </div>
       </template>
       <!-- 检索结果 -->
       <template v-else>
@@ -479,48 +482,54 @@ watchEffect(() => {
       }
     }
 
-    .knowledge-base-file-list {
-      overflow-y: auto;
+    .knowledge-base-file-list-spin {
+      flex: 1;
+      min-height: 0;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      box-sizing: border-box;
-      padding: 0 15px;
 
-      .knowledge-base-file-item {
+      .knowledge-base-file-list {
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         box-sizing: border-box;
-        padding: 10px;
-        background-color: var(--color-fill-1);
-        border-radius: var(--border-radius-small);
+        padding: 0 15px;
 
-        .knowledge-base-file-content {
-          font-size: 14px;
-          line-height: 1.3rem;
-          overflow: hidden;
-          display: -webkit-box;
-          text-overflow: ellipsis;
-          word-break: break-all;
-          line-break: anywhere;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-        }
+        .knowledge-base-file-item {
+          box-sizing: border-box;
+          padding: 10px;
+          background-color: var(--color-fill-1);
+          border-radius: var(--border-radius-small);
 
-        .knowledge-base-file-footer {
-          font-size: 13px;
-          color: var(--color-text-3);
-          margin-top: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+          .knowledge-base-file-content {
+            font-size: 14px;
+            line-height: 1.3rem;
+            overflow: hidden;
+            display: -webkit-box;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            line-break: anywhere;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+          }
+
+          .knowledge-base-file-footer {
+            font-size: 13px;
+            color: var(--color-text-3);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
         }
       }
-    }
 
-    .knowledge-base-file-list-empty {
-      flex-grow: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      .knowledge-base-file-list-empty {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   }
 
