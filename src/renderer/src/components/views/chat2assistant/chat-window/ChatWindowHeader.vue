@@ -154,14 +154,14 @@ const assistantDelete = () => {
             style="width: 100%; color: var(--color-text-1)"
             size="small"
             @click="edit"
-            >{{ $t('common.edit') }}</a-button
+            >{{ $t('chatWindow.header.edit') }}</a-button
           >
           <a-button
             type="text"
             style="width: 100%; color: var(--color-text-1)"
             size="small"
             @click="exportChatMessageList"
-            >{{ $t('common.export') }}</a-button
+            >{{ $t('chatWindow.header.export') }}</a-button
           >
           <a-button
             type="text"
@@ -169,7 +169,7 @@ const assistantDelete = () => {
             status="danger"
             size="small"
             @click="clearConfirm"
-            >{{ $t('common.clear') }}</a-button
+            >{{ $t('chatWindow.header.clear') }}</a-button
           >
           <a-button
             type="text"
@@ -177,7 +177,7 @@ const assistantDelete = () => {
             status="danger"
             size="small"
             @click="deleteConfirm"
-            >{{ $t('common.delete') }}</a-button
+            >{{ $t('chatWindow.header.delete') }}</a-button
           >
         </a-space>
       </template>

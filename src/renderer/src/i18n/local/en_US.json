@@ -167,6 +167,12 @@
     }
   },
   "chatWindow": {
+    "header": {
+      "edit": "Edit assistant",
+      "export": "Export records",
+      "clear": "Clear records",
+      "delete": "Delete assistant"
+    },
     "inputPlaceholder": {
       "chat": "Enter your question here (Shift + Enter line wrap)",
       "drawing": "Enter the image description here (Shift + Enter line wrap)"

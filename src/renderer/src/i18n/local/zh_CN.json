@@ -167,6 +167,12 @@
     }
   },
   "chatWindow": {
+    "header": {
+      "edit": "编辑助手",
+      "export": "导出记录",
+      "clear": "清空记录",
+      "delete": "删除助手"
+    },
     "inputPlaceholder": {
       "chat": "在此输入你的问题（Shift + Enter 换行）",
       "drawing": "在此输入图片描述（Shift + Enter 换行）"

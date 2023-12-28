@@ -495,7 +495,12 @@ onMounted(() => {
             accept="image/*"
           >
             <template #upload-button>
-              <a-button size="small">{{ $t('chatWindow.selectImage') }}</a-button>
+              <a-button size="small">
+                <a-space :size="5">
+                  <icon-image :size="15" />
+                  <span>{{ $t('chatWindow.selectImage') }}</span>
+                </a-space>
+              </a-button>
             </template>
           </a-upload>
         </div>
