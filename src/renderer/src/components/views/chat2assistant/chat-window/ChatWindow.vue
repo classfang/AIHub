@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSystemStore } from '@renderer/store/system'
-import { computed, onMounted, reactive, ref, toRefs } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import MultipleChoiceConsole from '@renderer/components/views/chat2assistant/chat-window/MultipleChoiceConsole.vue'
@@ -355,7 +355,9 @@ const calcMessageTime = (current: ChatMessage, isFirst: boolean) => {
 
 // 对话记录滚动到底部
 const scrollToBottom = () => {
-  chatMessageListScrollbarRef.value.scrollTop(chatMessageListRef.value.clientHeight)
+  nextTick(() => {
+    chatMessageListScrollbarRef.value.scrollTop(chatMessageListRef.value.clientHeight)
+  })
 }
 
 // 挂载完毕
