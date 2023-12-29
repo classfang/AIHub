@@ -1,7 +1,7 @@
 {
   "name": "aihub",
-  "version": "1.1.8",
-  "description": "An assistant-centered ChatGPT electron client",
+  "version": "1.1.9",
+  "description": "A collection of AI capabilities Electron client",
   "main": "./out/main/index.js",
   "author": "junki.cn",
   "homepage": "https://junki.cn",
