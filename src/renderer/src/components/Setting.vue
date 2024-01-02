@@ -53,7 +53,7 @@ const checkNewVersion = () => {
         const appVersionArray = data.appVersion.split('.')
         const newVersionArray = json.name.split('.')
         for (let i = 0; i < newVersionArray.length; i++) {
-          if (newVersionArray[i] > appVersionArray[i]) {
+          if (Number(newVersionArray[i]) > Number(appVersionArray[i])) {
             data.newVersionFlag = true
           }
         }
