@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'
   workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Test scenario tags'
 # Example:
 # git commit -am v1.0.9
 # git tag v1.0.9
