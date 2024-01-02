@@ -247,6 +247,9 @@
       "newFile": "New knowledge file",
       "empty": "No knowledge file",
       "newFileText": "Knowledge text",
+      "newFileTextOverride": "Whether to overwrite the current knowledge text?",
+      "selectFile": "Select file",
+      "selectFileTip": "Support .text .pdf .docx .pptx type",
       "fileDetail": "Knowledge file detail",
       "knowledgeFile": "Knowledge file",
       "knowledgeDoc": "Knowledge fragment"

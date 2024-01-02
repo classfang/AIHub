@@ -128,3 +128,7 @@ export const langChainRedisQuestion = (
     question
   )
 }
+
+export const langChainLoadFile = (filePath: string): Promise<string> => {
+  return window.electron.ipcRenderer.invoke('lang-chain-load-file', filePath)
+}

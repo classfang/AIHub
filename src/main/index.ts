@@ -27,6 +27,11 @@ import { RedisClientOptions } from '@redis/client/dist/lib/client'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { RetrievalQAChain } from 'langchain/chains'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { TextLoader } from 'langchain/document_loaders/fs/text'
+import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
+import { DocxLoader } from 'langchain/document_loaders/fs/docx'
+import { PPTXLoader } from 'langchain/document_loaders/fs/pptx'
+import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
 
 // 图标列表
 const iconArray = [icon, icon10deg, icon20deg, icon30deg, icon40deg, icon50deg]
@@ -513,3 +518,31 @@ ipcMain.handle(
     return response
   }
 )
+
+// langChain 加载文件
+ipcMain.handle('lang-chain-load-file', async (_event, filePath: string) => {
+  let loader: BaseDocumentLoader | null = null
+
+  if (filePath.endsWith('.txt')) {
+    loader = new TextLoader(filePath)
+  } else if (filePath.endsWith('.pdf')) {
+    loader = new PDFLoader(filePath)
+  } else if (filePath.endsWith('.docx')) {
+    loader = new DocxLoader(filePath)
+  } else if (filePath.endsWith('.pptx')) {
+    loader = new PPTXLoader(filePath)
+  }
+
+  if (!loader) {
+    return ''
+  }
+
+  const docs = await loader.load()
+  if (!docs || docs.length === 0) {
+    return ''
+  }
+
+  return docs.reduce((accumulator, currentObject) => {
+    return accumulator + currentObject.pageContent
+  }, '')
+})

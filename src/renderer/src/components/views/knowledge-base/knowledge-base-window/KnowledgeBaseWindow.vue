@@ -3,10 +3,11 @@ import { reactive, toRefs, watchEffect } from 'vue'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import KnowledgeBaseWindowHeader from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindowHeader.vue'
 import { useSystemStore } from '@renderer/store/system'
-import { Message, Modal } from '@arco-design/web-vue'
+import { Message, Modal, RequestOption } from '@arco-design/web-vue'
 import { useI18n } from 'vue-i18n'
 import { exportTextFile } from '@renderer/utils/download-util'
 import {
+  langChainLoadFile,
   langChainRedisAddFile,
   langChainRedisDeleteFile,
   langChainRedisListFile,
@@ -230,6 +231,35 @@ const deleteFile = (file: KnowledgeFile) => {
   })
 }
 
+// 自定义文件上传
+const selectFileRequest = (option: RequestOption) => {
+  const { fileItem, onSuccess } = option
+
+  const filePath = fileItem.file?.path
+  if (filePath) {
+    langChainLoadFile(filePath).then((res) => {
+      if (data.newFileForm.text) {
+        Modal.confirm({
+          title: t('knowledgeBase.window.selectFile'),
+          content: t('knowledgeBase.window.newFileTextOverride'),
+          okText: t('common.ok'),
+          cancelText: t('common.cancel'),
+          onOk: () => {
+            data.newFileForm.text = res
+          }
+        })
+      } else {
+        data.newFileForm.text = res
+      }
+      onSuccess()
+    })
+  }
+
+  return {
+    abort: () => {}
+  }
+}
+
 // 监听当前知识库
 watchEffect(() => {
   data.answer = ''
@@ -359,16 +389,37 @@ watchEffect(() => {
       @close="clearNewFileModal"
     >
       <template #title> {{ $t('knowledgeBase.window.newFile') }}</template>
-      <div style="height: 60vh; overflow-y: auto">
-        <a-form :model="newFileForm" layout="vertical">
-          <a-form-item field="name" :label="$t('knowledgeBase.window.newFileText')">
-            <a-textarea
-              v-model="newFileForm.text"
-              :auto-size="{ minRows: 15, maxRows: 15 }"
-              :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
-            />
-          </a-form-item>
-        </a-form>
+      <div class="knowledge-base-new-file-modal">
+        <a-space :size="10" direction="vertical" fill>
+          <a-space :size="10" fill>
+            <div class="select-file">
+              <a-upload
+                :show-file-list="false"
+                :custom-request="selectFileRequest"
+                accept=".txt, .pdf, .docx, .pptx"
+              >
+                <template #upload-button>
+                  <a-button size="small">
+                    <a-space :size="5">
+                      <icon-file :size="15" />
+                      <span>{{ $t('knowledgeBase.window.selectFile') }}</span>
+                    </a-space>
+                  </a-button>
+                </template>
+              </a-upload>
+            </div>
+            <div class="select-file-tip">
+              {{ $t('knowledgeBase.window.selectFileTip') }}
+            </div>
+          </a-space>
+          <a-textarea
+            v-model="newFileForm.text"
+            class="knowledge-base-new-file-textarea"
+            allow-clear
+            :auto-size="{ minRows: 16, maxRows: 16 }"
+            :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
+          />
+        </a-space>
       </div>
     </a-modal>
 
@@ -542,6 +593,39 @@ watchEffect(() => {
       border: none;
       background-color: var(--color-fill-2);
     }
+  }
+}
+
+.knowledge-base-new-file-modal {
+  height: 60vh;
+  overflow-y: auto;
+
+  .select-file {
+    height: 30px;
+    max-width: 300px;
+    overflow: hidden;
+
+    :deep(.arco-upload-wrapper) {
+      display: flex;
+      .arco-upload-list-item-content {
+        background-color: transparent;
+        padding: 0;
+        transition: none;
+      }
+      .arco-upload-progress {
+        display: none;
+      }
+    }
+  }
+
+  .select-file-tip {
+    font-size: 12px;
+    color: var(--color-text-2);
+  }
+
+  .knowledge-base-new-file-textarea {
+    border: none;
+    background-color: var(--color-fill-2);
   }
 }
 </style>

@@ -247,6 +247,9 @@
       "newFile": "新增知识文件",
       "empty": "暂无知识文件",
       "newFileText": "知识文本",
+      "newFileTextOverride": "是否覆盖当前知识文本？",
+      "selectFile": "选择文件",
+      "selectFileTip": "支持 .text .pdf .docx .pptx 类型",
       "fileDetail": "知识文件详情",
       "knowledgeFile": "知识文件",
       "knowledgeDoc": "知识碎片"
