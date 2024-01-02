@@ -13,7 +13,7 @@ import Translator from '@renderer/components/views/Translator.vue'
 import KnowledgeBase from '@renderer/components/views/knowledge-base/KnowledgeBase.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
-import { startDockAnimation, stopDockAnimation } from '@renderer/utils/ipc-util'
+import { startDockAnimation, startDockBounce, stopDockAnimation } from '@renderer/utils/ipc-util'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
@@ -80,6 +80,7 @@ watchEffect(() => {
     startDockAnimation()
   } else {
     stopDockAnimation()
+    startDockBounce()
   }
 })
 
