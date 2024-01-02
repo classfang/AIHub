@@ -433,16 +433,14 @@ watchEffect(() => {
       width="80vw"
     >
       <template #title> {{ $t('knowledgeBase.window.fileDetail') }}</template>
-      <div style="height: 60vh; overflow-y: auto">
-        <a-form :model="fileDetail" layout="vertical">
-          <a-form-item field="name" :label="$t('knowledgeBase.window.newFileText')">
-            <a-textarea
-              v-model="fileDetail.text"
-              :auto-size="{ minRows: 15, maxRows: 15 }"
-              :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
-            />
-          </a-form-item>
-        </a-form>
+      <div class="knowledge-base-new-file-modal">
+        <a-textarea
+          v-model="fileDetail.text"
+          class="knowledge-base-new-file-textarea"
+          allow-clear
+          :auto-size="{ minRows: 18, maxRows: 18 }"
+          :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
+        />
       </div>
       <template #footer>
         <div style="display: flex; gap: 10px">

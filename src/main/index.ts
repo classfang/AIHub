@@ -424,6 +424,9 @@ ipcMain.handle(
       })
     }
 
+    // 排序
+    files.sort((f1, f2) => f2.updateTime - f1.updateTime)
+
     // 获取向量数据数量
     const vectorKeys = await client.keys('doc:' + indexName + ':*')
 
