@@ -1,21 +1,38 @@
 <script setup lang="ts">
-import { useSettingStore } from '@renderer/store/setting'
 import { reactive, toRefs } from 'vue'
+import { useSettingStore } from '@renderer/store/setting'
+import { useCalendarStore } from '@renderer/store/calendar'
 
 // Store
 const settingStore = useSettingStore()
+const calendarStore = useCalendarStore()
 
 // 数据绑定
 const data = reactive({
   dayModalVisible: false,
-  currentDate: new Date()
+  currentDate: new Date(),
+  currentDayReport: undefined as CalendarDayReport | undefined
 })
-const { dayModalVisible, currentDate } = toRefs(data)
+const { dayModalVisible, currentDate, currentDayReport } = toRefs(data)
 
 // 日期切换
 const calendarChange = (date: Date) => {
   data.currentDate = date
+  data.currentDayReport = getReport(date.getFullYear(), date.getMonth() + 1, date.getDay())
   data.dayModalVisible = true
+}
+
+// 获取报告内容
+const getReport = (year: number, month?: number, day?: number) => {
+  const yearReport = calendarStore.calendarYearReportList.find((r) => r.dateSub === year)
+  if (!month) {
+    return yearReport
+  }
+  const monthReport = yearReport?.monthReportList.find((r) => r.dateSub === month)
+  if (!day) {
+    return monthReport
+  }
+  return monthReport?.dayReportList.find((r) => r.dateSub === day)
 }
 </script>
 
@@ -43,6 +60,7 @@ const calendarChange = (date: Date) => {
       <template #title> {{ $t('aiCalendar.dayReport.name') }} </template>
       <div style="height: 60vh; overflow-y: auto">
         {{ currentDate }}
+        {{ currentDayReport }}
       </div>
     </a-modal>
   </div>

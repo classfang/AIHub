@@ -85,7 +85,7 @@ interface CalendarBaseReport {
   contentList: string[]
   createTime: number
   updateTime: number
-  dateSub: string
+  dateSub: number
 }
 
 interface CalendarYearReport extends CalendarBaseReport {
