@@ -27,6 +27,7 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "@microsoft/fetch-event-source": "^2.0.1",
+    "add": "^2.0.6",
     "axios": "^1.6.3",
     "clipboard": "^2.0.11",
     "crypto-js": "^4.2.0",
@@ -45,7 +46,7 @@
     "redis": "^4.6.12",
     "uuid": "^9.0.1",
     "vue-i18n": "^9.8.0",
-    "vuedraggable": "^2.24.3"
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.54.1",
