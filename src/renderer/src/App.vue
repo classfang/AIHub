@@ -119,8 +119,8 @@ onMounted(() => {
         />
         <icon-edit
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'editor' }"
-          @click="changePage('editor')"
+          :class="{ 'app-sidebar-item-active': currentPage === 'ai-editor' }"
+          @click="changePage('ai-editor')"
         />
         <icon-translate
           class="app-sidebar-item no-drag-area"
@@ -151,7 +151,7 @@ onMounted(() => {
       <div v-show="currentPage === 'knowledge-base'" class="app-body">
         <KnowledgeBase />
       </div>
-      <div v-show="currentPage === 'editor'" class="app-body">
+      <div v-show="currentPage === 'ai-editor'" class="app-body">
         <AIEditor />
       </div>
       <div v-show="currentPage === 'translator'" class="app-body">
