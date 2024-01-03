@@ -22,6 +22,7 @@ import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@renderer/store/user'
 import { exportTextFile } from '@renderer/utils/download-util'
 import { formatDateTime } from '@renderer/utils/date-util'
+import { useCalendarStore } from '@renderer/store/calendar'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
@@ -29,6 +30,7 @@ const userStore = useUserStore()
 const assistantStore = useAssistantStore()
 const collectionSetStore = useCollectionSetStore()
 const knowledgeBaseStore = useKnowledgeBaseStore()
+const calendarStore = useCalendarStore()
 const { t } = useI18n()
 
 const data = reactive({
@@ -110,6 +112,7 @@ const exportDataBackup = async () => {
       assistantStore: assistantStore.getStoreJson,
       collectionSetStore: collectionSetStore.getStoreJson,
       knowledgeBaseStore: knowledgeBaseStore.getStoreJson,
+      calendarStore: calendarStore.getStoreJson,
       cacheFiles: await getCacheFiles()
     })
   )
@@ -164,6 +167,7 @@ const importDataBackup = () => {
             collectionSetStore.setStoreFromJson(dataBackup.collectionSetStore) || importFlag
           importFlag =
             knowledgeBaseStore.setStoreFromJson(dataBackup.knowledgeBaseStore) || importFlag
+          importFlag = calendarStore.setStoreFromJson(dataBackup.calendarStore) || importFlag
           importFlag = (await addCacheFiles(dataBackup.cacheFiles)) || importFlag
           if (importFlag) {
             Message.success(t('setting.app.backup.importSuccess'))
