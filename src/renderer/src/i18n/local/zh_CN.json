@@ -254,5 +254,11 @@
       "knowledgeFile": "知识文件",
       "knowledgeDoc": "知识碎片"
     }
+  },
+  "aiCalendar": {
+    "name": "AI日历",
+    "dayReport": {
+      "name": "日报"
+    }
   }
 }

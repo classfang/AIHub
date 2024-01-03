@@ -254,5 +254,11 @@
       "knowledgeFile": "Knowledge file",
       "knowledgeDoc": "Knowledge fragment"
     }
+  },
+  "aiCalendar": {
+    "name": "AI Calendar",
+    "dayReport": {
+      "name": "Daily report"
+    }
   }
 }

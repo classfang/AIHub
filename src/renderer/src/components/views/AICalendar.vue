@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import { useSettingStore } from '@renderer/store/setting'
+import { reactive, toRefs } from 'vue'
 
 // Store
 const settingStore = useSettingStore()
 
+// 数据绑定
+const data = reactive({
+  dayModalVisible: false,
+  currentDate: new Date()
+})
+const { dayModalVisible, currentDate } = toRefs(data)
+
 // 日期切换
 const calendarChange = (date: Date) => {
-  console.log(date)
+  data.currentDate = date
+  data.dayModalVisible = true
 }
 </script>
 
@@ -22,6 +31,20 @@ const calendarChange = (date: Date) => {
         <a-calendar :key="'calendar-' + settingStore.app.locale" @change="calendarChange" />
       </div>
     </div>
+    <!-- 日报Modal -->
+    <a-modal
+      v-model:visible="dayModalVisible"
+      :ok-text="$t('common.ok')"
+      :cancel-text="$t('common.cancel')"
+      unmount-on-close
+      title-align="start"
+      width="80vw"
+    >
+      <template #title> {{ $t('aiCalendar.dayReport.name') }} </template>
+      <div style="height: 60vh; overflow-y: auto">
+        {{ currentDate }}
+      </div>
+    </a-modal>
   </div>
 </template>
 
