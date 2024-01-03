@@ -11,7 +11,6 @@ import CollectionSet from '@renderer/components/views/CollectionSet.vue'
 import WebApp from '@renderer/components/views/WebApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
 import KnowledgeBase from '@renderer/components/views/knowledge-base/KnowledgeBase.vue'
-import AIEditor from '@renderer/components/views/AIEditor.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 import { startDockAnimation, startDockBounce, stopDockAnimation } from '@renderer/utils/ipc-util'
@@ -121,11 +120,6 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': currentPage === 'knowledge-base' }"
           @click="changePage('knowledge-base')"
         />
-        <icon-edit
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'ai-editor' }"
-          @click="changePage('ai-editor')"
-        />
         <icon-translate
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': currentPage === 'translator' }"
@@ -154,9 +148,6 @@ onMounted(() => {
       </div>
       <div v-show="currentPage === 'knowledge-base'" class="app-body">
         <KnowledgeBase />
-      </div>
-      <div v-show="currentPage === 'ai-editor'" class="app-body">
-        <AIEditor />
       </div>
       <div v-show="currentPage === 'translator'" class="app-body">
         <Translator />
