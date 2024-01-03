@@ -71,19 +71,22 @@ const changePage = (page: string) => {
   data.currentPage = page
 }
 
-// 监听聊天框加载中状态
-watchEffect(() => {
-  if (
-    systemStore.globalLoading ||
-    systemStore.chatWindowLoading ||
-    systemStore.knowledgeBaseWindowLoading
-  ) {
-    startDockAnimation()
-  } else {
-    stopDockAnimation()
-    startDockBounce()
-  }
-})
+// 监听各类加载状态
+const watchLoading = () => {
+  // 监听聊天框加载中状态
+  watchEffect(() => {
+    if (
+      systemStore.globalLoading ||
+      systemStore.chatWindowLoading ||
+      systemStore.knowledgeBaseWindowLoading
+    ) {
+      startDockAnimation()
+    } else {
+      stopDockAnimation()
+      startDockBounce()
+    }
+  })
+}
 
 onMounted(() => {
   // 更新主题
@@ -95,6 +98,7 @@ onMounted(() => {
   // 显示主界面，防止夜间主题从白色闪烁到黑色
   setTimeout(() => {
     data.isLoad = true
+    watchLoading()
   }, 1000)
 })
 </script>
