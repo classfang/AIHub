@@ -79,3 +79,21 @@ interface KnowledgeFile {
   createTime: number
   updateTime: number
 }
+
+interface CalendarBaseReport {
+  key: string
+  contentList: string[]
+  createTime: number
+  updateTime: number
+  dateSub: string
+}
+
+interface CalendarYearReport extends CalendarBaseReport {
+  monthReportList: CalendarMonthReport[]
+}
+
+interface CalendarMonthReport extends CalendarBaseReport {
+  dayReportList: CalendarDayReport[]
+}
+
+interface CalendarDayReport extends CalendarBaseReport {}
