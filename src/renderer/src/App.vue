@@ -11,6 +11,7 @@ import CollectionSet from '@renderer/components/views/CollectionSet.vue'
 import WebApp from '@renderer/components/views/WebApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
 import KnowledgeBase from '@renderer/components/views/knowledge-base/KnowledgeBase.vue'
+import AIEditor from '@renderer/components/views/AIEditor.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 import { startDockAnimation, startDockBounce, stopDockAnimation } from '@renderer/utils/ipc-util'
@@ -116,6 +117,16 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': currentPage === 'knowledge-base' }"
           @click="changePage('knowledge-base')"
         />
+        <icon-edit
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'editor' }"
+          @click="changePage('editor')"
+        />
+        <icon-translate
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'translator' }"
+          @click="changePage('translator')"
+        />
         <icon-common
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': currentPage === 'collect' }"
@@ -125,11 +136,6 @@ onMounted(() => {
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': currentPage === 'web-app' }"
           @click="changePage('web-app')"
-        />
-        <icon-translate
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'translator' }"
-          @click="changePage('translator')"
         />
         <Setting style="margin-top: auto">
           <template #default>
@@ -145,14 +151,17 @@ onMounted(() => {
       <div v-show="currentPage === 'knowledge-base'" class="app-body">
         <KnowledgeBase />
       </div>
+      <div v-show="currentPage === 'editor'" class="app-body">
+        <AIEditor />
+      </div>
+      <div v-show="currentPage === 'translator'" class="app-body">
+        <Translator />
+      </div>
       <div v-show="currentPage === 'collect'" class="app-body">
         <CollectionSet />
       </div>
       <div v-show="currentPage === 'web-app'" class="app-body">
         <WebApp />
-      </div>
-      <div v-show="currentPage === 'translator'" class="app-body">
-        <Translator />
       </div>
 
       <!-- 全局加载遮罩 -->
