@@ -23,6 +23,7 @@ const openDayModal = () => {
   let dayReport = getReport(
     data.currentDate.getFullYear(),
     data.currentDate.getMonth() + 1,
+    undefined,
     data.currentDate.getDate()
   )
   if (!dayReport) {
@@ -36,7 +37,6 @@ const openDayModal = () => {
       day: data.currentDate.getDate()
     }
   }
-  console.log(dayReport)
   data.currentDayReport = dayReport
   data.dayModalVisible = true
 }
@@ -128,23 +128,32 @@ const handleDayModalBeforeOk = async () => {
               class="arco-calendar-date"
               @click="currentDate = new Date(cellData.year, cellData.month - 1, cellData.date)"
             >
-              <div class="arco-calendar-date-value">
-                <div class="arco-calendar-date-circle">{{ cellData.date }}</div>
+              <div class="calendar-cell">
+                <div class="calendar-cell-header">
+                  <div class="arco-calendar-date-value">
+                    <div class="arco-calendar-date-circle">{{ cellData.date }}</div>
+                  </div>
+                  <transition name="fadein">
+                    <a-button
+                      v-if="
+                        cellData.year === currentDate.getFullYear() &&
+                        cellData.month === currentDate.getMonth() + 1 &&
+                        cellData.date === currentDate.getDate()
+                      "
+                      class="day-report-edit-btn"
+                      shape="circle"
+                      @click="openDayModal"
+                    >
+                      <template #icon>
+                        <icon-edit />
+                      </template>
+                    </a-button>
+                  </transition>
+                </div>
+                <div class="calendar-cell-body">
+                  {{ getReport(cellData.year, cellData.month, undefined, cellData.date)?.content }}
+                </div>
               </div>
-              <a-button
-                v-if="
-                  cellData.year === currentDate.getFullYear() &&
-                  cellData.month === currentDate.getMonth() + 1 &&
-                  cellData.date === currentDate.getDate()
-                "
-                class="day-report-edit-btn"
-                shape="circle"
-                @click="openDayModal"
-              >
-                <template #icon>
-                  <icon-edit />
-                </template>
-              </a-button>
             </div>
           </template>
         </a-calendar>
@@ -244,14 +253,36 @@ const handleDayModalBeforeOk = async () => {
                 flex: 1;
 
                 .arco-calendar-cell {
-                  position: relative;
+                  .calendar-cell {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
 
-                  .day-report-edit-btn {
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
-                    width: 28px;
-                    height: 28px;
+                    .calendar-cell-header {
+                      flex-shrink: 0;
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+
+                      .day-report-edit-btn {
+                        width: 28px;
+                        height: 28px;
+                      }
+                    }
+
+                    .calendar-cell-body {
+                      flex: 1;
+                      min-height: 0;
+                      color: var(--color-text-2);
+                      font-size: 13px;
+                      overflow: hidden;
+                      display: -webkit-box;
+                      text-overflow: ellipsis;
+                      word-break: break-all;
+                      line-break: anywhere;
+                      -webkit-box-orient: vertical;
+                      -webkit-line-clamp: 3;
+                    }
                   }
                 }
               }
