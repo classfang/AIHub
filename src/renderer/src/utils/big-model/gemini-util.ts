@@ -21,7 +21,7 @@ export const chat2gemini = async (option: CommonChatOption) => {
     end
   } = option
 
-  if (!apiKey || !baseURL || !maxTokens || !messages) {
+  if (!apiKey || !baseURL || !messages) {
     console.log('chat2gemini params miss')
     end && end()
     return

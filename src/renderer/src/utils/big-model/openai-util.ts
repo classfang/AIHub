@@ -27,7 +27,7 @@ export const chat2openai = async (option: CommonChatOption) => {
     end
   } = option
 
-  if (!apiKey || !baseURL || !type || !maxTokens) {
+  if (!apiKey || !baseURL || !type) {
     console.log('chat2openai params miss')
     end && end()
     return
