@@ -78,7 +78,8 @@ const watchLoading = () => {
     if (
       systemStore.globalLoading ||
       systemStore.chatWindowLoading ||
-      systemStore.knowledgeBaseWindowLoading
+      systemStore.knowledgeBaseWindowLoading ||
+      systemStore.calendarLoading
     ) {
       startDockAnimation()
     } else {
