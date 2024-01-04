@@ -16,23 +16,27 @@ const data = reactive({
   currentDate: new Date(),
   currentDayReport: {} as CalendarReport
 })
-const { dayModalVisible, currentDayReport } = toRefs(data)
+const { dayModalVisible, currentDate, currentDayReport } = toRefs(data)
 
-// 日期切换
-const calendarChange = (date: Date) => {
-  data.currentDate = date
-  let dayReport = getReport(date.getFullYear(), date.getMonth() + 1, date.getDay())
+// 打开日报Modal
+const openDayModal = () => {
+  let dayReport = getReport(
+    data.currentDate.getFullYear(),
+    data.currentDate.getMonth() + 1,
+    data.currentDate.getDate()
+  )
   if (!dayReport) {
     dayReport = {
       id: randomUUID(),
       content: '',
       createTime: nowTimestamp(),
       updateTime: nowTimestamp(),
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDay()
+      year: data.currentDate.getFullYear(),
+      month: data.currentDate.getMonth() + 1,
+      day: data.currentDate.getDate()
     }
   }
+  console.log(dayReport)
   data.currentDayReport = dayReport
   data.dayModalVisible = true
 }
@@ -103,7 +107,32 @@ const handleDayModalBeforeOk = async () => {
     <!-- 主体 -->
     <div class="ai-calendar-body">
       <div class="calendar">
-        <a-calendar :key="'calendar-' + settingStore.app.locale" @change="calendarChange" />
+        <a-calendar :key="'calendar-' + settingStore.app.locale" v-model="currentDate">
+          <template #default="cellData">
+            <div
+              class="arco-calendar-date"
+              @click="currentDate = new Date(cellData.year, cellData.month - 1, cellData.date)"
+            >
+              <div class="arco-calendar-date-value">
+                <div class="arco-calendar-date-circle">{{ cellData.date }}</div>
+              </div>
+              <a-button
+                v-if="
+                  cellData.year === currentDate.getFullYear() &&
+                  cellData.month === currentDate.getMonth() + 1 &&
+                  cellData.date === currentDate.getDate()
+                "
+                class="day-report-edit-btn"
+                shape="circle"
+                @click="openDayModal"
+              >
+                <template #icon>
+                  <icon-edit />
+                </template>
+              </a-button>
+            </div>
+          </template>
+        </a-calendar>
       </div>
     </div>
     <!-- 日报Modal -->
@@ -198,6 +227,18 @@ const handleDayModalBeforeOk = async () => {
 
               .arco-calendar-month-row {
                 flex: 1;
+
+                .arco-calendar-cell {
+                  position: relative;
+
+                  .day-report-edit-btn {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    width: 28px;
+                    height: 28px;
+                  }
+                }
               }
             }
           }
