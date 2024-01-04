@@ -117,9 +117,12 @@ watch(
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
         <a-select v-model="assistantForm.model">
-          <a-option v-for="m in chatModels[assistantForm.provider]" :key="m" :value="m">{{
-            m
-          }}</a-option>
+          <a-option
+            v-for="m in chatModels[assistantForm.provider]"
+            :key="m.name"
+            :value="m.value"
+            >{{ m['name'] }}</a-option
+          >
         </a-select>
       </a-form-item>
       <!-- 生成token限制 -->
@@ -164,9 +167,12 @@ watch(
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
         <a-select v-model="assistantForm.model">
-          <a-option v-for="m in drawingModels[assistantForm.provider]" :key="m" :value="m">{{
-            m
-          }}</a-option>
+          <a-option
+            v-for="m in drawingModels[assistantForm.provider]"
+            :key="m.name"
+            :value="m.value"
+            >{{ m['name'] }}</a-option
+          >
         </a-select>
       </a-form-item>
       <!-- 图片大小 -->

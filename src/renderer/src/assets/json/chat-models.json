@@ -1,14 +1,32 @@
 {
   "OpenAI": [
-    "gpt-4-vision-preview",
-    "gpt-4-1106-preview",
-    "gpt-4-32k",
-    "gpt-4",
-    "gpt-3.5-turbo-16k",
-    "gpt-3.5-turbo"
+    { "name": "gpt-4-vision-preview", "value": "gpt-4-vision-preview" },
+    { "name": "gpt-4-1106-preview", "value": "gpt-4-1106-preview" },
+    { "name": "gpt-4-32k", "value": "gpt-4-32k" },
+    { "name": "gpt-4", "value": "gpt-4" },
+    { "name": "gpt-3.5-turbo-16k", "value": "gpt-3.5-turbo-16k" },
+    { "name": "gpt-3.5-turbo", "value": "gpt-3.5-turbo" }
   ],
-  "Gemini": ["gemini-pro-vision", "gemini-pro"],
-  "Spark": ["v3.1", "v2.1", "v1.1"],
-  "ERNIEBot": ["ERNIE-Bot 4.0", "ERNIE-Bot-8K", "ERNIE-Bot-turbo", "ERNIE-Bot"],
-  "Tongyi": ["qwen-vl-plus", "qwen-max-longcontext", "qwen-max", "qwen-plus", "qwen-turbo"]
+  "Gemini": [
+    { "name": "gemini-pro-vision", "value": "gemini-pro-vision" },
+    { "name": "gemini-pro", "value": "gemini-pro" }
+  ],
+  "Spark": [
+    { "name": "park-v3.0", "value": "v3.1" },
+    { "name": "spark-v2.0", "value": "v2.1" },
+    { "name": "spark-v1.5", "value": "v1.1" }
+  ],
+  "ERNIEBot": [
+    { "name": "ERNIE-Bot 4.0", "value": "ERNIE-Bot 4.0" },
+    { "name": "ERNIE-Bot-8K", "value": "ERNIE-Bot-8K" },
+    { "name": "ERNIE-Bot-turbo", "value": "ERNIE-Bot-turbo" },
+    { "name": "ERNIE-Bot", "value": "ERNIE-Bot" }
+  ],
+  "Tongyi": [
+    { "name": "qwen-vl-plus", "value": "qwen-vl-plus" },
+    { "name": "qwen-max-longcontext", "value": "qwen-max-longcontext" },
+    { "name": "qwen-max", "value": "qwen-max" },
+    { "name": "qwen-plus", "value": "qwen-plus" },
+    { "name": "qwen-turbo", "value": "qwen-turbo" }
+  ]
 }
