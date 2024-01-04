@@ -260,6 +260,9 @@
     "dayReport": {
       "name": "日报",
       "content": "日报内容"
-    }
+    },
+    "weekReport": "周报",
+    "monthReport": "月报",
+    "yearReport": "年报"
   }
 }

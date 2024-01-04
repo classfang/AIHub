@@ -92,6 +92,13 @@ const handleDayModalBeforeOk = async () => {
     <!-- 头部 -->
     <div class="ai-calendar-header drag-area">
       <div class="ai-calendar-header-title">{{ $t('aiCalendar.name') }}</div>
+      <div class="ai-calendar-header-btn-group no-drag-area">
+        <a-space :size="10">
+          <a-button size="mini">{{ $t('aiCalendar.weekReport') }}</a-button>
+          <a-button size="mini">{{ $t('aiCalendar.monthReport') }}</a-button>
+          <a-button size="mini">{{ $t('aiCalendar.yearReport') }}</a-button>
+        </a-space>
+      </div>
     </div>
     <!-- 主体 -->
     <div class="ai-calendar-body">
@@ -142,6 +149,10 @@ const handleDayModalBeforeOk = async () => {
       flex-grow: 1;
       font-size: 15px;
       font-weight: 500;
+    }
+
+    .ai-calendar-header-btn-group {
+      flex-shrink: 0;
     }
   }
 
