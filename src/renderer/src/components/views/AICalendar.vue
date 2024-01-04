@@ -287,9 +287,11 @@ const generateReport = () => {
 
               .arco-calendar-month-row {
                 flex: 1;
+                min-height: calc(100% / 6);
 
                 .arco-calendar-cell {
                   .calendar-cell {
+                    height: 100%;
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
@@ -308,16 +310,11 @@ const generateReport = () => {
 
                     .calendar-cell-body {
                       flex: 1;
-                      min-height: 0;
                       color: var(--color-text-2);
-                      font-size: 13px;
-                      overflow: hidden;
-                      display: -webkit-box;
-                      text-overflow: ellipsis;
+                      font-size: 12px;
+                      overflow-y: auto;
                       word-break: break-all;
                       line-break: anywhere;
-                      -webkit-box-orient: vertical;
-                      -webkit-line-clamp: 3;
                     }
                   }
                 }
