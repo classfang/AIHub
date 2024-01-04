@@ -258,7 +258,8 @@
   "aiCalendar": {
     "name": "AI日历",
     "dayReport": {
-      "name": "日报"
+      "name": "日报",
+      "content": "日报内容"
     }
   }
 }

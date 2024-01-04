@@ -1,4 +1,7 @@
-export const copyObj = (obj: object) => {
+export const copyObj = (obj: object | undefined) => {
+  if (!obj) {
+    return obj
+  }
   return JSON.parse(JSON.stringify(obj))
 }
 

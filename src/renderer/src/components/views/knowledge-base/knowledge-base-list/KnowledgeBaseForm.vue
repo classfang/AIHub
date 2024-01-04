@@ -32,6 +32,7 @@ watchEffect(() => {
         v-model="knowledgeBaseForm.description"
         :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.list.description')"
         :max-length="200"
+        allow-clear
       />
     </a-form-item>
     <a-form-item field="indexName" :label="$t('knowledgeBase.list.indexName')">

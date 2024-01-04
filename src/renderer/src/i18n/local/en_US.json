@@ -258,7 +258,8 @@
   "aiCalendar": {
     "name": "AI Calendar",
     "dayReport": {
-      "name": "Daily report"
+      "name": "Daily report",
+      "content": "Daily report content"
     }
   }
 }

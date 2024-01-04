@@ -2,6 +2,9 @@
 import { reactive, toRefs } from 'vue'
 import { useSettingStore } from '@renderer/store/setting'
 import { useCalendarStore } from '@renderer/store/calendar'
+import { randomUUID } from '@renderer/utils/id-util'
+import { nowTimestamp } from '@renderer/utils/date-util'
+import { copyObj } from '@renderer/utils/object-util'
 
 // Store
 const settingStore = useSettingStore()
@@ -11,28 +14,76 @@ const calendarStore = useCalendarStore()
 const data = reactive({
   dayModalVisible: false,
   currentDate: new Date(),
-  currentDayReport: undefined as CalendarDayReport | undefined
+  currentDayReport: {} as CalendarReport
 })
-const { dayModalVisible, currentDate, currentDayReport } = toRefs(data)
+const { dayModalVisible, currentDayReport } = toRefs(data)
 
 // 日期切换
 const calendarChange = (date: Date) => {
   data.currentDate = date
-  data.currentDayReport = getReport(date.getFullYear(), date.getMonth() + 1, date.getDay())
+  let dayReport = getReport(date.getFullYear(), date.getMonth() + 1, date.getDay())
+  if (!dayReport) {
+    dayReport = {
+      id: randomUUID(),
+      content: '',
+      createTime: nowTimestamp(),
+      updateTime: nowTimestamp(),
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDay()
+    }
+  }
+  data.currentDayReport = dayReport
   data.dayModalVisible = true
 }
 
 // 获取报告内容
 const getReport = (year: number, month?: number, day?: number) => {
-  const yearReport = calendarStore.calendarYearReportList.find((r) => r.dateSub === year)
-  if (!month) {
-    return yearReport
+  if (day && month) {
+    return copyObj(
+      calendarStore.dayReportList.find((r) => r.year === year && r.month === month && r.day === day)
+    )
+  } else if (month) {
+    return copyObj(calendarStore.monthReportList.find((r) => r.year === year && r.month === month))
+  } else {
+    return copyObj(calendarStore.yearReportList.find((r) => r.year === year))
   }
-  const monthReport = yearReport?.monthReportList.find((r) => r.dateSub === month)
-  if (!day) {
-    return monthReport
+}
+
+// 保存报告
+const setReport = (report: CalendarReport) => {
+  if (report.day && report.month) {
+    const index = calendarStore.dayReportList.findIndex(
+      (r) => r.year === report.year && r.month === report.month && r.day === report.day
+    )
+    if (index > -1) {
+      calendarStore.dayReportList[index] = report
+    } else {
+      calendarStore.dayReportList.push(report)
+    }
+  } else if (report.month) {
+    const index = calendarStore.monthReportList.findIndex(
+      (r) => r.year === report.year && r.month === report.month
+    )
+    if (index > -1) {
+      calendarStore.monthReportList[index] = report
+    } else {
+      calendarStore.monthReportList.push(report)
+    }
+  } else {
+    const index = calendarStore.yearReportList.findIndex((r) => r.year === report.year)
+    if (index > -1) {
+      calendarStore.yearReportList[index] = report
+    } else {
+      calendarStore.yearReportList.push(report)
+    }
   }
-  return monthReport?.dayReportList.find((r) => r.dateSub === day)
+}
+
+// 日报保存
+const handleDayModalBeforeOk = async () => {
+  setReport(data.currentDayReport)
+  return true
 }
 </script>
 
@@ -53,14 +104,20 @@ const getReport = (year: number, month?: number, day?: number) => {
       v-model:visible="dayModalVisible"
       :ok-text="$t('common.ok')"
       :cancel-text="$t('common.cancel')"
+      :on-before-ok="handleDayModalBeforeOk"
       unmount-on-close
       title-align="start"
       width="80vw"
     >
       <template #title> {{ $t('aiCalendar.dayReport.name') }} </template>
-      <div style="height: 60vh; overflow-y: auto">
-        {{ currentDate }}
-        {{ currentDayReport }}
+      <div class="day-report-modal">
+        <a-textarea
+          v-model="currentDayReport.content"
+          class="day-report-modal-textarea"
+          allow-clear
+          :auto-size="{ minRows: 18, maxRows: 18 }"
+          :placeholder="$t('common.pleaseEnter') + ' ' + $t('aiCalendar.dayReport.content')"
+        />
       </div>
     </a-modal>
   </div>
@@ -142,6 +199,16 @@ const getReport = (year: number, month?: number, day?: number) => {
         }
       }
     }
+  }
+}
+
+.day-report-modal {
+  height: 60vh;
+  overflow-y: auto;
+
+  .day-report-modal-textarea {
+    border: none;
+    background-color: var(--color-fill-2);
   }
 }
 </style>

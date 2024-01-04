@@ -3,12 +3,16 @@ import { defineStore } from 'pinia'
 export const useCalendarStore = defineStore({
   id: 'calendar',
   state: () => ({
-    calendarYearReportList: [] as CalendarYearReport[]
+    yearReportList: [] as CalendarReport[],
+    monthReportList: [] as CalendarReport[],
+    dayReportList: [] as CalendarReport[]
   }),
   getters: {
     getStoreJson(): string {
       return JSON.stringify({
-        calendarYearReportList: this.calendarYearReportList
+        yearReportList: this.yearReportList,
+        monthReportList: this.monthReportList,
+        dayReportList: this.dayReportList
       })
     }
   },
@@ -19,8 +23,16 @@ export const useCalendarStore = defineStore({
         return importFlag
       }
       const calendarBackup = JSON.parse(json)
-      if (calendarBackup.calendarYearReportList !== undefined) {
-        this.calendarYearReportList = calendarBackup.calendarYearReportList
+      if (calendarBackup.yearReportList !== undefined) {
+        this.yearReportList = calendarBackup.yearReportList
+        importFlag = true
+      }
+      if (calendarBackup.monthReportList !== undefined) {
+        this.monthReportList = calendarBackup.monthReportList
+        importFlag = true
+      }
+      if (calendarBackup.dayReportList !== undefined) {
+        this.dayReportList = calendarBackup.dayReportList
         importFlag = true
       }
       return importFlag

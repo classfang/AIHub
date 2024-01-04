@@ -80,20 +80,12 @@ interface KnowledgeFile {
   updateTime: number
 }
 
-interface CalendarBaseReport {
-  key: string
-  contentList: string[]
+interface CalendarReport {
+  id: string
+  content: string
   createTime: number
   updateTime: number
-  dateSub: number
+  year: number
+  month?: number
+  day?: number
 }
-
-interface CalendarYearReport extends CalendarBaseReport {
-  monthReportList: CalendarMonthReport[]
-}
-
-interface CalendarMonthReport extends CalendarBaseReport {
-  dayReportList: CalendarDayReport[]
-}
-
-interface CalendarDayReport extends CalendarBaseReport {}
