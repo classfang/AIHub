@@ -7,6 +7,7 @@ export const useSystemStore = defineStore({
     globalLoading: false,
     chatWindowLoading: false,
     knowledgeBaseWindowLoading: false,
+    calendarLoading: false,
     dayKey: dayjs().format('YYYYMMDD')
   }),
   actions: {

@@ -257,12 +257,22 @@
   },
   "aiCalendar": {
     "name": "AI日历",
+    "generate": "生成报告",
     "dayReport": {
       "name": "日报",
       "content": "日报内容"
     },
-    "weekReport": "周报",
-    "monthReport": "月报",
-    "yearReport": "年报"
+    "weekReport": {
+      "name": "周报",
+      "content": "周报内容"
+    },
+    "monthReport": {
+      "name": "月报",
+      "content": "月报内容"
+    },
+    "yearReport": {
+      "name": "年报",
+      "content": "年报内容"
+    }
   }
 }

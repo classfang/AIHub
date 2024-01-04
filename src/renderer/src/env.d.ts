@@ -12,6 +12,7 @@ type TranslatorProvider = 'Youdao'
 type AssistantType = 'chat' | 'drawing'
 type ChatMsgType = 'text' | 'img'
 type ChatRole = 'user' | 'assistant' | 'system'
+type CalendarReportType = 'day' | 'week' | 'month' | 'year'
 
 interface Assistant {
   // 通用
@@ -85,8 +86,6 @@ interface CalendarReport {
   content: string
   createTime: number
   updateTime: number
-  year: number
-  month?: number
-  week?: number
-  day?: number
+  startTime: number
+  endTime: number
 }

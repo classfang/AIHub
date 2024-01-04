@@ -5,104 +5,113 @@ import { useCalendarStore } from '@renderer/store/calendar'
 import { randomUUID } from '@renderer/utils/id-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { copyObj } from '@renderer/utils/object-util'
+import dayjs from 'dayjs'
+import { useSystemStore } from '@renderer/store/system'
 
 // Store
 const settingStore = useSettingStore()
+const systemStore = useSystemStore()
 const calendarStore = useCalendarStore()
 
 // 数据绑定
 const data = reactive({
-  dayModalVisible: false,
+  reportModalVisible: false,
+  reportModalType: 'day' as CalendarReportType,
   currentDate: new Date(),
-  currentDayReport: {} as CalendarReport
+  currentReport: {} as CalendarReport
 })
-const { dayModalVisible, currentDate, currentDayReport } = toRefs(data)
+const { reportModalVisible, reportModalType, currentDate, currentReport } = toRefs(data)
 
-// 打开日报Modal
-const openDayModal = () => {
-  let dayReport = getReport(
-    data.currentDate.getFullYear(),
-    data.currentDate.getMonth() + 1,
-    undefined,
-    data.currentDate.getDate()
-  )
-  if (!dayReport) {
-    dayReport = {
+// 打开报告Modal
+const openReport = (reportModalType: CalendarReportType) => {
+  const startTime = dayjs(data.currentDate).startOf(reportModalType).valueOf()
+  const endTime = dayjs(data.currentDate).endOf(reportModalType).valueOf()
+  let report: CalendarReport = getReport(reportModalType, startTime, endTime)
+  if (!report) {
+    report = {
       id: randomUUID(),
       content: '',
       createTime: nowTimestamp(),
       updateTime: nowTimestamp(),
-      year: data.currentDate.getFullYear(),
-      month: data.currentDate.getMonth() + 1,
-      day: data.currentDate.getDate()
+      startTime,
+      endTime
     }
   }
-  data.currentDayReport = dayReport
-  data.dayModalVisible = true
+  data.currentReport = report
+  data.reportModalType = reportModalType
+  data.reportModalVisible = true
 }
 
 // 获取报告内容
-const getReport = (year: number, month?: number, week?: number, day?: number) => {
-  if (day && month) {
-    return copyObj(
-      calendarStore.dayReportList.find((r) => r.year === year && r.month === month && r.day === day)
-    )
-  } else if (week && month) {
-    return copyObj(
-      calendarStore.weekReportList.find(
-        (r) => r.year === year && r.month === month && r.week === week
-      )
-    )
-  } else if (month) {
-    return copyObj(calendarStore.monthReportList.find((r) => r.year === year && r.month === month))
-  } else {
-    return copyObj(calendarStore.yearReportList.find((r) => r.year === year))
+const getReport = (reportType: CalendarReportType, startTime: number, endTime: number) => {
+  let reportList: CalendarReport[] | undefined = undefined
+  switch (reportType) {
+    case 'day':
+      reportList = calendarStore.dayReportList
+      break
+    case 'week':
+      reportList = calendarStore.weekReportList
+      break
+    case 'month':
+      reportList = calendarStore.monthReportList
+      break
+    case 'year':
+      reportList = calendarStore.yearReportList
+      break
   }
+  return copyObj(reportList?.find((r) => r.startTime === startTime && r.endTime === endTime))
 }
 
 // 保存报告
-const setReport = (report: CalendarReport) => {
-  if (report.day && report.month) {
-    const index = calendarStore.dayReportList.findIndex(
-      (r) => r.year === report.year && r.month === report.month && r.day === report.day
-    )
-    if (index > -1) {
-      calendarStore.dayReportList[index] = report
-    } else {
-      calendarStore.dayReportList.push(report)
-    }
-  } else if (report.week && report.month) {
-    const index = calendarStore.weekReportList.findIndex(
-      (r) => r.year === report.year && r.month === report.month && r.week === report.week
-    )
-    if (index > -1) {
-      calendarStore.weekReportList[index] = report
-    } else {
-      calendarStore.weekReportList.push(report)
-    }
-  } else if (report.month) {
-    const index = calendarStore.monthReportList.findIndex(
-      (r) => r.year === report.year && r.month === report.month
-    )
-    if (index > -1) {
-      calendarStore.monthReportList[index] = report
-    } else {
-      calendarStore.monthReportList.push(report)
-    }
+const setReport = (reportType: CalendarReportType, report: CalendarReport) => {
+  let reportList: CalendarReport[] | undefined = undefined
+  switch (reportType) {
+    case 'day':
+      reportList = calendarStore.dayReportList
+      break
+    case 'week':
+      reportList = calendarStore.weekReportList
+      break
+    case 'month':
+      reportList = calendarStore.monthReportList
+      break
+    case 'year':
+      reportList = calendarStore.yearReportList
+      break
+  }
+  const index = reportList?.findIndex(
+    (r) => r.startTime === report.startTime && r.endTime === report.endTime
+  )
+  if (index > -1) {
+    reportList[index] = report
   } else {
-    const index = calendarStore.yearReportList.findIndex((r) => r.year === report.year)
-    if (index > -1) {
-      calendarStore.yearReportList[index] = report
-    } else {
-      calendarStore.yearReportList.push(report)
-    }
+    reportList?.push(report)
   }
 }
 
-// 日报保存
-const handleDayModalBeforeOk = async () => {
-  setReport(data.currentDayReport)
-  return true
+// 报告保存
+const handleReportModalOk = () => {
+  if (systemStore.calendarLoading) {
+    return
+  }
+  setReport(data.reportModalType, data.currentReport)
+  data.reportModalVisible = false
+}
+
+// 报告取消
+const handleReportModalCancel = () => {
+  if (systemStore.calendarLoading) {
+    return
+  }
+  data.reportModalVisible = false
+}
+
+// 生成报告
+const generateReport = () => {
+  systemStore.calendarLoading = true
+  setTimeout(() => {
+    systemStore.calendarLoading = false
+  }, 5000)
 }
 </script>
 
@@ -113,9 +122,11 @@ const handleDayModalBeforeOk = async () => {
       <div class="ai-calendar-header-title">{{ $t('aiCalendar.name') }}</div>
       <div class="ai-calendar-header-btn-group no-drag-area">
         <a-space :size="10">
-          <a-button size="mini">{{ $t('aiCalendar.weekReport') }}</a-button>
-          <a-button size="mini">{{ $t('aiCalendar.monthReport') }}</a-button>
-          <a-button size="mini">{{ $t('aiCalendar.yearReport') }}</a-button>
+          <a-button size="mini" @click="openReport('week')">{{
+            $t('aiCalendar.weekReport.name')
+          }}</a-button>
+          <a-button size="mini">{{ $t('aiCalendar.monthReport.name') }}</a-button>
+          <a-button size="mini">{{ $t('aiCalendar.yearReport.name') }}</a-button>
         </a-space>
       </div>
     </div>
@@ -142,7 +153,7 @@ const handleDayModalBeforeOk = async () => {
                       "
                       class="day-report-edit-btn"
                       shape="circle"
-                      @click="openDayModal"
+                      @click="openReport('day')"
                     >
                       <template #icon>
                         <icon-edit />
@@ -151,7 +162,17 @@ const handleDayModalBeforeOk = async () => {
                   </transition>
                 </div>
                 <div class="calendar-cell-body">
-                  {{ getReport(cellData.year, cellData.month, undefined, cellData.date)?.content }}
+                  {{
+                    getReport(
+                      'day',
+                      dayjs(new Date(cellData.year, cellData.month - 1, cellData.date))
+                        .startOf('day')
+                        .valueOf(),
+                      dayjs(new Date(cellData.year, cellData.month - 1, cellData.date))
+                        .endOf('day')
+                        .valueOf()
+                    )?.content
+                  }}
                 </div>
               </div>
             </div>
@@ -159,25 +180,40 @@ const handleDayModalBeforeOk = async () => {
         </a-calendar>
       </div>
     </div>
-    <!-- 日报Modal -->
+    <!-- 报告Modal -->
     <a-modal
-      v-model:visible="dayModalVisible"
-      :ok-text="$t('common.ok')"
-      :cancel-text="$t('common.cancel')"
-      :on-before-ok="handleDayModalBeforeOk"
+      v-model:visible="reportModalVisible"
+      :mask-closable="!systemStore.calendarLoading"
+      :closable="!systemStore.calendarLoading"
       unmount-on-close
       title-align="start"
       width="80vw"
     >
-      <template #title> {{ $t('aiCalendar.dayReport.name') }} </template>
-      <div class="day-report-modal">
+      <template #title> {{ $t(`aiCalendar.${reportModalType}Report.name`) }} </template>
+      <div class="report-modal">
         <a-textarea
-          v-model="currentDayReport.content"
-          class="day-report-modal-textarea"
+          v-model="currentReport.content"
+          class="report-modal-textarea"
           allow-clear
-          :placeholder="$t('common.pleaseEnter') + ' ' + $t('aiCalendar.dayReport.content')"
+          :placeholder="
+            $t('common.pleaseEnter') + ' ' + $t(`aiCalendar.${reportModalType}Report.content`)
+          "
         />
       </div>
+      <template #footer>
+        <div style="display: flex; gap: 10px">
+          <a-button
+            v-if="reportModalType != 'day'"
+            :loading="systemStore.calendarLoading"
+            @click="generateReport"
+            >{{ $t('aiCalendar.generate') }}
+          </a-button>
+          <a-button style="margin-left: auto" @click="handleReportModalCancel"
+            >{{ $t('common.cancel') }}
+          </a-button>
+          <a-button type="primary" @click="handleReportModalOk">{{ $t('common.ok') }} </a-button>
+        </div>
+      </template>
     </a-modal>
   </div>
 </template>
@@ -299,11 +335,11 @@ const handleDayModalBeforeOk = async () => {
   }
 }
 
-.day-report-modal {
+.report-modal {
   height: 60vh;
   overflow-y: auto;
 
-  .day-report-modal-textarea {
+  .report-modal-textarea {
     border: none;
     background-color: var(--color-fill-2);
     height: 100%;

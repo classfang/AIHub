@@ -257,12 +257,22 @@
   },
   "aiCalendar": {
     "name": "AI Calendar",
+    "generate": "Generate report",
     "dayReport": {
       "name": "Daily report",
       "content": "Daily report content"
     },
-    "weekReport": "Week report",
-    "monthReport": "Month report",
-    "yearReport": "Year report"
+    "weekReport": {
+      "name": "Week report",
+      "content": "Week report content"
+    },
+    "monthReport": {
+      "name": "Month report",
+      "content": "Month report content"
+    },
+    "yearReport": {
+      "name": "Year report",
+      "content": "Year report content"
+    }
   }
 }
