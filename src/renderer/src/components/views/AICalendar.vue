@@ -7,11 +7,17 @@ import { nowTimestamp } from '@renderer/utils/date-util'
 import { copyObj } from '@renderer/utils/object-util'
 import dayjs from 'dayjs'
 import { useSystemStore } from '@renderer/store/system'
+import { useI18n } from 'vue-i18n'
+import { Message } from '@arco-design/web-vue'
+import { chat2bigModel } from '@renderer/utils/big-model'
 
 // Store
 const settingStore = useSettingStore()
 const systemStore = useSystemStore()
 const calendarStore = useCalendarStore()
+
+// i18n
+const { t } = useI18n()
 
 // 数据绑定
 const data = reactive({
@@ -40,6 +46,30 @@ const openReport = (reportModalType: CalendarReportType) => {
   data.currentReport = report
   data.reportModalType = reportModalType
   data.reportModalVisible = true
+}
+
+// 获取报告Modal标题
+const getReportModalTitle = () => {
+  let title = t(`aiCalendar.${data.reportModalType}Report.name`) + ' '
+  switch (data.reportModalType) {
+    case 'day':
+      title += dayjs(data.currentDate).format('YYYY-MM-DD')
+      break
+    case 'week':
+      title += `${dayjs(data.currentDate)
+        .startOf(data.reportModalType)
+        .format('YYYY-MM-DD')} - ${dayjs(data.currentDate)
+        .endOf(data.reportModalType)
+        .format('YYYY-MM-DD')}`
+      break
+    case 'month':
+      title += dayjs(data.currentDate).format('YYYY-MM')
+      break
+    case 'year':
+      title += dayjs(data.currentDate).format('YYYY')
+      break
+  }
+  return title
 }
 
 // 获取报告内容
@@ -79,6 +109,7 @@ const setReport = (reportType: CalendarReportType, report: CalendarReport) => {
       reportList = calendarStore.yearReportList
       break
   }
+  report.updateTime = new Date().getTime()
   const index = reportList?.findIndex(
     (r) => r.startTime === report.startTime && r.endTime === report.endTime
   )
@@ -107,11 +138,65 @@ const handleReportModalCancel = () => {
 }
 
 // 生成报告
-const generateReport = () => {
+const generateReport = async () => {
   systemStore.calendarLoading = true
-  setTimeout(() => {
+
+  // 检查大模型配置
+  if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
+    Message.error(t(`chatWindow.configMiss.OpenAI`))
     systemStore.calendarLoading = false
-  }, 5000)
+    return
+  }
+
+  // 获取日报列表
+  const dayReportList = calendarStore.dayReportList.filter(
+    (r) =>
+      r.content.trim().length > 0 &&
+      r.startTime >= data.currentReport.startTime &&
+      r.endTime <= data.currentReport.endTime
+  )
+  if (dayReportList.length === 0) {
+    Message.error(t(`aiCalendar.noDayReportError`))
+    systemStore.calendarLoading = false
+    return
+  }
+
+  // 拼接消息
+  let messageContent = ''
+  dayReportList.forEach(
+    (r) => (messageContent += `\n\n ${dayjs(r.startTime).format('YYYY-MM-DD')}: ${r.content}`)
+  )
+
+  // 大模型调用
+  await chat2bigModel('OpenAI', {
+    apiKey: settingStore.openAI.key,
+    baseURL: settingStore.openAI.baseUrl,
+    type: 'chat',
+    inputMaxTokens: 4096,
+    maxTokens: 4096,
+    model: 'gpt-4-1106-preview',
+    contextSize: 370,
+    instruction: `Please put together a ${data.reportModalType} report based on the daily paper I gave you. Returns plain text instead of Markdown text. Return directly to the report content, no other content is required. The language returned is the language of the daily newspaper content.`,
+    messages: [
+      {
+        id: '',
+        type: 'text',
+        role: 'user',
+        content: messageContent,
+        createTime: 0
+      }
+    ],
+    startAnswer: () => {
+      data.currentReport.content = ''
+    },
+    appendAnswer: (content: string) => {
+      data.currentReport.content += content
+    },
+    end: (errMsg: any) => {
+      systemStore.calendarLoading = false
+      errMsg && Message.error(errMsg)
+    }
+  })
 }
 </script>
 
@@ -125,8 +210,12 @@ const generateReport = () => {
           <a-button size="mini" @click="openReport('week')">{{
             $t('aiCalendar.weekReport.name')
           }}</a-button>
-          <a-button size="mini">{{ $t('aiCalendar.monthReport.name') }}</a-button>
-          <a-button size="mini">{{ $t('aiCalendar.yearReport.name') }}</a-button>
+          <a-button size="mini" @click="openReport('month')">{{
+            $t('aiCalendar.monthReport.name')
+          }}</a-button>
+          <a-button size="mini" @click="openReport('year')">{{
+            $t('aiCalendar.yearReport.name')
+          }}</a-button>
         </a-space>
       </div>
     </div>
@@ -189,7 +278,9 @@ const generateReport = () => {
       title-align="start"
       width="80vw"
     >
-      <template #title> {{ $t(`aiCalendar.${reportModalType}Report.name`) }} </template>
+      <template #title>
+        {{ getReportModalTitle() }}
+      </template>
       <div class="report-modal">
         <a-textarea
           v-model="currentReport.content"

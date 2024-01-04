@@ -258,6 +258,7 @@
   "aiCalendar": {
     "name": "AI日历",
     "generate": "生成报告",
+    "noDayReportError": "该周期内暂无日报",
     "dayReport": {
       "name": "日报",
       "content": "日报内容"
