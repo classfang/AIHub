@@ -42,10 +42,16 @@ const openDayModal = () => {
 }
 
 // 获取报告内容
-const getReport = (year: number, month?: number, day?: number) => {
+const getReport = (year: number, month?: number, week?: number, day?: number) => {
   if (day && month) {
     return copyObj(
       calendarStore.dayReportList.find((r) => r.year === year && r.month === month && r.day === day)
+    )
+  } else if (week && month) {
+    return copyObj(
+      calendarStore.weekReportList.find(
+        (r) => r.year === year && r.month === month && r.week === week
+      )
     )
   } else if (month) {
     return copyObj(calendarStore.monthReportList.find((r) => r.year === year && r.month === month))
@@ -64,6 +70,15 @@ const setReport = (report: CalendarReport) => {
       calendarStore.dayReportList[index] = report
     } else {
       calendarStore.dayReportList.push(report)
+    }
+  } else if (report.week && report.month) {
+    const index = calendarStore.weekReportList.findIndex(
+      (r) => r.year === report.year && r.month === report.month && r.week === report.week
+    )
+    if (index > -1) {
+      calendarStore.weekReportList[index] = report
+    } else {
+      calendarStore.weekReportList.push(report)
     }
   } else if (report.month) {
     const index = calendarStore.monthReportList.findIndex(

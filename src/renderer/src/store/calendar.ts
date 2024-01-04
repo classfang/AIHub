@@ -5,6 +5,7 @@ export const useCalendarStore = defineStore({
   state: () => ({
     yearReportList: [] as CalendarReport[],
     monthReportList: [] as CalendarReport[],
+    weekReportList: [] as CalendarReport[],
     dayReportList: [] as CalendarReport[]
   }),
   getters: {
@@ -12,6 +13,7 @@ export const useCalendarStore = defineStore({
       return JSON.stringify({
         yearReportList: this.yearReportList,
         monthReportList: this.monthReportList,
+        weekReportList: this.weekReportList,
         dayReportList: this.dayReportList
       })
     }
@@ -29,6 +31,10 @@ export const useCalendarStore = defineStore({
       }
       if (calendarBackup.monthReportList !== undefined) {
         this.monthReportList = calendarBackup.monthReportList
+        importFlag = true
+      }
+      if (calendarBackup.weekReportList !== undefined) {
+        this.weekReportList = calendarBackup.weekReportList
         importFlag = true
       }
       if (calendarBackup.dayReportList !== undefined) {

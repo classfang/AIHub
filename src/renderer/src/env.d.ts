@@ -87,5 +87,6 @@ interface CalendarReport {
   updateTime: number
   year: number
   month?: number
+  week?: number
   day?: number
 }
