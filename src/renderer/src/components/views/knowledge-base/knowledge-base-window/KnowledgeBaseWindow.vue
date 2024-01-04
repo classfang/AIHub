@@ -390,36 +390,33 @@ watchEffect(() => {
     >
       <template #title> {{ $t('knowledgeBase.window.newFile') }}</template>
       <div class="knowledge-base-new-file-modal">
-        <a-space :size="10" direction="vertical" fill>
-          <a-space :size="10" fill>
-            <div class="select-file">
-              <a-upload
-                :show-file-list="false"
-                :custom-request="selectFileRequest"
-                accept=".txt, .pdf, .docx, .pptx"
-              >
-                <template #upload-button>
-                  <a-button size="small">
-                    <a-space :size="5">
-                      <icon-file :size="15" />
-                      <span>{{ $t('knowledgeBase.window.selectFile') }}</span>
-                    </a-space>
-                  </a-button>
-                </template>
-              </a-upload>
-            </div>
-            <div class="select-file-tip">
-              {{ $t('knowledgeBase.window.selectFileTip') }}
-            </div>
-          </a-space>
-          <a-textarea
-            v-model="newFileForm.text"
-            class="knowledge-base-new-file-textarea"
-            allow-clear
-            :auto-size="{ minRows: 16, maxRows: 16 }"
-            :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
-          />
+        <a-space :size="10" fill>
+          <div class="select-file">
+            <a-upload
+              :show-file-list="false"
+              :custom-request="selectFileRequest"
+              accept=".txt, .pdf, .docx, .pptx"
+            >
+              <template #upload-button>
+                <a-button size="small">
+                  <a-space :size="5">
+                    <icon-file :size="15" />
+                    <span>{{ $t('knowledgeBase.window.selectFile') }}</span>
+                  </a-space>
+                </a-button>
+              </template>
+            </a-upload>
+          </div>
+          <div class="select-file-tip">
+            {{ $t('knowledgeBase.window.selectFileTip') }}
+          </div>
         </a-space>
+        <a-textarea
+          v-model="newFileForm.text"
+          class="knowledge-base-new-file-textarea"
+          allow-clear
+          :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
+        />
       </div>
     </a-modal>
 
@@ -438,7 +435,6 @@ watchEffect(() => {
           v-model="fileDetail.text"
           class="knowledge-base-new-file-textarea"
           allow-clear
-          :auto-size="{ minRows: 18, maxRows: 18 }"
           :placeholder="$t('common.pleaseEnter') + ' ' + $t('knowledgeBase.window.newFileText')"
         />
       </div>
@@ -597,6 +593,9 @@ watchEffect(() => {
 .knowledge-base-new-file-modal {
   height: 60vh;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
   .select-file {
     height: 30px;
@@ -624,6 +623,14 @@ watchEffect(() => {
   .knowledge-base-new-file-textarea {
     border: none;
     background-color: var(--color-fill-2);
+    flex: 1;
+    height: 100%;
+    display: flex;
+
+    :deep(.arco-textarea) {
+      resize: none;
+      flex-grow: 1;
+    }
   }
 }
 </style>

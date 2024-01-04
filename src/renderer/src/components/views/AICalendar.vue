@@ -115,7 +115,6 @@ const handleDayModalBeforeOk = async () => {
           v-model="currentDayReport.content"
           class="day-report-modal-textarea"
           allow-clear
-          :auto-size="{ minRows: 18, maxRows: 18 }"
           :placeholder="$t('common.pleaseEnter') + ' ' + $t('aiCalendar.dayReport.content')"
         />
       </div>
@@ -209,6 +208,13 @@ const handleDayModalBeforeOk = async () => {
   .day-report-modal-textarea {
     border: none;
     background-color: var(--color-fill-2);
+    height: 100%;
+    display: flex;
+
+    :deep(.arco-textarea) {
+      resize: none;
+      flex-grow: 1;
+    }
   }
 }
 </style>
