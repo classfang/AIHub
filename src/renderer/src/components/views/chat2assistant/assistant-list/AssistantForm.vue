@@ -141,6 +141,7 @@ watch(
         </a-select>
         <a-select v-else-if="assistantForm.provider === 'Tongyi'" v-model="assistantForm.model">
           <a-option value="qwen-vl-plus">qwen-vl-plus</a-option>
+          <a-option value="qwen-max-longcontext">qwen-max-longcontext</a-option>
           <a-option value="qwen-max">qwen-max</a-option>
           <a-option value="qwen-plus">qwen-plus</a-option>
           <a-option value="qwen-turbo">qwen-turbo</a-option>
