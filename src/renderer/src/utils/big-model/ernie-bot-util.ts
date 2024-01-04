@@ -138,7 +138,11 @@ export const getERNIEBotMessages = async (
     }`
   }
   // 使用'gpt-4-0314'模型估算Token，如果超出了上限制则移除上下文一条消息
-  while (messages.length > 1 && getChatTokensLength(messages) > inputMaxTokens) {
+  while (
+    inputMaxTokens > 0 &&
+    messages.length > 1 &&
+    getChatTokensLength(messages) > inputMaxTokens
+  ) {
     messages.shift()
   }
   return messages

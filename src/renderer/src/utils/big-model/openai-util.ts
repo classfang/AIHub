@@ -136,6 +136,7 @@ export const getOpenAIMessages = async (
   }
   // 使用'gpt-4-0314'模型估算Token，如果超出了上限制则移除上下文一条消息
   while (
+    inputMaxTokens > 0 &&
     messages.length > (hasInstruction ? 2 : 1) &&
     getChatTokensLength(messages) > inputMaxTokens
   ) {
