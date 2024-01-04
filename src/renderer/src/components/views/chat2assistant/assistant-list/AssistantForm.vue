@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, watchEffect } from 'vue'
+import chatModels from '@renderer/assets/json/chat-models.json'
+import drawingModels from '@renderer/assets/json/drawing-models.json'
 
 const props = defineProps({
   assistant: {
@@ -107,44 +109,17 @@ watch(
       <!-- 提供商 -->
       <a-form-item field="provider" :label="$t('assistantList.provider')">
         <a-select v-model="assistantForm.provider">
-          <a-option value="OpenAI">{{ $t('bigModelProvider.OpenAI') }}</a-option>
-          <a-option value="Gemini">{{ $t('bigModelProvider.Gemini') }}</a-option>
-          <a-option value="Spark">{{ $t('bigModelProvider.Spark') }}</a-option>
-          <a-option value="ERNIEBot">{{ $t('bigModelProvider.ERNIEBot') }}</a-option>
-          <a-option value="Tongyi">{{ $t('bigModelProvider.Tongyi') }}</a-option>
+          <a-option v-for="p in Object.keys(chatModels)" :key="p" :value="p">{{
+            $t(`bigModelProvider.${p}`)
+          }}</a-option>
         </a-select>
       </a-form-item>
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
-        <a-select v-if="assistantForm.provider === 'OpenAI'" v-model="assistantForm.model">
-          <a-option value="gpt-4-vision-preview">gpt-4-vision-preview</a-option>
-          <a-option value="gpt-4-1106-preview">gpt-4-1106-preview</a-option>
-          <a-option value="gpt-4-32k">gpt-4-32k</a-option>
-          <a-option value="gpt-4">gpt-4</a-option>
-          <a-option value="gpt-3.5-turbo-16k">gpt-3.5-turbo-16k</a-option>
-          <a-option value="gpt-3.5-turbo">gpt-3.5-turbo</a-option>
-        </a-select>
-        <a-select v-if="assistantForm.provider === 'Gemini'" v-model="assistantForm.model">
-          <a-option value="gemini-pro-vision">gemini-pro-vision</a-option>
-          <a-option value="gemini-pro">gemini-pro</a-option>
-        </a-select>
-        <a-select v-else-if="assistantForm.provider === 'Spark'" v-model="assistantForm.model">
-          <a-option value="v3.1">spark-v3.0</a-option>
-          <a-option value="v2.1">spark-v2.0</a-option>
-          <a-option value="v1.1">spark-v1.5</a-option>
-        </a-select>
-        <a-select v-else-if="assistantForm.provider === 'ERNIEBot'" v-model="assistantForm.model">
-          <a-option value="ERNIE-Bot 4.0">ERNIE-Bot 4.0</a-option>
-          <a-option value="ERNIE-Bot-8K">ERNIE-Bot-8K</a-option>
-          <a-option value="ERNIE-Bot-turbo">ERNIE-Bot-turbo</a-option>
-          <a-option value="ERNIE-Bot">ERNIE-Bot</a-option>
-        </a-select>
-        <a-select v-else-if="assistantForm.provider === 'Tongyi'" v-model="assistantForm.model">
-          <a-option value="qwen-vl-plus">qwen-vl-plus</a-option>
-          <a-option value="qwen-max-longcontext">qwen-max-longcontext</a-option>
-          <a-option value="qwen-max">qwen-max</a-option>
-          <a-option value="qwen-plus">qwen-plus</a-option>
-          <a-option value="qwen-turbo">qwen-turbo</a-option>
+        <a-select v-model="assistantForm.model">
+          <a-option v-for="m in chatModels[assistantForm.provider]" :key="m" :value="m">{{
+            m
+          }}</a-option>
         </a-select>
       </a-form-item>
       <!-- 生成token限制 -->
@@ -181,20 +156,17 @@ watch(
       <!-- 提供商 -->
       <a-form-item field="provider" :label="$t('assistantList.provider')">
         <a-select v-model="assistantForm.provider">
-          <a-option value="OpenAI">{{ $t('bigModelProvider.OpenAI') }}</a-option>
-          <a-option value="Tongyi">{{ $t('bigModelProvider.Tongyi') }}</a-option>
+          <a-option v-for="p in Object.keys(drawingModels)" :key="p" :value="p">{{
+            $t(`bigModelProvider.${p}`)
+          }}</a-option>
         </a-select>
       </a-form-item>
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
         <a-select v-model="assistantForm.model">
-          <template v-if="assistantForm.provider === 'OpenAI'">
-            <a-option value="dall-e-3">dall-e-3</a-option>
-            <a-option value="dall-e-2">dall-e-2</a-option>
-          </template>
-          <template v-else-if="assistantForm.provider === 'Tongyi'">
-            <a-option value="wanx-v1">wanx-v1</a-option>
-          </template>
+          <a-option v-for="m in drawingModels[assistantForm.provider]" :key="m" :value="m">{{
+            m
+          }}</a-option>
         </a-select>
       </a-form-item>
       <!-- 图片大小 -->

@@ -1,0 +1,14 @@
+{
+  "OpenAI": [
+    "gpt-4-vision-preview",
+    "gpt-4-1106-preview",
+    "gpt-4-32k",
+    "gpt-4",
+    "gpt-3.5-turbo-16k",
+    "gpt-3.5-turbo"
+  ],
+  "Gemini": ["gemini-pro-vision", "gemini-pro"],
+  "Spark": ["v3.1", "v2.1", "v1.1"],
+  "ERNIEBot": ["ERNIE-Bot 4.0", "ERNIE-Bot-8K", "ERNIE-Bot-turbo", "ERNIE-Bot"],
+  "Tongyi": ["qwen-vl-plus", "qwen-max-longcontext", "qwen-max", "qwen-plus", "qwen-turbo"]
+}
