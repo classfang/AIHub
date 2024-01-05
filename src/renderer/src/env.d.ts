@@ -7,6 +7,12 @@ declare module '*.vue' {
   export default component
 }
 
+declare module 'markdown-it-mathjax3' {
+  import MarkdownIt from 'markdown-it'
+  const markdownItMathjax3: MarkdownIt.PluginSimple
+  export default markdownItMathjax3
+}
+
 type BigModelProvider = 'OpenAI' | 'Spark' | 'ERNIEBot' | 'Tongyi' | 'Gemini'
 type TranslatorProvider = 'Youdao'
 type AssistantType = 'chat' | 'drawing'

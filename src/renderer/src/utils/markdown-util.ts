@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import markdownItMathjax3 from 'markdown-it-mathjax3'
 import hljs from 'highlight.js'
 import ClipboardJS from 'clipboard'
 import 'highlight.js/scss/github-dark.scss'
@@ -38,6 +39,9 @@ const markdown = new MarkdownIt({
     return `<pre>${codeHtml}</pre>`
   }
 })
+
+// 支持数学公式，svg渲染，无需引入额外样式
+markdown.use(markdownItMathjax3)
 
 export const renderMarkdown = (content: string, isLoading: boolean) => {
   let htmlCode = markdown.render(content)

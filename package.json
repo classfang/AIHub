@@ -38,6 +38,7 @@
     "langchain": "^0.0.214",
     "mammoth": "^1.6.0",
     "markdown-it": "^14.0.0",
+    "markdown-it-mathjax3": "^4.3.2",
     "officeparser": "^4.0.6",
     "openai": "^4.24.1",
     "pdf-parse": "^1.1.1",
