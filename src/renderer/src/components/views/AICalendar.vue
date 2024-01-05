@@ -8,7 +8,7 @@ import { copyObj } from '@renderer/utils/object-util'
 import dayjs from 'dayjs'
 import { useSystemStore } from '@renderer/store/system'
 import { useI18n } from 'vue-i18n'
-import { Message } from '@arco-design/web-vue'
+import { Message, Modal } from '@arco-design/web-vue'
 import { chat2bigModel, CommonChatOption } from '@renderer/utils/big-model'
 
 // Store
@@ -129,7 +129,7 @@ const setReport = (reportType: CalendarReportType, report: CalendarReport) => {
 
 // 报告保存
 const handleReportModalOk = () => {
-  if (systemStore.calendarLoading) {
+  if (systemStore.aiCalendarLoading) {
     return
   }
   setReport(data.reportModalType, data.currentReport)
@@ -138,7 +138,7 @@ const handleReportModalOk = () => {
 
 // 报告取消
 const handleReportModalCancel = () => {
-  if (systemStore.calendarLoading) {
+  if (systemStore.aiCalendarLoading) {
     return
   }
   data.reportModalVisible = false
@@ -146,14 +146,7 @@ const handleReportModalCancel = () => {
 
 // 生成报告
 const generateReport = async () => {
-  systemStore.calendarLoading = true
-
-  // 检查大模型配置
-  if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
-    Message.error(t(`chatWindow.configMiss.OpenAI`))
-    systemStore.calendarLoading = false
-    return
-  }
+  systemStore.aiCalendarLoading = true
 
   // 获取日报列表
   const dayReportList = calendarStore.dayReportList.filter(
@@ -164,7 +157,7 @@ const generateReport = async () => {
   )
   if (dayReportList.length === 0) {
     Message.error(t(`aiCalendar.noDayReportError`))
-    systemStore.calendarLoading = false
+    systemStore.aiCalendarLoading = false
     return
   }
 
@@ -204,7 +197,16 @@ const generateReport = async () => {
       break
   }
   if (configErrorFlag) {
-    Message.error(t(`chatWindow.configMiss.${settingStore.aiCalendar.bigModel.provider}`))
+    Modal.confirm({
+      title: t('common.configError'),
+      content: t(`chatWindow.configMiss.${settingStore.aiCalendar.bigModel.provider}`),
+      okText: t('common.goSetting'),
+      cancelText: t('common.cancel'),
+      onOk: () => {
+        systemStore.openSettingModal('bigModel')
+      }
+    })
+    systemStore.aiCalendarLoading = false
     return
   }
 
@@ -230,7 +232,7 @@ const generateReport = async () => {
       data.currentReport.content += content
     },
     end: (errMsg: any) => {
-      systemStore.calendarLoading = false
+      systemStore.aiCalendarLoading = false
       errMsg && Message.error(errMsg)
     }
   }
@@ -287,8 +289,12 @@ const generateReport = async () => {
       <div class="ai-calendar-header-title">
         <a-space :size="10">
           <div>{{ $t('aiCalendar.name') }}</div>
-          <a-tag>{{ $t(`bigModelProvider.${settingStore.aiCalendar.bigModel.provider}`) }}</a-tag>
-          <a-tag>{{ settingStore.aiCalendar.bigModel.model }}</a-tag>
+          <a-tag class="no-drag-area" @click="systemStore.openSettingModal('aiCalendar')">{{
+            $t(`bigModelProvider.${settingStore.aiCalendar.bigModel.provider}`)
+          }}</a-tag>
+          <a-tag class="no-drag-area" @click="systemStore.openSettingModal('aiCalendar')">{{
+            settingStore.aiCalendar.bigModel.model
+          }}</a-tag>
         </a-space>
       </div>
       <div class="ai-calendar-header-btn-group no-drag-area">
@@ -362,8 +368,8 @@ const generateReport = async () => {
     <!-- 报告Modal -->
     <a-modal
       v-model:visible="reportModalVisible"
-      :mask-closable="!systemStore.calendarLoading"
-      :closable="!systemStore.calendarLoading"
+      :mask-closable="!systemStore.aiCalendarLoading"
+      :closable="!systemStore.aiCalendarLoading"
       unmount-on-close
       title-align="start"
       width="80vw"
@@ -385,7 +391,7 @@ const generateReport = async () => {
         <div style="display: flex; gap: 10px">
           <a-button
             v-if="reportModalType != 'day'"
-            :loading="systemStore.calendarLoading"
+            :loading="systemStore.aiCalendarLoading"
             @click="generateReport"
             >{{ $t('aiCalendar.generate') }}
           </a-button>

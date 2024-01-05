@@ -35,16 +35,19 @@ const calendarStore = useCalendarStore()
 const { t } = useI18n()
 
 const data = reactive({
-  modalVisible: false,
   appVersion: '0.0.0',
   newVersionFlag: false,
   clearCacheFlag: false
 })
-const { modalVisible, appVersion, newVersionFlag, clearCacheFlag } = toRefs(data)
+const { appVersion, newVersionFlag, clearCacheFlag } = toRefs(data)
 
 // 计算默认切换的tab
 const settingDefaultActiveKey = computed(() => {
-  return data.newVersionFlag ? 'about' : 'app'
+  return systemStore.settingModal.defaultActiveKey
+    ? systemStore.settingModal.defaultActiveKey
+    : data.newVersionFlag
+      ? 'about'
+      : 'app'
 })
 
 const checkNewVersion = () => {
@@ -209,7 +212,7 @@ onMounted(() => {
 
 <template>
   <div class="setting">
-    <div @click="modalVisible = !systemStore.chatWindowLoading">
+    <div @click="systemStore.openSettingModal()">
       <a-badge :count="newVersionFlag ? 1 : 0" dot :dot-style="{ width: '10px', height: '10px' }">
         <slot name="default"></slot>
       </a-badge>
@@ -217,7 +220,7 @@ onMounted(() => {
 
     <!-- 设置Modal -->
     <a-modal
-      v-model:visible="modalVisible"
+      v-model:visible="systemStore.settingModal.visible"
       :footer="false"
       unmount-on-close
       title-align="start"
@@ -492,7 +495,7 @@ onMounted(() => {
             </a-tabs>
           </a-tab-pane>
           <!-- AI日历 -->
-          <a-tab-pane key="translation" :title="$t('setting.aiCalendar.name')">
+          <a-tab-pane key="aiCalendar" :title="$t('setting.aiCalendar.name')">
             <a-space direction="vertical" :size="20" fill class="setting-tab-content">
               <a-space direction="vertical" :size="10" fill>
                 <div>{{ $t('setting.aiCalendar.weekStart') }}</div>

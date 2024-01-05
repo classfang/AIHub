@@ -68,7 +68,15 @@ const sendQuestion = () => {
   }
 
   if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
-    Message.error(t(`chatWindow.configMiss.OpenAI`))
+    Modal.confirm({
+      title: t('common.configError'),
+      content: t(`chatWindow.configMiss.OpenAI`),
+      okText: t('common.goSetting'),
+      cancelText: t('common.cancel'),
+      onOk: () => {
+        systemStore.openSettingModal('bigModel')
+      }
+    })
     return
   }
 
@@ -117,7 +125,15 @@ const handleNewFileModalBeforeOk = async () => {
     }
 
     if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
-      Message.error(t(`chatWindow.configMiss.OpenAI`))
+      Modal.confirm({
+        title: t('common.configError'),
+        content: t(`chatWindow.configMiss.OpenAI`),
+        okText: t('common.goSetting'),
+        cancelText: t('common.cancel'),
+        onOk: () => {
+          systemStore.openSettingModal('bigModel')
+        }
+      })
       reject()
       return
     }

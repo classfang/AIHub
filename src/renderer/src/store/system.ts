@@ -7,8 +7,12 @@ export const useSystemStore = defineStore({
     globalLoading: false,
     chatWindowLoading: false,
     knowledgeBaseWindowLoading: false,
-    calendarLoading: false,
-    dayKey: dayjs().format('YYYYMMDD')
+    aiCalendarLoading: false,
+    dayKey: dayjs().format('YYYYMMDD'),
+    settingModal: {
+      defaultActiveKey: '',
+      visible: false
+    }
   }),
   actions: {
     startDayKeyInterval() {
@@ -16,6 +20,18 @@ export const useSystemStore = defineStore({
       setInterval(() => {
         this.dayKey = dayjs().format('YYYYMMDD')
       }, 1000)
+    },
+    openSettingModal(defaultActiveKey = '') {
+      if (
+        this.globalLoading ||
+        this.chatWindowLoading ||
+        this.knowledgeBaseWindowLoading ||
+        this.aiCalendarLoading
+      ) {
+        return
+      }
+      this.settingModal.defaultActiveKey = defaultActiveKey
+      this.settingModal.visible = true
     }
   },
   persist: false

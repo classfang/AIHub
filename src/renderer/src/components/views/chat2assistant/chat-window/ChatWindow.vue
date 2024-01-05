@@ -7,7 +7,7 @@ import MultipleChoiceConsole from '@renderer/components/views/chat2assistant/cha
 import ChatWindowHeader from '@renderer/components/views/chat2assistant/chat-window/ChatWindowHeader.vue'
 import { useI18n } from 'vue-i18n'
 import { useSettingStore } from '@renderer/store/setting'
-import { FileItem, Message, RequestOption } from '@arco-design/web-vue'
+import { FileItem, Message, Modal, RequestOption } from '@arco-design/web-vue'
 import { getContentTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 import { downloadFile } from '@renderer/utils/download-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
@@ -130,7 +130,15 @@ const useBigModel = async (sessionId: string) => {
       break
   }
   if (configErrorFlag) {
-    Message.error(t(`chatWindow.configMiss.${data.currentAssistant.provider}`))
+    Modal.confirm({
+      title: t('common.configError'),
+      content: t(`chatWindow.configMiss.${data.currentAssistant.provider}`),
+      okText: t('common.goSetting'),
+      cancelText: t('common.cancel'),
+      onOk: () => {
+        systemStore.openSettingModal('bigModel')
+      }
+    })
     return
   }
 

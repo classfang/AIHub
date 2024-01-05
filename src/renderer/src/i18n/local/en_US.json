@@ -18,7 +18,9 @@
     "copySuccess": "Copied to clipboard",
     "officialWebsite": "Official Website",
     "updateTime": "Update time",
-    "charCount": "Characters"
+    "charCount": "Characters",
+    "configError": "Configuration error",
+    "goSetting": "Go to Settings"
   },
   "setting": {
     "name": "Settings",

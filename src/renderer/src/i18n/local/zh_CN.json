@@ -18,7 +18,9 @@
     "copySuccess": "已复制到剪贴板",
     "officialWebsite": "官网地址",
     "updateTime": "更新时间",
-    "charCount": "字"
+    "charCount": "字",
+    "configError": "配置错误",
+    "goSetting": "前往配置"
   },
   "setting": {
     "name": "设置",

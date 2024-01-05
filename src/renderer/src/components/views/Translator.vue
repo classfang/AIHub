@@ -2,10 +2,12 @@
 import { useSettingStore } from '@renderer/store/setting'
 import { useI18n } from 'vue-i18n'
 import { reactive, toRefs } from 'vue'
-import { Message } from '@arco-design/web-vue'
+import { Message, Modal } from '@arco-design/web-vue'
 import { debounce } from '@renderer/utils/debounce-util'
 import { translate, TranslateResult } from '@renderer/utils/translator'
+import { useSystemStore } from '@renderer/store/system'
 
+const systemStore = useSystemStore()
 const settingStore = useSettingStore()
 const { t } = useI18n()
 
@@ -43,7 +45,15 @@ const checkConfig = () => {
       break
   }
   if (configMiss) {
-    Message.error(t('translator.configMiss.' + data.provider))
+    Modal.confirm({
+      title: t('common.configError'),
+      content: t(`translator.configMiss.${data.provider}`),
+      okText: t('common.goSetting'),
+      cancelText: t('common.cancel'),
+      onOk: () => {
+        systemStore.openSettingModal('translator')
+      }
+    })
   }
   return configMiss
 }
