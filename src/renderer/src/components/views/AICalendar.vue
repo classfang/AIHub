@@ -393,7 +393,11 @@ const generateReport = async () => {
             v-if="reportModalType != 'day'"
             :loading="systemStore.aiCalendarLoading"
             @click="generateReport"
-            >{{ $t('aiCalendar.generate') }}
+          >
+            <span>{{ $t('aiCalendar.generate') }}</span>
+            <template #icon>
+              <icon-robot />
+            </template>
           </a-button>
           <a-button style="margin-left: auto" @click="handleReportModalCancel"
             >{{ $t('common.cancel') }}

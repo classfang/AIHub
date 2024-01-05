@@ -266,7 +266,7 @@
   },
   "aiCalendar": {
     "name": "AI Calendar",
-    "generate": "Generate report",
+    "generate": "AI generate",
     "noDayReportError": "There are no daily papers available during the week",
     "dayReport": {
       "name": "Daily report",
