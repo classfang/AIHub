@@ -302,7 +302,11 @@ const generateReport = async () => {
     <!-- 主体 -->
     <div class="ai-calendar-body">
       <div class="calendar">
-        <a-calendar :key="'calendar-' + settingStore.app.locale" v-model="currentDate">
+        <!-- 修改语言、日期跨天需要刷新组件 -->
+        <a-calendar
+          :key="`calendar-${settingStore.app.locale}-${systemStore.dayKey}`"
+          v-model="currentDate"
+        >
           <template #default="cellData">
             <div
               class="arco-calendar-date"
