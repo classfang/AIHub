@@ -12,7 +12,7 @@
     { "name": "gemini-pro", "value": "gemini-pro" }
   ],
   "Spark": [
-    { "name": "park-v3.0", "value": "v3.1" },
+    { "name": "spark-v3.0", "value": "v3.1" },
     { "name": "spark-v2.0", "value": "v2.1" },
     { "name": "spark-v1.5", "value": "v1.1" }
   ],
