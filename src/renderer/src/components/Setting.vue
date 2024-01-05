@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSettingStore } from '@renderer/store/setting'
-import { computed, onMounted, reactive, toRefs } from 'vue'
+import { computed, onMounted, reactive, toRefs, watch } from 'vue'
 import { useSystemStore } from '@renderer/store/system'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { useCollectionSetStore } from '@renderer/store/collection-set'
@@ -23,6 +23,7 @@ import { useUserStore } from '@renderer/store/user'
 import { exportTextFile } from '@renderer/utils/download-util'
 import { formatDateTime } from '@renderer/utils/date-util'
 import { useCalendarStore } from '@renderer/store/calendar'
+import chatModels from '@renderer/assets/json/chat-models.json'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
@@ -183,6 +184,15 @@ const importDataBackup = () => {
     }
   })
 }
+
+watch(
+  () => settingStore.aiCalendar.bigModel.provider,
+  (value) => {
+    settingStore.aiCalendar.bigModel.model = chatModels[value].filter(
+      (m) => m.type === 'text'
+    )[0].value
+  }
+)
 
 onMounted(() => {
   getAppVersion().then((v) => {
@@ -480,6 +490,36 @@ onMounted(() => {
                 </a-space>
               </a-tab-pane>
             </a-tabs>
+          </a-tab-pane>
+          <!-- AI日历 -->
+          <a-tab-pane key="translation" :title="$t('setting.aiCalendar.name')">
+            <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+              <a-space direction="vertical" :size="10" fill>
+                <div>{{ $t('setting.aiCalendar.weekStart') }}</div>
+                <a-select v-model="settingStore.aiCalendar.weekStart">
+                  <a-option :value="0">{{ $t('setting.aiCalendar.sunday') }}</a-option>
+                  <a-option :value="1">{{ $t('setting.aiCalendar.monday') }}</a-option>
+                </a-select>
+              </a-space>
+              <a-space direction="vertical" :size="10" fill>
+                <div>{{ $t('setting.aiCalendar.bigModel') }}</div>
+                <a-select v-model="settingStore.aiCalendar.bigModel.provider">
+                  <a-option v-for="p in Object.keys(chatModels)" :key="p" :value="p">{{
+                    $t(`bigModelProvider.${p}`)
+                  }}</a-option>
+                </a-select>
+                <a-select v-model="settingStore.aiCalendar.bigModel.model">
+                  <template
+                    v-for="m in chatModels[settingStore.aiCalendar.bigModel.provider]"
+                    :key="m.name"
+                  >
+                    <a-option v-if="m['type'] === 'text'" :value="m.value">{{
+                      m['name']
+                    }}</a-option>
+                  </template>
+                </a-select>
+              </a-space>
+            </a-space>
           </a-tab-pane>
           <!-- 翻译 -->
           <a-tab-pane key="translation" :title="$t('setting.translation.name')">

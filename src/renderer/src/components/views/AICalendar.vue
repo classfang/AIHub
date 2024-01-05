@@ -9,7 +9,7 @@ import dayjs from 'dayjs'
 import { useSystemStore } from '@renderer/store/system'
 import { useI18n } from 'vue-i18n'
 import { Message } from '@arco-design/web-vue'
-import { chat2bigModel } from '@renderer/utils/big-model'
+import { chat2bigModel, CommonChatOption } from '@renderer/utils/big-model'
 
 // Store
 const settingStore = useSettingStore()
@@ -30,8 +30,17 @@ const { reportModalVisible, reportModalType, currentDate, currentReport } = toRe
 
 // 打开报告Modal
 const openReport = (reportModalType: CalendarReportType) => {
-  const startTime = dayjs(data.currentDate).startOf(reportModalType).valueOf()
-  const endTime = dayjs(data.currentDate).endOf(reportModalType).valueOf()
+  let startTime = dayjs(data.currentDate).startOf(reportModalType).valueOf()
+  let endTime = dayjs(data.currentDate).endOf(reportModalType).valueOf()
+  // 如果用周一作为一周开始，则特殊处理
+  if (reportModalType === 'week' && settingStore.aiCalendar.weekStart === 1) {
+    let newDate = dayjs(data.currentDate)
+    if (dayjs(data.currentDate).day() === 0) {
+      newDate = newDate.subtract(1, 'day')
+    }
+    startTime = newDate.startOf(reportModalType).add(1, 'day').valueOf()
+    endTime = newDate.endOf(reportModalType).add(1, 'day').valueOf()
+  }
   let report: CalendarReport = getReport(reportModalType, startTime, endTime)
   if (!report) {
     report = {
@@ -53,20 +62,18 @@ const getReportModalTitle = () => {
   let title = t(`aiCalendar.${data.reportModalType}Report.name`) + ' '
   switch (data.reportModalType) {
     case 'day':
-      title += dayjs(data.currentDate).format('YYYY-MM-DD')
+      title += dayjs(data.currentReport.startTime).format('YYYY-MM-DD')
       break
     case 'week':
-      title += `${dayjs(data.currentDate)
-        .startOf(data.reportModalType)
-        .format('YYYY-MM-DD')} - ${dayjs(data.currentDate)
-        .endOf(data.reportModalType)
-        .format('YYYY-MM-DD')}`
+      title += `${dayjs(data.currentReport.startTime).format('YYYY-MM-DD')} - ${dayjs(
+        data.currentReport.endTime
+      ).format('YYYY-MM-DD')}`
       break
     case 'month':
-      title += dayjs(data.currentDate).format('YYYY-MM')
+      title += dayjs(data.currentReport.startTime).format('YYYY-MM')
       break
     case 'year':
-      title += dayjs(data.currentDate).format('YYYY')
+      title += dayjs(data.currentReport.startTime).format('YYYY')
       break
   }
   return title
@@ -167,15 +174,46 @@ const generateReport = async () => {
     (r) => (messageContent += `\n\n ${dayjs(r.startTime).format('YYYY-MM-DD')}: ${r.content}`)
   )
 
-  // 大模型调用
-  await chat2bigModel('OpenAI', {
-    apiKey: settingStore.openAI.key,
-    baseURL: settingStore.openAI.baseUrl,
-    type: 'chat',
-    inputMaxTokens: -1,
-    model: 'gpt-4-1106-preview',
-    contextSize: 370,
+  // 检查大模型配置
+  let configErrorFlag = false
+  switch (settingStore.aiCalendar.bigModel.provider) {
+    case 'OpenAI':
+      if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
+        configErrorFlag = true
+      }
+      break
+    case 'Gemini':
+      if (!settingStore.gemini.baseUrl || !settingStore.gemini.key) {
+        configErrorFlag = true
+      }
+      break
+    case 'Spark':
+      if (!settingStore.spark.appId || !settingStore.spark.secret || !settingStore.spark.key) {
+        configErrorFlag = true
+      }
+      break
+    case 'ERNIEBot':
+      if (!settingStore.ernieBot.apiKey || !settingStore.ernieBot.secretKey) {
+        configErrorFlag = true
+      }
+      break
+    case 'Tongyi':
+      if (!settingStore.tongyi.apiKey) {
+        configErrorFlag = true
+      }
+      break
+  }
+  if (configErrorFlag) {
+    Message.error(t(`chatWindow.configMiss.${settingStore.aiCalendar.bigModel.provider}`))
+    return
+  }
+
+  // 大模型通用选项
+  const chat2bigModelOption: CommonChatOption = {
+    model: settingStore.aiCalendar.bigModel.model,
     instruction: `Please put together a ${data.reportModalType} report based on the daily paper I gave you. Returns plain text instead of Markdown text. Return directly to the report content, no other content is required. The language returned is the language of the daily newspaper content.`,
+    inputMaxTokens: -1,
+    contextSize: 370,
     messages: [
       {
         id: '',
@@ -195,6 +233,49 @@ const generateReport = async () => {
       systemStore.calendarLoading = false
       errMsg && Message.error(errMsg)
     }
+  }
+
+  // 各家大模型特有选项
+  let otherOption = {}
+  switch (settingStore.aiCalendar.bigModel.provider) {
+    case 'OpenAI':
+      otherOption = {
+        apiKey: settingStore.openAI.key,
+        baseURL: settingStore.openAI.baseUrl,
+        type: 'chat'
+      }
+      break
+    case 'Gemini':
+      otherOption = {
+        apiKey: settingStore.gemini.key,
+        baseURL: settingStore.gemini.baseUrl
+      }
+      break
+    case 'Spark':
+      otherOption = {
+        appId: settingStore.spark.appId,
+        secretKey: settingStore.spark.secret,
+        apiKey: settingStore.spark.key
+      }
+      break
+    case 'ERNIEBot':
+      otherOption = {
+        apiKey: settingStore.ernieBot.apiKey,
+        secretKey: settingStore.ernieBot.secretKey
+      }
+      break
+    case 'Tongyi':
+      otherOption = {
+        apiKey: settingStore.tongyi.apiKey,
+        type: 'chat'
+      }
+      break
+  }
+
+  // 大模型能力调用
+  await chat2bigModel(settingStore.aiCalendar.bigModel.provider, {
+    ...chat2bigModelOption,
+    ...otherOption
   })
 }
 </script>

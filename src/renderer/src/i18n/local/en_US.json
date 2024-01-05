@@ -94,6 +94,13 @@
         "apiKey": "API Key"
       }
     },
+    "aiCalendar": {
+      "name": "AI Calendar",
+      "weekStart": "The beginning of the week (Existing peripherals may be lost after modification)",
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "bigModel": "Big model"
+    },
     "translation": {
       "name": "Translation",
       "youdao": {

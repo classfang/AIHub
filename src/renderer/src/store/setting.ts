@@ -32,6 +32,14 @@ export const useSettingStore = defineStore({
     youdao: {
       appId: '',
       secret: ''
+    },
+    aiCalendar: {
+      // 星期的开始：0周日 1周一
+      weekStart: 1,
+      bigModel: {
+        provider: 'OpenAI' as BigModelProvider,
+        model: 'gpt-4-32k'
+      }
     }
   }),
   getters: {
@@ -43,7 +51,8 @@ export const useSettingStore = defineStore({
         spark: this.spark,
         ernieBot: this.ernieBot,
         tongyi: this.tongyi,
-        youdao: this.youdao
+        youdao: this.youdao,
+        aiCalendar: this.aiCalendar
       })
     }
   },
@@ -80,6 +89,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.youdao !== undefined) {
         this.youdao = settingBackup.youdao
+        importFlag = true
+      }
+      if (settingBackup.aiCalendar !== undefined) {
+        this.aiCalendar = settingBackup.aiCalendar
         importFlag = true
       }
       return importFlag

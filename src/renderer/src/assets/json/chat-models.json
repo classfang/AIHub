@@ -1,32 +1,32 @@
 {
   "OpenAI": [
-    { "name": "gpt-4-vision-preview", "value": "gpt-4-vision-preview" },
-    { "name": "gpt-4-1106-preview", "value": "gpt-4-1106-preview" },
-    { "name": "gpt-4-32k", "value": "gpt-4-32k" },
-    { "name": "gpt-4", "value": "gpt-4" },
-    { "name": "gpt-3.5-turbo-16k", "value": "gpt-3.5-turbo-16k" },
-    { "name": "gpt-3.5-turbo", "value": "gpt-3.5-turbo" }
+    { "name": "gpt-4-vision-preview", "value": "gpt-4-vision-preview", "type": "version" },
+    { "name": "gpt-4-1106-preview", "value": "gpt-4-1106-preview", "type": "text" },
+    { "name": "gpt-4-32k", "value": "gpt-4-32k", "type": "text" },
+    { "name": "gpt-4", "value": "gpt-4", "type": "text" },
+    { "name": "gpt-3.5-turbo-16k", "value": "gpt-3.5-turbo-16k", "type": "text" },
+    { "name": "gpt-3.5-turbo", "value": "gpt-3.5-turbo", "type": "text" }
   ],
   "Gemini": [
-    { "name": "gemini-pro-vision", "value": "gemini-pro-vision" },
-    { "name": "gemini-pro", "value": "gemini-pro" }
+    { "name": "gemini-pro-vision", "value": "gemini-pro-vision", "type": "text" },
+    { "name": "gemini-pro", "value": "gemini-pro", "type": "text" }
   ],
   "Spark": [
-    { "name": "spark-v3.0", "value": "v3.1" },
-    { "name": "spark-v2.0", "value": "v2.1" },
-    { "name": "spark-v1.5", "value": "v1.1" }
+    { "name": "spark-v3.0", "value": "v3.1", "type": "text" },
+    { "name": "spark-v2.0", "value": "v2.1", "type": "text" },
+    { "name": "spark-v1.5", "value": "v1.1", "type": "text" }
   ],
   "ERNIEBot": [
-    { "name": "ERNIE-Bot 4.0", "value": "ERNIE-Bot 4.0" },
-    { "name": "ERNIE-Bot-8K", "value": "ERNIE-Bot-8K" },
-    { "name": "ERNIE-Bot-turbo", "value": "ERNIE-Bot-turbo" },
-    { "name": "ERNIE-Bot", "value": "ERNIE-Bot" }
+    { "name": "ERNIE-Bot 4.0", "value": "ERNIE-Bot 4.0", "type": "text" },
+    { "name": "ERNIE-Bot-8K", "value": "ERNIE-Bot-8K", "type": "text" },
+    { "name": "ERNIE-Bot-turbo", "value": "ERNIE-Bot-turbo", "type": "text" },
+    { "name": "ERNIE-Bot", "value": "ERNIE-Bot", "type": "text" }
   ],
   "Tongyi": [
-    { "name": "qwen-vl-plus", "value": "qwen-vl-plus" },
-    { "name": "qwen-max-longcontext", "value": "qwen-max-longcontext" },
-    { "name": "qwen-max", "value": "qwen-max" },
-    { "name": "qwen-plus", "value": "qwen-plus" },
-    { "name": "qwen-turbo", "value": "qwen-turbo" }
+    { "name": "qwen-vl-plus", "value": "qwen-vl-plus", "type": "version" },
+    { "name": "qwen-max-longcontext", "value": "qwen-max-longcontext", "type": "text" },
+    { "name": "qwen-max", "value": "qwen-max", "type": "text" },
+    { "name": "qwen-plus", "value": "qwen-plus", "type": "text" },
+    { "name": "qwen-turbo", "value": "qwen-turbo", "type": "text" }
   ]
 }

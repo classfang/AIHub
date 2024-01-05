@@ -94,6 +94,13 @@
         "apiKey": "API Key"
       }
     },
+    "aiCalendar": {
+      "name": "AI日历",
+      "weekStart": "每周的开始（修改后现有周边可能丢失）",
+      "sunday": "周日",
+      "monday": "周一",
+      "bigModel": "大模型"
+    },
     "translation": {
       "name": "翻译",
       "youdao": {
