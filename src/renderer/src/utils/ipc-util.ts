@@ -1,4 +1,8 @@
 import { copyObj } from '@renderer/utils/object-util'
+import { Message } from '@arco-design/web-vue'
+import i18n from '@renderer/i18n'
+
+const { t } = i18n.global
 
 export const startDockBounce = () => {
   return window.electron.ipcRenderer.invoke('start-dock-bounce')
@@ -37,6 +41,7 @@ export const readLocalImageBase64 = (path: string) => {
 }
 
 export const clipboardWriteText = (text: string) => {
+  Message.success(t('common.copySuccess'))
   return window.electron.ipcRenderer.invoke('clipboard-write-text', text)
 }
 
