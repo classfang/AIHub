@@ -38,7 +38,11 @@ https://github.com/classfang/AIHub/assets/27616248/d95a1fcb-01e8-4296-8b5b-154eb
 
 基于 LangChain 开发。简单的操作即可完成个人知识库搭建。
 
-### 5. 更多功能开发中
+### 5. AI日历
+
+一键生成周报、月报、年报。
+
+### 6. 更多功能开发中
 
 如果你有好的想法，欢迎提交 issues。
 

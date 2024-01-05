@@ -38,7 +38,11 @@ Support: text dialogue, picture dialogue; AI painting.
 
 Developed based on LangChain. Simple operation can complete personal knowledge base construction.
 
-### 5. More features under development
+### 5. AI calendar
+
+Generate weekly, monthly and annual reports with one click.
+
+### 6. More features under development
 
 If you have good ideas, you are welcome to submit issues.
 
