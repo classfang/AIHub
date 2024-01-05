@@ -284,7 +284,13 @@ const generateReport = async () => {
   <div class="ai-calendar">
     <!-- 头部 -->
     <div class="ai-calendar-header drag-area">
-      <div class="ai-calendar-header-title">{{ $t('aiCalendar.name') }}</div>
+      <div class="ai-calendar-header-title">
+        <a-space :size="10">
+          <div>{{ $t('aiCalendar.name') }}</div>
+          <a-tag>{{ $t(`bigModelProvider.${settingStore.aiCalendar.bigModel.provider}`) }}</a-tag>
+          <a-tag>{{ settingStore.aiCalendar.bigModel.model }}</a-tag>
+        </a-space>
+      </div>
       <div class="ai-calendar-header-btn-group no-drag-area">
         <a-space :size="10">
           <a-button size="mini" @click="openReport('week')">{{
