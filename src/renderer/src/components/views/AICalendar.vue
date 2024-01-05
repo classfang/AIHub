@@ -210,10 +210,18 @@ const generateReport = async () => {
     return
   }
 
+  // 提示词
+  const instruction = `Please put together a ${data.reportModalType} report.
+    Time cycle is ${dayjs(data.currentReport.startTime).format('YYYY-MM-DD')}
+    to ${dayjs(data.currentReport.endTime).format('YYYY-MM-DD')}.
+    Returns plain text. Do not return markdown.
+    Return directly to the report content, no other content is required.
+    The language returned is ${settingStore.app.locale}`
+
   // 大模型通用选项
   const chat2bigModelOption: CommonChatOption = {
     model: settingStore.aiCalendar.bigModel.model,
-    instruction: `Please put together a ${data.reportModalType} report based on the daily paper I gave you. Returns plain text instead of Markdown text. Return directly to the report content, no other content is required. The language returned is the language of the daily newspaper content.`,
+    instruction,
     inputMaxTokens: -1,
     contextSize: 370,
     messages: [
@@ -289,25 +297,25 @@ const generateReport = async () => {
       <div class="ai-calendar-header-title">
         <a-space :size="10">
           <div>{{ $t('aiCalendar.name') }}</div>
-          <a-tag class="no-drag-area" @click="systemStore.openSettingModal('aiCalendar')">{{
-            $t(`bigModelProvider.${settingStore.aiCalendar.bigModel.provider}`)
-          }}</a-tag>
-          <a-tag class="no-drag-area" @click="systemStore.openSettingModal('aiCalendar')">{{
-            settingStore.aiCalendar.bigModel.model
-          }}</a-tag>
+          <a-tag class="no-drag-area" @click="systemStore.openSettingModal('aiCalendar')"
+            >{{ $t(`bigModelProvider.${settingStore.aiCalendar.bigModel.provider}`) }}
+          </a-tag>
+          <a-tag class="no-drag-area" @click="systemStore.openSettingModal('aiCalendar')"
+            >{{ settingStore.aiCalendar.bigModel.model }}
+          </a-tag>
         </a-space>
       </div>
       <div class="ai-calendar-header-btn-group no-drag-area">
         <a-space :size="10">
-          <a-button size="mini" @click="openReport('week')">{{
-            $t('aiCalendar.weekReport.name')
-          }}</a-button>
-          <a-button size="mini" @click="openReport('month')">{{
-            $t('aiCalendar.monthReport.name')
-          }}</a-button>
-          <a-button size="mini" @click="openReport('year')">{{
-            $t('aiCalendar.yearReport.name')
-          }}</a-button>
+          <a-button size="mini" @click="openReport('week')"
+            >{{ $t('aiCalendar.weekReport.name') }}
+          </a-button>
+          <a-button size="mini" @click="openReport('month')"
+            >{{ $t('aiCalendar.monthReport.name') }}
+          </a-button>
+          <a-button size="mini" @click="openReport('year')"
+            >{{ $t('aiCalendar.yearReport.name') }}
+          </a-button>
         </a-space>
       </div>
     </div>
@@ -402,7 +410,7 @@ const generateReport = async () => {
           <a-button style="margin-left: auto" @click="handleReportModalCancel"
             >{{ $t('common.cancel') }}
           </a-button>
-          <a-button type="primary" @click="handleReportModalOk">{{ $t('common.ok') }} </a-button>
+          <a-button type="primary" @click="handleReportModalOk">{{ $t('common.ok') }}</a-button>
         </div>
       </template>
     </a-modal>
