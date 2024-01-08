@@ -64,9 +64,11 @@ const {
   multipleChoiceList
 } = toRefs(data)
 
-// 支持图片上传（只有 gpt-4-vision-preview、gemini-pro-vision 模型支持）
+// 支持图片上传
 const isSupportImage = computed(() => {
-  return ['gpt-4-vision-preview', 'gemini-pro-vision'].includes(data.currentAssistant.model)
+  return ['gpt-4-vision-preview', 'gemini-pro-vision', 'qwen-vl-plus'].includes(
+    data.currentAssistant.model
+  )
 })
 
 // 发送提问

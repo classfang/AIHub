@@ -1,7 +1,7 @@
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { CommonChatOption } from '.'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
-import { saveFileByUrl } from '@renderer/utils/ipc-util'
+import { readLocalImageBase64, saveFileByUrl } from '@renderer/utils/ipc-util'
 import { randomUUID } from '@renderer/utils/id-util'
 
 export const getTongyiChatUrl = (model: string) => {
@@ -222,17 +222,40 @@ export const getTongyiMessages = async (
   contextSize: number,
   model: string
 ) => {
+  // 是否是图片问题
+  const lastChatMessage = chatMessageList[chatMessageList.length - 1]
+  if (lastChatMessage.image) {
+    const imageBase64Data = await readLocalImageBase64(lastChatMessage.image)
+    return [
+      {
+        role: 'user',
+        content: [
+          {
+            image: `data:image/jpg;base64,${imageBase64Data}`
+          },
+          { text: lastChatMessage.content }
+        ]
+      }
+    ]
+  }
+
   // 是否存在指令
   const hasInstruction = instruction.trim() != ''
 
-  const messages: BaseMessage[] = chatMessageList
-    .map((m) => {
-      return {
-        role: m.role,
-        content: m.content
-      }
-    })
-    .slice(-1 - contextSize)
+  // 将消息历史处理为user和assistant轮流对话
+  let messages: BaseMessage[] = []
+  let currentRole = 'user' as 'user' | 'assistant'
+  for (let i = chatMessageList.length - 1; i >= 0; i--) {
+    const chatMessage = chatMessageList[i]
+    if (currentRole === chatMessage.role) {
+      messages.unshift({
+        role: chatMessage.role,
+        content: chatMessage.content
+      })
+      currentRole = currentRole === 'user' ? 'assistant' : 'user'
+    }
+  }
+  messages = messages.slice(-1 - contextSize)
 
   // 增加指令
   if (hasInstruction) {
