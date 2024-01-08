@@ -10,7 +10,7 @@ const assistantStore = useAssistantStore()
 const props = defineProps({
   assistant: {
     type: Object as () => Assistant,
-    default: () => {}
+    default: () => ({})
   }
 })
 

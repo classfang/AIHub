@@ -146,7 +146,7 @@ const knowledgeBaseDelete = () => {
     >
       <template #title> {{ $t('knowledgeBase.list.edit') }} </template>
       <div style="height: 60vh; overflow-y: auto">
-        <KnowledgeBaseForm :knowledge-base="knowledgeBaseForm" />
+        <KnowledgeBaseForm v-model:knowledgeBase="knowledgeBaseForm" />
       </div>
     </a-modal>
   </div>

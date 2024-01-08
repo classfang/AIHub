@@ -125,7 +125,7 @@ onMounted(() => {
     >
       <template #title> {{ $t('knowledgeBase.list.new') }} </template>
       <div style="height: 60vh; overflow-y: auto">
-        <KnowledgeBaseForm :knowledge-base="knowledgeBaseForm" :type-change="true" />
+        <KnowledgeBaseForm v-model:knowledgeBase="knowledgeBaseForm" />
       </div>
     </a-modal>
   </div>

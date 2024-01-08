@@ -26,6 +26,8 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "@langchain/community": "^0.0.15",
+    "@langchain/openai": "^0.0.10",
     "@microsoft/fetch-event-source": "^2.0.1",
     "add": "^2.0.6",
     "axios": "^1.6.5",

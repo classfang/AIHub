@@ -17,11 +17,11 @@ const { t } = useI18n()
 const props = defineProps({
   currentAssistant: {
     type: Object as () => Assistant,
-    default: () => {}
+    default: () => ({})
   },
   currentChatMessageSet: {
     type: Object as () => ChatMessageSet,
-    default: () => {}
+    default: () => ({})
   }
 })
 
@@ -195,7 +195,7 @@ const assistantDelete = () => {
     >
       <template #title> {{ $t('assistantList.edit') }} </template>
       <div style="height: 60vh; overflow-y: auto">
-        <AssistantForm :assistant="assistantForm" />
+        <AssistantForm v-model:assistant="assistantForm" />
       </div>
     </a-modal>
   </div>

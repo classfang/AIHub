@@ -129,7 +129,7 @@ onMounted(() => {
     >
       <template #title> {{ $t('assistantList.new') }} </template>
       <div style="height: 60vh; overflow-y: auto">
-        <AssistantForm :assistant="assistantForm" :type-change="true" />
+        <AssistantForm v-model:assistant="assistantForm" :type-change="true" />
       </div>
     </a-modal>
   </div>

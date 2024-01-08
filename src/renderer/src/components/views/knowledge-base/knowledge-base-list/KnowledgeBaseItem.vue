@@ -8,7 +8,7 @@ const knowledgeBaseStore = useKnowledgeBaseStore()
 const props = defineProps({
   knowledgeBase: {
     type: Object as () => KnowledgeBase,
-    default: () => {}
+    default: () => ({})
   }
 })
 
