@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { computed, nextTick, reactive, toRefs } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 import { openInBrowser } from '@renderer/utils/window-util'
 import MyWebView from '@renderer/components/MyWebView.vue'
 
+// ref
+const aiAppRef = ref()
+
+// 数据绑定
 const data = reactive({
   appList: [
     {
@@ -26,11 +30,16 @@ const data = reactive({
       url: 'https://tongyi.aliyun.com/qianwen'
     }
   ] as AIApp[],
+  aiAppListStyle: {
+    width: 0,
+    cardWidth: 280,
+    gap: 15
+  },
   keyword: '',
   currentApp: {} as AIApp,
   isWebviewShow: false
 })
-const { keyword, currentApp, isWebviewShow } = toRefs(data)
+const { aiAppListStyle, keyword, currentApp, isWebviewShow } = toRefs(data)
 
 // appList 过滤
 const appListFilter = computed(() => {
@@ -53,10 +62,35 @@ const webviewReload = () => {
     data.currentApp.url = url
   })
 }
+
+// 监听组件尺寸
+const watchAIAppSize = () => {
+  const resizeObserver = new ResizeObserver((entries) => {
+    // entries 是一个 ResizeObserverEntry 对象数组，包含了目标元素的信息
+    for (const entry of entries) {
+      // 判断是 aiAppRef
+      if (entry.target === aiAppRef.value) {
+        // 获取新尺寸
+        const newWidth = entry.contentRect.width
+        data.aiAppListStyle.width =
+          newWidth -
+          (newWidth % (data.aiAppListStyle.cardWidth + data.aiAppListStyle.gap)) -
+          data.aiAppListStyle.gap
+      }
+    }
+  })
+  resizeObserver.observe(aiAppRef.value)
+}
+
+// 挂载完毕
+onMounted(() => {
+  // 监听组件尺寸
+  watchAIAppSize()
+})
 </script>
 
 <template>
-  <div class="ai-app">
+  <div ref="aiAppRef" class="ai-app">
     <div class="ai-app-header drag-area">
       <div class="ai-app-header-title">{{ $t('aiApp.name') }}</div>
       <div class="ai-app-header-search">
@@ -71,7 +105,11 @@ const webviewReload = () => {
       outer-class="ai-app-list-container arco-scrollbar-small"
       style="height: calc(100vh - 40px); overflow-y: auto"
     >
-      <div v-if="appListFilter.length > 0" class="ai-app-list">
+      <div
+        v-if="appListFilter.length > 0"
+        class="ai-app-list"
+        :style="{ width: `${aiAppListStyle.width}px` }"
+      >
         <div v-for="a in appListFilter" :key="a.name" class="ai-app-card" @click="openApp(a)">
           <a-card :title="$t('aiApp.webview.' + a.name)" hoverable>
             <template #extra>
@@ -155,7 +193,6 @@ const webviewReload = () => {
     justify-content: center;
 
     .ai-app-list {
-      width: calc(280px * 3 + 15px * 2);
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
