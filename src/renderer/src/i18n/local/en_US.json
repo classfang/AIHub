@@ -288,6 +288,7 @@
   "aiApp": {
     "name": "AI App",
     "search": "Search AI app",
+    "empty": "No application",
     "webview": {
       "OpenAI": "OpenAI",
       "Gemini": "Gemini",

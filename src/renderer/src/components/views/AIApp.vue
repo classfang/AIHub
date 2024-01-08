@@ -71,7 +71,7 @@ const webviewReload = () => {
       outer-class="ai-app-list-container arco-scrollbar-small"
       style="height: calc(100vh - 40px); overflow-y: auto"
     >
-      <div class="ai-app-list">
+      <div v-if="appListFilter.length > 0" class="ai-app-list">
         <div v-for="a in appListFilter" :key="a.name" class="ai-app-card" @click="openApp(a)">
           <a-card :title="$t('aiApp.webview.' + a.name)" hoverable>
             <template #extra>
@@ -80,6 +80,14 @@ const webviewReload = () => {
             <a-link @click.stop="openInBrowser(a.url)">{{ a.url }}</a-link>
           </a-card>
         </div>
+      </div>
+      <div v-else class="ai-app-list-empty">
+        <a-empty>
+          <template #image>
+            <icon-apps />
+          </template>
+          {{ $t('aiApp.empty') }}
+        </a-empty>
       </div>
     </a-scrollbar>
     <transition name="slide2top">
@@ -157,6 +165,14 @@ const webviewReload = () => {
       .ai-app-card {
         width: 280px;
       }
+    }
+
+    .ai-app-list-empty {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
