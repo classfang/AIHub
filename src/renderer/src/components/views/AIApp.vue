@@ -72,6 +72,7 @@ const watchAIAppSize = () => {
       if (entry.target === aiAppRef.value) {
         // 获取新尺寸
         const newWidth = entry.contentRect.width
+        // 计算列表样式
         data.aiAppListStyle.width =
           newWidth -
           (newWidth % (data.aiAppListStyle.cardWidth + data.aiAppListStyle.gap)) -
