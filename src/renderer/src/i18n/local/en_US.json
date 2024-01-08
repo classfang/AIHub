@@ -284,5 +284,16 @@
       "name": "Year report",
       "content": "Year report content"
     }
+  },
+  "aiApp": {
+    "name": "AI App",
+    "search": "Search AI app",
+    "webview": {
+      "OpenAI": "OpenAI",
+      "Gemini": "Gemini",
+      "Spark": "iFLYTEK Spark",
+      "ERNIEBot": "ERNIE Bot",
+      "Tongyi": "Tongyi Qianwen"
+    }
   }
 }

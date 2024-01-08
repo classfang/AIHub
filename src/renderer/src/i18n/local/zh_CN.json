@@ -284,5 +284,16 @@
       "name": "年报",
       "content": "年报内容"
     }
+  },
+  "aiApp": {
+    "name": "AI应用",
+    "search": "搜索AI应用",
+    "webview": {
+      "OpenAI": "OpenAI",
+      "Gemini": "Gemini",
+      "Spark": "讯飞星火",
+      "ERNIEBot": "文心一言",
+      "Tongyi": "通义千问"
+    }
   }
 }

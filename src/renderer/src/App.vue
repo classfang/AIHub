@@ -8,7 +8,7 @@ import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import Setting from '@renderer/components/Setting.vue'
 import Chat2Assistant from '@renderer/components/views/chat2assistant/Chat2Assistant.vue'
 import CollectionSet from '@renderer/components/views/CollectionSet.vue'
-import WebApp from '@renderer/components/views/WebApp.vue'
+import AIApp from '@renderer/components/views/AIApp.vue'
 import Translator from '@renderer/components/views/Translator.vue'
 import KnowledgeBase from '@renderer/components/views/knowledge-base/KnowledgeBase.vue'
 import AICalendar from '@renderer/components/views/AICalendar.vue'
@@ -137,10 +137,10 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': currentPage === 'collect' }"
           @click="changePage('collect')"
         />
-        <icon-public
+        <icon-apps
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'web-app' }"
-          @click="changePage('web-app')"
+          :class="{ 'app-sidebar-item-active': currentPage === 'ai-app' }"
+          @click="changePage('ai-app')"
         />
         <Setting style="margin-top: auto">
           <template #default>
@@ -165,8 +165,8 @@ onMounted(() => {
       <div v-show="currentPage === 'collect'" class="app-body">
         <CollectionSet />
       </div>
-      <div v-show="currentPage === 'web-app'" class="app-body">
-        <WebApp />
+      <div v-show="currentPage === 'ai-app'" class="app-body">
+        <AIApp />
       </div>
 
       <!-- 全局加载遮罩 -->

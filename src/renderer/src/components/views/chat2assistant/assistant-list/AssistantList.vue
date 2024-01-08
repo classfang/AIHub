@@ -160,7 +160,7 @@ onMounted(() => {
       flex-shrink: 0;
       display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: center;
       height: 30px;
       width: 30px;
       padding: 0;

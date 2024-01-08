@@ -54,13 +54,15 @@ const checkNewVersion = () => {
   fetch('https://api.github.com/repos/classfang/AIHub/releases/latest')
     .then((res) => res.json())
     .then((json) => {
-      console.log('github app version', json.name)
       if (json.name) {
         const appVersionArray = data.appVersion.split('.')
         const newVersionArray = json.name.split('.')
         for (let i = 0; i < newVersionArray.length; i++) {
           if (Number(newVersionArray[i]) > Number(appVersionArray[i])) {
             data.newVersionFlag = true
+          } else if (Number(newVersionArray[i]) < Number(appVersionArray[i])) {
+            data.newVersionFlag = false
+            return
           }
         }
       }
