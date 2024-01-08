@@ -91,7 +91,7 @@ onMounted(() => {
         ).length > 0
       "
       outer-class="knowledge-base-list-container arco-scrollbar-small"
-      style="height: calc(100vh - 75px); overflow-y: auto"
+      style="height: calc(100vh - 60px); overflow-y: auto"
     >
       <draggable
         v-model="knowledgeBaseStore.knowledgeBaseList"
@@ -137,8 +137,6 @@ onMounted(() => {
   flex-direction: column;
   gap: 15px;
   overflow: hidden;
-  box-sizing: border-box;
-  padding-bottom: 15px;
 
   .knowledge-base-header {
     flex-shrink: 0;
@@ -171,7 +169,7 @@ onMounted(() => {
       flex-direction: column;
       gap: 10px;
       box-sizing: border-box;
-      padding: 0 15px;
+      padding: 0 15px 15px 15px;
     }
   }
 

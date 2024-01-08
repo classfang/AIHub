@@ -68,7 +68,7 @@ const exportChatMessageList = (id: string) => {
       </div>
       <a-scrollbar
         outer-class="collection-set-list-container arco-scrollbar-small"
-        style="height: calc(100vh - 75px); overflow-y: auto"
+        style="height: calc(100vh - 60px); overflow-y: auto"
       >
         <div class="collection-set-list">
           <div
@@ -197,6 +197,7 @@ const exportChatMessageList = (id: string) => {
   flex-grow: 1;
   display: flex;
   overflow: hidden;
+
   .collection-set-left {
     flex-shrink: 0;
     width: 270px;
@@ -206,8 +207,6 @@ const exportChatMessageList = (id: string) => {
     flex-direction: column;
     gap: 15px;
     border-right: 1px solid var(--color-border-1);
-    box-sizing: border-box;
-    padding-bottom: 15px;
 
     .collection-set-list-search {
       box-sizing: border-box;
@@ -226,6 +225,8 @@ const exportChatMessageList = (id: string) => {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        box-sizing: border-box;
+        padding: 0 15px 15px 15px;
 
         .collection-set-list-empty {
           flex-grow: 1;
@@ -235,7 +236,6 @@ const exportChatMessageList = (id: string) => {
         }
 
         .collection {
-          margin: 0 15px;
           box-sizing: border-box;
           padding: 15px;
           background-color: var(--color-fill-1);

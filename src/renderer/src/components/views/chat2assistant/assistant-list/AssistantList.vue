@@ -95,7 +95,7 @@ onMounted(() => {
     <a-scrollbar
       v-if="assistantStore.assistantList.filter((a) => a.name.includes(keyword)).length > 0"
       outer-class="assistant-list-container arco-scrollbar-small"
-      style="height: calc(100vh - 75px); overflow-y: auto"
+      style="height: calc(100vh - 60px); overflow-y: auto"
     >
       <draggable
         v-model="assistantStore.assistantList"
@@ -141,8 +141,6 @@ onMounted(() => {
   flex-direction: column;
   gap: 15px;
   overflow: hidden;
-  box-sizing: border-box;
-  padding-bottom: 15px;
 
   .assistant-header {
     flex-shrink: 0;
@@ -172,7 +170,7 @@ onMounted(() => {
   .assistant-list-container {
     .assistant-list-draggable {
       box-sizing: border-box;
-      padding: 0 15px;
+      padding: 0 15px 15px 15px;
       display: flex;
       flex-direction: column;
       gap: 10px;
