@@ -205,6 +205,17 @@ onMounted(() => {
 
       .mini-program-card {
         width: 280px;
+
+        :deep(.arco-card-header-extra) {
+          color: var(--color-text-2);
+          transition: color 200ms;
+        }
+
+        &:hover {
+          :deep(.arco-card-header-extra) {
+            color: rgb(var(--primary-6));
+          }
+        }
       }
     }
 
