@@ -11,7 +11,7 @@ const data = reactive({
   appList: [
     {
       type: 'webview',
-      name: 'OpenAI',
+      name: 'ChatGPT',
       url: 'https://chat.openai.com'
     },
     {
@@ -113,11 +113,11 @@ onMounted(() => {
         :style="{ width: `${miniProgramListStyle.width}px` }"
       >
         <div v-for="a in appListFilter" :key="a.name" class="mini-program-card" @click="openApp(a)">
-          <a-card :title="$t('miniProgram.webview.' + a.name)" hoverable>
+          <a-card :title="$t(`miniProgram.programs.${a.name}.name`)" hoverable>
             <template #extra>
               <icon-right />
             </template>
-            <a-link @click.stop="openInBrowser(a.url)">{{ a.url }}</a-link>
+            {{ $t(`miniProgram.programs.${a.name}.desc`) }}
           </a-card>
         </div>
       </div>
@@ -133,7 +133,9 @@ onMounted(() => {
     <transition name="slide2top">
       <div v-if="isWebviewShow" class="mini-program-webview">
         <div class="webview-header">
-          <div class="webview-header-title">{{ $t('miniProgram.webview.' + currentApp.name) }}</div>
+          <div class="webview-header-title">
+            {{ $t(`miniProgram.programs.${currentApp.name}.name`) }}
+          </div>
           <a-button class="webview-header-btn no-drag-area" @click="webviewReload">
             <icon-refresh :size="16" />
           </a-button>

@@ -289,12 +289,23 @@
     "name": "AI mini program",
     "search": "Search mini program",
     "empty": "No mini program",
-    "webview": {
-      "OpenAI": "OpenAI",
-      "Gemini": "Gemini",
-      "Spark": "iFLYTEK Spark",
-      "ERNIEBot": "ERNIE Bot",
-      "Tongyi": "Tongyi Qianwen"
+    "programs": {
+      "ChatGPT": {
+        "name": "ChatGPT",
+        "desc": "Large language model application from OpenAI"
+      },
+      "Spark": {
+        "name": "iFLYTEK Spark",
+        "desc": "Large language model application launched by iFlytek"
+      },
+      "ERNIEBot": {
+        "name": "ERNIE Bot",
+        "desc": "Large language model application launched by Baidu"
+      },
+      "Tongyi": {
+        "name": "Tongyi Qianwen",
+        "desc": "Large language model application launched by Alibaba"
+      }
     }
   }
 }
