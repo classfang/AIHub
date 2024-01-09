@@ -97,6 +97,7 @@ onMounted(() => {
       <div class="ai-app-header-search">
         <a-input-search
           v-model="keyword"
+          size="small"
           :placeholder="$t('aiApp.search')"
           class="search-input no-drag-area"
         />
