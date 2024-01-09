@@ -92,6 +92,7 @@ onMounted(() => {
 
 <template>
   <div ref="miniProgramRef" class="mini-program">
+    <!-- 头部 -->
     <div class="mini-program-header drag-area">
       <div class="mini-program-header-title">{{ $t('miniProgram.name') }}</div>
       <div class="mini-program-header-search">
@@ -103,6 +104,7 @@ onMounted(() => {
         />
       </div>
     </div>
+    <!-- 列表 -->
     <a-scrollbar
       outer-class="mini-program-list-container arco-scrollbar-small"
       style="height: calc(100vh - 40px); overflow-y: auto"
@@ -130,6 +132,7 @@ onMounted(() => {
         </a-empty>
       </div>
     </a-scrollbar>
+    <!-- webview窗口 -->
     <transition name="slide2top">
       <div v-if="isWebviewShow" class="mini-program-webview">
         <div class="webview-header">
