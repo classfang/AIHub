@@ -142,11 +142,7 @@ onMounted(() => {
           <a-button class="webview-header-btn no-drag-area" @click="openInBrowser(currentApp.url)">
             <icon-launch :size="16" />
           </a-button>
-          <a-button
-            class="webview-header-btn no-drag-area"
-            status="danger"
-            @click="isWebviewShow = false"
-          >
+          <a-button class="webview-header-btn no-drag-area" @click="isWebviewShow = false">
             <icon-close :size="16" />
           </a-button>
         </div>
@@ -208,13 +204,6 @@ onMounted(() => {
 
         :deep(.arco-card-header-extra) {
           color: var(--color-text-2);
-          transition: color 200ms;
-        }
-
-        &:hover {
-          :deep(.arco-card-header-extra) {
-            color: rgb(var(--primary-6));
-          }
         }
       }
     }
