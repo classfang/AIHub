@@ -265,8 +265,8 @@
     }
   },
   "aiCalendar": {
-    "name": "AI日历",
-    "generate": "AI生成",
+    "name": "AI 日历",
+    "generate": "AI 生成",
     "noDayReportError": "该周期内暂无日报",
     "dayReport": {
       "name": "日报",
@@ -285,10 +285,10 @@
       "content": "年报内容"
     }
   },
-  "aiApp": {
-    "name": "AI应用",
-    "search": "搜索AI应用",
-    "empty": "暂无相关应用",
+  "miniProgram": {
+    "name": "AI 小程序",
+    "search": "搜索小程序",
+    "empty": "暂无相关小程序",
     "webview": {
       "OpenAI": "OpenAI",
       "Gemini": "Gemini",

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 import { openInBrowser } from '@renderer/utils/window-util'
-import MyWebView from '@renderer/components/MyWebView.vue'
+import MyWebView from '@renderer/components/views/mini-program/MyWebView.vue'
 
 // ref
-const aiAppRef = ref()
+const miniProgramRef = ref()
 
 // 数据绑定
 const data = reactive({
@@ -30,7 +30,7 @@ const data = reactive({
       url: 'https://tongyi.aliyun.com/qianwen'
     }
   ] as AIApp[],
-  aiAppListStyle: {
+  miniProgramListStyle: {
     width: 0,
     cardWidth: 280,
     gap: 15
@@ -39,7 +39,7 @@ const data = reactive({
   currentApp: {} as AIApp,
   isWebviewShow: false
 })
-const { aiAppListStyle, keyword, currentApp, isWebviewShow } = toRefs(data)
+const { miniProgramListStyle, keyword, currentApp, isWebviewShow } = toRefs(data)
 
 // appList 过滤
 const appListFilter = computed(() => {
@@ -68,19 +68,19 @@ const watchAIAppSize = () => {
   const resizeObserver = new ResizeObserver((entries) => {
     // entries 是一个 ResizeObserverEntry 对象数组，包含了目标元素的信息
     for (const entry of entries) {
-      // 判断是 aiAppRef
-      if (entry.target === aiAppRef.value) {
+      // 判断是 miniProgramRef
+      if (entry.target === miniProgramRef.value) {
         // 获取新尺寸
         const newWidth = entry.contentRect.width
         // 计算列表样式
-        data.aiAppListStyle.width =
+        data.miniProgramListStyle.width =
           newWidth -
-          (newWidth % (data.aiAppListStyle.cardWidth + data.aiAppListStyle.gap)) -
-          data.aiAppListStyle.gap
+          (newWidth % (data.miniProgramListStyle.cardWidth + data.miniProgramListStyle.gap)) -
+          data.miniProgramListStyle.gap
       }
     }
   })
-  resizeObserver.observe(aiAppRef.value)
+  resizeObserver.observe(miniProgramRef.value)
 }
 
 // 挂载完毕
@@ -91,29 +91,29 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="aiAppRef" class="ai-app">
-    <div class="ai-app-header drag-area">
-      <div class="ai-app-header-title">{{ $t('aiApp.name') }}</div>
-      <div class="ai-app-header-search">
+  <div ref="miniProgramRef" class="mini-program">
+    <div class="mini-program-header drag-area">
+      <div class="mini-program-header-title">{{ $t('miniProgram.name') }}</div>
+      <div class="mini-program-header-search">
         <a-input-search
           v-model="keyword"
           size="small"
-          :placeholder="$t('aiApp.search')"
+          :placeholder="$t('miniProgram.search')"
           class="search-input no-drag-area"
         />
       </div>
     </div>
     <a-scrollbar
-      outer-class="ai-app-list-container arco-scrollbar-small"
+      outer-class="mini-program-list-container arco-scrollbar-small"
       style="height: calc(100vh - 40px); overflow-y: auto"
     >
       <div
         v-if="appListFilter.length > 0"
-        class="ai-app-list"
-        :style="{ width: `${aiAppListStyle.width}px` }"
+        class="mini-program-list"
+        :style="{ width: `${miniProgramListStyle.width}px` }"
       >
-        <div v-for="a in appListFilter" :key="a.name" class="ai-app-card" @click="openApp(a)">
-          <a-card :title="$t('aiApp.webview.' + a.name)" hoverable>
+        <div v-for="a in appListFilter" :key="a.name" class="mini-program-card" @click="openApp(a)">
+          <a-card :title="$t('miniProgram.webview.' + a.name)" hoverable>
             <template #extra>
               <icon-right />
             </template>
@@ -121,19 +121,19 @@ onMounted(() => {
           </a-card>
         </div>
       </div>
-      <div v-else class="ai-app-list-empty">
+      <div v-else class="mini-program-list-empty">
         <a-empty>
           <template #image>
             <icon-apps />
           </template>
-          {{ $t('aiApp.empty') }}
+          {{ $t('miniProgram.empty') }}
         </a-empty>
       </div>
     </a-scrollbar>
     <transition name="slide2top">
-      <div v-if="isWebviewShow" class="ai-app-webview">
+      <div v-if="isWebviewShow" class="mini-program-webview">
         <div class="webview-header">
-          <div class="webview-header-title">{{ $t('aiApp.webview.' + currentApp.name) }}</div>
+          <div class="webview-header-title">{{ $t('miniProgram.webview.' + currentApp.name) }}</div>
           <a-button class="webview-header-btn no-drag-area" @click="webviewReload">
             <icon-refresh :size="16" />
           </a-button>
@@ -155,14 +155,14 @@ onMounted(() => {
 </template>
 
 <style lang="less" scoped>
-.ai-app {
+.mini-program {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
 
-  .ai-app-header {
+  .mini-program-header {
     flex-shrink: 0;
     height: 40px;
     border-bottom: 1px solid var(--color-border-1);
@@ -172,13 +172,13 @@ onMounted(() => {
     align-items: center;
     justify-content: space-between;
 
-    .ai-app-header-title {
+    .mini-program-header-title {
       flex-grow: 1;
       font-size: 15px;
       font-weight: 500;
     }
 
-    .ai-app-header-search {
+    .mini-program-header-search {
       flex-shrink: 0;
 
       .search-input {
@@ -188,25 +188,25 @@ onMounted(() => {
     }
   }
 
-  .ai-app-list-container {
+  .mini-program-list-container {
     flex: 1;
     min-height: 0;
     display: flex;
     justify-content: center;
 
-    .ai-app-list {
+    .mini-program-list {
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
       box-sizing: border-box;
       padding: 15px 0;
 
-      .ai-app-card {
+      .mini-program-card {
         width: 280px;
       }
     }
 
-    .ai-app-list-empty {
+    .mini-program-list-empty {
       width: 100%;
       height: 100%;
       display: flex;
@@ -215,7 +215,7 @@ onMounted(() => {
     }
   }
 
-  .ai-app-webview {
+  .mini-program-webview {
     position: absolute;
     width: 100%;
     height: 100vh;

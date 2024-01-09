@@ -285,10 +285,10 @@
       "content": "Year report content"
     }
   },
-  "aiApp": {
-    "name": "AI App",
-    "search": "Search AI app",
-    "empty": "No application",
+  "miniProgram": {
+    "name": "AI mini program",
+    "search": "Search mini program",
+    "empty": "No mini program",
     "webview": {
       "OpenAI": "OpenAI",
       "Gemini": "Gemini",
