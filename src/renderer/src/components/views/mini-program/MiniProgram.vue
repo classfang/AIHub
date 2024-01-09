@@ -29,14 +29,14 @@ const data = reactive({
       name: 'Tongyi',
       url: 'https://tongyi.aliyun.com/qianwen'
     }
-  ] as AIApp[],
+  ] as MiniProgram[],
   miniProgramListStyle: {
     width: 0,
     cardWidth: 280,
     gap: 15
   },
   keyword: '',
-  currentApp: {} as AIApp,
+  currentApp: {} as MiniProgram,
   isWebviewShow: false
 })
 const { miniProgramListStyle, keyword, currentApp, isWebviewShow } = toRefs(data)
@@ -47,7 +47,7 @@ const appListFilter = computed(() => {
 })
 
 // 打开应用
-const openApp = (app: AIApp) => {
+const openApp = (app: MiniProgram) => {
   data.currentApp = app
   if (app.type === 'webview') {
     data.isWebviewShow = true

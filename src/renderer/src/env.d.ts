@@ -19,7 +19,7 @@ type AssistantType = 'chat' | 'drawing'
 type ChatMsgType = 'text' | 'img'
 type ChatRole = 'user' | 'assistant' | 'system'
 type CalendarReportType = 'day' | 'week' | 'month' | 'year'
-type AppType = 'webview' | 'local'
+type MiniProgramType = 'webview' | 'local'
 
 interface Assistant {
   // 通用
@@ -97,8 +97,8 @@ interface CalendarReport {
   endTime: number
 }
 
-interface AIApp {
-  type: AppType
+interface MiniProgram {
+  type: MiniProgramType
   name: string
   url: string
 }
