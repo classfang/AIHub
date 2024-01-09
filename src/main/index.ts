@@ -11,12 +11,6 @@ import {
 import { join } from 'path'
 import fs from 'fs'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
-import icon10deg from '../../resources/icon-10deg.png?asset'
-import icon20deg from '../../resources/icon-20deg.png?asset'
-import icon30deg from '../../resources/icon-30deg.png?asset'
-import icon40deg from '../../resources/icon-40deg.png?asset'
-import icon50deg from '../../resources/icon-50deg.png?asset'
 import { appConfig, mainWindowConfig } from './config'
 import Store from 'electron-store'
 import { clearInterval } from 'node:timers'
@@ -31,9 +25,7 @@ import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
 import { DocxLoader } from 'langchain/document_loaders/fs/docx'
 import { PPTXLoader } from 'langchain/document_loaders/fs/pptx'
 import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
-
-// 图标列表
-const iconArray = [icon, icon10deg, icon20deg, icon30deg, icon40deg, icon50deg]
+import { getDockIcon, getDockIconArray } from './dock-icon'
 
 // 临时缓存目录
 const tempPath = join(app.getPath('userData'), 'temp')
@@ -69,7 +61,7 @@ function createWindow(): void {
     },
     // 动态背景色
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#28282B' : '#F2F3F5',
-    ...(process.platform === 'linux' ? { icon } : {}),
+    ...(process.platform === 'linux' ? { icon: getDockIcon(0) } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       // 允许渲染进程通信（window.electron）
@@ -128,8 +120,8 @@ function startDockAnimation() {
     clearInterval(dockAnimationInterval)
   }
   dockAnimationInterval = setInterval(() => {
-    iconIndex = (iconIndex + 1) % iconArray.length
-    app.dock.setIcon(iconArray[iconIndex])
+    iconIndex = (iconIndex + 1) % getDockIconArray().length
+    app.dock.setIcon(getDockIcon(iconIndex))
   }, animationInterval)
 }
 function stopDockAnimation() {
