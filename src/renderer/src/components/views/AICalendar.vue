@@ -211,12 +211,9 @@ const generateReport = async () => {
   }
 
   // 提示词
-  const instruction = `Please put together a ${data.reportModalType} report.
-    Time cycle is ${dayjs(data.currentReport.startTime).format('YYYY-MM-DD')}
-    to ${dayjs(data.currentReport.endTime).format('YYYY-MM-DD')}.
-    Returns plain text. Do not return markdown.
-    Return directly to the report content, no other content is required.
-    The language returned is ${settingStore.app.locale}`
+  const instruction = `Generate a plain text ${data.reportModalType} report based on the content I provide,
+  and return directly to the report content.
+  The language returned is ${settingStore.app.locale}`
 
   // 大模型通用选项
   const chat2bigModelOption: CommonChatOption = {
