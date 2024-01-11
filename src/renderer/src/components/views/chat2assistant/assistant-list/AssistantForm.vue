@@ -112,11 +112,7 @@ watch(
         </a-select>
       </a-form-item>
       <!-- 生成token限制 -->
-      <a-form-item
-        v-if="['OpenAI', 'Gemini'].includes(assistant.provider)"
-        field="maxTokens"
-        :label="$t('assistantList.maxTokens')"
-      >
+      <a-form-item field="maxTokens" :label="$t('assistantList.maxTokens')">
         <a-input-number
           v-model="assistant.maxTokens"
           :placeholder="$t('common.pleaseEnter') + ' ' + $t('assistantList.maxTokens')"

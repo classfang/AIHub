@@ -21,6 +21,7 @@ const { t } = useI18n()
 
 // 数据绑定
 const data = reactive({
+  currentSessionId: randomUUID(),
   reportModalVisible: false,
   reportModalType: 'day' as CalendarReportType,
   currentDate: new Date(),
@@ -217,9 +218,9 @@ const generateReport = async () => {
 
   // 大模型通用选项
   const chat2bigModelOption: CommonChatOption = {
+    sessionId: data.currentSessionId,
     model: settingStore.aiCalendar.bigModel.model,
     instruction,
-    inputMaxTokens: -1,
     contextSize: 370,
     messages: [
       {
@@ -230,13 +231,22 @@ const generateReport = async () => {
         createTime: 0
       }
     ],
-    startAnswer: () => {
-      data.currentReport.content = ''
+    startAnswer: (sessionId: string, content?: string) => {
+      if (data.currentSessionId != sessionId) {
+        return
+      }
+      data.currentReport.content = content ?? ''
     },
-    appendAnswer: (content: string) => {
+    appendAnswer: (sessionId: string, content: string) => {
+      if (data.currentSessionId != sessionId) {
+        return
+      }
       data.currentReport.content += content
     },
-    end: (errMsg: any) => {
+    end: (sessionId: string, errMsg: any) => {
+      if (data.currentSessionId != sessionId) {
+        return
+      }
       systemStore.aiCalendarLoading = false
       errMsg && Message.error(errMsg)
     }

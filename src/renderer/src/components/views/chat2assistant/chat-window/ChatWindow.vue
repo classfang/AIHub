@@ -40,7 +40,7 @@ const data = reactive({
   // 聊天窗口加载完毕
   isLoad: false,
   // 用于判断是否切换聊天窗口
-  sessionId: randomUUID(),
+  currentSessionId: randomUUID(),
   // 当前的助手
   currentAssistant: assistantStore.getCurrentAssistant,
   // 输入的问题
@@ -89,7 +89,7 @@ const sendQuestion = async (event?: KeyboardEvent) => {
 
   // 大模型调用
   try {
-    await useBigModel(data.sessionId)
+    await useBigModel(data.currentSessionId)
   } catch (e) {
     console.log('big model error: ', e)
     Message.error(e ? e + '' : t(`chatWindow.error.${data.currentAssistant.provider}`))
@@ -99,7 +99,7 @@ const sendQuestion = async (event?: KeyboardEvent) => {
 }
 
 // 使用大模型
-const useBigModel = async (sessionId: string) => {
+const useBigModel = async (currentSessionId: string) => {
   // 检查大模型配置
   let configErrorFlag = false
   switch (data.currentAssistant.provider) {
@@ -185,30 +185,40 @@ const useBigModel = async (sessionId: string) => {
 
   // 大模型通用选项
   const chat2bigModelOption: CommonChatOption = {
+    sessionId: currentSessionId,
     model: data.currentAssistant.model,
     instruction: data.currentAssistant.instruction,
     inputMaxTokens: data.currentAssistant.inputMaxTokens,
+    maxTokens: data.currentAssistant.maxTokens,
     contextSize: data.currentAssistant.contextSize,
     messages: data.currentAssistant.chatMessageList,
-    checkSession: () => sessionId === data.sessionId,
-    startAnswer: (content) => {
+    startAnswer: (sessionId: string, content?: string) => {
+      if (currentSessionId != sessionId) {
+        return
+      }
       data.currentAssistant.chatMessageList.push({
         id: randomUUID(),
         type: 'text',
         role: 'assistant' as ChatRole,
-        content,
+        content: content ?? '',
         createTime: nowTimestamp()
       })
       scrollToBottom()
       data.waitAnswer = false
     },
-    appendAnswer: (content: string) => {
+    appendAnswer: (sessionId: string, content: string) => {
+      if (currentSessionId != sessionId) {
+        return
+      }
       data.currentAssistant.chatMessageList[
         data.currentAssistant.chatMessageList.length - 1
       ].content += content
       scrollToBottom()
     },
-    end: (errMsg: any) => {
+    end: (sessionId: string, errMsg: any) => {
+      if (currentSessionId != sessionId) {
+        return
+      }
       errMsg && Message.error(errMsg)
       // 关闭等待
       data.waitAnswer = false
@@ -224,12 +234,14 @@ const useBigModel = async (sessionId: string) => {
         apiKey: settingStore.openAI.key,
         baseURL: settingStore.openAI.baseUrl,
         type: data.currentAssistant.type,
-        maxTokens: data.currentAssistant.maxTokens,
         imagePrompt: question,
         imageSize: data.currentAssistant.imageSize,
         imageQuality: data.currentAssistant.imageQuality,
         imageStyle: data.currentAssistant.imageStyle,
-        imageGenerated: (imageUrl: string) => {
+        imageGenerated: (sessionId: string, imageUrl: string) => {
+          if (currentSessionId != sessionId) {
+            return
+          }
           data.currentAssistant.chatMessageList.push({
             id: randomUUID(),
             type: 'img',
@@ -247,7 +259,6 @@ const useBigModel = async (sessionId: string) => {
       otherOption = {
         apiKey: settingStore.gemini.key,
         baseURL: settingStore.gemini.baseUrl,
-        maxTokens: data.currentAssistant.maxTokens,
         abortCtr: abortCtr
       }
       break
@@ -273,7 +284,10 @@ const useBigModel = async (sessionId: string) => {
         imageSize: data.currentAssistant.imageSize,
         imageStyle: data.currentAssistant.imageStyle,
         abortCtr,
-        imageGenerated: (imageUrl: string) => {
+        imageGenerated: (sessionId: string, imageUrl: string) => {
+          if (currentSessionId != sessionId) {
+            return
+          }
           data.currentAssistant.chatMessageList.push({
             id: randomUUID(),
             type: 'img',
@@ -298,7 +312,7 @@ const useBigModel = async (sessionId: string) => {
 
 // 手动结束回答
 const stopAnswer = () => {
-  data.sessionId = randomUUID()
+  data.currentSessionId = randomUUID()
   systemStore.chatWindowLoading = false
   data.waitAnswer = false
   abortCtr.abort()

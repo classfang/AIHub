@@ -2,8 +2,8 @@ import OpenAI from 'openai'
 import { readLocalImageBase64, saveFileByUrl } from '@renderer/utils/ipc-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { CommonChatOption } from '.'
-import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 import { ChatCompletionMessageParam } from 'openai/resources/chat'
+import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 
 export const chat2openai = async (option: CommonChatOption) => {
   const {
@@ -20,26 +20,23 @@ export const chat2openai = async (option: CommonChatOption) => {
     imageSize,
     imageQuality,
     imageStyle,
-    checkSession,
+    sessionId,
     startAnswer,
     appendAnswer,
     imageGenerated,
     end
   } = option
 
-  if (!apiKey || !baseURL || !type) {
-    console.log('chat2openai params miss')
-    end && end()
-    return
-  }
-
+  // OpenAI实例
   const openai = new OpenAI({
     apiKey,
     baseURL,
     dangerouslyAllowBrowser: true
   })
-  if (type === 'chat' && messages) {
-    // OpenAI对话
+
+  // 对话或者绘画
+  if (type === 'chat' && messages != null) {
+    // OpenAI 对话
     const stream = await openai.chat.completions.create({
       messages: (await getOpenAIMessages(
         messages,
@@ -51,24 +48,17 @@ export const chat2openai = async (option: CommonChatOption) => {
       stream: true,
       max_tokens: maxTokens
     })
-    if (checkSession && !checkSession()) {
-      end && end()
-      return
-    }
-    if (startAnswer) {
-      startAnswer('')
-    }
+
+    // 开始回答
+    startAnswer && startAnswer(sessionId)
+
+    // 连续回答
     for await (const chunk of stream) {
-      if (checkSession && !checkSession()) {
-        end && end()
-        return
-      }
-      console.log(`OpenAi【消息】: ${JSON.stringify(chunk.choices[0])}`)
-      if (appendAnswer) {
-        appendAnswer(chunk.choices[0].delta.content ?? '')
-      }
+      console.log('chat2openai:', chunk)
+      appendAnswer && appendAnswer(sessionId, chunk.choices[0].delta.content ?? '')
     }
-  } else if (type === 'drawing' && imagePrompt) {
+  } else if (type === 'drawing' && imagePrompt != null) {
+    // OpenAI 绘画
     const imagesResponse = await openai.images.generate({
       prompt: imagePrompt,
       model,
@@ -77,77 +67,68 @@ export const chat2openai = async (option: CommonChatOption) => {
       quality: imageQuality as 'standard' | 'hd',
       style: imageStyle as 'vivid' | 'natural' | null
     })
-    if (checkSession && !checkSession()) {
-      end && end()
-      return
-    }
-    console.log(`OpenAi【消息】: ${JSON.stringify(imagesResponse)}`)
+    console.log('chat2openai:', imagesResponse)
+
+    // 获取图片地址
     let imageUrl = imagesResponse.data[0].url ?? ''
     if (imageUrl) {
+      // 保存图片
       imageUrl = await saveFileByUrl(imageUrl, `${randomUUID()}.png`)
     }
-    imageGenerated && imageGenerated(imageUrl)
+
+    // 返回图片本地地址
+    imageGenerated && imageGenerated(sessionId, imageUrl)
   }
-  end && end()
+
+  // 结束
+  end && end(sessionId)
 }
 
 export const getOpenAIMessages = async (
   chatMessageList: ChatMessage[],
   instruction: string,
-  inputMaxTokens: number,
+  inputMaxTokens: number | undefined,
   contextSize: number
 ) => {
-  // 是否是图片问题
-  const lastChatMessage = chatMessageList[chatMessageList.length - 1]
-  if (lastChatMessage.image) {
-    const imageBase64Data = await readLocalImageBase64(lastChatMessage.image)
-    return [
-      {
-        role: 'user',
-        content: [
-          { type: 'text', text: lastChatMessage.content },
-          {
-            type: 'image_url',
-            image_url: `data:image/jpg;base64,${imageBase64Data}`
-          }
-        ]
-      }
-    ]
-  }
+  // 将消息历史处理为user和assistant轮流对话
+  let messages = turnChat(chatMessageList)
 
-  // 是否存在指令
-  const hasInstruction = instruction.trim() != ''
-
-  const messages = chatMessageList
-    .map((m) => {
-      return {
-        role: m.role,
-        content: m.content
-      }
-    })
-    .slice(-1 - contextSize)
+  // 截取指定长度的上下文
+  messages = limitContext(inputMaxTokens, contextSize, messages)
 
   // 增加指令
-  if (hasInstruction) {
+  if (instruction.trim().length > 0) {
     messages.unshift({
       role: 'system',
       content: instruction
     })
   }
-  // 使用'gpt-4-0314'模型估算Token，如果超出了上限制则移除上下文一条消息
-  while (
-    inputMaxTokens > 0 &&
-    messages.length > (hasInstruction ? 2 : 1) &&
-    getChatTokensLength(messages) > inputMaxTokens
-  ) {
-    messages.shift()
-    if (hasInstruction) {
-      messages.shift()
-      messages.unshift({
-        role: 'system',
-        content: instruction
+
+  // 转换消息结构
+  const openaiMessages: ChatCompletionMessageParam[] = []
+  for (const m of chatMessageList) {
+    // 处理用户消息中的图片
+    if (m.image && m.role === 'user') {
+      const imageBase64Data = await readLocalImageBase64(m.image)
+      openaiMessages.push({
+        role: 'user',
+        content: [
+          { type: 'text', text: m.content },
+          {
+            type: 'image_url',
+            image_url: {
+              url: `data:image/jpg;base64,${imageBase64Data}`
+            }
+          }
+        ]
+      })
+    } else {
+      openaiMessages.push({
+        role: m.role,
+        content: m.content
       })
     }
   }
-  return messages
+
+  return openaiMessages
 }

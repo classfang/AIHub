@@ -1,11 +1,13 @@
 import CryptoJS from 'crypto-js'
 import { CommonChatOption } from '.'
-import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
+import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 
+// 获取星火服务地址
 export const getSparkHostUrl = (model: string) => {
   return `wss://spark-api.xf-yun.com/${model}/chat`
 }
 
+// 获取ws请求地址
 export const getSparkWsUrl = (model: string, apiSecret: string, apiKey: string) => {
   const url = new URL(getSparkHostUrl(model))
   const host = url.host
@@ -21,9 +23,11 @@ export const getSparkWsUrl = (model: string, apiSecret: string, apiKey: string) 
   return `${url.toString()}?authorization=${authorization}&date=${date}&host=${host}`
 }
 
+// 获取请求参数
 export const getSparkWsRequestParam = (
   appId: string,
   model: string,
+  maxTokens: number | undefined,
   messageList: BaseMessage[]
 ) => {
   return JSON.stringify({
@@ -35,7 +39,7 @@ export const getSparkWsRequestParam = (
       chat: {
         domain: `generalv${model.substring(1, 2)}`,
         temperature: 0.5,
-        max_tokens: 4096
+        max_tokens: maxTokens ?? 4096
       }
     },
     payload: {
@@ -51,100 +55,93 @@ export const chat2spark = async (option: CommonChatOption) => {
     model,
     instruction,
     inputMaxTokens,
+    maxTokens,
     contextSize,
     appId,
     apiKey,
     secretKey,
     messages,
-    checkSession,
+    sessionId,
     startAnswer,
     appendAnswer,
     end
   } = option
 
+  // 必须参数
   if (!appId || !apiKey || !secretKey || !messages) {
     console.log('chat2spark params miss')
-    end && end()
+    end && end(sessionId)
     return
   }
 
+  // 等待回答
   let waitAnswer = true
 
+  // websocket 实例
   const sparkClient = new WebSocket(getSparkWsUrl(model, secretKey, apiKey))
+
+  // 连接成功
   sparkClient.onopen = async () => {
-    if (checkSession && !checkSession()) {
-      end && end()
-      return
-    }
-    console.log('星火服务器【已连接】')
+    console.log('chat2spark open')
+    // 连接成功，发送消息
     sparkClient.send(
       getSparkWsRequestParam(
         appId,
         model,
+        maxTokens,
         await getSparkMessages(messages, instruction, inputMaxTokens, contextSize)
       )
     )
   }
+
+  // 收到消息
   sparkClient.onmessage = (message) => {
-    console.log(`星火服务器【消息】: ${message.data}`)
-    if (checkSession && !checkSession()) {
-      end && end()
+    try {
+      const respJson = JSON.parse(message.data.toString())
+      console.log('chat2spark:', respJson)
+      if (waitAnswer) {
+        waitAnswer = false
+        startAnswer && startAnswer(sessionId)
+      }
+      appendAnswer && appendAnswer(sessionId, respJson.payload.choices.text[0].content ?? '')
+    } catch (e) {
+      console.log('chat2spark error', e)
+      end && end(sessionId, message)
       return
     }
-
-    const respJson = JSON.parse(message.data.toString())
-    if (!respJson || !respJson.payload?.choices?.text || !respJson.payload?.choices?.text[0]) {
-      end && end('no answer')
-      return
-    }
-
-    if (waitAnswer) {
-      waitAnswer = false
-      startAnswer && startAnswer('')
-    }
-    appendAnswer && appendAnswer(respJson.payload.choices.text[0].content ?? '')
   }
+
+  // 连接关闭
   sparkClient.onclose = () => {
-    console.log('星火服务器【连接已关闭】')
-    end && end()
+    console.log('chat2spark close')
+    end && end(sessionId)
   }
+
+  // 连接错误
   sparkClient.onerror = (e) => {
-    console.log('星火服务器【连接错误】', e)
-    end && end(e)
+    console.log('chat2spark error', e)
+    end && end(sessionId, e)
   }
 }
 
 export const getSparkMessages = async (
   chatMessageList: ChatMessage[],
   instruction: string,
-  inputMaxTokens: number,
+  inputMaxTokens: number | undefined,
   contextSize: number
 ) => {
-  // 是否存在指令
-  const hasInstruction = instruction.trim() != ''
-
-  const messages = chatMessageList
-    .map((m) => {
-      return {
-        role: m.role,
-        content: m.content
-      }
-    })
-    .slice(-1 - contextSize)
-
   // 增加指令
-  if (hasInstruction) {
+  if (instruction.trim().length > 0) {
     chatMessageList[chatMessageList.length - 1].content = `${instruction}\n${
       chatMessageList[chatMessageList.length - 1].content
     }`
   }
-  // 使用'gpt-4-0314'模型估算Token，如果超出了上限制则移除上下文一条消息
-  while (
-    inputMaxTokens > 0 &&
-    messages.length > 1 &&
-    getChatTokensLength(messages) > inputMaxTokens
-  ) {
-    messages.shift()
-  }
+
+  // 将消息历史处理为user和assistant轮流对话
+  let messages = turnChat(chatMessageList)
+
+  // 截取指定长度的上下文
+  messages = limitContext(inputMaxTokens, contextSize, messages)
+
   return messages
 }

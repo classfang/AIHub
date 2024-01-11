@@ -1,8 +1,7 @@
 import { CommonChatOption } from '@renderer/utils/big-model/index'
 import { readLocalImageBase64 } from '@renderer/utils/ipc-util'
-import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
-// import { simulateThreadWait } from '@renderer/utils/thread-util'
+import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 
 export const chat2gemini = async (option: CommonChatOption) => {
   const {
@@ -15,23 +14,25 @@ export const chat2gemini = async (option: CommonChatOption) => {
     maxTokens,
     messages,
     abortCtr,
-    checkSession,
+    sessionId,
     startAnswer,
     appendAnswer,
     end
   } = option
 
+  // 必须参数
   if (!apiKey || !baseURL || !messages) {
     console.log('chat2gemini params miss')
-    end && end()
+    end && end(sessionId)
     return
   }
 
+  // 等待回答
   let waitAnswer = true
 
+  // sse
   await fetchEventSource(`${baseURL}/models/${model}:streamGenerateContent?key=${apiKey}&alt=sse`, {
-    // 保持后台运行
-    openWhenHidden: true,
+    openWhenHidden: true, // 保持后台运行
     signal: abortCtr?.signal,
     method: 'POST',
     headers: {
@@ -43,59 +44,52 @@ export const chat2gemini = async (option: CommonChatOption) => {
         maxOutputTokens: maxTokens
       }
     }),
+    // 连接开启
     async onopen(response) {
+      console.log('chat2gemini open')
       if (response.ok && response.headers.get('content-type')?.includes(EventStreamContentType)) {
         return
       } else {
         const respText = await response.text()
-        console.log('Gemini大模型连接错误', respText)
+        console.log('chat2gemini error', respText)
         throw new Error(respText)
       }
     },
-    onmessage: (e) => {
-      console.log('Gemini大模型回复：', e)
-
-      if (checkSession && !checkSession()) {
-        end && end()
-        return
+    // 接收消息
+    onmessage: (message) => {
+      try {
+        const respJson = JSON.parse(message.data)
+        console.log('chat2gemini:', respJson)
+        const errMsg = respJson.error?.message
+        if (errMsg) {
+          end && end(errMsg)
+          return
+        }
+        if (respJson.promptFeedback?.blockReason) {
+          end && end('block reason: ' + respJson.promptFeedback?.blockReason)
+          return
+        }
+        if (waitAnswer) {
+          waitAnswer = false
+          startAnswer && startAnswer(sessionId)
+        }
+        appendAnswer && appendAnswer(sessionId, respJson.candidates[0].content.parts[0].text)
+      } catch (e) {
+        console.log('chat2gemini error', e)
+        end && end(sessionId, message)
       }
-
-      const respJson = JSON.parse(e.data)
-      const errMsg = respJson.error?.message
-      if (errMsg) {
-        end && end(errMsg)
-        return
-      }
-      if (respJson.promptFeedback?.blockReason) {
-        end && end('block reason: ' + respJson.promptFeedback?.blockReason)
-        return
-      }
-      if (
-        !respJson ||
-        !respJson.candidates ||
-        !respJson.candidates[0]?.content?.parts ||
-        !respJson.candidates[0].content.parts[0]
-      ) {
-        end && end('no answer')
-        return
-      }
-
-      if (waitAnswer) {
-        waitAnswer = false
-        startAnswer && startAnswer('')
-      }
-
-      appendAnswer && appendAnswer(respJson.candidates[0].content.parts[0].text ?? '')
     },
+    // 连接关闭
     onclose: () => {
-      console.log('Gemini大模型关闭连接')
-      end && end()
+      console.log('chat2gemini close')
+      end && end(sessionId)
     },
-    onerror: (err: any) => {
-      console.log('Gemini大模型错误：', err)
+    // 连接错误
+    onerror: (e: any) => {
+      console.log('chat2gemini error：', e)
       // 抛出异常防止重连
-      if (err instanceof Error) {
-        throw err
+      if (e instanceof Error) {
+        throw e
       }
     }
   })
@@ -104,10 +98,10 @@ export const chat2gemini = async (option: CommonChatOption) => {
 export const getGeminiMessages = async (
   chatMessageList: ChatMessage[],
   instruction: string,
-  inputMaxTokens: number,
+  inputMaxTokens: number | undefined,
   contextSize: number
 ) => {
-  // 是否是图片问题
+  // 图片问题，不联系上下文
   const lastChatMessage = chatMessageList[chatMessageList.length - 1]
   if (lastChatMessage.image) {
     const imageBase64Data = await readLocalImageBase64(lastChatMessage.image)
@@ -129,40 +123,25 @@ export const getGeminiMessages = async (
     ]
   }
 
-  // 是否存在指令
-  const hasInstruction = instruction.trim() != ''
-  // 将消息历史处理为user和assistant轮流对话
-  let messages: BaseMessage[] = []
-  let currentRole = 'user' as 'user' | 'assistant'
-  for (let i = chatMessageList.length - 1; i >= 0; i--) {
-    const chatMessage = chatMessageList[i]
-    if (currentRole === chatMessage.role) {
-      messages.unshift({
-        role: chatMessage.role,
-        content: chatMessage.content
-      })
-      currentRole = currentRole === 'user' ? 'assistant' : 'user'
-    }
-  }
-  messages = messages.slice(-1 - contextSize)
-  // 必须user开头user结尾
-  if (messages[0].role === 'assistant') {
-    messages.shift()
-  }
   // 增加指令
-  if (hasInstruction) {
+  if (instruction.trim().length > 0) {
     chatMessageList[chatMessageList.length - 1].content = `${instruction}\n${
       chatMessageList[chatMessageList.length - 1].content
     }`
   }
-  // 使用'gpt-4-0314'模型估算Token，如果超出了上限制则移除上下文一条消息
-  while (
-    inputMaxTokens > 0 &&
-    messages.length > 1 &&
-    getChatTokensLength(messages) > inputMaxTokens
-  ) {
+
+  // 将消息历史处理为user和assistant轮流对话
+  let messages = turnChat(chatMessageList)
+
+  // 截取指定长度的上下文
+  messages = limitContext(inputMaxTokens, contextSize, messages)
+
+  // 消息开头不能是 assistant
+  if (messages[0].role === 'assistant') {
     messages.shift()
   }
+
+  // 修改消息结构
   return messages.map((msg) => {
     return {
       role: msg.role === 'assistant' ? 'model' : 'user',

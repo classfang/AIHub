@@ -16,7 +16,7 @@ export interface CommonChatOption {
   type?: 'chat' | 'drawing'
   model: string
   instruction: string
-  inputMaxTokens: number
+  inputMaxTokens?: number
   contextSize: number
   maxTokens?: number
   messages?: ChatMessage[]
@@ -25,11 +25,11 @@ export interface CommonChatOption {
   imageQuality?: string
   imageStyle?: string
   abortCtr?: AbortController
-  checkSession?: () => boolean
-  startAnswer?: (content: string) => void
-  appendAnswer?: (content: string) => void
-  imageGenerated?: (imageUrl: string) => void
-  end?: (err?: any) => void
+  sessionId: string
+  startAnswer?: (sessionId: string, content?: string) => void
+  appendAnswer?: (sessionId: string, content: string) => void
+  imageGenerated?: (sessionId: string, imageUrl: string) => void
+  end?: (sessionId: string, err?: any) => void
 }
 
 const chatFunctionMap: ChatFunctionMap = {

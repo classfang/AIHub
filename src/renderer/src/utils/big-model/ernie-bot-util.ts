@@ -1,6 +1,6 @@
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { CommonChatOption } from '.'
-import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
+import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 
 export const getErnieBotChatUrl = (model: string) => {
   switch (model) {
@@ -27,79 +27,74 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
     secretKey,
     abortCtr,
     messages,
-    checkSession,
+    sessionId,
     startAnswer,
     appendAnswer,
     end
   } = option
 
+  // 必须参数
   if (!apiKey || !secretKey || !messages) {
     console.log('chat2ernieBot params miss')
-    end && end()
+    end && end(sessionId)
     return
   }
 
+  // 等待回答
   let waitAnswer = true
 
+  // 获取 accessToken
   const tokenResp = await fetch(
     `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${apiKey}&client_secret=${secretKey}`
   )
   const tokenRespJson = await tokenResp.json()
   const accessToken = tokenRespJson.access_token
 
-  if (checkSession && !checkSession()) {
-    end && end()
-    return
-  }
-
+  // sse
   await fetchEventSource(`${getErnieBotChatUrl(model)}?access_token=${accessToken}`, {
-    // 保持后台运行
-    openWhenHidden: true,
+    openWhenHidden: true, // 保持后台运行
     signal: abortCtr?.signal,
     method: 'POST',
     body: JSON.stringify({
       messages: await getERNIEBotMessages(messages, instruction, inputMaxTokens, contextSize),
       stream: true
     }),
+    // 连接开启
     async onopen(response) {
       if (response.ok && response.headers.get('content-type')?.includes(EventStreamContentType)) {
         return
       } else {
         const respText = await response.text()
-        console.log('文心一言大模型连接错误', respText)
+        console.log('chat2ernieBot error', respText)
         throw new Error(respText)
       }
     },
-    onmessage: (e) => {
-      console.log('文心一言大模型回复：', e)
-
-      if (checkSession && !checkSession()) {
-        end && end()
-        return
+    // 接收消息
+    onmessage: (message) => {
+      try {
+        const respJson = JSON.parse(message.data)
+        console.log('chat2ernieBot:', respJson)
+        if (waitAnswer) {
+          waitAnswer = false
+          startAnswer && startAnswer(sessionId)
+        }
+        appendAnswer && appendAnswer(sessionId, respJson.result)
+      } catch (e) {
+        console.log('chat2ernieBot error', e)
+        end && end(sessionId, message)
       }
-
-      const respJson = JSON.parse(e.data)
-      if (!respJson) {
-        end && end('no answer')
-        return
-      }
-
-      if (waitAnswer) {
-        waitAnswer = false
-        startAnswer && startAnswer('')
-      }
-
-      appendAnswer && appendAnswer(respJson.result ?? '')
     },
+    // 连接关闭
     onclose: () => {
-      console.log('文心一言大模型关闭连接')
-      end && end()
+      console.log('chat2ernieBot close')
+      end && end(sessionId)
     },
-    onerror: (err: any) => {
-      console.log('文心一言大模型错误：', err)
+    // 连接错误
+    onerror: (e: any) => {
+      console.log('chat2ernieBot error：', e)
       // 抛出异常防止重连
-      if (err instanceof Error) {
-        throw err
+      if (e instanceof Error) {
+        throw e
       }
     }
   })
@@ -108,42 +103,26 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
 export const getERNIEBotMessages = async (
   chatMessageList: ChatMessage[],
   instruction: string,
-  inputMaxTokens: number,
+  inputMaxTokens: number | undefined,
   contextSize: number
 ) => {
-  // 是否存在指令
-  const hasInstruction = instruction.trim() != ''
-  // 将消息历史处理为user和assistant轮流对话
-  let messages: BaseMessage[] = []
-  let currentRole = 'user' as 'user' | 'assistant'
-  for (let i = chatMessageList.length - 1; i >= 0; i--) {
-    const chatMessage = chatMessageList[i]
-    if (currentRole === chatMessage.role) {
-      messages.unshift({
-        role: chatMessage.role,
-        content: chatMessage.content
-      })
-      currentRole = currentRole === 'user' ? 'assistant' : 'user'
-    }
-  }
-  messages = messages.slice(-1 - contextSize)
-  // 必须user开头user结尾
-  if (messages[0].role === 'assistant') {
-    messages.shift()
-  }
   // 增加指令
-  if (hasInstruction) {
+  if (instruction.trim().length > 0) {
     chatMessageList[chatMessageList.length - 1].content = `${instruction}\n${
       chatMessageList[chatMessageList.length - 1].content
     }`
   }
-  // 使用'gpt-4-0314'模型估算Token，如果超出了上限制则移除上下文一条消息
-  while (
-    inputMaxTokens > 0 &&
-    messages.length > 1 &&
-    getChatTokensLength(messages) > inputMaxTokens
-  ) {
+
+  // 将消息历史处理为user和assistant轮流对话
+  let messages = turnChat(chatMessageList)
+
+  // 截取指定长度的上下文
+  messages = limitContext(inputMaxTokens, contextSize, messages)
+
+  // 消息开头不能是 assistant
+  if (messages[0].role === 'assistant') {
     messages.shift()
   }
+
   return messages
 }
