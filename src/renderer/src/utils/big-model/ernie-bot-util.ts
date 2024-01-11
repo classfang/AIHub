@@ -81,7 +81,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
         appendAnswer && appendAnswer(sessionId, respJson.result)
       } catch (e) {
         console.log('chat2ernieBot error', e)
-        end && end(sessionId, message)
+        end && end(sessionId, message.data)
       }
     },
     // 连接关闭

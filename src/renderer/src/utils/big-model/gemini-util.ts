@@ -40,6 +40,24 @@ export const chat2gemini = async (option: CommonChatOption) => {
     },
     body: JSON.stringify({
       contents: await getGeminiMessages(messages, instruction, inputMaxTokens, contextSize),
+      safetySettings: [
+        {
+          category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+          threshold: 'BLOCK_NONE'
+        },
+        {
+          category: 'HARM_CATEGORY_HATE_SPEECH',
+          threshold: 'BLOCK_NONE'
+        },
+        {
+          category: 'HARM_CATEGORY_HARASSMENT',
+          threshold: 'BLOCK_NONE'
+        },
+        {
+          category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+          threshold: 'BLOCK_NONE'
+        }
+      ],
       generationConfig: {
         maxOutputTokens: maxTokens
       }
@@ -62,11 +80,11 @@ export const chat2gemini = async (option: CommonChatOption) => {
         console.log('chat2gemini:', respJson)
         const errMsg = respJson.error?.message
         if (errMsg) {
-          end && end(errMsg)
+          end && end(sessionId, errMsg)
           return
         }
         if (respJson.promptFeedback?.blockReason) {
-          end && end('block reason: ' + respJson.promptFeedback?.blockReason)
+          end && end(sessionId, 'block reason: ' + respJson.promptFeedback?.blockReason)
           return
         }
         if (waitAnswer) {
@@ -76,7 +94,7 @@ export const chat2gemini = async (option: CommonChatOption) => {
         appendAnswer && appendAnswer(sessionId, respJson.candidates[0].content.parts[0].text)
       } catch (e) {
         console.log('chat2gemini error', e)
-        end && end(sessionId, message)
+        end && end(sessionId, message.data)
       }
     },
     // 连接关闭

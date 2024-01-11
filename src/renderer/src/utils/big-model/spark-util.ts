@@ -106,7 +106,7 @@ export const chat2spark = async (option: CommonChatOption) => {
       appendAnswer && appendAnswer(sessionId, respJson.payload.choices.text[0].content ?? '')
     } catch (e) {
       console.log('chat2spark error', e)
-      end && end(sessionId, message)
+      end && end(sessionId, message.data)
       return
     }
   }

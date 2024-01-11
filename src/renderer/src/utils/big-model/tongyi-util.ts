@@ -112,7 +112,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
           answerIndex = content.length
         } catch (e) {
           console.log('chat2tongyi error', e)
-          end && end(sessionId, message)
+          end && end(sessionId, message.data)
         }
       },
       // 连接关闭
