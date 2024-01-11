@@ -15,17 +15,17 @@ import { appConfig, mainWindowConfig } from './config'
 import Store from 'electron-store'
 import { clearInterval } from 'node:timers'
 import { createClient } from 'redis'
-import { OpenAIEmbeddings, ChatOpenAI } from '@langchain/openai'
 import { RedisVectorStore } from '@langchain/community/vectorstores/redis'
 import { RedisClientOptions } from '@redis/client/dist/lib/client'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-import { RetrievalQAChain } from 'langchain/chains'
 import { TextLoader } from 'langchain/document_loaders/fs/text'
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
 import { DocxLoader } from 'langchain/document_loaders/fs/docx'
 import { PPTXLoader } from 'langchain/document_loaders/fs/pptx'
 import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
 import { getDockIcon, getDockIconArray } from './dock-icon'
+import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
+import { RetrievalQAChain } from 'langchain/chains'
 
 // 临时缓存目录
 const tempPath = join(app.getPath('userData'), 'temp')
@@ -498,10 +498,11 @@ ipcMain.handle(
         baseURL: openaiConfig.baseUrl
       }
     })
+    // @ts-ignore
     const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever())
 
     // 提问
-    const response = await chain.call({
+    const response = await chain.invoke({
       query: question
     })
 
