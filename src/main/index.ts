@@ -30,7 +30,6 @@ import { RetrievalQAChain } from 'langchain/chains'
 // 临时缓存目录
 const tempPath = join(app.getPath('userData'), 'temp')
 const creatTempPath = () => {
-  // 创建保存目录
   try {
     fs.mkdirSync(tempPath)
   } catch (e: any) {
@@ -73,15 +72,33 @@ function createWindow(): void {
     }
   })
 
+  // 准备就绪后显示主窗口
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
 
+  // 浏览器打开链接
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url).then(() => {
       console.log('openExternal', details.url)
     })
     return { action: 'deny' }
+  })
+
+  // 监听窗口关闭事件
+  mainWindow.on('close', (event) => {
+    if (process.platform === 'darwin') {
+      // MacOS 阻止窗口默认关闭行为
+      event.preventDefault()
+
+      if (mainWindow.isFullScreen()) {
+        // 如果是最大化，则还原窗口
+        mainWindow.setFullScreen(false)
+      } else {
+        // 隐藏窗口而不是关闭
+        mainWindow.hide()
+      }
+    }
   })
 
   // 监听窗口获得焦点的事件
@@ -94,8 +111,7 @@ function createWindow(): void {
     mainWindow.webContents.send('main-window-blur')
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
+  // 加载用于开发环境的 URL 或用于生产的本地 html 文件。
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']).then(() => {
       console.log('mainWindow.loadURL')
@@ -131,36 +147,34 @@ function stopDockAnimation() {
   app.dock.setIcon(nativeImage.createEmpty())
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+// 应用准备就绪
 app.whenReady().then(() => {
-  // Set app user model id for windows
+  // 设置user model
   electronApp.setAppUserModelId(appConfig.appUserModelId)
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+  // 在开发中默认使用 F12 打开或关闭 DevTools
+  // 忽略生产环境中的 CommandOrControl + R。
+  // 参考 https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // 创建目录
+  // 创建缓存目录
   creatTempPath()
 
   // 创建窗口
   createWindow()
 
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  // 激活应用（点击dock栏图标、任务栏图标）
+  app.on('activate', () => {
+    if (!mainWindow.isMinimized()) {
+      // 不是被最小化，直接显示主窗口
+      mainWindow.show()
+    }
   })
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+// 当所有窗口都关闭时退出，除了macOS
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
