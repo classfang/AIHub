@@ -42,7 +42,11 @@ Developed based on LangChain. Simple operation can complete personal knowledge b
 
 Generate weekly, monthly and annual reports with one click.
 
-### 6. More features under development
+### 6. AI mini program
+
+Rich AI small program support.
+
+### 7. More features under development
 
 If you have good ideas, you are welcome to submit issues.
 
