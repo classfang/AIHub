@@ -29,7 +29,6 @@ const { t } = useI18n()
 
 // 元素 ref
 const chatMessageListScrollbarRef = ref()
-const chatMessageListRef = ref()
 const chatInputTextareaRef = ref()
 
 // 阻断控制
@@ -52,7 +51,9 @@ const data = reactive({
   // 是否打开多选
   multipleChoiceFlag: false,
   // 多选消息列表
-  multipleChoiceList: [] as string[]
+  multipleChoiceList: [] as string[],
+  // 是否显示置底按钮
+  isToBottomBtnShow: false
 })
 const {
   isLoad,
@@ -61,7 +62,8 @@ const {
   selectImageList,
   waitAnswer,
   multipleChoiceFlag,
-  multipleChoiceList
+  multipleChoiceList,
+  isToBottomBtnShow
 } = toRefs(data)
 
 // 支持图片上传 TODO 'qwen-vl-plus' 暂不支持base64图片
@@ -376,8 +378,20 @@ const calcMessageTime = (current: ChatMessage, isFirst: boolean) => {
 // 对话记录滚动到底部
 const scrollToBottom = () => {
   nextTick(() => {
-    chatMessageListScrollbarRef.value.scrollTop(chatMessageListRef.value.clientHeight)
+    chatMessageListScrollbarRef.value.scrollTop(
+      chatMessageListScrollbarRef.value.containerRef.scrollHeight
+    )
   })
+}
+
+// 监听消息列表滚动
+const chatMessageListScroll = () => {
+  // 滚动超过一个窗口的高度时，显示置底按钮
+  data.isToBottomBtnShow =
+    chatMessageListScrollbarRef.value.containerRef.scrollHeight -
+      chatMessageListScrollbarRef.value.containerRef.clientHeight -
+      chatMessageListScrollbarRef.value.containerRef.scrollTop >
+    chatMessageListScrollbarRef.value.containerRef.clientHeight
 }
 
 // 挂载完毕
@@ -403,8 +417,9 @@ onMounted(() => {
       class="fade-in-from"
       outer-class="chat-message-list-container arco-scrollbar-small"
       style="height: calc(100vh - 150px - 55px); overflow-y: auto"
+      @scroll="chatMessageListScroll"
     >
-      <div ref="chatMessageListRef" class="chat-message-list">
+      <div class="chat-message-list">
         <template v-for="(msg, index) in currentAssistant.chatMessageList" :key="msg.id">
           <div
             v-if="calcMessageTime(msg, index === 0)"
@@ -493,6 +508,10 @@ onMounted(() => {
     </a-scrollbar>
     <!-- 输入框区域 -->
     <div class="chat-input">
+      <!-- 回到底部 -->
+      <div v-if="isToBottomBtnShow" class="chat-message-list-to-bottom" @click="scrollToBottom">
+        <icon-arrow-down class="chat-message-list-to-bottom-icon" />
+      </div>
       <!-- 文本域 -->
       <a-textarea
         ref="chatInputTextareaRef"

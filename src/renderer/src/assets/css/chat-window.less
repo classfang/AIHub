@@ -10,6 +10,26 @@
     border-top: 1px solid var(--color-border-1);
     position: relative;
 
+    .chat-message-list-to-bottom {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: var(--color-bg-1);
+      border: 1px solid var(--color-border-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      .chat-message-list-to-bottom-icon {
+        font-size: 20px;
+      }
+    }
+
     .chat-input-textarea {
       border: none;
       background-color: transparent;
