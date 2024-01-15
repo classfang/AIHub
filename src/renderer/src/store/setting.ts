@@ -6,7 +6,7 @@ export const useSettingStore = defineStore({
     app: {
       // 主题模式：0自动 1明亮 2黑暗
       themeModel: 0,
-      locale: 'en_US',
+      locale: 'zh_CN',
       proxy: ''
     },
     openAI: {
