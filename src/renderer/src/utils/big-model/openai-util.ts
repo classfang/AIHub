@@ -4,6 +4,7 @@ import { randomUUID } from '@renderer/utils/id-util'
 import { CommonChatOption } from '.'
 import { ChatCompletionMessageParam } from 'openai/resources/chat'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { Logger } from '@renderer/utils/logger'
 
 export const chat2openai = async (option: CommonChatOption) => {
   const {
@@ -54,7 +55,7 @@ export const chat2openai = async (option: CommonChatOption) => {
 
     // 连续回答
     for await (const chunk of stream) {
-      console.log('chat2openai:', chunk)
+      Logger.info('chat2openai:', chunk)
       appendAnswer && appendAnswer(sessionId, chunk.choices[0].delta.content ?? '')
     }
   } else if (type === 'drawing' && imagePrompt != null) {
@@ -67,7 +68,7 @@ export const chat2openai = async (option: CommonChatOption) => {
       quality: imageQuality as 'standard' | 'hd',
       style: imageStyle as 'vivid' | 'natural' | null
     })
-    console.log('chat2openai:', imagesResponse)
+    Logger.info('chat2openai:', imagesResponse)
 
     // 获取图片地址
     let imageUrl = imagesResponse.data[0].url ?? ''

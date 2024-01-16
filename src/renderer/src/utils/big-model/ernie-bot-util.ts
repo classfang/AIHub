@@ -1,6 +1,7 @@
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { CommonChatOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { Logger } from '@renderer/utils/logger'
 
 export const getErnieBotChatUrl = (model: string) => {
   switch (model) {
@@ -35,7 +36,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
 
   // 必须参数
   if (!apiKey || !secretKey || !messages) {
-    console.log('chat2ernieBot params miss')
+    Logger.error('chat2ernieBot params miss')
     end && end(sessionId)
     return
   }
@@ -65,7 +66,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
         return
       } else {
         const respText = await response.text()
-        console.log('chat2ernieBot error', respText)
+        Logger.error('chat2ernieBot error', respText)
         throw new Error(respText)
       }
     },
@@ -73,25 +74,25 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
     onmessage: (message) => {
       try {
         const respJson = JSON.parse(message.data)
-        console.log('chat2ernieBot:', respJson)
+        Logger.info('chat2ernieBot:', respJson)
         if (waitAnswer) {
           waitAnswer = false
           startAnswer && startAnswer(sessionId)
         }
         appendAnswer && appendAnswer(sessionId, respJson.result)
-      } catch (e) {
-        console.log('chat2ernieBot error', e)
+      } catch (e: any) {
+        Logger.error('chat2ernieBot error', e?.message)
         end && end(sessionId, message.data)
       }
     },
     // 连接关闭
     onclose: () => {
-      console.log('chat2ernieBot close')
+      Logger.info('chat2ernieBot close')
       end && end(sessionId)
     },
     // 连接错误
     onerror: (e: any) => {
-      console.log('chat2ernieBot error：', e)
+      Logger.error('chat2ernieBot error：', e?.message)
       // 抛出异常防止重连
       if (e instanceof Error) {
         throw e

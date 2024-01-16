@@ -18,6 +18,7 @@ import { clipboardWriteText } from '@renderer/utils/ipc-util'
 import { saveFileByPath } from '@renderer/utils/ipc-util'
 import { CommonChatOption, chat2bigModel } from '@renderer/utils/big-model'
 import dayjs from 'dayjs'
+import { Logger } from '@renderer/utils/logger'
 
 // store
 const systemStore = useSystemStore()
@@ -92,8 +93,8 @@ const sendQuestion = async (event?: KeyboardEvent) => {
   // 大模型调用
   try {
     await useBigModel(data.currentSessionId)
-  } catch (e) {
-    console.log('big model error: ', e)
+  } catch (e: any) {
+    Logger.error('big model error: ', e?.message)
     Message.error(e ? e + '' : t(`chatWindow.error.${data.currentAssistant.provider}`))
     systemStore.chatWindowLoading = false
     data.waitAnswer = false

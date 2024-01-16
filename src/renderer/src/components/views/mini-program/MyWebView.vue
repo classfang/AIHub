@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref, toRefs } from 'vue'
+import { Logger } from '@renderer/utils/logger'
 
 const webviewRef = ref()
 
@@ -22,26 +23,26 @@ const { isWebviewLoading, isWebviewLoadingError } = toRefs(data)
 
 // webview加载开始
 const webviewStartLoading = (): void => {
-  console.log('webviewStartLoading', props.url)
+  Logger.info('webviewStartLoading', props.url)
   data.isWebviewLoading = true
 }
 
 // webview加载完毕
 const webviewStopLoading = (event: any): void => {
-  console.log('webviewStopLoading', props.url, event)
+  Logger.info('webviewStopLoading', props.url, event)
   data.isWebviewLoading = false
 }
 
 // webview加载失败
 const webviewFailLoad = (event: any): void => {
-  console.log('webviewFailLoad', props.url, event)
+  Logger.info('webviewFailLoad', props.url, event)
   data.isWebviewLoadingError = true
   data.isWebviewLoading = false
 }
 
 // 重新加载
 const reload = () => {
-  console.log('webviewReload', props.url)
+  Logger.info('webviewReload', props.url)
   data.isWebviewLoadingError = false
   webviewRef.value.reload()
 }

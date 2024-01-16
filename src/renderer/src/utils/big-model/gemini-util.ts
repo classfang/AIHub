@@ -2,6 +2,7 @@ import { CommonChatOption } from '@renderer/utils/big-model/index'
 import { readLocalImageBase64 } from '@renderer/utils/ipc-util'
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { Logger } from '@renderer/utils/logger'
 
 export const chat2gemini = async (option: CommonChatOption) => {
   const {
@@ -22,7 +23,7 @@ export const chat2gemini = async (option: CommonChatOption) => {
 
   // 必须参数
   if (!apiKey || !baseURL || !messages) {
-    console.log('chat2gemini params miss')
+    Logger.error('chat2gemini params miss')
     end && end(sessionId)
     return
   }
@@ -64,12 +65,12 @@ export const chat2gemini = async (option: CommonChatOption) => {
     }),
     // 连接开启
     async onopen(response) {
-      console.log('chat2gemini open')
+      Logger.info('chat2gemini open')
       if (response.ok && response.headers.get('content-type')?.includes(EventStreamContentType)) {
         return
       } else {
         const respText = await response.text()
-        console.log('chat2gemini error', respText)
+        Logger.error('chat2gemini error', respText)
         throw new Error(respText)
       }
     },
@@ -77,7 +78,7 @@ export const chat2gemini = async (option: CommonChatOption) => {
     onmessage: (message) => {
       try {
         const respJson = JSON.parse(message.data)
-        console.log('chat2gemini:', respJson)
+        Logger.info('chat2gemini:', respJson)
         const errMsg = respJson.error?.message
         if (errMsg) {
           end && end(sessionId, errMsg)
@@ -92,19 +93,19 @@ export const chat2gemini = async (option: CommonChatOption) => {
           startAnswer && startAnswer(sessionId)
         }
         appendAnswer && appendAnswer(sessionId, respJson.candidates[0].content.parts[0].text)
-      } catch (e) {
-        console.log('chat2gemini error', e)
+      } catch (e: any) {
+        Logger.error('chat2gemini error', e?.message)
         end && end(sessionId, message.data)
       }
     },
     // 连接关闭
     onclose: () => {
-      console.log('chat2gemini close')
+      Logger.info('chat2gemini close')
       end && end(sessionId)
     },
     // 连接错误
     onerror: (e: any) => {
-      console.log('chat2gemini error：', e)
+      Logger.error('chat2gemini error：', e?.message)
       // 抛出异常防止重连
       if (e instanceof Error) {
         throw e

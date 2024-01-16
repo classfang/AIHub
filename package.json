@@ -34,7 +34,9 @@
     "mammoth": "^1.6.0",
     "officeparser": "^4.0.6",
     "pdf-parse": "^1.1.1",
-    "redis": "^4.6.12"
+    "redis": "^4.6.12",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.54.2",

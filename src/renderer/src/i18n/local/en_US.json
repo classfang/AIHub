@@ -122,7 +122,8 @@
       },
       "devTools": {
         "name": "Developer tools",
-        "openDevTools": "Open dev tools"
+        "openDevTools": "Open dev tools",
+        "openLogPath": "Open log directory"
       }
     }
   },

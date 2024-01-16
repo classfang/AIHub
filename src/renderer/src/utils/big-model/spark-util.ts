@@ -1,6 +1,7 @@
 import CryptoJS from 'crypto-js'
 import { CommonChatOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { Logger } from '@renderer/utils/logger'
 
 // 获取星火服务地址
 export const getSparkHostUrl = (model: string) => {
@@ -69,7 +70,7 @@ export const chat2spark = async (option: CommonChatOption) => {
 
   // 必须参数
   if (!appId || !apiKey || !secretKey || !messages) {
-    console.log('chat2spark params miss')
+    Logger.error('chat2spark params miss')
     end && end(sessionId)
     return
   }
@@ -82,7 +83,7 @@ export const chat2spark = async (option: CommonChatOption) => {
 
   // 连接成功
   sparkClient.onopen = async () => {
-    console.log('chat2spark open')
+    Logger.info('chat2spark open')
     // 连接成功，发送消息
     sparkClient.send(
       getSparkWsRequestParam(
@@ -98,14 +99,14 @@ export const chat2spark = async (option: CommonChatOption) => {
   sparkClient.onmessage = (message) => {
     try {
       const respJson = JSON.parse(message.data.toString())
-      console.log('chat2spark:', respJson)
+      Logger.info('chat2spark:', respJson)
       if (waitAnswer) {
         waitAnswer = false
         startAnswer && startAnswer(sessionId)
       }
       appendAnswer && appendAnswer(sessionId, respJson.payload.choices.text[0].content ?? '')
-    } catch (e) {
-      console.log('chat2spark error', e)
+    } catch (e: any) {
+      Logger.error('chat2spark error', e?.message)
       end && end(sessionId, message.data)
       return
     }
@@ -113,13 +114,13 @@ export const chat2spark = async (option: CommonChatOption) => {
 
   // 连接关闭
   sparkClient.onclose = () => {
-    console.log('chat2spark close')
+    Logger.info('chat2spark close')
     end && end(sessionId)
   }
 
   // 连接错误
   sparkClient.onerror = (e) => {
-    console.log('chat2spark error', e)
+    Logger.error('chat2spark error', e)
     end && end(sessionId, e)
   }
 }

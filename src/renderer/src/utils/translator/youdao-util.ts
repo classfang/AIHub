@@ -1,12 +1,13 @@
 import { enc, SHA256 } from 'crypto-js'
 import axios from 'axios'
 import { CommonTranslateOption, TranslateResult } from '@renderer/utils/translator/index'
+import { Logger } from '@renderer/utils/logger'
 
 export const youdaoTranslate = async (option: CommonTranslateOption) => {
   const { appId, secretKey, query, queryType, resultType, success, error } = option
 
   if (!appId || !secretKey || !query || !queryType || !resultType) {
-    console.log('youdaoTranslate params miss')
+    Logger.error('youdaoTranslate params miss')
     return
   }
 

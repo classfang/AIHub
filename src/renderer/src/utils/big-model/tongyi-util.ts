@@ -3,6 +3,7 @@ import { CommonChatOption } from '.'
 import { saveFileByUrl } from '@renderer/utils/ipc-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { Logger } from '@renderer/utils/logger'
 
 // 根据模型获取服务地址
 export const getTongyiChatUrl = (model: string) => {
@@ -42,7 +43,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
 
   // 必须参数
   if (!apiKey) {
-    console.log('chat2tongyi params miss')
+    Logger.error('chat2tongyi params miss')
     end && end(sessionId)
     return
   }
@@ -88,14 +89,14 @@ export const chat2tongyi = async (option: CommonChatOption) => {
           return
         } else {
           const respText = await response.text()
-          console.log('chat2tongyi error', respText)
+          Logger.info('chat2tongyi error', respText)
           throw new Error(respText)
         }
       },
       onmessage: (message) => {
         try {
           const respJson = JSON.parse(message.data)
-          console.log('chat2tongyi:', respJson)
+          Logger.info('chat2tongyi:', respJson)
           let content: string
           if (model === 'qwen-vl-plus') {
             content = respJson.output.choices[0].message.content[0].text
@@ -110,19 +111,19 @@ export const chat2tongyi = async (option: CommonChatOption) => {
           }
           appendAnswer && appendAnswer(sessionId, content.substring(answerIndex))
           answerIndex = content.length
-        } catch (e) {
-          console.log('chat2tongyi error', e)
+        } catch (e: any) {
+          Logger.error('chat2tongyi error', e?.message)
           end && end(sessionId, message.data)
         }
       },
       // 连接关闭
       onclose: () => {
-        console.log('chat2tongyi close')
+        Logger.info('chat2tongyi close')
         end && end(sessionId)
       },
       // 连接错误
       onerror: (e: any) => {
-        console.log('chat2tongyi error：', e)
+        Logger.error('chat2tongyi error：', e?.message)
         // 抛出异常防止重连
         if (e instanceof Error) {
           throw e
@@ -196,7 +197,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
         }, 3000)
       })
       .catch((err) => {
-        console.log('chat2tongyi error', err)
+        Logger.error('chat2tongyi error', err)
         end && end(sessionId, err)
       })
   }

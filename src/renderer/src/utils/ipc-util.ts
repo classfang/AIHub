@@ -20,6 +20,10 @@ export const openCacheDir = () => {
   return window.electron.ipcRenderer.invoke('open-cache-dir')
 }
 
+export const openLogDir = () => {
+  return window.electron.ipcRenderer.invoke('open-log-dir')
+}
+
 export const setProxy = (proxy: string) => {
   return window.electron.ipcRenderer.invoke('set-proxy', proxy)
 }

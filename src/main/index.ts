@@ -26,6 +26,13 @@ import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
 import { getDockIcon, getDockIconArray } from './dock-icon'
 import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RetrievalQAChain } from 'langchain/chains'
+import { initLogger } from './logger'
+
+// 日志目录
+const logsPath = join(app.getPath('userData'), 'logs')
+
+// 初始化日志记录器
+const logger = initLogger(logsPath)
 
 // 临时缓存目录
 const tempPath = join(app.getPath('userData'), 'temp')
@@ -34,7 +41,7 @@ const creatTempPath = () => {
     fs.mkdirSync(tempPath)
   } catch (e: any) {
     if (e.code != 'EEXIST') {
-      console.log('创建目录失败：', e)
+      logger.error('create temp path error：' + e)
     }
   }
 }
@@ -84,7 +91,7 @@ function createWindow(): void {
   // 浏览器打开链接
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url).then(() => {
-      console.log('openExternal', details.url)
+      logger.info('openExternal: ' + details.url)
     })
     return { action: 'deny' }
   })
@@ -124,11 +131,11 @@ function createWindow(): void {
   // 加载用于开发环境的 URL 或用于生产的本地 html 文件。
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']).then(() => {
-      console.log('mainWindow.loadURL')
+      logger.info('mainWindow.loadURL')
     })
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html')).then(() => {
-      console.log('mainWindow.loadFile')
+      logger.info('mainWindow.loadFile')
     })
   }
 }
@@ -274,6 +281,11 @@ ipcMain.handle('open-cache-dir', () => {
   return shell.openPath(tempPath)
 })
 
+// 打开日志目录
+ipcMain.handle('open-log-dir', () => {
+  return shell.openPath(logsPath)
+})
+
 // 读取本地图片为base64字符串
 ipcMain.handle('read-local-image-base64', (_event, path: string) => {
   // 读取图片文件
@@ -336,7 +348,7 @@ ipcMain.handle('add-cache-files', (_event, cacheFiles: { name: string; data: str
       fs.writeFileSync(join(tempPath, file.name), Buffer.from(file.data, 'base64'))
       resultFlag = true
     } catch (e) {
-      console.error('add-cache-files error：', e)
+      logger.error('add-cache-files error：' + e)
     }
   })
   return resultFlag

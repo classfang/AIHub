@@ -15,7 +15,8 @@ import {
   onMainWindowFocus,
   getCacheFiles,
   addCacheFiles,
-  openDevTools
+  openDevTools,
+  openLogDir
 } from '@renderer/utils/ipc-util'
 import { Message, Modal } from '@arco-design/web-vue'
 import { useI18n } from 'vue-i18n'
@@ -277,7 +278,7 @@ onMounted(() => {
                   <a-space direction="vertical" :size="10">
                     <div>{{ $t('setting.app.backup.setting.name') }}</div>
                     <div>
-                      <a-space :size="20">
+                      <a-space :size="10">
                         <a-button size="mini" @click="exportSettingBackup()">
                           <a-space :size="5">
                             <icon-download />
@@ -296,7 +297,7 @@ onMounted(() => {
                   <a-space direction="vertical" :size="10">
                     <div>{{ $t('setting.app.backup.data.name') }}</div>
                     <div>
-                      <a-space :size="20">
+                      <a-space :size="10">
                         <a-button size="mini" @click="exportDataBackup()">
                           <a-space :size="5">
                             <icon-download />
@@ -316,7 +317,7 @@ onMounted(() => {
                   <a-space direction="vertical" :size="10">
                     <div>{{ $t('setting.app.backup.cache.name') }}</div>
                     <div>
-                      <a-space :size="20">
+                      <a-space :size="10">
                         <a-button size="mini" @click="openCacheDir()">
                           <a-space :size="5">
                             <icon-folder />
@@ -568,7 +569,7 @@ onMounted(() => {
               <a-space direction="vertical" :size="10">
                 <div>{{ $t('setting.about.version.name') }}</div>
                 <div>
-                  <a-space :size="20">
+                  <a-space :size="10">
                     <div>{{ $t('setting.about.version.current') }} v{{ appVersion }}</div>
                     <a-badge
                       :count="newVersionFlag ? 1 : 0"
@@ -601,11 +602,12 @@ onMounted(() => {
               <a-space direction="vertical" :size="10">
                 <div>{{ $t('setting.about.devTools.name') }}</div>
                 <div>
-                  <a-space :size="20">
+                  <a-space :size="10">
                     <a-button size="mini" @click="openDevTools()">
-                      <a-space :size="5">
-                        <span>{{ $t('setting.about.devTools.openDevTools') }}</span>
-                      </a-space>
+                      <span>{{ $t('setting.about.devTools.openDevTools') }}</span>
+                    </a-button>
+                    <a-button size="mini" @click="openLogDir()">
+                      <span>{{ $t('setting.about.devTools.openLogPath') }}</span>
                     </a-button>
                   </a-space>
                 </div>

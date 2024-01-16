@@ -122,7 +122,8 @@
       },
       "devTools": {
         "name": "开发者工具",
-        "openDevTools": "打开开发者控制台"
+        "openDevTools": "打开开发者控制台",
+        "openLogPath": "打开日志目录"
       }
     }
   },
