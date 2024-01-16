@@ -30,7 +30,7 @@
         "name": "Appearance",
         "theme": {
           "name": "Theme",
-          "system": "System",
+          "auto": "Auto",
           "light": "Light",
           "dark": "Dark"
         },

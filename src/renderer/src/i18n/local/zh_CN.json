@@ -30,7 +30,7 @@
         "name": "外观",
         "theme": {
           "name": "主题",
-          "system": "系统",
+          "auto": "自动",
           "light": "明亮",
           "dark": "黑暗"
         },
