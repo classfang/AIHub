@@ -16,9 +16,9 @@
   🎉🎉🎉 Now supported: OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
 </h4>
 
-## ▶ Demo video
+![demo](/demo/1.png)
 
-https://github.com/classfang/AIHub/assets/27616248/d95a1fcb-01e8-4296-8b5b-154eba4d567b
+![demo](/demo/2.png)
 
 ## 🖥️ Function introduction
 
