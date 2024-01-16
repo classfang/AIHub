@@ -42,11 +42,15 @@ const creatTempPath = () => {
 // 主窗口
 let mainWindow: BrowserWindow
 
+// 创建主窗口
 function createWindow(): void {
+  // 获取主窗口尺寸
+  const mainWindowSize = store.get('main-window-size') as { width: number; height: number }
+
   // 创建主窗口
   mainWindow = new BrowserWindow({
-    width: mainWindowConfig.minWidth,
-    height: mainWindowConfig.minHeight,
+    width: mainWindowSize?.width ?? mainWindowConfig.minWidth,
+    height: mainWindowSize?.height ?? mainWindowConfig.minHeight,
     minWidth: mainWindowConfig.minWidth,
     minHeight: mainWindowConfig.minHeight,
     show: false,
@@ -109,6 +113,12 @@ function createWindow(): void {
   // 监听窗口失去焦点的事件
   mainWindow.on('blur', () => {
     mainWindow.webContents.send('main-window-blur')
+  })
+
+  // 将窗口大小保存到 electron-store 中
+  mainWindow.on('resize', () => {
+    const { width, height } = mainWindow.getBounds()
+    store.set('main-window-size', { width, height })
   })
 
   // 加载用于开发环境的 URL 或用于生产的本地 html 文件。
