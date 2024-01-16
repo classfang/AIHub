@@ -338,6 +338,7 @@ const generateReport = async () => {
             <div
               class="arco-calendar-date"
               @click="currentDate = new Date(cellData.year, cellData.month - 1, cellData.date)"
+              @dblclick="openReport('day')"
             >
               <div class="calendar-cell">
                 <div class="calendar-cell-header">
@@ -361,7 +362,20 @@ const generateReport = async () => {
                     </a-button>
                   </transition>
                 </div>
-                <div class="calendar-cell-body">
+                <div
+                  v-if="
+                    getReport(
+                      'day',
+                      dayjs(new Date(cellData.year, cellData.month - 1, cellData.date))
+                        .startOf('day')
+                        .valueOf(),
+                      dayjs(new Date(cellData.year, cellData.month - 1, cellData.date))
+                        .endOf('day')
+                        .valueOf()
+                    )?.content
+                  "
+                  class="calendar-cell-body"
+                >
                   {{
                     getReport(
                       'day',
@@ -521,6 +535,10 @@ const generateReport = async () => {
                       overflow-y: auto;
                       word-break: break-all;
                       line-break: anywhere;
+                      background-color: var(--color-fill-1);
+                      box-sizing: border-box;
+                      padding: 5px;
+                      border-radius: var(--border-radius-small);
                     }
                   }
                 }
