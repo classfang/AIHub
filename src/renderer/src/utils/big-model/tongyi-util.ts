@@ -189,9 +189,11 @@ export const chat2tongyi = async (option: CommonChatOption) => {
                 if (imageUrl) {
                   saveFileByUrl(imageUrl, `${randomUUID()}.png`).then((localPath) => {
                     imageGenerated && imageGenerated(sessionId, localPath)
+                    end && end(sessionId)
                   })
+                } else {
+                  end && end(sessionId)
                 }
-                end && end(sessionId)
               }
             })
         }, 3000)

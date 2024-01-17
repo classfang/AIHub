@@ -38,7 +38,7 @@ watch(
         assistant.value.model = 'gemini-pro-vision'
         break
       case 'Spark':
-        assistant.value.model = 'v3.1'
+        assistant.value.model = assistant.value.type === 'chat' ? 'v3.1' : 'v2.1'
         break
       case 'ERNIEBot':
         assistant.value.model = 'ERNIE-Bot 4.0'
@@ -160,20 +160,37 @@ watch(
           <template v-if="assistant.model === 'dall-e-2'">
             <a-option value="256x256">256x256</a-option>
             <a-option value="512x512">512x512</a-option>
+            <a-option value="1024x1024">1024x1024</a-option>
           </template>
-          <a-option value="1024x1024">1024x1024</a-option>
           <template v-if="assistant.model === 'dall-e-3'">
+            <a-option value="1024x1024">1024x1024</a-option>
             <a-option value="1792x1024">1792x1024</a-option>
             <a-option value="1024x1792">1024x1792</a-option>
           </template>
-          <template v-if="assistant.model === 'Tongyi'">
+          <template v-if="assistant.provider === 'Tongyi'">
             <a-option value="720x1280">720x1280</a-option>
             <a-option value="1280x720">1280x720</a-option>
+          </template>
+          <template v-if="assistant.provider === 'Spark'">
+            <a-option value="512x512">512x512</a-option>
+            <a-option value="640x360">640x360</a-option>
+            <a-option value="640x480">640x480</a-option>
+            <a-option value="640x640">640x640</a-option>
+            <a-option value="680x512">680x512</a-option>
+            <a-option value="512x680">512x680</a-option>
+            <a-option value="768x768">768x768</a-option>
+            <a-option value="720x1280">720x1280</a-option>
+            <a-option value="1280x720">1280x720</a-option>
+            <a-option value="1024x1024">1024x1024</a-option>
           </template>
         </a-select>
       </a-form-item>
       <!-- 图片风格 -->
-      <a-form-item field="imageStyle" :label="$t('assistantList.imageStyle')">
+      <a-form-item
+        v-if="['OpenAI', 'Tongyi'].includes(assistant.provider)"
+        field="imageStyle"
+        :label="$t('assistantList.imageStyle')"
+      >
         <a-select v-model="assistant.imageStyle">
           <template v-if="assistant.model === 'dall-e-3'">
             <a-option value="vivid">vivid</a-option>

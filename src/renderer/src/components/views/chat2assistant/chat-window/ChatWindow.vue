@@ -269,7 +269,25 @@ const useBigModel = async (currentSessionId: string) => {
       otherOption = {
         appId: settingStore.spark.appId,
         secretKey: settingStore.spark.secret,
-        apiKey: settingStore.spark.key
+        apiKey: settingStore.spark.key,
+        type: data.currentAssistant.type,
+        imagePrompt: question,
+        imageSize: data.currentAssistant.imageSize,
+        imageGenerated: (sessionId: string, imageUrl: string) => {
+          if (currentSessionId != sessionId) {
+            return
+          }
+          data.currentAssistant.chatMessageList.push({
+            id: randomUUID(),
+            type: 'img',
+            role: 'assistant' as ChatRole,
+            content: '',
+            image: imageUrl,
+            createTime: nowTimestamp()
+          })
+          scrollToBottom()
+          data.waitAnswer = false
+        }
       }
       break
     case 'ERNIEBot':
@@ -354,6 +372,7 @@ const multipleChoiceOpen = (id: string) => {
 const multipleChoiceClose = () => {
   data.multipleChoiceList = []
   data.multipleChoiceFlag = false
+  calcToBottomShow()
 }
 
 // 计算显示的消息时间
@@ -386,7 +405,7 @@ const scrollToBottom = () => {
 }
 
 // 监听消息列表滚动
-const chatMessageListScroll = () => {
+const calcToBottomShow = () => {
   // 滚动超过一个窗口的高度时，显示置底按钮
   data.isToBottomBtnShow =
     chatMessageListScrollbarRef.value.containerRef.scrollHeight -
@@ -418,7 +437,7 @@ onMounted(() => {
       class="fade-in-from"
       outer-class="chat-message-list-container arco-scrollbar-small"
       style="height: calc(100vh - 150px - 55px); overflow-y: auto"
-      @scroll="chatMessageListScroll"
+      @scroll="calcToBottomShow"
     >
       <div class="chat-message-list">
         <template v-for="(msg, index) in currentAssistant.chatMessageList" :key="msg.id">

@@ -267,6 +267,15 @@ ipcMain.handle('save-file-by-url', async (_event, url: string, fileName: string)
   return filePath
 })
 
+// 保存base64文件
+ipcMain.handle('save-file-by-base64', async (_event, base64: string, fileName: string) => {
+  creatTempPath()
+  const filePath = join(tempPath, fileName)
+  fs.writeFileSync(filePath, Buffer.from(base64, 'base64'), 'binary')
+
+  return filePath
+})
+
 // 保存本地文件
 ipcMain.handle('save-file-by-path', async (_event, path: string, fileName: string) => {
   creatTempPath()

@@ -40,6 +40,10 @@ export const saveFileByUrl = (url: string, fileName: string) => {
   return window.electron.ipcRenderer.invoke('save-file-by-url', url, fileName)
 }
 
+export const saveFileByBase64 = (base64: string, fileName: string) => {
+  return window.electron.ipcRenderer.invoke('save-file-by-base64', base64, fileName)
+}
+
 export const readLocalImageBase64 = (path: string) => {
   return window.electron.ipcRenderer.invoke('read-local-image-base64', path)
 }

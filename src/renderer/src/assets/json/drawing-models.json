@@ -3,5 +3,6 @@
     { "name": "dall-e-3", "value": "dall-e-3" },
     { "name": "dall-e-2", "value": "dall-e-2" }
   ],
-  "Tongyi": [{ "name": "wanx-v1", "value": "wanx-v1" }]
+  "Tongyi": [{ "name": "wanx-v1", "value": "wanx-v1" }],
+  "Spark": [{ "name": "v2.1", "value": "v2.1" }]
 }
