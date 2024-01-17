@@ -1,3 +1,5 @@
+import { Logger } from '@renderer/utils/logger'
+
 export const downloadFile = (url: string, fileName: string) => {
   fetch(url)
     .then((response) => response.blob())
@@ -12,7 +14,7 @@ export const downloadFile = (url: string, fileName: string) => {
       document.body.removeChild(a)
     })
     .catch((error) => {
-      console.error('文件下载失败:', error)
+      Logger.error('download file error:', error)
     })
 }
 

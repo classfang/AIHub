@@ -196,8 +196,8 @@ export const chat2spark = async (option: CommonChatOption) => {
 
     // 连接错误
     sparkClient.onerror = (e) => {
-      Logger.error('chat2spark error', e)
-      end && end(sessionId, e)
+      Logger.error('chat2spark websocket connect error', e)
+      end && end(sessionId, 'chat2spark websocket connect error')
     }
   } else if (type === 'drawing' && imagePrompt != null && imageSize != null) {
     // 绘画
@@ -246,11 +246,14 @@ export const getSparkMessages = async (
   messages = limitContext(inputMaxTokens, contextSize, messages)
 
   // 转换消息结构
-  const sparkMessages: any[] = []
+  let sparkMessages: any[] = []
   for (const m of messages) {
     // 处理用户消息中的图片
     if (m.image && m.role === 'user') {
       const imageBase64Data = await readLocalImageBase64(m.image)
+      // 清空消息列表，保证图片是第一条消息
+      sparkMessages = []
+      // 添加图片消息和文本消息
       sparkMessages.push({
         role: 'user',
         content: `${imageBase64Data}`,
