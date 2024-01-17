@@ -12,9 +12,10 @@
     { "name": "gemini-pro", "value": "gemini-pro", "type": "text" }
   ],
   "Spark": [
-    { "name": "spark-v3.0", "value": "v3.1", "type": "text" },
-    { "name": "spark-v2.0", "value": "v2.1", "type": "text" },
-    { "name": "spark-v1.5", "value": "v1.1", "type": "text" }
+    { "name": "image-v2.1", "value": "image-v2.1", "type": "version" },
+    { "name": "chat-v3.1", "value": "chat-v3.1", "type": "text" },
+    { "name": "chat-v2.1", "value": "chat-v2.1", "type": "text" },
+    { "name": "chat-v1.1", "value": "chat-v1.1", "type": "text" }
   ],
   "ERNIEBot": [
     { "name": "ERNIE-Bot 4.0", "value": "ERNIE-Bot 4.0", "type": "text" },

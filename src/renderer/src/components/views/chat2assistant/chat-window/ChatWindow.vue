@@ -69,7 +69,9 @@ const {
 
 // 支持图片上传 TODO 'qwen-vl-plus' 暂不支持base64图片
 const isSupportImage = computed(() => {
-  return ['gpt-4-vision-preview', 'gemini-pro-vision'].includes(data.currentAssistant.model)
+  return ['gpt-4-vision-preview', 'gemini-pro-vision', 'image-v2.1'].includes(
+    data.currentAssistant.model
+  )
 })
 
 // 发送提问

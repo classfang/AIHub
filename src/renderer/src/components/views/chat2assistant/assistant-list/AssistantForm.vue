@@ -38,7 +38,7 @@ watch(
         assistant.value.model = 'gemini-pro-vision'
         break
       case 'Spark':
-        assistant.value.model = assistant.value.type === 'chat' ? 'v3.1' : 'v2.1'
+        assistant.value.model = assistant.value.type === 'chat' ? 'chat-v3.1' : 'tti-v2.1'
         break
       case 'ERNIEBot':
         assistant.value.model = 'ERNIE-Bot 4.0'

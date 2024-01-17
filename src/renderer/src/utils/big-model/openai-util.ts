@@ -107,7 +107,7 @@ export const getOpenAIMessages = async (
 
   // 转换消息结构
   const openaiMessages: ChatCompletionMessageParam[] = []
-  for (const m of chatMessageList) {
+  for (const m of messages) {
     // 处理用户消息中的图片
     if (m.image && m.role === 'user') {
       const imageBase64Data = await readLocalImageBase64(m.image)

@@ -9,7 +9,8 @@ export const turnChat = (chatMessageList: ChatMessage[]) => {
     if (currentRole === chatMessage.role) {
       messages.unshift({
         role: chatMessage.role,
-        content: chatMessage.content
+        content: chatMessage.content,
+        image: chatMessage.image
       })
       currentRole = currentRole === 'user' ? 'assistant' : 'user'
     }

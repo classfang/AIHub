@@ -47,12 +47,12 @@ interface Assistant {
 interface BaseMessage {
   role: ChatRole
   content: string
+  image?: string
 }
 
 interface ChatMessage extends BaseMessage {
   id: string
   type: ChatMsgType
-  image?: string
   createTime: number
 }
 

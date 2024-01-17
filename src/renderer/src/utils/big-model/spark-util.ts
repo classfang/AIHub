@@ -2,18 +2,52 @@ import CryptoJS from 'crypto-js'
 import { CommonChatOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { Logger } from '@renderer/utils/logger'
-import { saveFileByBase64 } from '@renderer/utils/ipc-util'
+import { readLocalImageBase64, saveFileByBase64 } from '@renderer/utils/ipc-util'
 import { randomUUID } from '@renderer/utils/id-util'
 
 // 获取星火服务地址
-const getSparkHostUrl = (type: string, model: string) => {
-  if (type === 'chat') {
-    return `wss://spark-api.xf-yun.com/${model}/chat`
-  } else if (type === 'drawing') {
-    return `https://spark-api.cn-huabei-1.xf-yun.com/${model}/tti`
+const getSparkHostUrl = (model: string) => {
+  let hostUrl = ''
+  switch (model) {
+    case 'chat-v1.1':
+      hostUrl = 'wss://spark-api.xf-yun.com/v1.1/chat'
+      break
+    case 'chat-v2.1':
+      hostUrl = 'wss://spark-api.xf-yun.com/v2.1/chat'
+      break
+    case 'chat-v3.1':
+      hostUrl = 'wss://spark-api.xf-yun.com/v3.1/chat'
+      break
+    case 'image-v2.1':
+      hostUrl = 'wss://spark-api.cn-huabei-1.xf-yun.com/v2.1/image'
+      break
+    case 'tti-v2.1':
+      hostUrl = 'https://spark-api.cn-huabei-1.xf-yun.com/v2.1/tti'
+      break
   }
+  return hostUrl
+}
 
-  return ''
+const getDomain = (model: string) => {
+  let domain = 'general'
+  switch (model) {
+    case 'chat-v1.1':
+      domain = 'general'
+      break
+    case 'chat-v2.1':
+      domain = 'generalv2'
+      break
+    case 'chat-v3.1':
+      domain = 'generalv3'
+      break
+    case 'image-v2.1':
+      domain = 'image'
+      break
+    case 'tti-v2.1':
+      domain = 'general'
+      break
+  }
+  return domain
 }
 
 // 获取ws请求地址
@@ -46,7 +80,7 @@ const getSparkWsRequestParam = (
     },
     parameter: {
       chat: {
-        domain: `generalv${model.substring(1, 2)}`,
+        domain: getDomain(model),
         temperature: 0.5,
         max_tokens: maxTokens ?? 4096
       }
@@ -121,9 +155,7 @@ export const chat2spark = async (option: CommonChatOption) => {
     let waitAnswer = true
 
     // websocket 实例
-    const sparkClient = new WebSocket(
-      getAuthUrl(getSparkHostUrl('chat', model), 'GET', apiKey, secretKey)
-    )
+    const sparkClient = new WebSocket(getAuthUrl(getSparkHostUrl(model), 'GET', apiKey, secretKey))
 
     // 连接成功
     sparkClient.onopen = async () => {
@@ -170,7 +202,7 @@ export const chat2spark = async (option: CommonChatOption) => {
   } else if (type === 'drawing' && imagePrompt != null && imageSize != null) {
     // 绘画
 
-    fetch(getAuthUrl(getSparkHostUrl('drawing', model), 'POST', apiKey, secretKey), {
+    fetch(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey, secretKey), {
       method: 'POST',
       body: getDrawingRequestParam(appId, imagePrompt, imageSize)
     })
@@ -213,5 +245,28 @@ export const getSparkMessages = async (
   // 截取指定长度的上下文
   messages = limitContext(inputMaxTokens, contextSize, messages)
 
-  return messages
+  // 转换消息结构
+  const sparkMessages: any[] = []
+  for (const m of messages) {
+    // 处理用户消息中的图片
+    if (m.image && m.role === 'user') {
+      const imageBase64Data = await readLocalImageBase64(m.image)
+      sparkMessages.push({
+        role: 'user',
+        content: `${imageBase64Data}`,
+        content_type: 'image'
+      })
+      sparkMessages.push({
+        role: 'user',
+        content: m.content
+      })
+    } else {
+      sparkMessages.push({
+        role: m.role,
+        content: m.content
+      })
+    }
+  }
+
+  return sparkMessages
 }
