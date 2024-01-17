@@ -514,7 +514,7 @@ const generateReport = async () => {
                     height: 100%;
                     display: flex;
                     flex-direction: column;
-                    gap: 10px;
+                    gap: 5px;
 
                     .calendar-cell-header {
                       flex-shrink: 0;
