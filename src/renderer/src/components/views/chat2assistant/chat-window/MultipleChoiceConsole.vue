@@ -62,12 +62,18 @@ const multipleChoiceCollect = () => {
   if (props.multipleChoiceList.length === 0) {
     return
   }
+
+  const selectChatMessageList = getSelectChatMessageList()
+  if (selectChatMessageList.length === 0) {
+    return
+  }
+
   const chatMessageSet: ChatMessageSet = {
     id: randomUUID(),
     name: assistantStore.getCurrentAssistant.name,
     provider: assistantStore.getCurrentAssistant.provider,
     model: assistantStore.getCurrentAssistant.model,
-    chatMessageList: getSelectChatMessageList(),
+    chatMessageList: selectChatMessageList,
     createTime: nowTimestamp()
   }
   collectionSetStore.chatMessageSetList.unshift(chatMessageSet)
@@ -79,9 +85,13 @@ const multipleChoiceDownload = () => {
   if (props.multipleChoiceList.length === 0) {
     return
   }
-  const content = getSelectChatMessageList()
-    .map((r) => r.role + ': \n' + r.content)
-    .join('\n\n')
+
+  const selectChatMessageList = getSelectChatMessageList()
+  if (selectChatMessageList.length === 0) {
+    return
+  }
+
+  const content = selectChatMessageList.map((r) => r.role + ': \n' + r.content).join('\n\n')
   exportTextFile(`records-${nowTimestamp()}.md`, content)
   emits('close')
 }
