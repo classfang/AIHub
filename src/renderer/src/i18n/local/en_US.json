@@ -308,5 +308,14 @@
         "desc": "Large language model application launched by Alibaba"
       }
     }
+  },
+  "notification": {
+    "name": "Notification",
+    "empty": "No notification",
+    "type": {
+      "info": "Info log",
+      "warn": "Warn log",
+      "error": "Error log"
+    }
   }
 }

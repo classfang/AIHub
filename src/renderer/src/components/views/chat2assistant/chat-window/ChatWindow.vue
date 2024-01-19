@@ -19,11 +19,13 @@ import { saveFileByPath } from '@renderer/utils/ipc-util'
 import { CommonChatOption, chat2bigModel } from '@renderer/utils/big-model'
 import dayjs from 'dayjs'
 import { Logger } from '@renderer/utils/logger'
+import { useNotificationStore } from '@renderer/store/notification'
 
 // store
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
 const assistantStore = useAssistantStore()
+const notificationStore = useNotificationStore()
 
 // i18n
 const { t } = useI18n()
@@ -224,7 +226,16 @@ const useBigModel = async (currentSessionId: string) => {
       if (currentSessionId != sessionId) {
         return
       }
-      errMsg && Message.error(errMsg)
+      if (errMsg != null) {
+        // 错误提示
+        Message.error(errMsg)
+        // 添加提醒
+        notificationStore.notifications.unshift({
+          type: 'error',
+          createTime: new Date().getTime(),
+          content: errMsg
+        })
+      }
       // 关闭等待
       data.waitAnswer = false
       systemStore.chatWindowLoading = false

@@ -39,7 +39,6 @@ export const initLogger = (logsPath: string) => {
   const logger = winston.createLogger({
     format: customFormat,
     transports: [
-      new winston.transports.Console(),
       new DailyRotateFile({
         filename: join(logsPath, 'info-%DATE%.log'),
         level: 'info',
@@ -61,11 +60,7 @@ export const initLogger = (logsPath: string) => {
 
   // 非生产环境，增加控制台输出
   if (process.env.NODE_ENV !== 'production') {
-    logger.add(
-      new winston.transports.Console({
-        format: winston.format.simple()
-      })
-    )
+    logger.add(new winston.transports.Console())
   }
 
   // 接收渲染进程日志记录请求

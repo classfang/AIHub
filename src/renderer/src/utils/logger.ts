@@ -12,23 +12,26 @@ const conversionMessage = (...message: any[]) => {
 
 export class Logger {
   public static info(...message: any[]) {
+    const messageStr = conversionMessage(...message)
     window.electron.ipcRenderer.send('log', {
       level: 'info',
-      message: conversionMessage(...message)
+      message: messageStr
     })
   }
 
   public static warn(...message: any[]) {
+    const messageStr = conversionMessage(...message)
     window.electron.ipcRenderer.send('log', {
       level: 'warn',
-      message: conversionMessage(...message)
+      message: messageStr
     })
   }
 
   public static error(...message: any[]) {
+    const messageStr = conversionMessage(...message)
     window.electron.ipcRenderer.send('log', {
       level: 'error',
-      message: conversionMessage(...message)
+      message: messageStr
     })
   }
 }

@@ -20,6 +20,7 @@ type ChatMsgType = 'text' | 'img'
 type ChatRole = 'user' | 'assistant' | 'system'
 type CalendarReportType = 'day' | 'week' | 'month' | 'year'
 type MiniProgramType = 'webview' | 'local'
+type AppNotificationType = 'info' | 'warn' | 'error'
 
 interface Assistant {
   // 通用
@@ -101,4 +102,10 @@ interface MiniProgram {
   type: MiniProgramType
   name: string
   url: string
+}
+
+interface AppNotification {
+  type: AppNotificationType
+  content: string
+  createTime: number
 }

@@ -12,6 +12,7 @@ import AIApp from '@renderer/components/views/mini-program/MiniProgram.vue'
 import Translator from '@renderer/components/views/Translator.vue'
 import KnowledgeBase from '@renderer/components/views/knowledge-base/KnowledgeBase.vue'
 import AICalendar from '@renderer/components/views/AICalendar.vue'
+import Notification from '@renderer/components/modal/Notification.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 import { startDockAnimation, startDockBounce, stopDockAnimation } from '@renderer/utils/ipc-util'
@@ -142,7 +143,12 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': currentPage === 'ai-app' }"
           @click="changePage('ai-app')"
         />
-        <Setting style="margin-top: auto">
+        <Notification style="margin-top: auto">
+          <template #default>
+            <icon-notification class="app-sidebar-item no-drag-area" />
+          </template>
+        </Notification>
+        <Setting>
           <template #default>
             <icon-settings class="app-sidebar-item no-drag-area" />
           </template>
