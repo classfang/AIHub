@@ -92,7 +92,7 @@
         "secretKey": "Secret Key"
       },
       "tongyi": {
-        "name": "Tongyi Qianwen",
+        "name": "Alibaba Tongyi",
         "apiKey": "API Key"
       }
     },
@@ -137,7 +137,7 @@
     "Gemini": "Gemini",
     "Spark": "iFLYTEK Spark",
     "ERNIEBot": "ERNIE Bot",
-    "Tongyi": "Tongyi Qianwen"
+    "Tongyi": "Alibaba Tongyi"
   },
   "translationProvider": {
     "Youdao": "Youdao Translation"
@@ -199,7 +199,7 @@
       "Gemini": "Gemini is not configured",
       "Spark": "iFLYTEK Spark is not configured",
       "ERNIEBot": "ERNIE Bot is not configured",
-      "Tongyi": "Tongyi Qianwen is not configured"
+      "Tongyi": "Alibaba Tongyi is not configured"
     },
     "error": {
       "imageRequires": "You have to upload a picture",
@@ -207,7 +207,7 @@
       "Gemini": "Gemini call error, please check your configuration",
       "Spark": "iFLYTEK Spark call error, please check your configuration",
       "ERNIEBot": "ERNIE Bot call error, please check your configuration",
-      "Tongyi": "Tongyi Qianwen call error, please check your configuration"
+      "Tongyi": "Alibaba Tongyi call error, please check your configuration"
     }
   },
   "collectionSet": {

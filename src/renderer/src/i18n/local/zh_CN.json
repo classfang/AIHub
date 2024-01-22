@@ -92,7 +92,7 @@
         "secretKey": "Secret Key"
       },
       "tongyi": {
-        "name": "通义千问",
+        "name": "阿里通义",
         "apiKey": "API Key"
       }
     },
@@ -137,7 +137,7 @@
     "Gemini": "Gemini",
     "Spark": "讯飞星火",
     "ERNIEBot": "文心一言",
-    "Tongyi": "通义千问"
+    "Tongyi": "阿里通义"
   },
   "translationProvider": {
     "Youdao": "有道翻译"
@@ -199,7 +199,7 @@
       "Gemini": "Gemini未配置",
       "Spark": "星火大模型未配置",
       "ERNIEBot": "文心一言大模型未配置",
-      "Tongyi": "通义千问大模型未配置"
+      "Tongyi": "阿里通义大模型未配置"
     },
     "error": {
       "imageRequires": "你必须上传一张图片",
@@ -207,7 +207,7 @@
       "Gemini": "Gemini调用错误，请检查你的配置",
       "Spark": "星火大模型调用错误，请检查你的配置",
       "ERNIEBot": "文心一言大模型调用错误，请检查你的配置",
-      "Tongyi": "通义千问大模型调用错误，请检查你的配置"
+      "Tongyi": "阿里通义大模型调用错误，请检查你的配置"
     }
   },
   "collectionSet": {
