@@ -42,10 +42,10 @@
   dependencies:
     color "^3.1.3"
 
-"@arco-design/web-vue@^2.54.2":
-  version "2.54.2"
-  resolved "https://registry.npmmirror.com/@arco-design/web-vue/-/web-vue-2.54.2.tgz#ab3790fd807a534bf92846b3cb101b9f9bca47f9"
-  integrity sha512-OVE3VvAZudGs0MYffJXIYrtQC29TJ0IcbRB5rh08D/5KUS/gcpEdYEl/cqPkkidhDfoekWMuweYG6VSaX70jnw==
+"@arco-design/web-vue@^2.54.3":
+  version "2.54.3"
+  resolved "https://registry.npmmirror.com/@arco-design/web-vue/-/web-vue-2.54.3.tgz#d1dd8b206a055f5b034009e666a58073db18c02a"
+  integrity sha512-sdATUDpAIV9vnNP9vqo3QtgU/EUj3oQz6JtqbRiUcjlVEfAMsEWSL02fJbbyWLo5a9AtQ0sUAtp/G82DP56nOQ==
   dependencies:
     "@arco-design/color" "^0.4.0"
     b-tween "^0.3.3"
@@ -586,18 +586,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@langchain/community@^0.0.18":
-  version "0.0.18"
-  resolved "https://registry.npmmirror.com/@langchain/community/-/community-0.0.18.tgz#6f93715fb0c4ce1b4e348e9c13e8a7e8e96b1e33"
-  integrity sha512-U8Wvi0chHQnlYRCVm9la+Y71o1oc/4r2H+p8NzIl900WfElY7npQ6PCXiyv0ONytJhB9bgPFacmC19nrKFPERA==
-  dependencies:
-    "@langchain/core" "~0.1.16"
-    "@langchain/openai" "~0.0.10"
-    flat "^5.0.2"
-    langsmith "~0.0.48"
-    uuid "^9.0.0"
-    zod "^3.22.3"
-
 "@langchain/community@~0.0.17":
   version "0.0.17"
   resolved "https://registry.npmmirror.com/@langchain/community/-/community-0.0.17.tgz#a66c45bdd9e7699e0591720a62d4caaf559f4834"
@@ -660,17 +648,6 @@
     uuid "^9.0.0"
     zod "^3.22.3"
 
-"@langchain/openai@^0.0.12", "@langchain/openai@~0.0.12":
-  version "0.0.12"
-  resolved "https://registry.npmmirror.com/@langchain/openai/-/openai-0.0.12.tgz#4c6a4dda3ca96f103482f389299e018340aa2b75"
-  integrity sha512-MR9x1xRXwJpdYlVx9Tga89q/MvxPrSTYyA5vy9tQ8dfQHNWnlgmI4gB/hDIsWUu1ooScagD4wW+aTnohTX+g+g==
-  dependencies:
-    "@langchain/core" "~0.1.13"
-    js-tiktoken "^1.0.7"
-    openai "^4.24.2"
-    zod "^3.22.3"
-    zod-to-json-schema "3.20.3"
-
 "@langchain/openai@~0.0.10":
   version "0.0.10"
   resolved "https://registry.npmmirror.com/@langchain/openai/-/openai-0.0.10.tgz#5c4a960a0404e7f154d999abfa9d3427c127b518"
@@ -679,6 +656,17 @@
     "@langchain/core" "~0.1.9"
     js-tiktoken "^1.0.7"
     openai "^4.19.0"
+    zod "^3.22.3"
+    zod-to-json-schema "3.20.3"
+
+"@langchain/openai@~0.0.12":
+  version "0.0.12"
+  resolved "https://registry.npmmirror.com/@langchain/openai/-/openai-0.0.12.tgz#4c6a4dda3ca96f103482f389299e018340aa2b75"
+  integrity sha512-MR9x1xRXwJpdYlVx9Tga89q/MvxPrSTYyA5vy9tQ8dfQHNWnlgmI4gB/hDIsWUu1ooScagD4wW+aTnohTX+g+g==
+  dependencies:
+    "@langchain/core" "~0.1.13"
+    js-tiktoken "^1.0.7"
+    openai "^4.24.2"
     zod "^3.22.3"
     zod-to-json-schema "3.20.3"
 
@@ -3424,10 +3412,10 @@ kuler@^2.0.0:
   resolved "https://registry.npmmirror.com/kuler/-/kuler-2.0.0.tgz#e2c570a3800388fb44407e851531c1d670b061b3"
   integrity sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==
 
-langchain@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.npmmirror.com/langchain/-/langchain-0.1.4.tgz#b8a3e37fb2337c7dee53a31033d3a4a9bdbd56ff"
-  integrity sha512-wgYt63JqwCDNrGBXHLD5javroVqCiP/+aYJEHPN+xgchEpcX881HcmhZGmZl8w4tsI0Q4Jy+3mcnV9EJlUD/2w==
+langchain@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.npmmirror.com/langchain/-/langchain-0.1.5.tgz#2b39727beb1745c34da23d4d68335d8f77a65690"
+  integrity sha512-ku/4cHV+CaAlaTegjsGhsbaDdtFQi6OQW10Gi6JJvbX093XRADLRtIYYR5XLm7eFt6ZgvHszdQ55nSQqAgfjAg==
   dependencies:
     "@anthropic-ai/sdk" "^0.9.1"
     "@langchain/community" "~0.0.17"
@@ -4007,10 +3995,10 @@ openai@^4.24.2:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^4.24.7:
-  version "4.24.7"
-  resolved "https://registry.npmmirror.com/openai/-/openai-4.24.7.tgz#65b206bcf15c11202f758b5e1e945ffa13fd6b7f"
-  integrity sha512-JUesECWPtsDHO0TlZGb6q73hnAmXUdzj9NrwgZeL4lqlRt/kR1sWrXoy8LocxN/6uOtitywvcJqe0O1PLkG45g==
+openai@^4.25.0:
+  version "4.25.0"
+  resolved "https://registry.npmmirror.com/openai/-/openai-4.25.0.tgz#b40099d625cccb19cbf1cab88915ac1699ece0ed"
+  integrity sha512-qLMFOizjxKuDfQkBrczZPYo6XVL4bdcuz9MR11Q+M91kGcs8dQw+O90nRcC+qWuhaGphQkfXQJMn4cd7Yew3Kg==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -5059,10 +5047,10 @@ verror@^1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vite@^5.0.11:
-  version "5.0.11"
-  resolved "https://registry.npmmirror.com/vite/-/vite-5.0.11.tgz#31562e41e004cb68e1d51f5d2c641ab313b289e4"
-  integrity sha512-XBMnDjZcNAw/G1gEiskiM1v6yzM4GE5aMGvhWTlHAYYhxb7S3/V1s3m2LDHa8Vh6yIWYYB0iJwsEaS523c4oYA==
+vite@^5.0.12:
+  version "5.0.12"
+  resolved "https://registry.npmmirror.com/vite/-/vite-5.0.12.tgz#8a2ffd4da36c132aec4adafe05d7adde38333c47"
+  integrity sha512-4hsnEkG3q0N4Tzf1+t6NdN9dg/L3BM+q8SWgbSPnJvrgH2kgdyzfVJwbR1ic69/4uMJJ/3dqDZZE5/WwqW8U1w==
   dependencies:
     esbuild "^0.19.3"
     postcss "^8.4.32"
