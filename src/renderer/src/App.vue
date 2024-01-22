@@ -204,7 +204,7 @@ onMounted(() => {
     background-color: var(--color-fill-2);
 
     .app-sidebar-avatar {
-      margin: 45px 0 10px 0;
+      margin-top: 30px;
     }
 
     .app-sidebar-item {
