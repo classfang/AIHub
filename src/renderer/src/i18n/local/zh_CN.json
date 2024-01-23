@@ -9,6 +9,7 @@
     "edit": "编辑",
     "delete": "删除",
     "export": "导出",
+    "loadMore": "加载更多",
     "deleteConfirm": "确认删除吗？",
     "deleteConfirmContent": "删除后将无法恢复。",
     "clear": "清空",

@@ -9,6 +9,7 @@
     "edit": "Edit",
     "delete": "Delete",
     "export": "Export",
+    "loadMore": "Load more",
     "deleteConfirm": "Do you want to delete it?",
     "deleteConfirmContent": "After being deleted, it cannot be restored.",
     "clear": "Clear",

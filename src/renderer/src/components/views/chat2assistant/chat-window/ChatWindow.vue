@@ -56,7 +56,12 @@ const data = reactive({
   // 多选消息列表
   multipleChoiceList: [] as string[],
   // 是否显示置底按钮
-  isToBottomBtnShow: false
+  isToBottomBtnShow: false,
+  // 分页
+  page: {
+    number: 1,
+    size: 20
+  }
 })
 const {
   isLoad,
@@ -66,8 +71,28 @@ const {
   waitAnswer,
   multipleChoiceFlag,
   multipleChoiceList,
-  isToBottomBtnShow
+  isToBottomBtnShow,
+  page
 } = toRefs(data)
+
+// 计算分页数据
+const chatMessageListPageData = computed(() => {
+  let start = data.currentAssistant.chatMessageList.length - data.page.number * data.page.size
+  start = start > 0 ? start : 0
+  return data.currentAssistant.chatMessageList.slice(
+    start,
+    data.currentAssistant.chatMessageList.length
+  )
+})
+
+// 加载更多分页数据
+const chatMessageLoadMore = (id: string) => {
+  data.page.number++
+  nextTick(() => {
+    // 重新定位到当前消息
+    document.querySelector(`#chat-message-${id}`)?.scrollIntoView()
+  })
+}
 
 // 支持图片上传 TODO 'qwen-vl-plus' 暂不支持base64图片
 const isSupportImage = computed(() => {
@@ -418,6 +443,11 @@ const scrollToBottom = () => {
 }
 
 // 监听消息列表滚动
+const onChatMessageListScroll = () => {
+  calcToBottomShow()
+}
+
+// 计算置底按钮是否显示
 const calcToBottomShow = () => {
   // 滚动超过一个窗口的高度时，显示置底按钮
   data.isToBottomBtnShow =
@@ -450,12 +480,21 @@ onMounted(() => {
       class="fade-in-from"
       outer-class="chat-message-list-container arco-scrollbar-small"
       style="height: calc(100vh - 150px - 55px); overflow-y: auto"
-      @scroll="calcToBottomShow"
+      @scroll="onChatMessageListScroll"
     >
       <div class="chat-message-list">
-        <template v-for="(msg, index) in currentAssistant.chatMessageList" :key="msg.id">
+        <a-button
+          v-if="currentAssistant.chatMessageList.length - page.number * page.size > 0"
+          style="background-color: transparent"
+          type="text"
+          size="mini"
+          @click="chatMessageLoadMore(chatMessageListPageData[0].id)"
+          >{{ $t('common.loadMore') }}</a-button
+        >
+        <template v-for="(msg, index) in chatMessageListPageData" :key="msg.id">
           <div
             v-if="calcMessageTime(msg, index === 0)"
+            :id="`chat-message-${msg.id}`"
             :key="`chat-message-time-${msg.id}-${systemStore.dayKey}`"
             class="chat-message-time"
           >

@@ -133,6 +133,7 @@ watch(
           v-model="assistant.contextSize"
           :placeholder="$t('common.pleaseEnter') + ' ' + $t('assistantList.contextSize')"
           :min="0"
+          :max="100"
         />
       </a-form-item>
     </template>
