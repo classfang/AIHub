@@ -12,7 +12,6 @@ import { join } from 'path'
 import fs from 'fs'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { appConfig, mainWindowConfig } from './config'
-import Store from 'electron-store'
 import { clearInterval } from 'node:timers'
 import { createClient } from 'redis'
 import { RedisVectorStore } from '@langchain/community/vectorstores/redis'
@@ -27,6 +26,10 @@ import { getDockIcon, getDockIconArray } from './dock-icon'
 import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RetrievalQAChain } from 'langchain/chains'
 import { initLogger } from './logger'
+import { initStore } from './store'
+
+// 初始化仓库
+const store = initStore()
 
 // 日志目录
 const logsPath = join(app.getPath('userData'), 'logs')
@@ -228,21 +231,6 @@ ipcMain.handle('start-dock-animation', () => {
 // 停止Dock栏图标动画
 ipcMain.handle('stop-dock-animation', () => {
   stopDockAnimation()
-})
-
-// 存储相关
-const store = new Store()
-ipcMain.handle('get-store-value', (_event, key) => {
-  return store.get(key)
-})
-ipcMain.on('get-store-value-sync', (event, key) => {
-  event.returnValue = store.get(key)
-})
-ipcMain.handle('set-store-value', (_event, key, value) => {
-  store.set(key, value)
-})
-ipcMain.handle('delete-store-value', (_event, key) => {
-  store.delete(key)
 })
 
 // 获取版本信息
