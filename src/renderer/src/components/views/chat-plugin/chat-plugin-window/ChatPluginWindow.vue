@@ -74,7 +74,7 @@ const handleTestModalClose = () => {
         <a-textarea
           v-model="chatPluginStore.getCurrentChatPlugin.code"
           :placeholder="$t('chatPlugin.window.codePlaceholder')"
-          :auto-size="{ minRows: 10, maxRows: 10 }"
+          :auto-size="{ minRows: 15, maxRows: 15 }"
           class="code-textarea"
         />
       </a-space>
