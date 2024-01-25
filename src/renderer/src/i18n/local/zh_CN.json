@@ -4,6 +4,7 @@
     "ok": "确定",
     "cancel": "取消",
     "close": "关闭",
+    "run": "运行",
     "pleaseEnter": "请输入",
     "required": "不能为空",
     "edit": "编辑",
@@ -336,7 +337,9 @@
       "param": "参数说明",
       "paramName": "参数名",
       "paramType": "类型",
-      "paramDesc": "描述"
+      "paramDesc": "描述",
+      "test": "插件测试",
+      "testResult": "测试结果"
     }
   }
 }

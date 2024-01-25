@@ -4,6 +4,7 @@
     "ok": "Confirm",
     "cancel": "Cancel",
     "close": "Close",
+    "run": "Run",
     "pleaseEnter": "Please enter",
     "required": "is required",
     "edit": "Edit",
@@ -336,7 +337,9 @@
       "param": "Parameter description",
       "paramName": "name",
       "paramType": "type",
-      "paramDesc": "description"
+      "paramDesc": "description",
+      "test": "Test plugin",
+      "testResult": "Test result"
     }
   }
 }

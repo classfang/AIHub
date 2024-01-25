@@ -27,6 +27,7 @@ import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RetrievalQAChain } from 'langchain/chains'
 import { initLogger } from './logger'
 import { initStore } from './store'
+import * as vm from 'vm'
 
 // 初始化仓库
 const store = initStore()
@@ -364,8 +365,13 @@ ipcMain.handle('select-file-and-read', (_event, extensions = ['*']) => {
 })
 
 // 运行JavaScript脚本
-ipcMain.handle('execute-js', async (_event, jsCode: string) => {
-  return await mainWindow.webContents.executeJavaScript(jsCode)
+ipcMain.handle('execute-js', (_event, jsCode: string) => {
+  const context = vm.createContext({
+    require: require,
+    console: console,
+    setTimeout: setTimeout
+  })
+  return vm.runInContext(jsCode, context)
 })
 
 // langChain-redis 新增文件

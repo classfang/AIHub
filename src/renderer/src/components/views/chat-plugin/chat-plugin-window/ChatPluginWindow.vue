@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import ChatPluginWindowHeader from '@renderer/components/views/chat-plugin/chat-plugin-window/ChatPluginWindowHeader.vue'
 import { useChatPluginStore } from '@renderer/store/chat-plugin'
-import { onMounted } from 'vue'
 import { executeJavaScript } from '@renderer/utils/ipc-util'
+import { reactive, toRefs } from 'vue'
 
 // store
 const chatPluginStore = useChatPluginStore()
+
+// 数据绑定
+const data = reactive({
+  testModalVisible: false,
+  testParams: {},
+  testResult: ''
+})
+const { testModalVisible, testParams, testResult } = toRefs(data)
 
 // 删除参数
 const deleteParam = (index: number) => {
@@ -27,6 +35,25 @@ const addParam = (index: number) => {
     description: ''
   })
 }
+
+// 运行测试
+const handleTestModalBeforeOk = async () => {
+  await new Promise<void>((resolve) => {
+    executeJavaScript(
+      `var params = ${JSON.stringify(data.testParams)};${chatPluginStore.getCurrentChatPlugin.code}`
+    )
+      .then((res) => {
+        data.testResult = res
+      })
+      .catch((e) => {
+        data.testResult = e
+      })
+      .finally(() => {
+        resolve()
+      })
+  })
+  return false
+}
 </script>
 
 <template>
@@ -42,7 +69,6 @@ const addParam = (index: number) => {
           v-model="chatPluginStore.getCurrentChatPlugin.code"
           :placeholder="$t('chatPlugin.window.codePlaceholder')"
           :auto-size="{ minRows: 10, maxRows: 10 }"
-          allow-clear
           class="code-textarea"
         />
       </a-space>
@@ -77,6 +103,49 @@ const addParam = (index: number) => {
         </div>
       </a-space>
     </div>
+    <div class="chat-plugin-footer">
+      <a-button type="primary" size="small" @click="testModalVisible = true">
+        <template #icon>
+          <icon-play-arrow />
+        </template>
+        {{ $t('chatPlugin.window.test') }}
+      </a-button>
+    </div>
+
+    <!-- 测试插件Modal -->
+    <a-modal
+      v-model:visible="testModalVisible"
+      :ok-text="$t('common.run')"
+      :cancel-text="$t('common.cancel')"
+      unmount-on-close
+      title-align="start"
+      width="80vw"
+      :on-before-ok="handleTestModalBeforeOk"
+      @close="testParams = {}"
+    >
+      <template #title> {{ $t('chatPlugin.window.test') }}</template>
+      <div class="test-plugin-modal">
+        <div class="test-params">
+          <a-form :model="testParams">
+            <a-form-item
+              v-for="(p, index) in chatPluginStore.getCurrentChatPlugin.parameters.filter(
+                (param) => param.name.trim().length > 0
+              )"
+              :key="index"
+              :label="p.name"
+            >
+              <a-input v-model="testParams[p.name]" size="small" :placeholder="p.description" />
+            </a-form-item>
+          </a-form>
+        </div>
+        <a-textarea
+          v-model="testResult"
+          :placeholder="$t('chatPlugin.window.testResult')"
+          :auto-size="{ minRows: 3, maxRows: 3 }"
+          class="test-result-textarea"
+        />
+      </div>
+    </a-modal>
   </div>
 </template>
 
@@ -87,11 +156,12 @@ const addParam = (index: number) => {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  gap: 15px;
 
   .chat-plugin-body {
     flex: 1;
     min-height: 0;
-    padding: 15px;
+    padding: 0 15px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -105,6 +175,7 @@ const addParam = (index: number) => {
     .param-item {
       display: flex;
       gap: 5px;
+      align-items: center;
 
       .param-new-btn,
       .param-delete-btn {
@@ -117,6 +188,32 @@ const addParam = (index: number) => {
         flex-shrink: 0;
       }
     }
+  }
+
+  .chat-plugin-footer {
+    padding: 0 15px 15px 15px;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
+
+.test-plugin-modal {
+  height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .test-params {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .test-result-textarea {
+    flex-shrink: 0;
+    border: none;
+    background-color: var(--color-fill-2);
   }
 }
 </style>

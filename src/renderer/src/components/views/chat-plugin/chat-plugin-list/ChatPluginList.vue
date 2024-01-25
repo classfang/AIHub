@@ -16,7 +16,7 @@ const { t } = useI18n()
 const newFormDefault = {
   type: 'function',
   name: '',
-  code: 'new Promise((resolve) => {\n    // Get the input param from params\n    resolve(params)\n})',
+  code: 'new Promise((resolve, reject) => {\n    // Get the input param from params\n    resolve(JSON.stringify(params))\n})',
   description: '',
   parameters: [
     {
