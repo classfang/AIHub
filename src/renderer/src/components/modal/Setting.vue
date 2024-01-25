@@ -20,11 +20,12 @@ import {
 } from '@renderer/utils/ipc-util'
 import { Message, Modal } from '@arco-design/web-vue'
 import { useI18n } from 'vue-i18n'
+import chatModels from '@renderer/assets/json/chat-models.json'
 import { useUserStore } from '@renderer/store/user'
 import { exportTextFile } from '@renderer/utils/download-util'
 import { formatDateTime } from '@renderer/utils/date-util'
 import { useCalendarStore } from '@renderer/store/calendar'
-import chatModels from '@renderer/assets/json/chat-models.json'
+import { useChatPluginStore } from '@renderer/store/chat-plugin'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
@@ -33,6 +34,7 @@ const assistantStore = useAssistantStore()
 const collectionSetStore = useCollectionSetStore()
 const knowledgeBaseStore = useKnowledgeBaseStore()
 const calendarStore = useCalendarStore()
+const chatPluginStore = useChatPluginStore()
 const { t } = useI18n()
 
 const data = reactive({
@@ -120,6 +122,7 @@ const exportDataBackup = async () => {
       collectionSetStore: collectionSetStore.getStoreJson,
       knowledgeBaseStore: knowledgeBaseStore.getStoreJson,
       calendarStore: calendarStore.getStoreJson,
+      chatPluginStore: chatPluginStore.getStoreJson,
       cacheFiles: await getCacheFiles()
     })
   )
@@ -175,6 +178,7 @@ const importDataBackup = () => {
           importFlag =
             knowledgeBaseStore.setStoreFromJson(dataBackup.knowledgeBaseStore) || importFlag
           importFlag = calendarStore.setStoreFromJson(dataBackup.calendarStore) || importFlag
+          importFlag = chatPluginStore.setStoreFromJson(dataBackup.chatPluginStore) || importFlag
           importFlag = (await addCacheFiles(dataBackup.cacheFiles)) || importFlag
           if (importFlag) {
             Message.success(t('setting.app.backup.importSuccess'))

@@ -21,6 +21,9 @@ type ChatRole = 'user' | 'assistant' | 'system'
 type CalendarReportType = 'day' | 'week' | 'month' | 'year'
 type MiniProgramType = 'webview' | 'local'
 type AppNotificationType = 'info' | 'warn' | 'error'
+type ChatPluginType = 'function'
+// https://json-schema.org/understanding-json-schema/reference/type
+type ChatPluginParameterType = 'string' | 'number' | 'integer' | 'object' | 'array' | 'boolean'
 
 interface Assistant {
   // 通用
@@ -108,4 +111,20 @@ interface AppNotification {
   type: AppNotificationType
   content: string
   createTime: number
+}
+
+interface ChatPlugin {
+  id: string
+  type: ChatPluginType
+  description: string
+  name: string
+  parameters: ChatPluginParameter[]
+  createTime: number
+  updateTime: number
+}
+
+interface ChatPluginParameter {
+  name: string
+  type: ChatPluginParameterType
+  description: string
 }

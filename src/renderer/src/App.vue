@@ -16,6 +16,7 @@ import Notification from '@renderer/components/modal/Notification.vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 import { startDockAnimation, startDockBounce, stopDockAnimation } from '@renderer/utils/ipc-util'
+import ChatPlugin from '@renderer/components/views/chat-plugin/ChatPlugin.vue'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
@@ -118,6 +119,11 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': currentPage === 'chat' }"
           @click="changePage('chat')"
         />
+        <icon-code
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': currentPage === 'chat-plugin' }"
+          @click="changePage('chat-plugin')"
+        />
         <icon-book
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': currentPage === 'knowledge-base' }"
@@ -158,6 +164,9 @@ onMounted(() => {
       <!-- 多页面 -->
       <div v-show="currentPage === 'chat'" class="app-body">
         <Chat2Assistant />
+      </div>
+      <div v-show="currentPage === 'chat-plugin'" class="app-body">
+        <ChatPlugin />
       </div>
       <div v-show="currentPage === 'knowledge-base'" class="app-body">
         <KnowledgeBase />

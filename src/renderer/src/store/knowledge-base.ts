@@ -16,8 +16,7 @@ export const useKnowledgeBaseStore = defineStore({
     },
     getStoreJson(): string {
       return JSON.stringify({
-        knowledgeBaseList: this.knowledgeBaseList,
-        currentKnowledgeBaseId: this.currentKnowledgeBaseId
+        knowledgeBaseList: this.knowledgeBaseList
       })
     }
   },
@@ -30,10 +29,6 @@ export const useKnowledgeBaseStore = defineStore({
       const knowledgeBaseBackup = JSON.parse(json)
       if (knowledgeBaseBackup.knowledgeBaseList !== undefined) {
         this.knowledgeBaseList = knowledgeBaseBackup.knowledgeBaseList
-        importFlag = true
-      }
-      if (knowledgeBaseBackup.currentKnowledgeBaseId !== undefined) {
-        this.currentKnowledgeBaseId = knowledgeBaseBackup.currentKnowledgeBaseId
         importFlag = true
       }
       return importFlag
