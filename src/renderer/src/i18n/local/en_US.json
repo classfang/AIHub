@@ -323,10 +323,20 @@
     "slogan": "Custom plugins to expand the possibilities",
     "list": {
       "search": "Search plugin",
-      "new": "New plugin",
+      "new": "New plugin - Basic information",
       "edit": "Edit  plugin",
+      "type": "Type",
       "name": "Name",
       "description": "Description"
+    },
+    "window": {
+      "design": "Design plugin",
+      "code": "Function code",
+      "codePlaceholder": "The entire function uses a Promise wrapper, returns the result with resolve(), and takes the function input from params",
+      "param": "Parameter description",
+      "paramName": "name",
+      "paramType": "type",
+      "paramDesc": "description"
     }
   }
 }

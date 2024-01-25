@@ -118,6 +118,7 @@ interface ChatPlugin {
   type: ChatPluginType
   description: string
   name: string
+  code: string
   parameters: ChatPluginParameter[]
   createTime: number
   lastUpdateTime: number

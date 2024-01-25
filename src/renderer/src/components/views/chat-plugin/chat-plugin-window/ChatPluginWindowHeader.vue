@@ -73,7 +73,9 @@ const chatPluginDelete = () => {
 
 <template>
   <div class="chat-plugin-window-header drag-area">
-    <div class="chat-plugin-name">{{ chatPluginStore.getCurrentChatPlugin.name }}</div>
+    <div class="chat-plugin-name">
+      {{ $t('chatPlugin.window.design') }} - {{ chatPluginStore.getCurrentChatPlugin.name }}
+    </div>
     <a-popover position="br" trigger="click" :content-style="{ padding: '5px' }">
       <icon-more class="no-drag-area" style="font-size: 24px; flex-shrink: 0" />
       <template #content>

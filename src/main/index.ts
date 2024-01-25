@@ -365,7 +365,7 @@ ipcMain.handle('select-file-and-read', (_event, extensions = ['*']) => {
 
 // 运行JavaScript脚本
 ipcMain.handle('execute-js', async (_event, jsCode: string) => {
-  return await mainWindow.webContents.executeJavaScript(jsCode, true)
+  return await mainWindow.webContents.executeJavaScript(jsCode)
 })
 
 // langChain-redis 新增文件

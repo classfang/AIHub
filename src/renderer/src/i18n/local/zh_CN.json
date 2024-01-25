@@ -323,10 +323,20 @@
     "slogan": "自定义插件，扩展无限可能",
     "list": {
       "search": "搜索插件",
-      "new": "新建插件",
+      "new": "新建插件 - 基本信息",
       "edit": "编辑插件",
+      "type": "类型",
       "name": "名称",
       "description": "描述"
+    },
+    "window": {
+      "design": "设计插件",
+      "code": "函数代码",
+      "codePlaceholder": "整个函数使用 Promise 包裹，使用 resolve() 返回结果，从 params 中获取函数入参",
+      "param": "参数说明",
+      "paramName": "参数名",
+      "paramType": "类型",
+      "paramDesc": "描述"
     }
   }
 }
