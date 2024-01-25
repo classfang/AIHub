@@ -73,6 +73,10 @@ export const openDevTools = () => {
   return window.electron.ipcRenderer.invoke('open-dev-tools')
 }
 
+export const executeJavaScript = (jsCode: string) => {
+  return window.electron.ipcRenderer.invoke('execute-js', jsCode)
+}
+
 export const onMainWindowFocus = (action: () => void) => {
   window.electron.ipcRenderer.on('main-window-focus', () => {
     action()
