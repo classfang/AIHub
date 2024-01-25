@@ -318,5 +318,15 @@
       "warn": "警告日志",
       "error": "错误日志"
     }
+  },
+  "chatPlugin": {
+    "slogan": "自定义插件，扩展无限可能",
+    "list": {
+      "search": "搜索插件",
+      "new": "新建插件",
+      "edit": "编辑插件",
+      "name": "名称",
+      "description": "描述"
+    }
   }
 }

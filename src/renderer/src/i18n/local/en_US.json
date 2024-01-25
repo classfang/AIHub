@@ -318,5 +318,15 @@
       "warn": "Warn log",
       "error": "Error log"
     }
+  },
+  "chatPlugin": {
+    "slogan": "Custom plugins to expand the possibilities",
+    "list": {
+      "search": "Search plugin",
+      "new": "New plugin",
+      "edit": "Edit  plugin",
+      "name": "Name",
+      "description": "Description"
+    }
   }
 }

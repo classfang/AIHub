@@ -120,7 +120,7 @@ interface ChatPlugin {
   name: string
   parameters: ChatPluginParameter[]
   createTime: number
-  updateTime: number
+  lastUpdateTime: number
 }
 
 interface ChatPluginParameter {
