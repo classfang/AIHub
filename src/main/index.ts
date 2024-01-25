@@ -366,11 +366,7 @@ ipcMain.handle('select-file-and-read', (_event, extensions = ['*']) => {
 
 // 运行JavaScript脚本
 ipcMain.handle('execute-js', (_event, jsCode: string) => {
-  const context = vm.createContext({
-    require: require,
-    console: console,
-    setTimeout: setTimeout
-  })
+  const context = vm.createContext(Object.assign({ require: require }, global))
   return vm.runInContext(jsCode, context)
 })
 

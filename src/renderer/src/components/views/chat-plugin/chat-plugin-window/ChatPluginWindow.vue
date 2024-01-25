@@ -54,6 +54,12 @@ const handleTestModalBeforeOk = async () => {
   })
   return false
 }
+
+// 测试插件 Modal 关闭
+const handleTestModalClose = () => {
+  data.testParams = {}
+  data.testResult = ''
+}
 </script>
 
 <template>
@@ -121,7 +127,7 @@ const handleTestModalBeforeOk = async () => {
       title-align="start"
       width="80vw"
       :on-before-ok="handleTestModalBeforeOk"
-      @close="testParams = {}"
+      @close="handleTestModalClose"
     >
       <template #title> {{ $t('chatPlugin.window.test') }}</template>
       <div class="test-plugin-modal">
