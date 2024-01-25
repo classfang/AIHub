@@ -363,6 +363,11 @@ ipcMain.handle('select-file-and-read', (_event, extensions = ['*']) => {
   return null
 })
 
+// 运行JavaScript脚本
+ipcMain.handle('execute-js', async (_event, jsCode: string) => {
+  return await mainWindow.webContents.executeJavaScript(jsCode, true)
+})
+
 // langChain-redis 新增文件
 ipcMain.handle(
   'lang-chain-redis-add-file',
