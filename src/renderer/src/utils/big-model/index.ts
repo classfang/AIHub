@@ -26,6 +26,7 @@ export interface CommonChatOption {
   imageStyle?: string
   abortCtr?: AbortController
   sessionId: string
+  chatPlugins?: ChatPlugin[]
   startAnswer?: (sessionId: string, content?: string) => void
   appendAnswer?: (sessionId: string, content: string) => void
   imageGenerated?: (sessionId: string, imageUrl: string) => void

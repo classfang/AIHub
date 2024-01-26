@@ -35,6 +35,7 @@ interface Assistant {
   createTime: number
   lastUpdateTime: number
   chatMessageList: ChatMessage[]
+  chatPluginIdList: string[]
 
   // 对话
   instruction: string

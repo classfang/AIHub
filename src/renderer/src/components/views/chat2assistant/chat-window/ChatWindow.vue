@@ -20,12 +20,15 @@ import { CommonChatOption, chat2bigModel } from '@renderer/utils/big-model'
 import dayjs from 'dayjs'
 import { Logger } from '@renderer/utils/logger'
 import { useNotificationStore } from '@renderer/store/notification'
+import { useChatPluginStore } from '@renderer/store/chat-plugin'
+import { copyObj } from '@renderer/utils/object-util'
 
 // store
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()
 const assistantStore = useAssistantStore()
 const notificationStore = useNotificationStore()
+const chatPluginStore = useChatPluginStore()
 
 // i18n
 const { t } = useI18n()
@@ -103,7 +106,10 @@ const isSupportImage = computed(() => {
 
 // 支持插件
 const isSupportPlugin = computed(() => {
-  return ['OpenAI'].includes(data.currentAssistant.provider)
+  return (
+    ['OpenAI'].includes(data.currentAssistant.provider) &&
+    data.currentAssistant.model != 'gpt-4-vision-preview'
+  )
 })
 
 // 发送提问
@@ -280,6 +286,11 @@ const useBigModel = async (currentSessionId: string) => {
         apiKey: settingStore.openAI.key,
         baseURL: settingStore.openAI.baseUrl,
         type: data.currentAssistant.type,
+        chatPlugins: copyObj(
+          chatPluginStore.chatPluginList.filter((p) =>
+            data.currentAssistant.chatPluginIdList.includes(p.id)
+          )
+        ),
         imagePrompt: question,
         imageSize: data.currentAssistant.imageSize,
         imageQuality: data.currentAssistant.imageQuality,
@@ -604,7 +615,23 @@ onMounted(() => {
       />
       <!-- 输入框区域底部 -->
       <div class="chat-input-bottom">
-        <!-- 图片选择 -->
+        <!-- 选择插件 -->
+        <a-popover position="tl" trigger="click">
+          <a-button v-if="isSupportPlugin" size="small">
+            <a-space :size="5">
+              <icon-code :size="15" />
+              <span>{{ $t('chatWindow.selectPlugin') }}</span>
+            </a-space>
+          </a-button>
+          <template #content>
+            <a-checkbox-group v-model="currentAssistant.chatPluginIdList" direction="vertical">
+              <a-checkbox v-for="p in chatPluginStore.chatPluginList" :key="p.id" :value="p.id">{{
+                p.name
+              }}</a-checkbox>
+            </a-checkbox-group>
+          </template>
+        </a-popover>
+        <!-- 选择图片 -->
         <div v-if="isSupportImage" class="chat-input-select-image">
           <a-upload
             :file-list="selectImageList"
@@ -622,20 +649,22 @@ onMounted(() => {
             </template>
           </a-upload>
         </div>
-        <!-- 发送消息按钮 -->
-        <a-button v-if="!systemStore.chatWindowLoading" size="small" @click="sendQuestion()">
-          <a-space :size="5">
-            <icon-send :size="15" />
-            <span>{{ $t('chatWindow.send') }}</span>
-          </a-space>
-        </a-button>
-        <!-- 停止回答按钮 -->
-        <a-button v-if="systemStore.chatWindowLoading" size="small" @click="stopAnswer()">
-          <a-space :size="5">
-            <icon-record-stop :size="15" />
-            <span>{{ $t('chatWindow.stop') }}</span>
-          </a-space>
-        </a-button>
+        <div style="margin-left: auto">
+          <!-- 发送消息按钮 -->
+          <a-button v-if="!systemStore.chatWindowLoading" size="small" @click="sendQuestion()">
+            <a-space :size="5">
+              <icon-send :size="15" />
+              <span>{{ $t('chatWindow.send') }}</span>
+            </a-space>
+          </a-button>
+          <!-- 停止回答按钮 -->
+          <a-button v-if="systemStore.chatWindowLoading" size="small" @click="stopAnswer()">
+            <a-space :size="5">
+              <icon-record-stop :size="15" />
+              <span>{{ $t('chatWindow.stop') }}</span>
+            </a-space>
+          </a-button>
+        </div>
         <!-- 底部多选操作区域 -->
         <transition name="slide2top">
           <MultipleChoiceConsole

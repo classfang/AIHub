@@ -1,10 +1,11 @@
 import OpenAI from 'openai'
-import { readLocalImageBase64, saveFileByUrl } from '@renderer/utils/ipc-util'
+import { executeJavaScript, readLocalImageBase64, saveFileByUrl } from '@renderer/utils/ipc-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { CommonChatOption } from '.'
 import { ChatCompletionMessageParam } from 'openai/resources/chat'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { Logger } from '@renderer/utils/logger'
+import { ChatCompletion } from 'openai/src/resources/chat/completions'
 
 export const chat2openai = async (option: CommonChatOption) => {
   const {
@@ -22,6 +23,7 @@ export const chat2openai = async (option: CommonChatOption) => {
     imageQuality,
     imageStyle,
     sessionId,
+    chatPlugins,
     startAnswer,
     appendAnswer,
     imageGenerated,
@@ -38,13 +40,73 @@ export const chat2openai = async (option: CommonChatOption) => {
   // 对话或者绘画
   if (type === 'chat' && messages != null) {
     // OpenAI 对话
+
+    // 是否有插件
+    let pluginAnswer: ChatCompletion | null = null
+    if (chatPlugins && chatPlugins.length > 0) {
+      // 非流式插件提问
+      pluginAnswer = await openai.chat.completions.create({
+        messages: (await getOpenAIMessages(
+          messages,
+          instruction,
+          inputMaxTokens,
+          contextSize
+        )) as ChatCompletionMessageParam[],
+        tools: chatPlugins.map((p) => {
+          return {
+            type: p.type,
+            function: {
+              name: p.id,
+              description: p.description,
+              parameters: {
+                type: 'object',
+                properties: p.parameters.reduce((acc, param) => {
+                  acc[param.name] = {
+                    type: param.type,
+                    description: param.description
+                  }
+                  return acc
+                }, {})
+              }
+            }
+          }
+        }),
+        model,
+        stream: false,
+        max_tokens: maxTokens
+      })
+    }
+
+    // 现有消息列表
+    const chatMessages = (await getOpenAIMessages(
+      messages,
+      instruction,
+      inputMaxTokens,
+      contextSize
+    )) as ChatCompletionMessageParam[]
+
+    // 是否有插件
+    if (chatPlugins && pluginAnswer && pluginAnswer.choices[0].message.tool_calls) {
+      // 插件运行
+      const tool_call_id = pluginAnswer.choices[0].message.tool_calls[0].id
+      const pluginId = pluginAnswer.choices[0].message.tool_calls[0].function.name
+      const pluginParams = pluginAnswer.choices[0].message.tool_calls[0].function.arguments
+      const pluginResult = await executeJavaScript(
+        `var params = ${pluginParams};${chatPlugins.find((p) => p.id === pluginId)?.code}`
+      )
+      Logger.info('chat2openai: pluginResult =', pluginResult)
+      // 插件回复
+      chatMessages.push(pluginAnswer.choices[0].message)
+      chatMessages.push({
+        role: 'tool',
+        tool_call_id: tool_call_id,
+        content: pluginResult
+      })
+    }
+
+    // 流式对话
     const stream = await openai.chat.completions.create({
-      messages: (await getOpenAIMessages(
-        messages,
-        instruction,
-        inputMaxTokens,
-        contextSize
-      )) as ChatCompletionMessageParam[],
+      messages: chatMessages,
       model,
       stream: true,
       max_tokens: maxTokens
