@@ -34,19 +34,23 @@ Multi-language, multi-theme configuration.
 
 Support: text dialogue, picture dialogue; AI painting.
 
-### 4. Build a personal knowledge base
+### 4. Custom plugins
+
+Install custom plugins for your AI assistant to expand the possibilities.
+
+### 5. Build a personal knowledge base
 
 Developed based on LangChain. Simple operation can complete personal knowledge base construction.
 
-### 5. AI calendar
+### 6. AI calendar
 
 Generate weekly, monthly and annual reports with one click.
 
-### 6. AI mini program
+### 7. AI mini program
 
 Rich AI small program support.
 
-### 7. More features under development
+### 8. More features under development
 
 If you have good ideas, you are welcome to submit issues.
 
