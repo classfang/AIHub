@@ -5,9 +5,6 @@
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.vue"
   ],
-  "exclude": [
-    "node_modules"
-  ],
   "compilerOptions": {
     "composite": true,
     "isolatedModules": false,
