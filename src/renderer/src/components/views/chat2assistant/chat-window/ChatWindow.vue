@@ -101,6 +101,11 @@ const isSupportImage = computed(() => {
   )
 })
 
+// 支持插件
+const isSupportPlugin = computed(() => {
+  return ['OpenAI'].includes(data.currentAssistant.provider)
+})
+
 // 发送提问
 const sendQuestion = async (event?: KeyboardEvent) => {
   // 加载中、内容为空、输入法回车，不发送消息
