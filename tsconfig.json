@@ -3,8 +3,7 @@
   "include": [
     "src/renderer/src/env.d.ts",
     "src/renderer/src/**/*",
-    "src/renderer/src/**/*.vue",
-    "package.json"
+    "src/renderer/src/**/*.vue"
   ],
   "compilerOptions": {
     "composite": true,
