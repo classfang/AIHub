@@ -16,10 +16,6 @@
   🎉🎉🎉 Now supported: OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen
 </h4>
 
-![demo](/demo/1.png)
-
-![demo](/demo/2.png)
-
 ## 🖥️ Function introduction
 
 ### 1. Strong AI capability support
