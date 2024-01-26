@@ -3,6 +3,13 @@ import ChatPluginWindowHeader from '@renderer/components/views/chat-plugin/chat-
 import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { executeJavaScript } from '@renderer/utils/ipc-util'
 import { reactive, toRefs } from 'vue'
+import Codemirror from 'codemirror-editor-vue3'
+// Codemirror language
+import 'codemirror/mode/javascript/javascript.js'
+// Codemirror placeholder
+import 'codemirror/addon/display/placeholder.js'
+// Codemirror theme
+import 'codemirror/theme/dracula.css'
 
 // store
 const chatPluginStore = useChatPluginStore()
@@ -71,11 +78,16 @@ const handleTestModalClose = () => {
     <div class="chat-plugin-body">
       <a-space direction="vertical" :size="10" fill>
         <div>{{ $t('chatPlugin.window.code') }}</div>
-        <a-textarea
-          v-model="chatPluginStore.getCurrentChatPlugin.code"
+        <Codemirror
+          v-model:value="chatPluginStore.getCurrentChatPlugin.code"
+          :options="{
+            mode: 'text/javascript',
+            theme: 'dracula'
+          }"
           :placeholder="$t('chatPlugin.window.codePlaceholder')"
-          :auto-size="{ minRows: 15, maxRows: 15 }"
-          class="code-textarea"
+          height="400"
+          width="100%"
+          style="font-size: 14px"
         />
       </a-space>
 
@@ -172,11 +184,6 @@ const handleTestModalClose = () => {
     display: flex;
     flex-direction: column;
     gap: 15px;
-
-    .code-textarea {
-      border: none;
-      background-color: var(--color-fill-2);
-    }
 
     .param-item {
       display: flex;

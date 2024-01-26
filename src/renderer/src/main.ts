@@ -12,9 +12,13 @@ import store from './store'
 // i18n
 import i18n from './i18n'
 
+// codemirror-editor-vue3
+import { InstallCodemirro } from 'codemirror-editor-vue3'
+
 const app = createApp(App)
 app.use(ArcoVue)
 app.use(ArcoVueIcon)
 app.use(store)
 app.use(i18n)
+app.use(InstallCodemirro)
 app.mount('#app')
