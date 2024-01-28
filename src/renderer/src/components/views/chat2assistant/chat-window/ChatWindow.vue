@@ -622,11 +622,13 @@ onMounted(() => {
             </a-space>
           </a-button>
           <template #content>
-            <a-checkbox-group v-model="currentAssistant.chatPluginIdList" direction="vertical">
-              <a-checkbox v-for="p in chatPluginStore.chatPluginList" :key="p.id" :value="p.id">{{
-                p.name
-              }}</a-checkbox>
-            </a-checkbox-group>
+            <div style="max-height: 40vh; overflow-y: auto">
+              <a-checkbox-group v-model="currentAssistant.chatPluginIdList" direction="vertical">
+                <a-checkbox v-for="p in chatPluginStore.chatPluginList" :key="p.id" :value="p.id">{{
+                  p.name
+                }}</a-checkbox>
+              </a-checkbox-group>
+            </div>
           </template>
         </a-popover>
         <!-- 选择图片 -->
