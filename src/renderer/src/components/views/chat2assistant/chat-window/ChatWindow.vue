@@ -135,7 +135,9 @@ const sendQuestion = async (event?: KeyboardEvent) => {
     await useBigModel(data.currentSessionId)
   } catch (e: any) {
     Logger.error('big model error: ', e?.message)
-    Message.error(e ? e + '' : t(`chatWindow.error.${data.currentAssistant.provider}`))
+    const errMsg = e ? e + '' : t(`chatWindow.error.${data.currentAssistant.provider}`)
+    Message.error(errMsg)
+    notificationStore.error(errMsg)
     systemStore.chatWindowLoading = false
     data.waitAnswer = false
   }
@@ -266,11 +268,7 @@ const useBigModel = async (currentSessionId: string) => {
         // 错误提示
         Message.error(errMsg)
         // 添加提醒
-        notificationStore.notifications.unshift({
-          type: 'error',
-          createTime: new Date().getTime(),
-          content: errMsg
-        })
+        notificationStore.error(errMsg)
       }
       // 关闭等待
       data.waitAnswer = false

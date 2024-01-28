@@ -952,10 +952,10 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@^20.11.7":
-  version "20.11.7"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-20.11.7.tgz#cb49aedd758c978c30806d0c38b520ed2a3df6e0"
-  integrity sha512-GPmeN1C3XAyV5uybAf4cMLWT9fDWcmQhZVtMFu7OR32WjrqGG+Wnk2V1d0bmtUyE/Zy1QJ9BxyiTih9z8Oks8A==
+"@types/node@^20.11.8":
+  version "20.11.8"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-20.11.8.tgz#bdb6de1048613c3c6ab6c341c37e8fd1a7860308"
+  integrity sha512-i7omyekpPTNdv4Jb/Rgqg0RU8YqLcNsI12quKSDkRXNfx7Wxdm6HhK1awT3xTgEkgxPn3bvnSpiEAc7a7Lpyow==
   dependencies:
     undici-types "~5.26.4"
 
@@ -3449,10 +3449,10 @@ kuler@^2.0.0:
   resolved "https://registry.npmmirror.com/kuler/-/kuler-2.0.0.tgz#e2c570a3800388fb44407e851531c1d670b061b3"
   integrity sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==
 
-langchain@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.npmmirror.com/langchain/-/langchain-0.1.7.tgz#fc7b5f7b995356e4a897232fb8c6257f2b091c51"
-  integrity sha512-aNBakxYcXjoL2KrGrt6gvOeJGgBPAL9MNe8tH8DeFKGWn/VaCPF5Xh7ABdyI1djMFX1if2mJUThSebZRS+KKOg==
+langchain@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.npmmirror.com/langchain/-/langchain-0.1.9.tgz#d79063d956a9d2213ca1b63bfa576714677aa66e"
+  integrity sha512-4Gm2j8gsT43d4sgpjM7JMSoB83dwxbiLYdcPx23Xi6RfLQ60QB86bogPYqn84ZW9HjrW8IVMXvVyC6DAHNCyIg==
   dependencies:
     "@anthropic-ai/sdk" "^0.9.1"
     "@langchain/community" "~0.0.20"
