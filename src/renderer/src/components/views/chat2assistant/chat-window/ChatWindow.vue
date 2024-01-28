@@ -622,7 +622,7 @@ onMounted(() => {
             </a-space>
           </a-button>
           <template #content>
-            <div style="max-height: 40vh; overflow-y: auto">
+            <div style="max-height: 40vh; overflow-y: auto; padding: 0 5px">
               <a-checkbox-group v-model="currentAssistant.chatPluginIdList" direction="vertical">
                 <a-checkbox v-for="p in chatPluginStore.chatPluginList" :key="p.id" :value="p.id">{{
                   p.name
