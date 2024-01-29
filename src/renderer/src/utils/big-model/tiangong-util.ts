@@ -1,6 +1,5 @@
 import { CommonChatOption } from '.'
 import { Logger } from '@renderer/utils/logger'
-import axios from 'axios'
 import CryptoJS from 'crypto-js'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 
@@ -26,6 +25,9 @@ export const chat2tiangong = async (option: CommonChatOption) => {
     end && end(sessionId)
     return
   }
+
+  // 等待回答
+  let waitAnswer = true
 
   const url = 'https://sky-api.singularity-ai.com/saas/api/v4/generate'
   const appKey = apiKey // 这里需要替换你的APIKey
@@ -59,30 +61,93 @@ export const chat2tiangong = async (option: CommonChatOption) => {
   }
 
   // 发起请求并获取响应
-  axios
-    .post(url, data, { headers, responseType: 'stream' })
+  fetch(url, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(data)
+  })
     .then((response) => {
-      startAnswer && startAnswer(sessionId)
-      const lines = response.data.split('\n')
-      // 遍历每一行
-      lines.forEach((line: string) => {
-        Logger.info('chat2tiangong:', line)
-        if (line) {
-          const jsonData = JSON.parse(line)
-          // 错误返回
-          if (jsonData.code != 200) {
-            end && end(sessionId, jsonData?.code_msg)
+      // 创建一个ReadableStream的读取器
+      const reader = response.body!.getReader()
+
+      // 读取数据并处理
+      return new ReadableStream({
+        async start(controller) {
+          try {
+            let isDone = false
+            while (!isDone) {
+              const { done, value } = await reader.read()
+
+              // 如果读取完成，中止ReadableStream
+              isDone = done
+              if (done) {
+                controller.close()
+                break
+              }
+
+              // 处理接收到的数据
+              const jsonData = new TextDecoder('utf-8').decode(value)
+
+              Logger.info('chat2tiangong:', jsonData)
+              if (waitAnswer) {
+                waitAnswer = false
+                startAnswer && startAnswer(sessionId)
+              }
+
+              // 按照换行分行
+              const lines = jsonData.split('\n')
+
+              // 遍历每一行
+              lines.forEach((line: string) => {
+                if (line) {
+                  const jsonData = JSON.parse(line)
+                  // 错误返回
+                  if (jsonData.code != 200) {
+                    end && end(sessionId, jsonData?.code_msg)
+                  }
+                  // 正确返回
+                  appendAnswer && appendAnswer(sessionId, jsonData?.resp_data?.reply)
+                }
+              })
+            }
+
+            end && end(sessionId)
+          } catch (error: any) {
+            Logger.error('chat2tiangong error', error?.message)
+            end && end(sessionId, error?.message)
           }
-          // 正确返回
-          appendAnswer && appendAnswer(sessionId, jsonData?.resp_data?.reply)
         }
       })
-      end && end(sessionId)
     })
     .catch((error) => {
       Logger.error('chat2tiangong error', error?.message)
       end && end(sessionId, error?.message)
     })
+
+  // axios
+  //   .post(url, data, { headers, responseType: 'stream' })
+  //   .then((response) => {
+  //     Logger.info('chat2tiangong:', response.data)
+  //     startAnswer && startAnswer(sessionId)
+  //     const lines = response.data.split('\n')
+  //     // 遍历每一行
+  //     lines.forEach((line: string) => {
+  //       if (line) {
+  //         const jsonData = JSON.parse(line)
+  //         // 错误返回
+  //         if (jsonData.code != 200) {
+  //           end && end(sessionId, jsonData?.code_msg)
+  //         }
+  //         // 正确返回
+  //         appendAnswer && appendAnswer(sessionId, jsonData?.resp_data?.reply)
+  //       }
+  //     })
+  //     end && end(sessionId)
+  //   })
+  //   .catch((error) => {
+  //     Logger.error('chat2tiangong error', error?.message)
+  //     end && end(sessionId, error?.message)
+  //   })
 }
 
 export const getTiangongMessages = async (
