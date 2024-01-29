@@ -105,7 +105,7 @@
     },
     "aiCalendar": {
       "name": "AI Calendar",
-      "weekStart": "The beginning of the week (Existing peripherals may be lost after modification)",
+      "weekStart": "The beginning of the week",
       "sunday": "Sunday",
       "monday": "Monday",
       "bigModel": "Big model"

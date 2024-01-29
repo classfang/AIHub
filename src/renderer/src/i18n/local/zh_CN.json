@@ -105,7 +105,7 @@
     },
     "aiCalendar": {
       "name": "AI日历",
-      "weekStart": "每周的开始（修改后现有周边可能丢失）",
+      "weekStart": "每周的开始",
       "sunday": "周日",
       "monday": "周一",
       "bigModel": "大模型"
