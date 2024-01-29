@@ -123,31 +123,6 @@ export const chat2tiangong = async (option: CommonChatOption) => {
       Logger.error('chat2tiangong error', error?.message)
       end && end(sessionId, error?.message)
     })
-
-  // axios
-  //   .post(url, data, { headers, responseType: 'stream' })
-  //   .then((response) => {
-  //     Logger.info('chat2tiangong:', response.data)
-  //     startAnswer && startAnswer(sessionId)
-  //     const lines = response.data.split('\n')
-  //     // 遍历每一行
-  //     lines.forEach((line: string) => {
-  //       if (line) {
-  //         const jsonData = JSON.parse(line)
-  //         // 错误返回
-  //         if (jsonData.code != 200) {
-  //           end && end(sessionId, jsonData?.code_msg)
-  //         }
-  //         // 正确返回
-  //         appendAnswer && appendAnswer(sessionId, jsonData?.resp_data?.reply)
-  //       }
-  //     })
-  //     end && end(sessionId)
-  //   })
-  //   .catch((error) => {
-  //     Logger.error('chat2tiangong error', error?.message)
-  //     end && end(sessionId, error?.message)
-  //   })
 }
 
 export const getTiangongMessages = async (
