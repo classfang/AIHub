@@ -173,6 +173,11 @@ const useBigModel = async (currentSessionId: string) => {
         configErrorFlag = true
       }
       break
+    case 'Tiangong':
+      if (!settingStore.tiangong.appKey || !settingStore.tiangong.appSecret) {
+        configErrorFlag = true
+      }
+      break
   }
   if (configErrorFlag) {
     Modal.confirm({
@@ -372,6 +377,13 @@ const useBigModel = async (currentSessionId: string) => {
           scrollToBottom()
           data.waitAnswer = false
         }
+      }
+      break
+    case 'Tiangong':
+      otherOption = {
+        apiKey: settingStore.tiangong.appKey,
+        secretKey: settingStore.tiangong.appSecret,
+        type: data.currentAssistant.type
       }
       break
   }

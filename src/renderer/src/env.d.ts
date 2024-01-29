@@ -13,7 +13,7 @@ declare module 'markdown-it-mathjax3' {
   export default markdownItMathjax3
 }
 
-type BigModelProvider = 'OpenAI' | 'Spark' | 'ERNIEBot' | 'Tongyi' | 'Gemini'
+type BigModelProvider = 'OpenAI' | 'Gemini' | 'Spark' | 'ERNIEBot' | 'Tongyi' | 'Tiangong'
 type TranslatorProvider = 'Youdao'
 type AssistantType = 'chat' | 'drawing'
 type ChatMsgType = 'text' | 'img'

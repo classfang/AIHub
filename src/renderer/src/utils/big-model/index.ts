@@ -3,6 +3,7 @@ import { chat2gemini } from '@renderer/utils/big-model/gemini-util'
 import { chat2spark } from '@renderer/utils/big-model/spark-util'
 import { chat2ernieBot } from '@renderer/utils/big-model/ernie-bot-util'
 import { chat2tongyi } from '@renderer/utils/big-model/tongyi-util'
+import { chat2tiangong } from '@renderer/utils/big-model/tiangong-util'
 
 type ChatFunctionMap = {
   [provider in BigModelProvider]: (option: CommonChatOption) => Promise<any>
@@ -38,7 +39,8 @@ const chatFunctionMap: ChatFunctionMap = {
   Gemini: chat2gemini,
   Spark: chat2spark,
   ERNIEBot: chat2ernieBot,
-  Tongyi: chat2tongyi
+  Tongyi: chat2tongyi,
+  Tiangong: chat2tiangong
 }
 
 export const chat2bigModel = async (provider: keyof ChatFunctionMap, option: CommonChatOption) => {

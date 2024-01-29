@@ -29,6 +29,10 @@ export const useSettingStore = defineStore({
     tongyi: {
       apiKey: ''
     },
+    tiangong: {
+      appKey: '',
+      appSecret: ''
+    },
     youdao: {
       appId: '',
       secret: ''
@@ -51,6 +55,7 @@ export const useSettingStore = defineStore({
         spark: this.spark,
         ernieBot: this.ernieBot,
         tongyi: this.tongyi,
+        tiangong: this.tiangong,
         youdao: this.youdao,
         aiCalendar: this.aiCalendar
       })
@@ -85,6 +90,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.tongyi !== undefined) {
         this.tongyi = settingBackup.tongyi
+        importFlag = true
+      }
+      if (settingBackup.tiangong !== undefined) {
+        this.tiangong = settingBackup.tiangong
         importFlag = true
       }
       if (settingBackup.youdao !== undefined) {

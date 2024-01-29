@@ -46,6 +46,9 @@ watch(
       case 'Tongyi':
         assistant.value.model = assistant.value.type === 'chat' ? 'qwen-vl-plus' : 'wanx-v1'
         break
+      case 'Tiangong':
+        assistant.value.model = 'SkyChat-MegaVerse'
+        break
     }
   }
 )

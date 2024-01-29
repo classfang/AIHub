@@ -105,9 +105,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
           }
           if (waitAnswer) {
             waitAnswer = false
-            if (startAnswer) {
-              startAnswer && startAnswer(sessionId)
-            }
+            startAnswer && startAnswer(sessionId)
           }
           appendAnswer && appendAnswer(sessionId, content.substring(answerIndex))
           answerIndex = content.length

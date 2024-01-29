@@ -28,6 +28,11 @@ const data = reactive({
       type: 'webview',
       name: 'Tongyi',
       url: 'https://tongyi.aliyun.com/qianwen'
+    },
+    {
+      type: 'webview',
+      name: 'Tiangong',
+      url: 'https://model-platform-skyagents.tiangong.cn/home/agent'
     }
   ] as MiniProgram[],
   miniProgramListStyle: {

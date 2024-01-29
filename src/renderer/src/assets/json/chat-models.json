@@ -29,5 +29,6 @@
     { "name": "qwen-max", "value": "qwen-max", "type": "text" },
     { "name": "qwen-plus", "value": "qwen-plus", "type": "text" },
     { "name": "qwen-turbo", "value": "qwen-turbo", "type": "text" }
-  ]
+  ],
+  "Tiangong": [{ "name": "SkyChat-MegaVerse", "value": "SkyChat-MegaVerse", "type": "text" }]
 }

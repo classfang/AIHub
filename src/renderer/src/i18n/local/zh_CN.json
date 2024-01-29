@@ -96,6 +96,11 @@
       "tongyi": {
         "name": "阿里通义",
         "apiKey": "API Key"
+      },
+      "tiangong": {
+        "name": "天工",
+        "appKey": "app_key",
+        "appSecret": "app_secret"
       }
     },
     "aiCalendar": {
@@ -139,7 +144,8 @@
     "Gemini": "Gemini",
     "Spark": "讯飞星火",
     "ERNIEBot": "文心一言",
-    "Tongyi": "阿里通义"
+    "Tongyi": "阿里通义",
+    "Tiangong": "天工"
   },
   "translationProvider": {
     "Youdao": "有道翻译"
@@ -202,7 +208,8 @@
       "Gemini": "Gemini未配置",
       "Spark": "星火大模型未配置",
       "ERNIEBot": "文心一言大模型未配置",
-      "Tongyi": "阿里通义大模型未配置"
+      "Tongyi": "阿里通义大模型未配置",
+      "Tiangong": "天工大模型未配置"
     },
     "error": {
       "imageRequires": "你必须上传一张图片",
@@ -210,7 +217,8 @@
       "Gemini": "Gemini调用错误，请检查你的配置",
       "Spark": "星火大模型调用错误，请检查你的配置",
       "ERNIEBot": "文心一言大模型调用错误，请检查你的配置",
-      "Tongyi": "阿里通义大模型调用错误，请检查你的配置"
+      "Tongyi": "阿里通义大模型调用错误，请检查你的配置",
+      "Tiangong": "天工大模型调用错误，请检查你的配置"
     }
   },
   "collectionSet": {
@@ -309,6 +317,10 @@
       "Tongyi": {
         "name": "通义千问",
         "desc": "阿里巴巴推出的大语言模型应用"
+      },
+      "Tiangong": {
+        "name": "天工",
+        "desc": "昆仑万维推出的大语言模型应用"
       }
     }
   },

@@ -499,6 +499,39 @@ onMounted(() => {
                   </a-space>
                 </a-space>
               </a-tab-pane>
+              <!-- 天工 -->
+              <a-tab-pane key="tiangong" :title="$t('setting.bigModel.tiangong.name')">
+                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('common.officialWebsite') }}</div>
+                      <a-link @click="openInBrowser('https://model-platform.tiangong.cn')"
+                        >https://model-platform.tiangong.cn</a-link
+                      >
+                    </a-space>
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('setting.bigModel.tiangong.appKey') }}</div>
+                      <a-input-password
+                        v-model="settingStore.tiangong.appKey"
+                        size="small"
+                        :placeholder="
+                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.tiangong.appKey')
+                        "
+                      />
+                    </a-space>
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('setting.bigModel.tiangong.appSecret') }}</div>
+                      <a-input-password
+                        v-model="settingStore.tiangong.appSecret"
+                        size="small"
+                        :placeholder="
+                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.tiangong.appSecret')
+                        "
+                      />
+                    </a-space>
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
             </a-tabs>
           </a-tab-pane>
           <!-- AI日历 -->
