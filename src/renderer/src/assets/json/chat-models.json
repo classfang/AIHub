@@ -13,6 +13,7 @@
   ],
   "Spark": [
     { "name": "image-v2.1", "value": "image-v2.1", "type": "vision" },
+    { "name": "chat-v3.5", "value": "chat-v3.5", "type": "text" },
     { "name": "chat-v3.1", "value": "chat-v3.1", "type": "text" },
     { "name": "chat-v2.1", "value": "chat-v2.1", "type": "text" },
     { "name": "chat-v1.1", "value": "chat-v1.1", "type": "text" }

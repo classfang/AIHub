@@ -18,6 +18,9 @@ const getSparkHostUrl = (model: string) => {
     case 'chat-v3.1':
       hostUrl = 'wss://spark-api.xf-yun.com/v3.1/chat'
       break
+    case 'chat-v3.5':
+      hostUrl = 'wss://spark-api.xf-yun.com/v3.5/chat'
+      break
     case 'image-v2.1':
       hostUrl = 'wss://spark-api.cn-huabei-1.xf-yun.com/v2.1/image'
       break
@@ -39,6 +42,9 @@ const getDomain = (model: string) => {
       break
     case 'chat-v3.1':
       domain = 'generalv3'
+      break
+    case 'chat-v3.5':
+      domain = 'generalv3.5'
       break
     case 'image-v2.1':
       domain = 'image'
