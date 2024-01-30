@@ -627,12 +627,28 @@ onMounted(() => {
       <div class="chat-input-bottom">
         <!-- 选择插件 -->
         <a-popover position="tl" trigger="click">
-          <a-button v-if="isSupportPlugin" size="small">
-            <a-space :size="5">
-              <icon-code :size="15" />
-              <span>{{ $t('chatWindow.selectPlugin') }}</span>
-            </a-space>
-          </a-button>
+          <template v-if="isSupportPlugin">
+            <a-button
+              v-if="
+                chatPluginStore.chatPluginList.filter((p) =>
+                  currentAssistant.chatPluginIdList.includes(p.id)
+                ).length > 0
+              "
+              size="small"
+              type="primary"
+            >
+              <a-space :size="5">
+                <icon-code :size="15" />
+                <span>{{ $t('chatWindow.selectPlugin') }}</span>
+              </a-space>
+            </a-button>
+            <a-button v-else size="small">
+              <a-space :size="5">
+                <icon-code :size="15" />
+                <span>{{ $t('chatWindow.selectPlugin') }}</span>
+              </a-space>
+            </a-button>
+          </template>
           <template #content>
             <div style="max-height: 40vh; overflow-y: auto; padding: 0 5px">
               <a-checkbox-group v-model="currentAssistant.chatPluginIdList" direction="vertical">
@@ -663,7 +679,12 @@ onMounted(() => {
         </div>
         <div style="margin-left: auto">
           <!-- 发送消息按钮 -->
-          <a-button v-if="!systemStore.chatWindowLoading" size="small" @click="sendQuestion()">
+          <a-button
+            v-if="!systemStore.chatWindowLoading"
+            type="primary"
+            size="small"
+            @click="sendQuestion()"
+          >
             <a-space :size="5">
               <icon-send :size="15" />
               <span>{{ $t('chatWindow.send') }}</span>
