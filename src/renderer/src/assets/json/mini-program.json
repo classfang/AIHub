@@ -63,8 +63,8 @@
     "type": "webview",
     "url": "https://www.doubao.com",
     "name": {
-      "en_US": "豆包",
-      "zh_CN": "Doubao"
+      "en_US": "Doubao",
+      "zh_CN": "豆包"
     },
     "desc": {
       "en_US": "Tiktok's AI tool, your smart partner",
@@ -75,8 +75,8 @@
     "type": "webview",
     "url": "https://www.liblib.ai",
     "name": {
-      "en_US": "哩布AI",
-      "zh_CN": "LiblibAI"
+      "en_US": "LiblibAI",
+      "zh_CN": "哩布AI"
     },
     "desc": {
       "en_US": "China's leading AI creation platform",
