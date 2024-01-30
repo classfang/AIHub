@@ -3,9 +3,11 @@ import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 import { openInBrowser } from '@renderer/utils/window-util'
 import MyWebView from '@renderer/components/views/mini-program/MyWebView.vue'
 import { useSettingStore } from '@renderer/store/setting'
+import { useSystemStore } from '@renderer/store/system'
 import axios from 'axios'
 
 // store
+const systemStore = useSystemStore()
 const settingStore = useSettingStore()
 
 // ref
@@ -81,7 +83,7 @@ const fetchMiniProgramList = () => {
       }
     )
     .then((resp) => {
-      data.miniProgramList = JSON.parse(resp.data) as MiniProgram[]
+      data.miniProgramList = resp.data as MiniProgram[]
     })
 }
 
@@ -89,8 +91,16 @@ const fetchMiniProgramList = () => {
 onMounted(() => {
   // 监听组件尺寸
   watchAIAppSize()
-  // 请求小程序列表
+  // 定时请求小程序列表
   fetchMiniProgramList()
+  setInterval(
+    () => {
+      if (!systemStore.isThisPage('ai-app')) {
+        fetchMiniProgramList()
+      }
+    },
+    1000 * 60 * 10
+  )
 })
 </script>
 

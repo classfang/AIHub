@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 export const useSystemStore = defineStore({
   id: 'system',
   state: () => ({
+    currentPage: 'chat' as PageName,
     globalLoading: false,
     chatWindowLoading: false,
     knowledgeBaseWindowLoading: false,
@@ -15,6 +16,9 @@ export const useSystemStore = defineStore({
     }
   }),
   actions: {
+    isThisPage(pageName: PageName) {
+      return this.currentPage === pageName
+    },
     startDayKeyInterval() {
       // 刷新 dayKey，用于更具日期自动刷新组件
       setInterval(() => {

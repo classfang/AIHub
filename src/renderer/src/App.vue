@@ -28,10 +28,9 @@ const arcoDesignLocales = {
 }
 
 const data = reactive({
-  isLoad: false,
-  currentPage: 'chat'
+  isLoad: false
 })
-const { isLoad, currentPage } = toRefs(data)
+const { isLoad } = toRefs(data)
 
 // 主题设置监听
 let stopDarkThemeListener: any = null
@@ -66,11 +65,11 @@ const arcoDesignLocal = computed(() => {
 })
 
 // 页面切换
-const changePage = (page: string) => {
+const changePage = (page: PageName) => {
   if (systemStore.chatWindowLoading) {
     return
   }
-  data.currentPage = page
+  systemStore.currentPage = page
 }
 
 // 监听各类加载状态
@@ -116,37 +115,37 @@ onMounted(() => {
         </div>
         <icon-message
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'chat' }"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat') }"
           @click="changePage('chat')"
         />
         <icon-code
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'chat-plugin' }"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat-plugin') }"
           @click="changePage('chat-plugin')"
         />
         <icon-book
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'knowledge-base' }"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('knowledge-base') }"
           @click="changePage('knowledge-base')"
         />
         <icon-calendar
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'calendar' }"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('calendar') }"
           @click="changePage('calendar')"
         />
         <icon-translate
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'translator' }"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('translator') }"
           @click="changePage('translator')"
         />
         <icon-common
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'collect' }"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('collect') }"
           @click="changePage('collect')"
         />
         <icon-apps
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': currentPage === 'ai-app' }"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('ai-app') }"
           @click="changePage('ai-app')"
         />
         <Notification style="margin-top: auto">
@@ -162,25 +161,25 @@ onMounted(() => {
       </div>
 
       <!-- 多页面 -->
-      <div v-show="currentPage === 'chat'" class="app-body">
+      <div v-show="systemStore.isThisPage('chat')" class="app-body">
         <Chat2Assistant />
       </div>
-      <div v-show="currentPage === 'chat-plugin'" class="app-body">
+      <div v-show="systemStore.isThisPage('chat-plugin')" class="app-body">
         <ChatPlugin />
       </div>
-      <div v-show="currentPage === 'knowledge-base'" class="app-body">
+      <div v-show="systemStore.isThisPage('knowledge-base')" class="app-body">
         <KnowledgeBase />
       </div>
-      <div v-show="currentPage === 'calendar'" class="app-body">
+      <div v-show="systemStore.isThisPage('calendar')" class="app-body">
         <AICalendar />
       </div>
-      <div v-show="currentPage === 'translator'" class="app-body">
+      <div v-show="systemStore.isThisPage('translator')" class="app-body">
         <Translator />
       </div>
-      <div v-show="currentPage === 'collect'" class="app-body">
+      <div v-show="systemStore.isThisPage('collect')" class="app-body">
         <CollectionSet />
       </div>
-      <div v-show="currentPage === 'ai-app'" class="app-body">
+      <div v-show="systemStore.isThisPage('ai-app')" class="app-body">
         <AIApp />
       </div>
 
