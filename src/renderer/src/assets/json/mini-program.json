@@ -58,5 +58,17 @@
       "en_US": "Large language model application launched by Kunlun",
       "zh_CN": "昆仑万维推出的大语言模型应用"
     }
+  },
+  {
+    "type": "webview",
+    "url": "https://www.liblib.ai",
+    "name": {
+      "en_US": "LiblibAI",
+      "zh_CN": "LiblibAI"
+    },
+    "desc": {
+      "en_US": "China's leading AI creation platform",
+      "zh_CN": "中国领先的AI创作平台"
+    }
   }
 ]

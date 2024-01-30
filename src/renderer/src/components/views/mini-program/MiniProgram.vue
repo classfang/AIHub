@@ -3,11 +3,10 @@ import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 import { openInBrowser } from '@renderer/utils/window-util'
 import MyWebView from '@renderer/components/views/mini-program/MyWebView.vue'
 import { useSettingStore } from '@renderer/store/setting'
-import { useSystemStore } from '@renderer/store/system'
 import axios from 'axios'
+import { Message } from '@arco-design/web-vue'
 
 // store
-const systemStore = useSystemStore()
 const settingStore = useSettingStore()
 
 // ref
@@ -15,6 +14,7 @@ const miniProgramRef = ref()
 
 // 数据绑定
 const data = reactive({
+  loading: false,
   miniProgramList: [] as MiniProgram[],
   miniProgramListStyle: {
     width: 0,
@@ -25,7 +25,7 @@ const data = reactive({
   currentApp: {} as MiniProgram,
   isWebviewShow: false
 })
-const { miniProgramListStyle, keyword, currentApp, isWebviewShow } = toRefs(data)
+const { loading, miniProgramListStyle, keyword, currentApp, isWebviewShow } = toRefs(data)
 
 // appList 过滤
 const appListFilter = computed(() => {
@@ -73,9 +73,10 @@ const watchAIAppSize = () => {
 
 // 请求小程序列表
 const fetchMiniProgramList = () => {
+  data.loading = true
   axios
     .get(
-      'https://api.github.com/repos/classfang/AIHub/contents//src/renderer/src/assets/json/mini-program.json',
+      'https://api.github.com/repos/classfang/AIHub/contents/src/renderer/src/assets/json/mini-program.json',
       {
         headers: {
           Accept: 'application/vnd.github.v3.raw'
@@ -85,22 +86,20 @@ const fetchMiniProgramList = () => {
     .then((resp) => {
       data.miniProgramList = resp.data as MiniProgram[]
     })
+    .catch((error) => {
+      Message.error(error.message)
+    })
+    .finally(() => {
+      data.loading = false
+    })
 }
 
 // 挂载完毕
 onMounted(() => {
   // 监听组件尺寸
   watchAIAppSize()
-  // 定时请求小程序列表
+  // 请求小程序列表
   fetchMiniProgramList()
-  setInterval(
-    () => {
-      if (!systemStore.isThisPage('ai-app')) {
-        fetchMiniProgramList()
-      }
-    },
-    1000 * 60 * 10
-  )
 })
 </script>
 
@@ -146,12 +145,23 @@ onMounted(() => {
         </a-empty>
       </div>
     </a-scrollbar>
+    <!-- 刷新按钮 -->
+    <a-button
+      class="mini-program-list-refresh-btn"
+      type="primary"
+      shape="circle"
+      :disabled="loading"
+      @click="fetchMiniProgramList"
+    >
+      <icon-loading v-if="loading" spin />
+      <icon-refresh v-else />
+    </a-button>
     <!-- webview窗口 -->
     <transition name="slide2top">
       <div v-if="isWebviewShow" class="mini-program-webview">
         <div class="webview-header">
           <div class="webview-header-title">
-            {{ $t(`miniProgram.programs.${currentApp.name}.name`) }}
+            {{ currentApp.name[settingStore.app.locale] }}
           </div>
           <a-button class="webview-header-btn no-drag-area" @click="webviewReload">
             <icon-refresh :size="16" />
@@ -232,6 +242,12 @@ onMounted(() => {
       align-items: center;
       justify-content: center;
     }
+  }
+
+  .mini-program-list-refresh-btn {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
   }
 
   .mini-program-webview {
