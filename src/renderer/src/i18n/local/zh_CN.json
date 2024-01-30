@@ -300,29 +300,7 @@
   "miniProgram": {
     "name": "AI 小程序",
     "search": "搜索小程序",
-    "empty": "暂无相关小程序",
-    "programs": {
-      "ChatGPT": {
-        "name": "ChatGPT",
-        "desc": "OpenAI 推出的大语言模型应用"
-      },
-      "Spark": {
-        "name": "讯飞星火",
-        "desc": "科大讯飞推出的大语言模型应用"
-      },
-      "ERNIEBot": {
-        "name": "文心一言",
-        "desc": "百度推出的大语言模型应用"
-      },
-      "Tongyi": {
-        "name": "通义千问",
-        "desc": "阿里巴巴推出的大语言模型应用"
-      },
-      "Tiangong": {
-        "name": "天工",
-        "desc": "昆仑万维推出的大语言模型应用"
-      }
-    }
+    "empty": "暂无相关小程序"
   },
   "notification": {
     "name": "提醒",

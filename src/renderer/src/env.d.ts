@@ -104,7 +104,8 @@ interface CalendarReport {
 
 interface MiniProgram {
   type: MiniProgramType
-  name: string
+  name: Record<string, string>
+  desc: Record<string, string>
   url: string
 }
 

@@ -2,39 +2,18 @@
 import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 import { openInBrowser } from '@renderer/utils/window-util'
 import MyWebView from '@renderer/components/views/mini-program/MyWebView.vue'
+import { useSettingStore } from '@renderer/store/setting'
+import axios from 'axios'
+
+// store
+const settingStore = useSettingStore()
 
 // ref
 const miniProgramRef = ref()
 
 // 数据绑定
 const data = reactive({
-  appList: [
-    {
-      type: 'webview',
-      name: 'ChatGPT',
-      url: 'https://chat.openai.com'
-    },
-    {
-      type: 'webview',
-      name: 'Spark',
-      url: 'https://xinghuo.xfyun.cn/desk'
-    },
-    {
-      type: 'webview',
-      name: 'ERNIEBot',
-      url: 'https://yiyan.baidu.com'
-    },
-    {
-      type: 'webview',
-      name: 'Tongyi',
-      url: 'https://tongyi.aliyun.com/qianwen'
-    },
-    {
-      type: 'webview',
-      name: 'Tiangong',
-      url: 'https://model-platform-skyagents.tiangong.cn/home/agent'
-    }
-  ] as MiniProgram[],
+  miniProgramList: [] as MiniProgram[],
   miniProgramListStyle: {
     width: 0,
     cardWidth: 280,
@@ -48,7 +27,9 @@ const { miniProgramListStyle, keyword, currentApp, isWebviewShow } = toRefs(data
 
 // appList 过滤
 const appListFilter = computed(() => {
-  return data.appList.filter((app) => app.name.toLowerCase().includes(data.keyword.toLowerCase()))
+  return data.miniProgramList.filter((app) =>
+    app.name[settingStore.app.locale].toLowerCase().includes(data.keyword.toLowerCase())
+  )
 })
 
 // 打开应用
@@ -88,10 +69,28 @@ const watchAIAppSize = () => {
   resizeObserver.observe(miniProgramRef.value)
 }
 
+// 请求小程序列表
+const fetchMiniProgramList = () => {
+  axios
+    .get(
+      'https://api.github.com/repos/classfang/AIHub/contents//src/renderer/src/assets/json/mini-program.json',
+      {
+        headers: {
+          Accept: 'application/vnd.github.v3.raw'
+        }
+      }
+    )
+    .then((resp) => {
+      data.miniProgramList = JSON.parse(resp.data) as MiniProgram[]
+    })
+}
+
 // 挂载完毕
 onMounted(() => {
   // 监听组件尺寸
   watchAIAppSize()
+  // 请求小程序列表
+  fetchMiniProgramList()
 })
 </script>
 
@@ -119,12 +118,12 @@ onMounted(() => {
         class="mini-program-list"
         :style="{ width: `${miniProgramListStyle.width}px` }"
       >
-        <div v-for="a in appListFilter" :key="a.name" class="mini-program-card" @click="openApp(a)">
-          <a-card :title="$t(`miniProgram.programs.${a.name}.name`)" hoverable>
+        <div v-for="a in appListFilter" :key="a.url" class="mini-program-card" @click="openApp(a)">
+          <a-card :title="a.name[settingStore.app.locale]" hoverable>
             <template #extra>
               <icon-right />
             </template>
-            {{ $t(`miniProgram.programs.${a.name}.desc`) }}
+            {{ a.desc[settingStore.app.locale] }}
           </a-card>
         </div>
       </div>

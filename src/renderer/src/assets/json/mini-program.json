@@ -1,0 +1,62 @@
+[
+  {
+    "type": "webview",
+    "url": "https://chat.openai.com",
+    "name": {
+      "en_US": "ChatGPT",
+      "zh_CN": "ChatGPT"
+    },
+    "desc": {
+      "en_US": "Large language model application from OpenAI",
+      "zh_CN": "OpenAI 推出的大语言模型应用"
+    }
+  },
+  {
+    "type": "webview",
+    "url": "https://xinghuo.xfyun.cn/desk",
+    "name": {
+      "en_US": "iFLYTEK Spark",
+      "zh_CN": "讯飞星火"
+    },
+    "desc": {
+      "en_US": "Large language model application launched by iFlytek",
+      "zh_CN": "科大讯飞推出的大语言模型应用"
+    }
+  },
+  {
+    "type": "webview",
+    "url": "https://yiyan.baidu.com",
+    "name": {
+      "en_US": "ERNIE Bot",
+      "zh_CN": "文心一言"
+    },
+    "desc": {
+      "en_US": "Large language model application launched by Baidu",
+      "zh_CN": "百度推出的大语言模型应用"
+    }
+  },
+  {
+    "type": "webview",
+    "url": "https://tongyi.aliyun.com/qianwen",
+    "name": {
+      "en_US": "Tongyi Qianwen",
+      "zh_CN": "通义千问"
+    },
+    "desc": {
+      "en_US": "Large language model application launched by Alibaba",
+      "zh_CN": "阿里巴巴推出的大语言模型应用"
+    }
+  },
+  {
+    "type": "webview",
+    "url": "https://model-platform-skyagents.tiangong.cn/home/agent",
+    "name": {
+      "en_US": "Tiangong",
+      "zh_CN": "天工"
+    },
+    "desc": {
+      "en_US": "Large language model application launched by Kunlun",
+      "zh_CN": "昆仑万维推出的大语言模型应用"
+    }
+  }
+]
