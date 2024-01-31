@@ -23,7 +23,7 @@ import { DocxLoader } from 'langchain/document_loaders/fs/docx'
 import { PPTXLoader } from 'langchain/document_loaders/fs/pptx'
 import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
 import { getDockIcon, getDockIconArray } from './dock-icon'
-import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
+import { OpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RetrievalQAChain } from 'langchain/chains'
 import { initLogger } from './logger'
 import { initStore } from './store'
@@ -531,7 +531,7 @@ ipcMain.handle(
     )
 
     // 对话模型
-    const model = new ChatOpenAI({
+    const model = new OpenAI({
       modelName: 'gpt-3.5-turbo',
       openAIApiKey: openaiConfig.key,
       configuration: {

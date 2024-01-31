@@ -3449,10 +3449,10 @@ kuler@^2.0.0:
   resolved "https://registry.npmmirror.com/kuler/-/kuler-2.0.0.tgz#e2c570a3800388fb44407e851531c1d670b061b3"
   integrity sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==
 
-langchain@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.npmmirror.com/langchain/-/langchain-0.1.10.tgz#0fda9649f359d0dbbb2ed1d0721359645563523c"
-  integrity sha512-JqrK2uXf9jYSBt2NSB1ZuL44sDqPak0ilIUF7RX1xvibGJXVWbkuM3uDUDqDMMajL7F6NrYWvrivYjlN2yenZA==
+langchain@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.npmmirror.com/langchain/-/langchain-0.1.11.tgz#25e961b898a915efeaedeb79b8f48924592b4d33"
+  integrity sha512-Ma1QW8pX0BAgnmgL5J97WQ17Ir46b8lWiZ3s+sK5iS6zicJzalx0J9FUdFg4XAFzLj6Dy1oHoXcupjrOZLQGOA==
   dependencies:
     "@anthropic-ai/sdk" "^0.9.1"
     "@langchain/community" "~0.0.20"
