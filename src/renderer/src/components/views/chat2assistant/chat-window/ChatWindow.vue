@@ -291,7 +291,7 @@ const useBigModel = async (currentSessionId: string) => {
         type: data.currentAssistant.type,
         chatPlugins: copyObj(
           chatPluginStore.chatPluginList.filter((p) =>
-            data.currentAssistant.chatPluginIdList.includes(p.id)
+            data.currentAssistant.chatPluginIdList?.includes(p.id)
           )
         ),
         imagePrompt: question,
@@ -631,7 +631,7 @@ onMounted(() => {
             <a-button
               v-if="
                 chatPluginStore.chatPluginList.filter((p) =>
-                  currentAssistant.chatPluginIdList.includes(p.id)
+                  currentAssistant.chatPluginIdList?.includes(p.id)
                 ).length > 0
               "
               size="small"
