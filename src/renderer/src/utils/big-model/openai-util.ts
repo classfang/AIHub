@@ -38,7 +38,7 @@ export const chat2openai = async (option: CommonChatOption) => {
   })
 
   // 对话或者绘画
-  if (type === 'chat' && messages != null) {
+  if (type === 'chat') {
     // OpenAI 对话
 
     // 是否有插件
@@ -47,7 +47,7 @@ export const chat2openai = async (option: CommonChatOption) => {
       // 非流式插件提问
       pluginAnswer = await openai.chat.completions.create({
         messages: (await getOpenAIMessages(
-          messages,
+          messages!,
           instruction,
           inputMaxTokens,
           contextSize
@@ -79,7 +79,7 @@ export const chat2openai = async (option: CommonChatOption) => {
 
     // 现有消息列表
     const chatMessages = (await getOpenAIMessages(
-      messages,
+      messages!,
       instruction,
       inputMaxTokens,
       contextSize
@@ -120,10 +120,10 @@ export const chat2openai = async (option: CommonChatOption) => {
       Logger.info('chat2openai:', chunk)
       appendAnswer && appendAnswer(sessionId, chunk.choices[0].delta.content ?? '')
     }
-  } else if (type === 'drawing' && imagePrompt != null) {
+  } else if (type === 'drawing') {
     // OpenAI 绘画
     const imagesResponse = await openai.images.generate({
-      prompt: imagePrompt,
+      prompt: imagePrompt!,
       model,
       size: imageSize as '256x256' | '512x512' | '1024x1024' | '1792x1024' | '1024x1792' | null,
       response_format: 'url',

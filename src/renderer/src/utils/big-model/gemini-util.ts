@@ -21,13 +21,6 @@ export const chat2gemini = async (option: CommonChatOption) => {
     end
   } = option
 
-  // 必须参数
-  if (!apiKey || !baseURL || !messages) {
-    Logger.error('chat2gemini params miss')
-    end && end(sessionId)
-    return
-  }
-
   // 等待回答
   let waitAnswer = true
 
@@ -40,7 +33,7 @@ export const chat2gemini = async (option: CommonChatOption) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      contents: await getGeminiMessages(messages, instruction, inputMaxTokens, contextSize),
+      contents: await getGeminiMessages(messages!, instruction, inputMaxTokens, contextSize),
       safetySettings: [
         {
           category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',

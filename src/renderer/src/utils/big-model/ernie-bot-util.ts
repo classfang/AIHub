@@ -34,13 +34,6 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
     end
   } = option
 
-  // 必须参数
-  if (!apiKey || !secretKey || !messages) {
-    Logger.error('chat2ernieBot params miss')
-    end && end(sessionId)
-    return
-  }
-
   // 等待回答
   let waitAnswer = true
 
@@ -57,7 +50,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
     signal: abortCtr?.signal,
     method: 'POST',
     body: JSON.stringify({
-      messages: await getERNIEBotMessages(messages, instruction, inputMaxTokens, contextSize),
+      messages: await getERNIEBotMessages(messages!, instruction, inputMaxTokens, contextSize),
       stream: true
     }),
     // 连接开启

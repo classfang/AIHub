@@ -41,13 +41,6 @@ export const chat2tongyi = async (option: CommonChatOption) => {
     end
   } = option
 
-  // 必须参数
-  if (!apiKey) {
-    Logger.error('chat2tongyi params miss')
-    end && end(sessionId)
-    return
-  }
-
   // 等待回答
   let waitAnswer = true
 
@@ -55,7 +48,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
   let answerIndex = 0
 
   // 对话或者绘画
-  if (type === 'chat' && messages != null) {
+  if (type === 'chat') {
     // 对话
 
     // sse
@@ -72,7 +65,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
         model,
         input: {
           messages: await getTongyiMessages(
-            messages,
+            messages!,
             instruction,
             inputMaxTokens,
             contextSize,
@@ -128,7 +121,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
         }
       }
     })
-  } else if (type === 'drawing' && imagePrompt != null) {
+  } else if (type === 'drawing') {
     // 绘画
 
     // 提交生成图片任务

@@ -146,22 +146,17 @@ export const chat2spark = async (option: CommonChatOption) => {
     end
   } = option
 
-  // 必须参数
-  if (!appId || !apiKey || !secretKey) {
-    Logger.error('chat2spark params miss')
-    end && end(sessionId)
-    return
-  }
-
   // 对话或者绘画
-  if (type === 'chat' && messages != null) {
+  if (type === 'chat') {
     // 对话
 
     // 等待回答
     let waitAnswer = true
 
     // websocket 实例
-    const sparkClient = new WebSocket(getAuthUrl(getSparkHostUrl(model), 'GET', apiKey, secretKey))
+    const sparkClient = new WebSocket(
+      getAuthUrl(getSparkHostUrl(model), 'GET', apiKey!, secretKey!)
+    )
 
     // 连接成功
     sparkClient.onopen = async () => {
@@ -169,10 +164,10 @@ export const chat2spark = async (option: CommonChatOption) => {
       // 连接成功，发送消息
       sparkClient.send(
         getSparkWsRequestParam(
-          appId,
+          appId!,
           model,
           maxTokens,
-          await getSparkMessages(messages, instruction, inputMaxTokens, contextSize)
+          await getSparkMessages(messages!, instruction, inputMaxTokens, contextSize)
         )
       )
     }
@@ -207,12 +202,12 @@ export const chat2spark = async (option: CommonChatOption) => {
       Logger.error('chat2spark websocket connect error', e)
       end && end(sessionId, 'chat2spark websocket connect error')
     }
-  } else if (type === 'drawing' && imagePrompt != null && imageSize != null) {
+  } else if (type === 'drawing') {
     // 绘画
 
-    fetch(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey, secretKey), {
+    fetch(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey!, secretKey!), {
       method: 'POST',
-      body: getDrawingRequestParam(appId, imagePrompt, imageSize)
+      body: getDrawingRequestParam(appId!, imagePrompt!, imageSize!)
     })
       .then((res) => res.json())
       .then((resJson) => {

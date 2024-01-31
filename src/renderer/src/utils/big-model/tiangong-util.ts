@@ -19,21 +19,14 @@ export const chat2tiangong = async (option: CommonChatOption) => {
     end
   } = option
 
-  // 必须参数
-  if (!apiKey || !messages) {
-    Logger.error('chat2tiangong params miss')
-    end && end(sessionId)
-    return
-  }
-
   // 等待回答
   let waitAnswer = true
 
   const url = 'https://sky-api.singularity-ai.com/saas/api/v4/generate'
-  const appKey = apiKey // 这里需要替换你的APIKey
-  const appSecret = secretKey // 这里需要替换你的APISecret
+  const appKey = apiKey! // 这里需要替换你的APIKey
+  const appSecret = secretKey! // 这里需要替换你的APISecret
   const timestamp = String(Math.floor(Date.now() / 1000))
-  const signContent = appKey + appSecret + timestamp
+  const signContent = appKey! + appSecret! + timestamp
   const signResult = CryptoJS.MD5(signContent).toString(CryptoJS.enc.Hex)
 
   // 设置请求头，请求的数据格式为json
@@ -47,7 +40,7 @@ export const chat2tiangong = async (option: CommonChatOption) => {
 
   // 设置请求URL和参数
   const data = {
-    messages: await getTiangongMessages(messages, instruction, inputMaxTokens, contextSize),
+    messages: await getTiangongMessages(messages!, instruction, inputMaxTokens, contextSize),
     model: model,
     param: {
       generate_length: maxTokens,
