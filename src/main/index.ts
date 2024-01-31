@@ -25,6 +25,7 @@ import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
 import { getDockIcon, getDockIconArray } from './dock-icon'
 import { OpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RetrievalQAChain } from 'langchain/chains'
+import type { BaseLanguageModelInterface } from '@langchain/core/language_models/base'
 import { initLogger } from './logger'
 import { initStore } from './store'
 import * as vm from 'vm'
@@ -537,8 +538,7 @@ ipcMain.handle(
       configuration: {
         baseURL: openaiConfig.baseUrl
       }
-    })
-    // @ts-ignore
+    }) as BaseLanguageModelInterface
     const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever())
 
     // 提问
