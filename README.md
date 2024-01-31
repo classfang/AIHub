@@ -4,7 +4,7 @@
 <p align="center">
   <h1 align="center">AIHub</h1>
   <h3 align="center">
-    一款集合众多大模型能力、AI能力的Electron客户端，具有极简的界面，将在未来支持更多AI能力 ✨✨
+    一款集合众多大模型能力的 Electron 客户端，具有极简的界面，将在未来支持更多AI能力 ✨✨
   </h3>
 </p>
 
