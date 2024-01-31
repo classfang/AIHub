@@ -122,7 +122,7 @@ onMounted(() => {
       @close="clearNewModal"
     >
       <template #title> {{ $t('chatPlugin.list.new') }} </template>
-      <div style="height: 60vh; overflow-y: auto">
+      <div style="height: 60vh; padding: 0 10px; overflow-y: auto">
         <ChatPluginForm v-model:chatPlugin="chatPluginForm" />
       </div>
     </a-modal>
