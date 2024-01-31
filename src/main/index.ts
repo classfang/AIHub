@@ -538,8 +538,11 @@ ipcMain.handle(
       configuration: {
         baseURL: openaiConfig.baseUrl
       }
-    }) as BaseLanguageModelInterface
-    const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever())
+    })
+    const chain = RetrievalQAChain.fromLLM(
+      model as BaseLanguageModelInterface,
+      vectorStore.asRetriever()
+    )
 
     // 提问
     const response = await chain.invoke({
