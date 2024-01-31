@@ -3,9 +3,11 @@ import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { useSystemStore } from '@renderer/store/system'
 import dayjs from 'dayjs'
+import { useChatPluginStore } from '@renderer/store/chat-plugin'
 
 const systemStore = useSystemStore()
 const assistantStore = useAssistantStore()
+const chatPluginStore = useChatPluginStore()
 
 const props = defineProps({
   assistant: {
@@ -19,6 +21,11 @@ const assistantItemActive = () => {
     return
   }
   assistantStore.currentAssistantId = props.assistant.id
+
+  // 已删除插件过滤
+  const pluginIdList = chatPluginStore.chatPluginList.map((p) => p.id)
+  assistantStore.getCurrentAssistant.chatPluginIdList =
+    assistantStore.getCurrentAssistant.chatPluginIdList.filter((id) => pluginIdList.includes(id))
 }
 
 // 计算显示的消息时间

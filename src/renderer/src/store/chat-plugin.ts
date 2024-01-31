@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { copyObj } from '@renderer/utils/object-util'
 
 export const useChatPluginStore = defineStore({
   id: 'chat-plugin',
@@ -31,6 +32,12 @@ export const useChatPluginStore = defineStore({
         importFlag = true
       }
       return importFlag
+    },
+    getPluginListByIds(ids: string[]): ChatPlugin[] {
+      if (!ids || ids.length === 0) {
+        return []
+      }
+      return copyObj(this.chatPluginList.filter((p) => ids.includes(p.id)))
     }
   },
   persist: {

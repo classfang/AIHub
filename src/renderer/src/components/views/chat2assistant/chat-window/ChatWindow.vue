@@ -21,7 +21,6 @@ import dayjs from 'dayjs'
 import { Logger } from '@renderer/utils/logger'
 import { useNotificationStore } from '@renderer/store/notification'
 import { useChatPluginStore } from '@renderer/store/chat-plugin'
-import { copyObj } from '@renderer/utils/object-util'
 
 // store
 const systemStore = useSystemStore()
@@ -289,11 +288,7 @@ const useBigModel = async (currentSessionId: string) => {
         apiKey: settingStore.openAI.key,
         baseURL: settingStore.openAI.baseUrl,
         type: data.currentAssistant.type,
-        chatPlugins: copyObj(
-          chatPluginStore.chatPluginList.filter((p) =>
-            data.currentAssistant.chatPluginIdList?.includes(p.id)
-          )
-        ),
+        chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList),
         imagePrompt: question,
         imageSize: data.currentAssistant.imageSize,
         imageQuality: data.currentAssistant.imageQuality,
@@ -630,9 +625,7 @@ onMounted(() => {
           <template v-if="isSupportPlugin">
             <a-button
               v-if="
-                chatPluginStore.chatPluginList.filter((p) =>
-                  currentAssistant.chatPluginIdList?.includes(p.id)
-                ).length > 0
+                chatPluginStore.getPluginListByIds(currentAssistant.chatPluginIdList).length > 0
               "
               size="small"
               type="primary"
