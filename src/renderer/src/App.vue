@@ -206,28 +206,29 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
     box-sizing: border-box;
     padding: 15px;
     background-color: var(--color-fill-2);
 
     .app-sidebar-avatar {
       margin-top: 30px;
+      margin-bottom: 15px;
     }
 
     .app-sidebar-item {
-      font-size: 30px;
-      stroke-width: 2;
+      font-size: 26px;
+      stroke-width: 3;
       color: var(--color-text-2);
       transition: all 200ms;
+      padding: 15px 0;
 
       &:hover {
-        stroke-width: 3;
+        stroke-width: 4;
       }
     }
 
     .app-sidebar-item-active {
-      stroke-width: 3;
+      stroke-width: 4;
       color: rgb(var(--primary-6));
     }
   }
