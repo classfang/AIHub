@@ -25,7 +25,7 @@ const assistantItemActive = () => {
   // 已删除插件过滤
   const pluginIdList = chatPluginStore.chatPluginList.map((p) => p.id)
   assistantStore.getCurrentAssistant.chatPluginIdList =
-    assistantStore.getCurrentAssistant.chatPluginIdList.filter((id) => pluginIdList.includes(id))
+    assistantStore.getCurrentAssistant.chatPluginIdList?.filter((id) => pluginIdList.includes(id))
 }
 
 // 计算显示的消息时间

@@ -524,7 +524,7 @@ onMounted(() => {
           <!-- 右键点击菜单 -->
           <a-dropdown :align-point="true" trigger="contextMenu">
             <!-- 消息块 -->
-            <div class="chat-message">
+            <div class="chat-message" :class="{ 'chat-message-user': msg.role === 'user' }">
               <!-- 多选框 -->
               <a-checkbox
                 v-if="multipleChoiceFlag"

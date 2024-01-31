@@ -80,11 +80,27 @@
     .chat-message {
       display: flex;
       align-items: flex-start;
-      gap: 15px;
 
-      .chat-message-checkbox,
-      .chat-message-avatar {
+      .chat-message-checkbox {
         flex-shrink: 0;
+        margin-right: 15px;
+      }
+
+      .chat-message-avatar {
+        display: flex;
+        align-items: center;
+
+        // 右侧三角形
+        &::after {
+          content: '';
+          display: inline-block;
+          width: 0;
+          height: 0;
+          border-top: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+          border-left: 8px solid transparent;
+          border-right: 7px solid var(--color-fill-1);
+        }
       }
 
       .chat-message-content {
@@ -95,7 +111,7 @@
         line-break: anywhere;
         background-color: var(--color-fill-1);
         padding: 10px;
-        border-radius: var(--border-radius-small);
+        border-radius: var(--border-radius-medium);
         min-height: 1rem;
         line-height: 1.3rem;
         display: flex;
