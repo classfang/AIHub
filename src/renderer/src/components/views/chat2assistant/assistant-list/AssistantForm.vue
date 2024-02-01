@@ -191,35 +191,39 @@ watch(
       </a-form-item>
       <!-- 图片风格 -->
       <a-form-item
-        v-if="['OpenAI', 'Tongyi'].includes(assistant.provider)"
+        v-if="assistant.model === 'dall-e-3'"
         field="imageStyle"
         :label="$t('assistantList.imageStyle')"
       >
         <a-select v-model="assistant.imageStyle">
-          <template v-if="assistant.model === 'dall-e-3'">
-            <a-option value="vivid">vivid</a-option>
-            <a-option value="natural">natural</a-option>
-          </template>
-          <template v-else-if="assistant.provider === 'Tongyi'">
-            <a-option value="<auto>">{{ $t('assistantList.imageStyleOption.auto') }}</a-option>
-            <a-option value="<3d cartoon>">{{
-              $t('assistantList.imageStyleOption.3dCartoon')
-            }}</a-option>
-            <a-option value="<anime>">{{ $t('assistantList.imageStyleOption.anime') }}</a-option>
-            <a-option value="<oil painting>">{{
-              $t('assistantList.imageStyleOption.oilPainting')
-            }}</a-option>
-            <a-option value="<watercolor>">{{
-              $t('assistantList.imageStyleOption.watercolor')
-            }}</a-option>
-            <a-option value="<sketch>">{{ $t('assistantList.imageStyleOption.sketch') }}</a-option>
-            <a-option value="<chinese painting>">{{
-              $t('assistantList.imageStyleOption.chinesePainting')
-            }}</a-option>
-            <a-option value="<flat illustration>">{{
-              $t('assistantList.imageStyleOption.flatIllustration')
-            }}</a-option>
-          </template>
+          <a-option value="vivid">vivid</a-option>
+          <a-option value="natural">natural</a-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item
+        v-if="assistant.provider === 'Tongyi'"
+        field="imageStyle"
+        :label="$t('assistantList.imageStyle')"
+      >
+        <a-select v-model="assistant.imageStyle">
+          <a-option value="<auto>">{{ $t('assistantList.imageStyleOption.auto') }}</a-option>
+          <a-option value="<3d cartoon>">{{
+            $t('assistantList.imageStyleOption.3dCartoon')
+          }}</a-option>
+          <a-option value="<anime>">{{ $t('assistantList.imageStyleOption.anime') }}</a-option>
+          <a-option value="<oil painting>">{{
+            $t('assistantList.imageStyleOption.oilPainting')
+          }}</a-option>
+          <a-option value="<watercolor>">{{
+            $t('assistantList.imageStyleOption.watercolor')
+          }}</a-option>
+          <a-option value="<sketch>">{{ $t('assistantList.imageStyleOption.sketch') }}</a-option>
+          <a-option value="<chinese painting>">{{
+            $t('assistantList.imageStyleOption.chinesePainting')
+          }}</a-option>
+          <a-option value="<flat illustration>">{{
+            $t('assistantList.imageStyleOption.flatIllustration')
+          }}</a-option>
         </a-select>
       </a-form-item>
       <!-- 图片质量 -->
