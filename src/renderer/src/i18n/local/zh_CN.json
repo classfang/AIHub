@@ -199,6 +199,7 @@
     "send": "发送",
     "selectImage": "图片",
     "selectPlugin": "插件",
+    "noPlugin": "暂无插件",
     "copy": "复制",
     "multipleChoice": "多选",
     "selectSuccess": "已添加至收藏夹",

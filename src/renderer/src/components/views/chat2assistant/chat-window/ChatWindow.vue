@@ -643,12 +643,20 @@ onMounted(() => {
             </a-button>
           </template>
           <template #content>
-            <div style="max-height: 40vh; overflow-y: auto; padding: 0 5px">
-              <a-checkbox-group v-model="currentAssistant.chatPluginIdList" direction="vertical">
+            <div class="chat-plugin-select">
+              <a-checkbox-group
+                v-if="chatPluginStore.chatPluginList.length > 0"
+                v-model="currentAssistant.chatPluginIdList"
+                direction="vertical"
+              >
                 <a-checkbox v-for="p in chatPluginStore.chatPluginList" :key="p.id" :value="p.id">{{
                   p.name
                 }}</a-checkbox>
               </a-checkbox-group>
+              <a-empty v-else>
+                <template #image> </template>
+                {{ $t('chatWindow.noPlugin') }}
+              </a-empty>
             </div>
           </template>
         </a-popover>
@@ -707,4 +715,10 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @import '../../../../assets/css/chat-window.less';
+
+.chat-plugin-select {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding: 0 5px;
+}
 </style>

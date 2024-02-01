@@ -199,6 +199,7 @@
     "send": "Send",
     "selectImage": "Image",
     "selectPlugin": "Plugin",
+    "noPlugin": "No plugin",
     "copy": "Copy",
     "multipleChoice": "Multiple choice",
     "selectSuccess": "Added to favorites",
