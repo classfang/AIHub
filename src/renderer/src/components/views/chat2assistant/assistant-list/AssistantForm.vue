@@ -108,7 +108,7 @@ watch(
       </a-form-item>
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
-        <a-select v-model="assistant.model">
+        <a-select v-model="assistant.model" allow-search>
           <a-option v-for="m in chatModels[assistant.provider]" :key="m.name" :value="m.value">{{
             m['name']
           }}</a-option>
@@ -152,7 +152,7 @@ watch(
       </a-form-item>
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
-        <a-select v-model="assistant.model">
+        <a-select v-model="assistant.model" allow-search>
           <a-option v-for="m in drawingModels[assistant.provider]" :key="m.name" :value="m.value">{{
             m['name']
           }}</a-option>

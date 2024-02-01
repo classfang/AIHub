@@ -210,8 +210,12 @@ onMounted(() => {
     checkNewVersion()
   })
   // 每次获得焦点检查最新版本
+  let lastCheckTime = 0
   onMainWindowFocus(() => {
-    checkNewVersion()
+    if (new Date().getTime() - lastCheckTime > 1000 * 60 * 60) {
+      checkNewVersion()
+      lastCheckTime = new Date().getTime()
+    }
   })
   setProxy(settingStore.app.proxy)
 })

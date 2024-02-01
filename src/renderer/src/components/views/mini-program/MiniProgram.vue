@@ -4,7 +4,7 @@ import { openInBrowser } from '@renderer/utils/window-util'
 import MyWebView from '@renderer/components/views/mini-program/MyWebView.vue'
 import { useSettingStore } from '@renderer/store/setting'
 import axios from 'axios'
-import { Message } from '@arco-design/web-vue'
+import miniProgramJsonData from '@renderer/assets/json/mini-program.json'
 
 // store
 const settingStore = useSettingStore()
@@ -86,8 +86,8 @@ const fetchMiniProgramList = () => {
     .then((resp) => {
       data.miniProgramList = resp.data as MiniProgram[]
     })
-    .catch((error) => {
-      Message.error(error.message)
+    .catch(() => {
+      data.miniProgramList = miniProgramJsonData as MiniProgram[]
     })
     .finally(() => {
       data.loading = false
