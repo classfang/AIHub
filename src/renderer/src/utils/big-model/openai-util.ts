@@ -128,7 +128,8 @@ export const chat2openai = async (option: CommonChatOption) => {
       size: imageSize as '256x256' | '512x512' | '1024x1024' | '1792x1024' | '1024x1792' | null,
       response_format: 'url',
       quality: imageQuality as 'standard' | 'hd',
-      style: imageStyle as 'vivid' | 'natural' | null
+      style: imageStyle as 'vivid' | 'natural' | null,
+      n: 1
     })
     Logger.info('chat2openai:', imagesResponse)
 
