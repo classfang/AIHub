@@ -27,9 +27,10 @@ const chatPlugin = defineModel<ChatPlugin>('chatPlugin', { default: () => ({}) }
       />
     </a-form-item>
     <a-form-item>
-      <a-link @click="openInBrowser('https://redis.io/docs/install/install-stack/')">{{
-        $t('chatPlugin.list.doc')
-      }}</a-link>
+      <a-link
+        @click="openInBrowser('https://github.com/classfang/AIHub/blob/main/demo/plugin/README.md')"
+        >{{ $t('chatPlugin.list.doc') }}</a-link
+      >
     </a-form-item>
   </a-form>
 </template>
