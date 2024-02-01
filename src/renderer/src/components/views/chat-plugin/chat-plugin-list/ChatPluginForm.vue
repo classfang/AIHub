@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { openInBrowser } from '@renderer/utils/window-util'
+
 const chatPlugin = defineModel<ChatPlugin>('chatPlugin', { default: () => ({}) })
 </script>
 
@@ -23,6 +25,11 @@ const chatPlugin = defineModel<ChatPlugin>('chatPlugin', { default: () => ({}) }
         :max-length="200"
         allow-clear
       />
+    </a-form-item>
+    <a-form-item>
+      <a-link @click="openInBrowser('https://redis.io/docs/install/install-stack/')">{{
+        $t('chatPlugin.list.doc')
+      }}</a-link>
     </a-form-item>
   </a-form>
 </template>

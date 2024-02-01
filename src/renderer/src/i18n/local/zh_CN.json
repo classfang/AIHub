@@ -320,7 +320,8 @@
       "edit": "编辑插件",
       "type": "类型",
       "name": "名称",
-      "description": "描述"
+      "description": "描述",
+      "doc": "如何设计插件？"
     },
     "window": {
       "design": "设计插件",

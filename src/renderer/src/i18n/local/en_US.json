@@ -320,7 +320,8 @@
       "edit": "Edit  plugin",
       "type": "Type",
       "name": "Name",
-      "description": "Description"
+      "description": "Description",
+      "doc": "How to design plugin?"
     },
     "window": {
       "design": "Design plugin",
