@@ -10,6 +10,7 @@ import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror/addon/display/placeholder.js'
 // Codemirror theme
 import 'codemirror/theme/dracula.css'
+import { randomUUID } from '@renderer/utils/id-util'
 
 // store
 const chatPluginStore = useChatPluginStore()
@@ -17,6 +18,7 @@ const chatPluginStore = useChatPluginStore()
 // 数据绑定
 const data = reactive({
   testModalVisible: false,
+  testSessionId: randomUUID(),
   testParams: {},
   testResult: ''
 })
@@ -45,18 +47,25 @@ const addParam = (index: number) => {
 
 // 运行测试
 const handleTestModalBeforeOk = async () => {
+  const sessionId = data.testSessionId
   await new Promise<void>((resolve) => {
     executeJavaScript(
       `var params = ${JSON.stringify(data.testParams)};${chatPluginStore.getCurrentChatPlugin.code}`
     )
       .then((res) => {
-        data.testResult = res
+        if (sessionId === data.testSessionId) {
+          data.testResult = res
+        }
       })
       .catch((e) => {
-        data.testResult = e
+        if (sessionId === data.testSessionId) {
+          data.testResult = e
+        }
       })
       .finally(() => {
-        resolve()
+        if (sessionId === data.testSessionId) {
+          resolve()
+        }
       })
   })
   return false
@@ -64,6 +73,9 @@ const handleTestModalBeforeOk = async () => {
 
 // 测试插件 Modal 关闭
 const handleTestModalClose = () => {
+  // 更换sessionId
+  data.testSessionId = randomUUID()
+  // 清空参数和结果
   data.testParams = {}
   data.testResult = ''
 }
