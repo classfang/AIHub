@@ -153,8 +153,8 @@
     "Tiangong": "Tiangong"
   },
   "translationProvider": {
-    "Youdao": "Youdao Translation",
-    "BaiduTranslation": "Baidu Translation"
+    "youdao": "Youdao Translation",
+    "baiduTranslation": "Baidu Translation"
   },
   "assistantList": {
     "new": "New assistant",
@@ -238,12 +238,12 @@
     "returnPlaceholder": "Translation result",
     "returnDetailPlaceholder": "Translation details",
     "configMiss": {
-      "Youdao": "Youdao Translation is not configured",
-      "BaiduTranslation": "Baidu Translation is not configured"
+      "youdao": "Youdao Translation is not configured",
+      "baiduTranslation": "Baidu Translation is not configured"
     },
     "error": {
-      "Youdao": "Youdao Translation call error, please check your configuration",
-      "BaiduTranslation": "Baidu Translation call error, please check your configuration"
+      "youdao": "Youdao Translation call error, please check your configuration",
+      "baiduTranslation": "Baidu Translation call error, please check your configuration"
     },
     "langType": {
       "auto": "Auto",
