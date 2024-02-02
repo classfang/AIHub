@@ -4,7 +4,7 @@
 <p align="center">
   <h1 align="center">AIHub</h1>
   <h3 align="center">
-    A collection of large model capabilities Electron client, with a minimalist interface, will support more AI capabilities in the future ✨✨
+    A collection of large model capabilities of the client. Can quickly, low threshold to build your own AI assistant; Support custom plug-ins, expand unlimited possibilities. ✨✨
   </h3>
 </p>
 
