@@ -73,6 +73,18 @@
   },
   {
     "type": "webview",
+    "url": "https://www.coze.cn/home",
+    "name": {
+      "en_US": "Coze",
+      "zh_CN": "扣子"
+    },
+    "desc": {
+      "en_US": "A new generation of AI Bot development platform",
+      "zh_CN": "新一代的 AI Bot 开发平台"
+    }
+  },
+  {
+    "type": "webview",
     "url": "https://www.liblib.ai",
     "name": {
       "en_US": "LiblibAI",
