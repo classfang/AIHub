@@ -1,4 +1,5 @@
 import { youdaoTranslate } from '@renderer/utils/translator/youdao-util'
+import { baiduTranslate } from '@renderer/utils/translator/baidu-util'
 
 type TranslateFunctionMap = {
   [provider in TranslatorProvider]: (option: CommonTranslateOption) => Promise<any>
@@ -31,7 +32,8 @@ export interface CommonTranslateOption {
 }
 
 const translateFunctionMap: TranslateFunctionMap = {
-  Youdao: youdaoTranslate
+  youdao: youdaoTranslate,
+  baiduTranslation: baiduTranslate
 }
 
 export const translate = async (

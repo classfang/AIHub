@@ -576,8 +576,8 @@ onMounted(() => {
                 <a-space direction="vertical" :size="20" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('common.officialWebsite') }}</div>
-                    <a-link @click="openInBrowser('https://ai.youdao.com/')"
-                      >https://ai.youdao.com/</a-link
+                    <a-link @click="openInBrowser('https://ai.youdao.com')"
+                      >https://ai.youdao.com</a-link
                     >
                   </a-space>
                   <a-space direction="vertical" :size="10" fill>
@@ -597,6 +597,44 @@ onMounted(() => {
                       size="small"
                       :placeholder="
                         $t('common.pleaseEnter') + ' ' + $t('setting.translation.youdao.secret')
+                      "
+                    />
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
+              <!-- 百度翻译 -->
+              <a-tab-pane
+                key="baiduTranslation"
+                :title="$t('setting.translation.baiduTranslation.name')"
+              >
+                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('common.officialWebsite') }}</div>
+                    <a-link @click="openInBrowser('https://fanyi-api.baidu.com')"
+                      >https://fanyi-api.baidu.com</a-link
+                    >
+                  </a-space>
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('setting.translation.baiduTranslation.appId') }}</div>
+                    <a-input
+                      v-model="settingStore.baiduTranslation.appId"
+                      size="small"
+                      :placeholder="
+                        $t('common.pleaseEnter') +
+                        ' ' +
+                        $t('setting.translation.baiduTranslation.appId')
+                      "
+                    />
+                  </a-space>
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('setting.translation.baiduTranslation.secret') }}</div>
+                    <a-input-password
+                      v-model="settingStore.baiduTranslation.secret"
+                      size="small"
+                      :placeholder="
+                        $t('common.pleaseEnter') +
+                        ' ' +
+                        $t('setting.translation.baiduTranslation.secret')
                       "
                     />
                   </a-space>

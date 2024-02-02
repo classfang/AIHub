@@ -35,9 +35,7 @@ export const youdaoTranslate = async (option: CommonTranslateOption) => {
     })
     .then((res) => {
       if (res.data.errorCode != 0) {
-        if (error) {
-          error(res.data.errorCode)
-        }
+        error && error(res.data.errorCode)
         return
       }
       const returnObj: TranslateResult = {
@@ -85,9 +83,10 @@ export const youdaoTranslate = async (option: CommonTranslateOption) => {
           returnObj.us.speech = res.data.basic['us-speech']
         }
       }
-      if (success) {
-        success(returnObj)
-      }
+      success && success(returnObj)
+    })
+    .catch((e) => {
+      error && error(e)
     })
 }
 

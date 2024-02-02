@@ -116,6 +116,11 @@
         "name": "有道翻译",
         "appId": "应用ID",
         "secret": "应用密钥"
+      },
+      "baiduTranslation": {
+        "name": "百度翻译",
+        "appId": "应用ID",
+        "secret": "应用密钥"
       }
     },
     "about": {
@@ -148,7 +153,8 @@
     "Tiangong": "天工"
   },
   "translationProvider": {
-    "Youdao": "有道翻译"
+    "youdao": "有道翻译",
+    "baiduTranslation": "百度翻译"
   },
   "assistantList": {
     "new": "新增助手",
@@ -232,10 +238,12 @@
     "returnPlaceholder": "翻译结果",
     "returnDetailPlaceholder": "翻译详情",
     "configMiss": {
-      "Youdao": "有道翻译未配置"
+      "youdao": "有道翻译未配置",
+      "baiduTranslation": "百度翻译未配置"
     },
     "error": {
-      "Youdao": "有道翻译调用错误，请检查你的配置"
+      "youdao": "有道翻译调用错误，请检查你的配置",
+      "baiduTranslation": "百度翻译调用错误，请检查你的配置"
     },
     "langType": {
       "auto": "自动",

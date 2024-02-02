@@ -37,6 +37,10 @@ export const useSettingStore = defineStore({
       appId: '',
       secret: ''
     },
+    baiduTranslation: {
+      appId: '',
+      secret: ''
+    },
     aiCalendar: {
       // 星期的开始：0周日 1周一
       weekStart: 1,
@@ -57,6 +61,7 @@ export const useSettingStore = defineStore({
         tongyi: this.tongyi,
         tiangong: this.tiangong,
         youdao: this.youdao,
+        baiduTranslation: this.baiduTranslation,
         aiCalendar: this.aiCalendar
       })
     }
@@ -98,6 +103,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.youdao !== undefined) {
         this.youdao = settingBackup.youdao
+        importFlag = true
+      }
+      if (settingBackup.baiduTranslation !== undefined) {
+        this.baiduTranslation = settingBackup.baiduTranslation
         importFlag = true
       }
       if (settingBackup.aiCalendar !== undefined) {

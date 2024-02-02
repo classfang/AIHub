@@ -22,7 +22,7 @@ type PageName =
   | 'collect'
   | 'ai-app'
 type BigModelProvider = 'OpenAI' | 'Gemini' | 'Spark' | 'ERNIEBot' | 'Tongyi' | 'Tiangong'
-type TranslatorProvider = 'Youdao'
+type TranslatorProvider = 'youdao' | 'baiduTranslation'
 type AssistantType = 'chat' | 'drawing'
 type ChatMsgType = 'text' | 'img'
 type ChatRole = 'user' | 'assistant' | 'system'

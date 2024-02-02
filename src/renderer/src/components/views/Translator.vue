@@ -12,7 +12,7 @@ const settingStore = useSettingStore()
 const { t } = useI18n()
 
 const data = reactive({
-  provider: 'Youdao' as TranslatorProvider,
+  provider: 'youdao' as TranslatorProvider,
   queryType: 'auto',
   resultType: 'auto',
   query: '',
@@ -38,8 +38,13 @@ const { provider, query, queryType, resultType, translateResult, isLoading } = t
 const checkConfig = () => {
   let configMiss = false
   switch (data.provider) {
-    case 'Youdao':
+    case 'youdao':
       if (!settingStore.youdao.appId || !settingStore.youdao.secret) {
+        configMiss = true
+      }
+      break
+    case 'baiduTranslation':
+      if (!settingStore.baiduTranslation.appId || !settingStore.baiduTranslation.secret) {
         configMiss = true
       }
       break
@@ -67,8 +72,8 @@ const debounceQuery = debounce(() => {
     return
   }
   const option = {
-    appId: settingStore.youdao.appId,
-    secretKey: settingStore.youdao.secret,
+    appId: settingStore[data.provider].appId,
+    secretKey: settingStore[data.provider].secret,
     query: data.query,
     queryType: data.queryType,
     resultType: data.resultType,
@@ -137,7 +142,10 @@ const copyResult = (): void => {
       <div class="translator-header-title">{{ $t('translator.name') }}</div>
       <div class="translator-header-provider-select no-drag-area">
         <a-select v-model="provider" size="small">
-          <a-option value="Youdao">{{ $t('translationProvider.Youdao') }}</a-option>
+          <a-option value="youdao">{{ $t('translationProvider.youdao') }}</a-option>
+          <a-option value="baiduTranslation">{{
+            $t('translationProvider.baiduTranslation')
+          }}</a-option>
         </a-select>
       </div>
     </div>
