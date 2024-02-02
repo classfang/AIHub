@@ -13,7 +13,7 @@
 </h4>
 
 <h4 align="center">
-  🎉🎉🎉 Now supported: OpenAI, Google Gemini, iFLYTEK Spark, ERNIE Bot, Tongyi Qianwen，Tiangong
+  🎉🎉🎉 Now supported: OpenAI, Google Gemini, iFLYTEK Spark, Baidu ERNIE Bot, Alibaba Tongyi，Tiangong
 </h4>
 
 ## 🖥️ Function introduction
