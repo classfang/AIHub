@@ -27,7 +27,7 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "electron-store": "^8.1.0",
-    "langchain": "^0.1.12",
+    "langchain": "^0.1.13",
     "mammoth": "^1.6.0",
     "officeparser": "^4.0.6",
     "pdf-parse": "^1.1.1",
