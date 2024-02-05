@@ -28,14 +28,17 @@ body {
     font-size: 30px;
     font-weight: bold;
     opacity: 0;
-    animation: welcome-fade-in 1000ms 500ms;
+    animation: welcome-fade-in 2000ms 500ms;
   }
 
   @keyframes welcome-fade-in {
-    from {
+    0% {
       opacity: 0;
     }
-    to {
+    50% {
+      opacity: 1;
+    }
+    100% {
       opacity: 1;
     }
   }
