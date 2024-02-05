@@ -66,7 +66,8 @@ export const chat2openai = async (option: CommonChatOption) => {
                     description: param.description
                   }
                   return acc
-                }, {})
+                }, {}),
+                required: p.parameters.map((param) => param.name)
               }
             }
           }
@@ -94,7 +95,7 @@ export const chat2openai = async (option: CommonChatOption) => {
       const pluginResult = await executeJavaScript(
         `var params = ${pluginParams};${chatPlugins.find((p) => p.id === pluginId)?.code}`
       )
-      Logger.info('chat2openai: pluginResult =', pluginResult)
+      Logger.info('chat2openai pluginResult: ', pluginResult)
       // 插件回复
       chatMessages.push(pluginAnswer.choices[0].message)
       chatMessages.push({
