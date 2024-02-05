@@ -27,6 +27,17 @@ body {
     color: rgb(var(--primary-6));
     font-size: 30px;
     font-weight: bold;
+    opacity: 0;
+    animation: welcome-fade-in 1000ms 500ms;
+  }
+
+  @keyframes welcome-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 
