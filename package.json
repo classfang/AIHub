@@ -27,11 +27,11 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "electron-store": "^8.1.0",
-    "langchain": "^0.1.13",
+    "langchain": "^0.1.14",
     "mammoth": "^1.6.0",
     "officeparser": "^4.0.6",
     "pdf-parse": "^1.1.1",
-    "redis": "^4.6.12",
+    "redis": "^4.6.13",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^4.7.1"
   },
