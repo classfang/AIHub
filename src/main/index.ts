@@ -29,6 +29,7 @@ import type { BaseLanguageModelInterface } from '@langchain/core/language_models
 import { initLogger } from './logger'
 import { initStore } from './store'
 import * as vm from 'vm'
+import type { BaseRetrieverInterface } from '@langchain/core/retrievers'
 
 // 初始化仓库
 const store = initStore()
@@ -541,7 +542,7 @@ ipcMain.handle(
     })
     const chain = RetrievalQAChain.fromLLM(
       model as BaseLanguageModelInterface,
-      vectorStore.asRetriever()
+      vectorStore.asRetriever() as BaseRetrieverInterface
     )
 
     // 提问
