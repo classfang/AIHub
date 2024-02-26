@@ -26,6 +26,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "@langchain/redis": "^0.0.1",
     "electron-store": "^8.1.0",
     "langchain": "^0.1.21",
     "mammoth": "^1.7.0",
