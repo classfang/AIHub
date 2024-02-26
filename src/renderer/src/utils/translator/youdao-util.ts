@@ -1,7 +1,7 @@
-import { enc, SHA256 } from 'crypto-js'
-import axios from 'axios'
-import { CommonTranslateOption, TranslateResult } from '@renderer/utils/translator/index'
 import { Logger } from '@renderer/utils/logger'
+import { CommonTranslateOption, TranslateResult } from '@renderer/utils/translator/index'
+import axios from 'axios'
+import { enc, SHA256 } from 'crypto-js'
 
 export const youdaoTranslate = async (option: CommonTranslateOption) => {
   const { appId, secretKey, query, queryType, resultType, success, error } = option

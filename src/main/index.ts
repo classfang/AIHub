@@ -1,3 +1,13 @@
+import { appConfig, mainWindowConfig } from './config'
+import { getDockIcon, getDockIconArray } from './dock-icon'
+import { initLogger } from './logger'
+import { initStore } from './store'
+import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import type { BaseLanguageModelInterface } from '@langchain/core/language_models/base'
+import type { BaseRetrieverInterface } from '@langchain/core/retrievers'
+import { OpenAI, OpenAIEmbeddings } from '@langchain/openai'
+import { RedisVectorStore } from '@langchain/redis'
+import { RedisClientOptions } from '@redis/client/dist/lib/client'
 import {
   app,
   BrowserWindow,
@@ -8,28 +18,18 @@ import {
   nativeTheme,
   nativeImage
 } from 'electron'
-import { join } from 'path'
 import fs from 'fs'
-import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { appConfig, mainWindowConfig } from './config'
-import { clearInterval } from 'node:timers'
-import { createClient } from 'redis'
-import { RedisVectorStore } from '@langchain/redis'
-import { RedisClientOptions } from '@redis/client/dist/lib/client'
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-import { TextLoader } from 'langchain/document_loaders/fs/text'
-import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
-import { DocxLoader } from 'langchain/document_loaders/fs/docx'
-import { PPTXLoader } from 'langchain/document_loaders/fs/pptx'
-import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
-import { getDockIcon, getDockIconArray } from './dock-icon'
-import { OpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RetrievalQAChain } from 'langchain/chains'
-import type { BaseLanguageModelInterface } from '@langchain/core/language_models/base'
-import { initLogger } from './logger'
-import { initStore } from './store'
+import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
+import { DocxLoader } from 'langchain/document_loaders/fs/docx'
+import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
+import { PPTXLoader } from 'langchain/document_loaders/fs/pptx'
+import { TextLoader } from 'langchain/document_loaders/fs/text'
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { clearInterval } from 'node:timers'
+import { join } from 'path'
+import { createClient } from 'redis'
 import * as vm from 'vm'
-import type { BaseRetrieverInterface } from '@langchain/core/retrievers'
 
 // 初始化仓库
 const store = initStore()

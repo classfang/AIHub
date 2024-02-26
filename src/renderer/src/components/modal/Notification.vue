@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { reactive, toRefs, watch } from 'vue'
 import { useNotificationStore } from '@renderer/store/notification'
 import dayjs from 'dayjs'
+import { reactive, toRefs, watch } from 'vue'
 
 const notificationStore = useNotificationStore()
 

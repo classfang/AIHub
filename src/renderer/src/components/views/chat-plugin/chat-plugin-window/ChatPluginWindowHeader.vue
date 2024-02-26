@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Message, Modal } from '@arco-design/web-vue'
-import { copyObj } from '@renderer/utils/object-util'
-import { reactive, toRefs } from 'vue'
-import { nowTimestamp } from '@renderer/utils/date-util'
-import { useI18n } from 'vue-i18n'
-import { copyFields } from '@renderer/utils/object-util'
 import ChatPluginForm from '@renderer/components/views/chat-plugin/chat-plugin-list/ChatPluginForm.vue'
 import { useChatPluginStore } from '@renderer/store/chat-plugin'
+import { nowTimestamp } from '@renderer/utils/date-util'
+import { copyObj } from '@renderer/utils/object-util'
+import { copyFields } from '@renderer/utils/object-util'
+import { reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const chatPluginStore = useChatPluginStore()
 const { t } = useI18n()

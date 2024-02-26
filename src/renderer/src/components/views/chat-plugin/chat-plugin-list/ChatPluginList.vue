@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { onMounted, reactive, toRefs } from 'vue'
-import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { Message } from '@arco-design/web-vue'
-import { useI18n } from 'vue-i18n'
-import { copyObj } from '@renderer/utils/object-util'
+import ChatPluginForm from '@renderer/components/views/chat-plugin/chat-plugin-list/ChatPluginForm.vue'
+import ChatPluginItem from '@renderer/components/views/chat-plugin/chat-plugin-list/ChatPluginItem.vue'
+import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { randomUUID } from '@renderer/utils/id-util'
+import { copyObj } from '@renderer/utils/object-util'
+import { onMounted, reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 import draggable from 'vuedraggable'
-import ChatPluginItem from '@renderer/components/views/chat-plugin/chat-plugin-list/ChatPluginItem.vue'
-import ChatPluginForm from '@renderer/components/views/chat-plugin/chat-plugin-list/ChatPluginForm.vue'
 
 const chatPluginStore = useChatPluginStore()
 const { t } = useI18n()

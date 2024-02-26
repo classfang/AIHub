@@ -1,5 +1,5 @@
-import { youdaoTranslate } from '@renderer/utils/translator/youdao-util'
 import { baiduTranslate } from '@renderer/utils/translator/baidu-util'
+import { youdaoTranslate } from '@renderer/utils/translator/youdao-util'
 
 type TranslateFunctionMap = {
   [provider in TranslatorProvider]: (option: CommonTranslateOption) => Promise<any>

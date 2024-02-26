@@ -43,6 +43,7 @@
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@rushstack/eslint-patch": "^1.7.2",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/codemirror": "^5.60.15",
     "@types/crypto-js": "^4.2.2",
     "@types/markdown-it": "^13.0.7",

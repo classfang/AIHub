@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useUserStore } from '@renderer/store/user'
-import { useSystemStore } from '@renderer/store/system'
-import { reactive, toRefs } from 'vue'
 import { FileItem, RequestOption } from '@arco-design/web-vue'
+import { useSystemStore } from '@renderer/store/system'
+import { useUserStore } from '@renderer/store/user'
 import { randomUUID } from '@renderer/utils/id-util'
 import { saveFileByPath } from '@renderer/utils/ipc-util'
+import { reactive, toRefs } from 'vue'
 
 const userStore = useUserStore()
 const systemStore = useSystemStore()

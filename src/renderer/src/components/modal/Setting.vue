@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { useSettingStore } from '@renderer/store/setting'
-import { computed, onMounted, reactive, toRefs, watch } from 'vue'
-import { useSystemStore } from '@renderer/store/system'
+import { Message, Modal } from '@arco-design/web-vue'
+import chatModels from '@renderer/assets/json/chat-models.json'
 import { useAssistantStore } from '@renderer/store/assistant'
+import { useCalendarStore } from '@renderer/store/calendar'
+import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { useCollectionSetStore } from '@renderer/store/collection-set'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
-import { openInBrowser } from '@renderer/utils/window-util'
+import { useSettingStore } from '@renderer/store/setting'
+import { useSystemStore } from '@renderer/store/system'
+import { useUserStore } from '@renderer/store/user'
+import { formatDateTime } from '@renderer/utils/date-util'
+import { exportTextFile } from '@renderer/utils/download-util'
 import {
   openCacheDir,
   setProxy,
@@ -18,14 +23,9 @@ import {
   openDevTools,
   openLogDir
 } from '@renderer/utils/ipc-util'
-import { Message, Modal } from '@arco-design/web-vue'
+import { openInBrowser } from '@renderer/utils/window-util'
+import { computed, onMounted, reactive, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import chatModels from '@renderer/assets/json/chat-models.json'
-import { useUserStore } from '@renderer/store/user'
-import { exportTextFile } from '@renderer/utils/download-util'
-import { formatDateTime } from '@renderer/utils/date-util'
-import { useCalendarStore } from '@renderer/store/calendar'
-import { useChatPluginStore } from '@renderer/store/chat-plugin'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()

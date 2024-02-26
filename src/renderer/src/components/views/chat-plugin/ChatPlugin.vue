@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useChatPluginStore } from '@renderer/store/chat-plugin'
-import EmptyChatPluginWindow from '@renderer/components/views/chat-plugin/chat-plugin-window/EmptyChatPluginWindow.vue'
-import ChatPluginWindow from '@renderer/components/views/chat-plugin/chat-plugin-window/ChatPluginWindow.vue'
 import ChatPluginList from '@renderer/components/views/chat-plugin/chat-plugin-list/ChatPluginList.vue'
+import ChatPluginWindow from '@renderer/components/views/chat-plugin/chat-plugin-window/ChatPluginWindow.vue'
+import EmptyChatPluginWindow from '@renderer/components/views/chat-plugin/chat-plugin-window/EmptyChatPluginWindow.vue'
+import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { ref } from 'vue'
 
 const chatPluginStore = useChatPluginStore()

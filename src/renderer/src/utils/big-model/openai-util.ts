@@ -1,10 +1,10 @@
-import OpenAI from 'openai'
-import { executeJavaScript, readLocalImageBase64, saveFileByUrl } from '@renderer/utils/ipc-util'
-import { randomUUID } from '@renderer/utils/id-util'
 import { CommonChatOption } from '.'
-import { ChatCompletionMessageParam } from 'openai/resources/chat'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { randomUUID } from '@renderer/utils/id-util'
+import { executeJavaScript, readLocalImageBase64, saveFileByUrl } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
+import OpenAI from 'openai'
+import { ChatCompletionMessageParam } from 'openai/resources/chat'
 import { ChatCompletion } from 'openai/src/resources/chat/completions'
 
 export const chat2openai = async (option: CommonChatOption) => {

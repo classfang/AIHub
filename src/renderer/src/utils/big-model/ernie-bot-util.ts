@@ -1,5 +1,5 @@
-import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { CommonChatOption } from '.'
+import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { Logger } from '@renderer/utils/logger'
 

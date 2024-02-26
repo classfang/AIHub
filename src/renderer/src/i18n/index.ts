@@ -1,6 +1,6 @@
-import { createI18n } from 'vue-i18n'
 import en_US from '@renderer/i18n/local/en_US.json'
 import zh_CN from '@renderer/i18n/local/zh_CN.json'
+import { createI18n } from 'vue-i18n'
 
 const messages = {
   en_US,

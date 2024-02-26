@@ -1,9 +1,9 @@
-import CryptoJS from 'crypto-js'
 import { CommonChatOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
-import { Logger } from '@renderer/utils/logger'
-import { readLocalImageBase64, saveFileByBase64 } from '@renderer/utils/ipc-util'
 import { randomUUID } from '@renderer/utils/id-util'
+import { readLocalImageBase64, saveFileByBase64 } from '@renderer/utils/ipc-util'
+import { Logger } from '@renderer/utils/logger'
+import CryptoJS from 'crypto-js'
 
 // 获取星火服务地址
 const getSparkHostUrl = (model: string) => {

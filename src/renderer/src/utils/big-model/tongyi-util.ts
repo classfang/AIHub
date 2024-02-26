@@ -1,8 +1,8 @@
-import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { CommonChatOption } from '.'
-import { saveFileByUrl } from '@renderer/utils/ipc-util'
-import { randomUUID } from '@renderer/utils/id-util'
+import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { randomUUID } from '@renderer/utils/id-util'
+import { saveFileByUrl } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 
 // 根据模型获取服务地址

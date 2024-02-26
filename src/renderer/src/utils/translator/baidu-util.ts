@@ -1,7 +1,7 @@
-import { CommonTranslateOption, TranslateResult } from '@renderer/utils/translator/index'
 import { Logger } from '@renderer/utils/logger'
-import { MD5 } from 'crypto-js'
+import { CommonTranslateOption, TranslateResult } from '@renderer/utils/translator/index'
 import axios from 'axios'
+import { MD5 } from 'crypto-js'
 
 export const baiduTranslate = async (option: CommonTranslateOption) => {
   const { appId, secretKey, query, queryType, resultType, success, error } = option

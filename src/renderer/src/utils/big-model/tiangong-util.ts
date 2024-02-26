@@ -1,7 +1,7 @@
 import { CommonChatOption } from '.'
+import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { Logger } from '@renderer/utils/logger'
 import CryptoJS from 'crypto-js'
-import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 
 export const chat2tiangong = async (option: CommonChatOption) => {
   const {

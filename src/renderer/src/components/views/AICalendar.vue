@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { reactive, toRefs } from 'vue'
-import { useSettingStore } from '@renderer/store/setting'
+import { Message, Modal } from '@arco-design/web-vue'
 import { useCalendarStore } from '@renderer/store/calendar'
-import { randomUUID } from '@renderer/utils/id-util'
+import { useSettingStore } from '@renderer/store/setting'
+import { useSystemStore } from '@renderer/store/system'
+import { chat2bigModel, CommonChatOption } from '@renderer/utils/big-model'
 import { nowTimestamp } from '@renderer/utils/date-util'
+import { randomUUID } from '@renderer/utils/id-util'
 import { copyObj } from '@renderer/utils/object-util'
 import dayjs from 'dayjs'
-import { useSystemStore } from '@renderer/store/system'
+import { reactive, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Message, Modal } from '@arco-design/web-vue'
-import { chat2bigModel, CommonChatOption } from '@renderer/utils/big-model'
 
 // Store
 const settingStore = useSettingStore()

@@ -1,9 +1,9 @@
-import { chat2openai } from '@renderer/utils/big-model/openai-util'
-import { chat2gemini } from '@renderer/utils/big-model/gemini-util'
-import { chat2spark } from '@renderer/utils/big-model/spark-util'
 import { chat2ernieBot } from '@renderer/utils/big-model/ernie-bot-util'
-import { chat2tongyi } from '@renderer/utils/big-model/tongyi-util'
+import { chat2gemini } from '@renderer/utils/big-model/gemini-util'
+import { chat2openai } from '@renderer/utils/big-model/openai-util'
+import { chat2spark } from '@renderer/utils/big-model/spark-util'
 import { chat2tiangong } from '@renderer/utils/big-model/tiangong-util'
+import { chat2tongyi } from '@renderer/utils/big-model/tongyi-util'
 
 type ChatFunctionMap = {
   [provider in BigModelProvider]: (option: CommonChatOption) => Promise<any>

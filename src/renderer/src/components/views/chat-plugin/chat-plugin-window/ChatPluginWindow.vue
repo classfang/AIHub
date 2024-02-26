@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import ChatPluginWindowHeader from '@renderer/components/views/chat-plugin/chat-plugin-window/ChatPluginWindowHeader.vue'
 import { useChatPluginStore } from '@renderer/store/chat-plugin'
+import { randomUUID } from '@renderer/utils/id-util'
 import { executeJavaScript } from '@renderer/utils/ipc-util'
-import { reactive, toRefs } from 'vue'
 import Codemirror from 'codemirror-editor-vue3'
-// Codemirror language
-import 'codemirror/mode/javascript/javascript.js'
 // Codemirror placeholder
 import 'codemirror/addon/display/placeholder.js'
+// Codemirror language
+import 'codemirror/mode/javascript/javascript.js'
 // Codemirror theme
 import 'codemirror/theme/dracula.css'
-import { randomUUID } from '@renderer/utils/id-util'
+import { reactive, toRefs } from 'vue'
 
 // store
 const chatPluginStore = useChatPluginStore()

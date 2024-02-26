@@ -1,7 +1,7 @@
-import { CommonChatOption } from '@renderer/utils/big-model/index'
-import { readLocalImageBase64 } from '@renderer/utils/ipc-util'
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { CommonChatOption } from '@renderer/utils/big-model/index'
+import { readLocalImageBase64 } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 
 export const chat2gemini = async (option: CommonChatOption) => {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useSettingStore } from '@renderer/store/setting'
-import { useI18n } from 'vue-i18n'
-import { reactive, toRefs } from 'vue'
 import { Message, Modal } from '@arco-design/web-vue'
+import { useSettingStore } from '@renderer/store/setting'
+import { useSystemStore } from '@renderer/store/system'
 import { debounce } from '@renderer/utils/debounce-util'
 import { translate, TranslateResult } from '@renderer/utils/translator'
-import { useSystemStore } from '@renderer/store/system'
+import { reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const systemStore = useSystemStore()
 const settingStore = useSettingStore()

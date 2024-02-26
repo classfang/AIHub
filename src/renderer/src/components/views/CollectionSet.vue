@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { useCollectionSetStore } from '@renderer/store/collection-set'
-import { computed, reactive, toRefs } from 'vue'
-import { formatDateTime } from '@renderer/utils/date-util'
 import { Modal } from '@arco-design/web-vue'
-import { useI18n } from 'vue-i18n'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
-import ChatWindowHeader from '@renderer/components/views/chat2assistant/chat-window/ChatWindowHeader.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
-import { downloadFile } from '@renderer/utils/download-util'
-import { renderMarkdown } from '@renderer/utils/markdown-util'
+import ChatWindowHeader from '@renderer/components/views/chat2assistant/chat-window/ChatWindowHeader.vue'
+import { useCollectionSetStore } from '@renderer/store/collection-set'
+import { formatDateTime } from '@renderer/utils/date-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
+import { downloadFile } from '@renderer/utils/download-util'
 import { exportTextFile } from '@renderer/utils/download-util'
+import { renderMarkdown } from '@renderer/utils/markdown-util'
+import { computed, reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const collectionSetStore = useCollectionSetStore()
 const { t } = useI18n()

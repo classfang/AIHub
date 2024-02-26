@@ -1,8 +1,8 @@
+import { ipcMain } from 'electron'
+import fs from 'fs'
+import { join } from 'path'
 import winston, { LogEntry } from 'winston'
 import DailyRotateFile from 'winston-daily-rotate-file'
-import { ipcMain } from 'electron'
-import { join } from 'path'
-import fs from 'fs'
 
 // 初始化日志记录器
 export const initLogger = (logsPath: string) => {
