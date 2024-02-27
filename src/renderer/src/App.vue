@@ -206,13 +206,13 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 30px;
     box-sizing: border-box;
     padding: 15px;
     background-color: var(--color-fill-2);
 
     .app-sidebar-avatar {
       margin-top: 30px;
-      margin-bottom: 15px;
     }
 
     .app-sidebar-item {
@@ -220,7 +220,6 @@ onMounted(() => {
       stroke-width: 3;
       color: var(--color-text-2);
       transition: all 200ms;
-      padding: 15px 0;
 
       &:hover {
         stroke-width: 4;
