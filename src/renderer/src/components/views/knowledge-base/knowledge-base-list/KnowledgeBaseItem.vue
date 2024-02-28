@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useSystemStore } from '@renderer/store/system'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
+import { useSystemStore } from '@renderer/store/system'
 
 const systemStore = useSystemStore()
 const knowledgeBaseStore = useKnowledgeBaseStore()

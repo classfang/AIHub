@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, reactive, toRefs } from 'vue'
-import { useAssistantStore } from '@renderer/store/assistant'
 import { Message } from '@arco-design/web-vue'
-import { useI18n } from 'vue-i18n'
-import { copyObj } from '@renderer/utils/object-util'
-import AssistantItem from '@renderer/components/views/chat2assistant/assistant-list/AssistantItem.vue'
 import AssistantForm from '@renderer/components/views/chat2assistant/assistant-list/AssistantForm.vue'
+import AssistantItem from '@renderer/components/views/chat2assistant/assistant-list/AssistantItem.vue'
+import { useAssistantStore } from '@renderer/store/assistant'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { randomUUID } from '@renderer/utils/id-util'
+import { copyObj } from '@renderer/utils/object-util'
+import { onMounted, reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 import draggable from 'vuedraggable'
 
 const assistantStore = useAssistantStore()

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { onMounted, reactive, toRefs } from 'vue'
-import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import { Message } from '@arco-design/web-vue'
-import { useI18n } from 'vue-i18n'
-import { copyObj } from '@renderer/utils/object-util'
+import KnowledgeBaseForm from '@renderer/components/views/knowledge-base/knowledge-base-list/KnowledgeBaseForm.vue'
+import KnowledgeBaseItem from '@renderer/components/views/knowledge-base/knowledge-base-list/KnowledgeBaseItem.vue'
+import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { randomUUID } from '@renderer/utils/id-util'
+import { copyObj } from '@renderer/utils/object-util'
+import { onMounted, reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 import draggable from 'vuedraggable'
-import KnowledgeBaseItem from '@renderer/components/views/knowledge-base/knowledge-base-list/KnowledgeBaseItem.vue'
-import KnowledgeBaseForm from '@renderer/components/views/knowledge-base/knowledge-base-list/KnowledgeBaseForm.vue'
 
 const knowledgeBaseStore = useKnowledgeBaseStore()
 const { t } = useI18n()

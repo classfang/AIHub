@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { watch } from 'vue'
 import chatModels from '@renderer/assets/json/chat-models.json'
 import drawingModels from '@renderer/assets/json/drawing-models.json'
+import { watch } from 'vue'
 
 defineProps({
   typeChange: {

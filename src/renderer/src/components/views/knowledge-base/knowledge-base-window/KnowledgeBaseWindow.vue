@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { reactive, toRefs, watchEffect } from 'vue'
-import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
-import KnowledgeBaseWindowHeader from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindowHeader.vue'
-import { useSystemStore } from '@renderer/store/system'
 import { Message, Modal, RequestOption } from '@arco-design/web-vue'
-import { useI18n } from 'vue-i18n'
+import KnowledgeBaseWindowHeader from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindowHeader.vue'
+import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
+import { useSettingStore } from '@renderer/store/setting'
+import { useSystemStore } from '@renderer/store/system'
 import { exportTextFile } from '@renderer/utils/download-util'
 import {
   langChainLoadFile,
@@ -13,8 +12,9 @@ import {
   langChainRedisListFile,
   langChainRedisQuestion
 } from '@renderer/utils/ipc-util'
-import { useSettingStore } from '@renderer/store/setting'
 import dayjs from 'dayjs'
+import { reactive, toRefs, watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 // store
 const systemStore = useSystemStore()

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
+import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { useSystemStore } from '@renderer/store/system'
 import dayjs from 'dayjs'
-import { useChatPluginStore } from '@renderer/store/chat-plugin'
 
 const systemStore = useSystemStore()
 const assistantStore = useAssistantStore()

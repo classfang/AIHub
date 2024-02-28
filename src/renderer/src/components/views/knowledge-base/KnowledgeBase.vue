@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
+import KnowledgeBaseList from '@renderer/components/views/knowledge-base/knowledge-base-list/KnowledgeBaseList.vue'
 import EmptyKnowledgeBaseWindow from '@renderer/components/views/knowledge-base/knowledge-base-window/EmptyKnowledgeBaseWindow.vue'
 import KnowledgeBaseWindow from '@renderer/components/views/knowledge-base/knowledge-base-window/KnowledgeBaseWindow.vue'
-import KnowledgeBaseList from '@renderer/components/views/knowledge-base/knowledge-base-list/KnowledgeBaseList.vue'
+import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import { ref } from 'vue'
 
 const knowledgeBaseStore = useKnowledgeBaseStore()

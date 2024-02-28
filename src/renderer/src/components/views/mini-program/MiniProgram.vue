@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
-import { openInBrowser } from '@renderer/utils/window-util'
+import miniProgramJsonData from '@renderer/assets/json/mini-program.json'
 import MyWebView from '@renderer/components/views/mini-program/MyWebView.vue'
 import { useSettingStore } from '@renderer/store/setting'
+import { openInBrowser } from '@renderer/utils/window-util'
 import axios from 'axios'
-import miniProgramJsonData from '@renderer/assets/json/mini-program.json'
+import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
 
 // store
 const settingStore = useSettingStore()

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Message, Modal } from '@arco-design/web-vue'
-import { copyObj } from '@renderer/utils/object-util'
-import { reactive, toRefs } from 'vue'
-import { nowTimestamp } from '@renderer/utils/date-util'
-import { useI18n } from 'vue-i18n'
-import { useSystemStore } from '@renderer/store/system'
-import { copyFields } from '@renderer/utils/object-util'
 import KnowledgeBaseForm from '@renderer/components/views/knowledge-base/knowledge-base-list/KnowledgeBaseForm.vue'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
+import { useSystemStore } from '@renderer/store/system'
+import { nowTimestamp } from '@renderer/utils/date-util'
+import { copyObj } from '@renderer/utils/object-util'
+import { copyFields } from '@renderer/utils/object-util'
+import { reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const knowledgeBaseStore = useKnowledgeBaseStore()
 const systemStore = useSystemStore()

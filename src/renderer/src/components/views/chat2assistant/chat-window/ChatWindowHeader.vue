@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Message, Modal } from '@arco-design/web-vue'
-import { copyObj } from '@renderer/utils/object-util'
-import { reactive, toRefs } from 'vue'
+import AssistantForm from '@renderer/components/views/chat2assistant/assistant-list/AssistantForm.vue'
+import { useAssistantStore } from '@renderer/store/assistant'
+import { useSystemStore } from '@renderer/store/system'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { exportTextFile } from '@renderer/utils/download-util'
-import { useI18n } from 'vue-i18n'
-import { useSystemStore } from '@renderer/store/system'
+import { copyObj } from '@renderer/utils/object-util'
 import { copyFields } from '@renderer/utils/object-util'
-import { useAssistantStore } from '@renderer/store/assistant'
-import AssistantForm from '@renderer/components/views/chat2assistant/assistant-list/AssistantForm.vue'
+import { reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const assistantStore = useAssistantStore()
 const systemStore = useSystemStore()

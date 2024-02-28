@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { reactive, ref, toRefs } from 'vue'
 import { Logger } from '@renderer/utils/logger'
+import { reactive, ref, toRefs } from 'vue'
 
 const webviewRef = ref()
 
