@@ -39,10 +39,12 @@ onMounted(() => {
 
 <template>
   <div class="chat-assistant">
-    <div v-if="!isLeftClose" class="chat-assistant-left">
-      <!-- 助手列表 -->
-      <AssistantList class="assistant-list" />
-    </div>
+    <transition name="chat-assistant-left-transition">
+      <div v-if="!isLeftClose" class="chat-assistant-left">
+        <!-- 助手列表 -->
+        <AssistantList class="assistant-list" />
+      </div>
+    </transition>
     <div ref="chatAssistantRightRef" class="chat-assistant-right">
       <!-- 隐藏/显示左边栏按钮 -->
       <transition name="fadein">
@@ -50,7 +52,7 @@ onMounted(() => {
           v-if="isLeftCloseBtnShow"
           shape="circle"
           class="chat-assistant-left-close-btn"
-          size="mini"
+          size="small"
           @click="isLeftClose = !isLeftClose"
         >
           <icon-right v-if="isLeftClose" />
@@ -76,10 +78,24 @@ onMounted(() => {
   display: flex;
   overflow: hidden;
 
+  .chat-assistant-left-transition-enter-active,
+  .chat-assistant-left-transition-leave-active {
+    transition: width 500ms;
+  }
+  .chat-assistant-left-transition-enter-from,
+  .chat-assistant-left-transition-leave-to {
+    width: 0;
+  }
+  .chat-assistant-left-transition-enter-to,
+  .chat-assistant-left-transition-leave-from {
+    width: 270px;
+  }
+
   .chat-assistant-left {
     flex-shrink: 0;
-    width: 270px;
+    max-width: 270px;
     height: 100%;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--color-border-1);
