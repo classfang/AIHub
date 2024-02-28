@@ -3,8 +3,6 @@ import { getDockIcon, getDockIconArray } from './dock-icon'
 import { initLogger } from './logger'
 import { initStore } from './store'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import type { BaseLanguageModelInterface } from '@langchain/core/language_models/base'
-import type { BaseRetrieverInterface } from '@langchain/core/retrievers'
 import { OpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RedisVectorStore } from '@langchain/redis'
 import { RedisClientOptions } from '@redis/client/dist/lib/client'
@@ -540,10 +538,8 @@ ipcMain.handle(
         baseURL: openaiConfig.baseUrl
       }
     })
-    const chain = RetrievalQAChain.fromLLM(
-      model as BaseLanguageModelInterface,
-      vectorStore.asRetriever() as BaseRetrieverInterface
-    )
+    // @ts-ignore
+    const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever())
 
     // 提问
     const response = await chain.invoke({
