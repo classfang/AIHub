@@ -1,7 +1,7 @@
 {
   "name": "aihub",
   "version": "1.3.5",
-  "description": "A collection of AI capabilities Electron client",
+  "description": "An Electron application for AI",
   "main": "./out/main/index.js",
   "author": "junki.cn",
   "homepage": "https://junki.cn",
