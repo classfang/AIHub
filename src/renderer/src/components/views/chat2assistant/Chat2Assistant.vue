@@ -28,7 +28,11 @@ onMounted(() => {
     const x = event.clientX - chatAssistantRightRef.value.getBoundingClientRect().left
 
     // 判断鼠标是否接近左边框
-    data.isLeftCloseBtnShow = x < 20
+    if (x < 20) {
+      data.isLeftCloseBtnShow = true
+    } else if (x > 40) {
+      data.isLeftCloseBtnShow = false
+    }
   })
 })
 </script>
