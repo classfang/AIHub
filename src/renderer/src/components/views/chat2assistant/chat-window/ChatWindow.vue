@@ -500,7 +500,7 @@ onMounted(() => {
       :class="{ 'fade-in-to': isLoad }"
       class="fade-in-from"
       outer-class="chat-message-list-container arco-scrollbar-small"
-      style="height: calc(100vh - 150px - 55px); overflow-y: auto"
+      style="height: calc(100vh - 127px - 55px); overflow-y: auto"
       @scroll="onChatMessageListScroll"
     >
       <div class="chat-message-list">
@@ -612,8 +612,8 @@ onMounted(() => {
         class="chat-input-textarea"
         :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
         :auto-size="{
-          minRows: 4,
-          maxRows: 4
+          minRows: 3,
+          maxRows: 3
         }"
         allow-clear
         @keydown.enter="sendQuestion"
