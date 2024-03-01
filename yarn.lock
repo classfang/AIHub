@@ -42,10 +42,10 @@
   dependencies:
     color "^3.1.3"
 
-"@arco-design/web-vue@^2.54.5":
-  version "2.54.5"
-  resolved "https://registry.npmmirror.com/@arco-design/web-vue/-/web-vue-2.54.5.tgz#35f5415a06731ef40217776ac7844bfd1e22361c"
-  integrity sha512-b0sOww6qWne1s74kBURqFmi8BuNl7D1RokLwKx76GP8UQTUM6soYqdCbXDY3DWHy28MC5aHsz+BF0GJUCmhlcA==
+"@arco-design/web-vue@^2.54.6":
+  version "2.54.6"
+  resolved "https://registry.npmmirror.com/@arco-design/web-vue/-/web-vue-2.54.6.tgz#9064e28dd006889901a3cd60b5e56618299ca348"
+  integrity sha512-Qx+HHL5G5gIvrbxGC6ZF/L8ACD1L/RkPJd9e4SR+vI6lEg+nGlUBplkR4pY7e7mqYXY2H6uzh+radT+QxXKVRg==
   dependencies:
     "@arco-design/color" "^0.4.0"
     b-tween "^0.3.3"
@@ -568,26 +568,26 @@
   resolved "https://registry.npmmirror.com/@humanwhocodes/object-schema/-/object-schema-2.0.2.tgz#d9fae00a2d5cb40f92cfe64b47ad749fbc38f917"
   integrity sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==
 
-"@intlify/core-base@9.9.1":
-  version "9.9.1"
-  resolved "https://registry.npmmirror.com/@intlify/core-base/-/core-base-9.9.1.tgz#97ff0a98bf416c3f895e2a4fbcb0da353326b71a"
-  integrity sha512-qsV15dg7jNX2faBRyKMgZS8UcFJViWEUPLdzZ9UR0kQZpFVeIpc0AG7ZOfeP7pX2T9SQ5jSiorq/tii9nkkafA==
+"@intlify/core-base@9.10.1":
+  version "9.10.1"
+  resolved "https://registry.npmmirror.com/@intlify/core-base/-/core-base-9.10.1.tgz#e61d507d35beb0c69f9c94566313f9520c25a84a"
+  integrity sha512-0+Wtjj04GIyglh5KKiNjRwgjpHrhqqGZhaKY/QVjjogWKZq5WHROrTi84pNVsRN18QynyPmjtsVUWqFKPQ45xQ==
   dependencies:
-    "@intlify/message-compiler" "9.9.1"
-    "@intlify/shared" "9.9.1"
+    "@intlify/message-compiler" "9.10.1"
+    "@intlify/shared" "9.10.1"
 
-"@intlify/message-compiler@9.9.1":
-  version "9.9.1"
-  resolved "https://registry.npmmirror.com/@intlify/message-compiler/-/message-compiler-9.9.1.tgz#4cd9c5a408be27784928e4cd57a77ea6ddb17e56"
-  integrity sha512-zTvP6X6HeumHOXuAE1CMMsV6tTX+opKMOxO1OHTCg5N5Sm/F7d8o2jdT6W6L5oHUsJ/vvkGefHIs7Q3hfowmsA==
+"@intlify/message-compiler@9.10.1":
+  version "9.10.1"
+  resolved "https://registry.npmmirror.com/@intlify/message-compiler/-/message-compiler-9.10.1.tgz#d70c9ec211dab67d50a42ad1fb782c0e02f89c42"
+  integrity sha512-b68UTmRhgZfswJZI7VAgW6BXZK5JOpoi5swMLGr4j6ss2XbFY13kiw+Hu+xYAfulMPSapcHzdWHnq21VGnMCnA==
   dependencies:
-    "@intlify/shared" "9.9.1"
+    "@intlify/shared" "9.10.1"
     source-map-js "^1.0.2"
 
-"@intlify/shared@9.9.1":
-  version "9.9.1"
-  resolved "https://registry.npmmirror.com/@intlify/shared/-/shared-9.9.1.tgz#b602d012b35f6c336b29a8098296dfac96a005f5"
-  integrity sha512-b3Pta1nwkz5rGq434v0psHwEwHGy1pYCttfcM22IE//K9owbpkEvFptx9VcuRAxjQdrO2If249cmDDjBu5wMDA==
+"@intlify/shared@9.10.1":
+  version "9.10.1"
+  resolved "https://registry.npmmirror.com/@intlify/shared/-/shared-9.10.1.tgz#024ad6dd4ee9581962437570b3dc25516c82f4e9"
+  integrity sha512-liyH3UMoglHBUn70iCYcy9CQlInx/lp50W2aeSxqqrvmG+LDj/Jj7tBJhBoQL4fECkldGhbmW0g2ommHfL6Wmw==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -992,10 +992,10 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@^20.11.22":
-  version "20.11.22"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-20.11.22.tgz#9a192c3d7e7e71fa3a4b15032654f64643815cd6"
-  integrity sha512-/G+IxWxma6V3E+pqK1tSl2Fo1kl41pK1yeCyDsgkF9WlVAme4j5ISYM2zR11bgLFJGLN5sVK40T4RJNuiZbEjA==
+"@types/node@^20.11.24":
+  version "20.11.24"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-20.11.24.tgz#cc207511104694e84e9fb17f9a0c4c42d4517792"
+  integrity sha512-Kza43ewS3xoLgCEpQrsT+xRo/EJej1y0kVYGiLFE1NEODXGzTfwiC6tXTLMQskn1X4/Rjlh0MQUvx9W+L9long==
   dependencies:
     undici-types "~5.26.4"
 
@@ -5157,13 +5157,13 @@ vue-eslint-parser@^9.4.2:
     lodash "^4.17.21"
     semver "^7.3.6"
 
-vue-i18n@^9.9.1:
-  version "9.9.1"
-  resolved "https://registry.npmmirror.com/vue-i18n/-/vue-i18n-9.9.1.tgz#3c2fdf3c9db430572a1246439d541d01e2795c06"
-  integrity sha512-xyQ4VspLdNSPTKBFBPWa1tvtj+9HuockZwgFeD2OhxxXuC2CWeNvV4seu2o9+vbQOyQbhAM5Ez56oxUrrnTWdw==
+vue-i18n@^9.10.1:
+  version "9.10.1"
+  resolved "https://registry.npmmirror.com/vue-i18n/-/vue-i18n-9.10.1.tgz#b3244233da31a55a07a2ae72cdddab7296bca814"
+  integrity sha512-37HVJQZ/pZaRXGzFmmMomM1u1k7kndv3xCBPYHKEVfv5W3UVK67U/TpBug71ILYLNmjHLHdvTUPRF81pFT5fFg==
   dependencies:
-    "@intlify/core-base" "9.9.1"
-    "@intlify/shared" "9.9.1"
+    "@intlify/core-base" "9.10.1"
+    "@intlify/shared" "9.10.1"
     "@vue/devtools-api" "^6.5.0"
 
 vue-template-compiler@^2.7.14:
