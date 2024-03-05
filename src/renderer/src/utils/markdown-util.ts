@@ -1,15 +1,17 @@
-import MarkdownIt from 'markdown-it'
-import markdownItMathjax3 from 'markdown-it-mathjax3'
-import hljs from 'highlight.js'
-import ClipboardJS from 'clipboard'
-import 'highlight.js/scss/github-dark.scss'
-import '@renderer/assets/css/markdown-code.less'
 import { Message } from '@arco-design/web-vue'
+import '@renderer/assets/css/markdown-code.less'
 import i18n from '@renderer/i18n'
 import { textToBase64, base64ToText } from '@renderer/utils/base64-util'
+import ClipboardJS from 'clipboard'
+import hljs from 'highlight.js'
+import 'highlight.js/scss/github-dark.scss'
+import MarkdownIt from 'markdown-it'
+import markdownItMathjax3 from 'markdown-it-mathjax3'
 
+// 多语言
 const { t } = i18n.global
 
+// 代码复制
 const clipboard = new ClipboardJS('.code-header-copy', {
   text: function (trigger) {
     const base64Str = trigger.getAttribute('data-clipboard-text-base64')
@@ -20,6 +22,7 @@ clipboard.on('success', () => {
   Message.success(t('common.copySuccess'))
 })
 
+// MarkdownIt
 const markdown = new MarkdownIt({
   highlight: (str: string, lang: string) => {
     if (!lang) {
@@ -43,6 +46,7 @@ const markdown = new MarkdownIt({
 // 支持数学公式，svg渲染，无需引入额外样式
 markdown.use(markdownItMathjax3)
 
+// 渲染函数
 export const renderMarkdown = (content: string, isLoading: boolean) => {
   if (!isLoading) {
     return markdown.render(content)
