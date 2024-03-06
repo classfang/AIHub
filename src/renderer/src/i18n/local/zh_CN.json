@@ -210,6 +210,7 @@
     "multipleChoice": "多选",
     "selectSuccess": "已添加至收藏夹",
     "inputTokensLimit": "输入Token数超限制",
+    "contextSizeDown": "受最大输入Token数限制，上下文条数已自动调整为",
     "configMiss": {
       "OpenAI": "OpenAI未配置",
       "Gemini": "Gemini未配置",

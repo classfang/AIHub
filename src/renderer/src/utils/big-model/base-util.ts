@@ -1,4 +1,9 @@
+import { Message } from '@arco-design/web-vue'
+import i18n from '@renderer/i18n'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
+
+// 多语言
+const { t } = i18n.global
 
 export const turnChat = (chatMessageList: ChatMessage[]) => {
   // 将消息历史处理为user和assistant轮流对话
@@ -24,6 +29,9 @@ export const limitContext = (
   contextSize: number,
   messages: BaseMessage[]
 ) => {
+  // 实际消息列表长度
+  const originalLength = messages.length
+
   // 截取指定长度的上下文
   messages = messages.slice(-1 - contextSize)
 
@@ -34,6 +42,12 @@ export const limitContext = (
     getChatTokensLength(messages) > inputMaxTokens
   ) {
     messages.shift()
+  }
+
+  // 受Token限制，自动减小了上下文长度，提示用户
+  const currentLength = messages.length
+  if (originalLength >= contextSize && currentLength < contextSize) {
+    Message.info(`${t('chatWindow.contextSizeDown')} ${currentLength}`)
   }
 
   return messages

@@ -210,6 +210,7 @@
     "multipleChoice": "Multiple choice",
     "selectSuccess": "Added to favorites",
     "inputTokensLimit": "Input tokens limit",
+    "contextSizeDown": "Subject to the maximum input Token, the number of context items is automatically adjusted to",
     "configMiss": {
       "OpenAI": "OpenAI is not configured",
       "Gemini": "Gemini is not configured",
