@@ -6,11 +6,25 @@ export const useNotificationStore = defineStore({
     notifications: [] as AppNotification[]
   }),
   actions: {
-    error(errMsg: string) {
+    info(msg: string) {
+      this.notifications.unshift({
+        type: 'info',
+        createTime: new Date().getTime(),
+        content: msg
+      })
+    },
+    warn(msg: string) {
+      this.notifications.unshift({
+        type: 'warn',
+        createTime: new Date().getTime(),
+        content: msg
+      })
+    },
+    error(msg: string) {
       this.notifications.unshift({
         type: 'error',
         createTime: new Date().getTime(),
-        content: errMsg
+        content: msg
       })
     }
   },

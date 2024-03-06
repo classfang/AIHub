@@ -30,7 +30,7 @@ watch(
 <template>
   <div class="setting">
     <div @click="openModal()">
-      <a-badge :count="isRead ? 0 : 1" dot :dot-style="{ width: '10px', height: '10px' }">
+      <a-badge :count="isRead ? 0 : 1" dot :dot-style="{ width: '6px', height: '6px' }">
         <slot name="default"></slot>
       </a-badge>
     </div>

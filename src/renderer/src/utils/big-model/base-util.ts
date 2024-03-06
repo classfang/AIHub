@@ -1,5 +1,6 @@
 import { Message } from '@arco-design/web-vue'
 import i18n from '@renderer/i18n'
+import { useNotificationStore } from '@renderer/store/notification'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 
 // 多语言
@@ -47,7 +48,9 @@ export const limitContext = (
   // 受Token限制，自动减小了上下文长度，提示用户
   const currentLength = messages.length
   if (originalLength >= contextSize && currentLength < contextSize) {
-    Message.info(`${t('chatWindow.contextSizeDown')} ${currentLength}`)
+    const msg = `${t('chatWindow.contextSizeDown')} ${currentLength}`
+    Message.info(msg)
+    useNotificationStore().info(msg)
   }
 
   return messages
