@@ -131,7 +131,7 @@ const sendQuestion = async (event?: KeyboardEvent) => {
 
   // 大模型调用
   try {
-    await useBigModel(data.currentSessionId)
+    await useBigModel()
   } catch (e: any) {
     Logger.error('big model error: ', e?.message)
     const errMsg = e ? e + '' : t(`chatWindow.error.${data.currentAssistant.provider}`)
@@ -143,7 +143,7 @@ const sendQuestion = async (event?: KeyboardEvent) => {
 }
 
 // 使用大模型
-const useBigModel = async (currentSessionId: string) => {
+const useBigModel = async () => {
   // 检查大模型配置
   let configErrorFlag = false
   switch (data.currentAssistant.provider) {
@@ -234,7 +234,7 @@ const useBigModel = async (currentSessionId: string) => {
 
   // 大模型通用选项
   const chat2bigModelOption: CommonChatOption = {
-    sessionId: currentSessionId,
+    sessionId: data.currentSessionId,
     model: data.currentAssistant.model,
     instruction: data.currentAssistant.instruction,
     inputMaxTokens: data.currentAssistant.inputMaxTokens,
@@ -242,7 +242,7 @@ const useBigModel = async (currentSessionId: string) => {
     contextSize: data.currentAssistant.contextSize,
     messages: data.currentAssistant.chatMessageList,
     startAnswer: (sessionId: string, content?: string) => {
-      if (currentSessionId != sessionId) {
+      if (data.currentSessionId != sessionId) {
         return
       }
       data.currentAssistant.chatMessageList.push({
@@ -256,7 +256,7 @@ const useBigModel = async (currentSessionId: string) => {
       data.waitAnswer = false
     },
     appendAnswer: (sessionId: string, content: string) => {
-      if (currentSessionId != sessionId) {
+      if (data.currentSessionId != sessionId) {
         return
       }
       data.currentAssistant.chatMessageList[
@@ -265,7 +265,7 @@ const useBigModel = async (currentSessionId: string) => {
       scrollToBottom()
     },
     end: (sessionId: string, errMsg: any) => {
-      if (currentSessionId != sessionId) {
+      if (data.currentSessionId != sessionId) {
         return
       }
       if (errMsg != null) {
@@ -294,7 +294,7 @@ const useBigModel = async (currentSessionId: string) => {
         imageQuality: data.currentAssistant.imageQuality,
         imageStyle: data.currentAssistant.imageStyle,
         imageGenerated: (sessionId: string, imageUrl: string) => {
-          if (currentSessionId != sessionId) {
+          if (data.currentSessionId != sessionId) {
             return
           }
           data.currentAssistant.chatMessageList.push({
@@ -326,7 +326,7 @@ const useBigModel = async (currentSessionId: string) => {
         imagePrompt: question,
         imageSize: data.currentAssistant.imageSize,
         imageGenerated: (sessionId: string, imageUrl: string) => {
-          if (currentSessionId != sessionId) {
+          if (data.currentSessionId != sessionId) {
             return
           }
           data.currentAssistant.chatMessageList.push({
@@ -358,7 +358,7 @@ const useBigModel = async (currentSessionId: string) => {
         imageStyle: data.currentAssistant.imageStyle,
         abortCtr,
         imageGenerated: (sessionId: string, imageUrl: string) => {
-          if (currentSessionId != sessionId) {
+          if (data.currentSessionId != sessionId) {
             return
           }
           data.currentAssistant.chatMessageList.push({
