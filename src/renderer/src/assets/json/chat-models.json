@@ -19,10 +19,9 @@
     { "name": "chat-v1.1", "value": "chat-v1.1", "type": "text" }
   ],
   "ERNIEBot": [
-    { "name": "ERNIE-Bot 4.0", "value": "ERNIE-Bot 4.0", "type": "text" },
-    { "name": "ERNIE-Bot-8K", "value": "ERNIE-Bot-8K", "type": "text" },
-    { "name": "ERNIE-Bot-turbo", "value": "ERNIE-Bot-turbo", "type": "text" },
-    { "name": "ERNIE-Bot", "value": "ERNIE-Bot", "type": "text" }
+    { "name": "ERNIE-4.0", "value": "ERNIE-4.0", "type": "text" },
+    { "name": "ERNIE-3.5-8K", "value": "ERNIE-3.5-8K", "type": "text" },
+    { "name": "ERNIE-Speed-8K", "value": "ERNIE-Speed-8K", "type": "text" }
   ],
   "Tongyi": [
     { "name": "qwen-vl-plus", "value": "qwen-vl-plus", "type": "vision" },

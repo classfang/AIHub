@@ -5,14 +5,12 @@ import { Logger } from '@renderer/utils/logger'
 
 export const getErnieBotChatUrl = (model: string) => {
   switch (model) {
-    case 'ERNIE-Bot 4.0':
+    case 'ERNIE-4.0':
       return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro'
-    case 'ERNIE-Bot-8K':
-      return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie_bot_8k'
-    case 'ERNIE-Bot':
+    case 'ERNIE-3.5-8K':
       return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions'
-    case 'ERNIE-Bot-turbo':
-      return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/eb-instant'
+    case 'ERNIE-Speed-8K':
+      return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie_speed'
     default:
       return ''
   }
