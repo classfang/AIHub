@@ -555,8 +555,7 @@ onMounted(() => {
                   v-html="
                     renderMarkdown(
                       msg.content,
-                      index === currentAssistant.chatMessageList.length - 1 &&
-                        systemStore.chatWindowLoading
+                      index === chatMessageListPageData.length - 1 && systemStore.chatWindowLoading
                     )
                   "
                 ></div>

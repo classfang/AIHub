@@ -55,6 +55,7 @@ export const renderMarkdown = (content: string, isLoading: boolean) => {
   // 加载中，显示闪烁光标
   const endFlag = '[end]'
   let htmlCode = markdown.render(content + endFlag)
+  console.log(htmlCode)
   // 找到结束标识
   const endFlagIndex = htmlCode.lastIndexOf(endFlag)
   // 插入光标元素
@@ -62,5 +63,6 @@ export const renderMarkdown = (content: string, isLoading: boolean) => {
     htmlCode.substring(0, endFlagIndex) +
     `<span class="chat-message-loading">丨</span>` +
     htmlCode.substring(endFlagIndex + endFlag.length)
+  console.log(htmlCode)
   return htmlCode
 }
