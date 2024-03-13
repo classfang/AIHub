@@ -32,24 +32,48 @@
     },
     { "name": "gemini-pro", "value": "gemini-pro", "type": "text" }
   ],
-  "Spark": [
-    { "name": "image-v2.1", "value": "image-v2.1", "type": "vision", "isSupportImage": true },
-    { "name": "chat-v3.5", "value": "chat-v3.5", "type": "text" },
-    { "name": "chat-v3.1", "value": "chat-v3.1", "type": "text" },
-    { "name": "chat-v2.1", "value": "chat-v2.1", "type": "text" },
-    { "name": "chat-v1.1", "value": "chat-v1.1", "type": "text" }
+  "Tongyi": [
+    { "name": "qwen-vl-plus", "value": "qwen-vl-plus", "type": "vision" },
+    {
+      "name": "qwen-max-longcontext",
+      "value": "qwen-max-longcontext",
+      "type": "text",
+      "isSupportPlugin": true,
+      "isSupportNetwork": true
+    },
+    {
+      "name": "qwen-max",
+      "value": "qwen-max",
+      "type": "text",
+      "isSupportPlugin": true,
+      "isSupportNetwork": true
+    },
+    {
+      "name": "qwen-plus",
+      "value": "qwen-plus",
+      "type": "text",
+      "isSupportPlugin": true,
+      "isSupportNetwork": true
+    },
+    {
+      "name": "qwen-turbo",
+      "value": "qwen-turbo",
+      "type": "text",
+      "isSupportPlugin": true,
+      "isSupportNetwork": true
+    }
   ],
   "ERNIEBot": [
     { "name": "ERNIE-4.0", "value": "ERNIE-4.0", "type": "text" },
     { "name": "ERNIE-3.5-8K", "value": "ERNIE-3.5-8K", "type": "text" },
     { "name": "ERNIE-Speed-8K", "value": "ERNIE-Speed-8K", "type": "text" }
   ],
-  "Tongyi": [
-    { "name": "qwen-vl-plus", "value": "qwen-vl-plus", "type": "vision" },
-    { "name": "qwen-max-longcontext", "value": "qwen-max-longcontext", "type": "text" },
-    { "name": "qwen-max", "value": "qwen-max", "type": "text" },
-    { "name": "qwen-plus", "value": "qwen-plus", "type": "text" },
-    { "name": "qwen-turbo", "value": "qwen-turbo", "type": "text" }
+  "Spark": [
+    { "name": "image-v2.1", "value": "image-v2.1", "type": "vision", "isSupportImage": true },
+    { "name": "chat-v3.5", "value": "chat-v3.5", "type": "text", "isSupportNetwork": true },
+    { "name": "chat-v3.1", "value": "chat-v3.1", "type": "text" },
+    { "name": "chat-v2.1", "value": "chat-v2.1", "type": "text" },
+    { "name": "chat-v1.1", "value": "chat-v1.1", "type": "text" }
   ],
   "Tiangong": [{ "name": "SkyChat-MegaVerse", "value": "SkyChat-MegaVerse", "type": "text" }]
 }

@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import chatModels from '@renderer/assets/json/chat-models.json'
 import drawingModels from '@renderer/assets/json/drawing-models.json'
-import { isSupportImage, isSupportPlugin } from '@renderer/utils/big-model/base-util'
+import {
+  isSupportImage,
+  isSupportNetwork,
+  isSupportPlugin
+} from '@renderer/utils/big-model/base-util'
 import { watch } from 'vue'
 
 defineProps({
@@ -147,6 +151,22 @@ watch(
                 <icon-close />
               </template>
               {{ $t('assistantList.pluginNotSupported') }}
+            </a-tag>
+            <a-tag
+              v-if="isSupportNetwork(assistant.provider, assistant.model)"
+              color="green"
+              bordered
+            >
+              <template #icon>
+                <icon-check />
+              </template>
+              {{ $t('assistantList.networkSupported') }}
+            </a-tag>
+            <a-tag v-else color="red" bordered>
+              <template #icon>
+                <icon-close />
+              </template>
+              {{ $t('assistantList.networkNotSupported') }}
             </a-tag>
           </a-space>
         </a-space>

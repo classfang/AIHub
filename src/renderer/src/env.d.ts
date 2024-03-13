@@ -21,11 +21,11 @@ type PageName =
   | 'translator'
   | 'collect'
   | 'ai-app'
-type BigModelProvider = 'OpenAI' | 'Gemini' | 'Spark' | 'ERNIEBot' | 'Tongyi' | 'Tiangong'
+type BigModelProvider = 'OpenAI' | 'Gemini' | 'Tongyi' | 'ERNIEBot' | 'Spark' | 'Tiangong'
 type TranslatorProvider = 'youdao' | 'baiduTranslation'
 type AssistantType = 'chat' | 'drawing'
 type ChatMsgType = 'text' | 'img'
-type ChatRole = 'user' | 'assistant' | 'system'
+type ChatRole = 'user' | 'assistant' | 'system' | 'tool'
 type CalendarReportType = 'day' | 'week' | 'month' | 'year'
 type MiniProgramType = 'webview' | 'local'
 type AppNotificationType = 'info' | 'warn' | 'error'
@@ -59,6 +59,7 @@ interface Assistant {
 
 interface BaseMessage {
   role: ChatRole
+  name?: string
   content: string
   image?: string
 }

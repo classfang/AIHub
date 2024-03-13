@@ -2,7 +2,7 @@ import { CommonChatOption } from '.'
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { randomUUID } from '@renderer/utils/id-util'
-import { saveFileByUrl } from '@renderer/utils/ipc-util'
+import { executeJavaScript, saveFileByUrl } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 
 // 根据模型获取服务地址
@@ -35,6 +35,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
     imageSize,
     imageStyle,
     sessionId,
+    chatPlugins,
     startAnswer,
     appendAnswer,
     imageGenerated,
@@ -51,6 +52,83 @@ export const chat2tongyi = async (option: CommonChatOption) => {
   if (type === 'chat') {
     // 对话
 
+    // 是否有插件
+    let pluginAnswer: any = null
+    if (chatPlugins && chatPlugins.length > 0) {
+      const chatPluginResponse = await fetch(getTongyiChatUrl(model), {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model,
+          input: {
+            messages: await getTongyiMessages(
+              messages!,
+              instruction,
+              inputMaxTokens,
+              contextSize,
+              model
+            )
+          },
+          parameters: {
+            output_tokens: maxTokens,
+            result_format: 'message',
+            tools: chatPlugins.map((p) => {
+              return {
+                type: p.type,
+                function: {
+                  name: p.id,
+                  description: p.description,
+                  parameters: {
+                    type: 'object',
+                    properties: p.parameters.reduce((acc, param) => {
+                      acc[param.name] = {
+                        type: param.type,
+                        description: param.description
+                      }
+                      return acc
+                    }, {}),
+                    required: p.parameters.map((param) => param.name)
+                  }
+                }
+              }
+            })
+          }
+        })
+      })
+
+      pluginAnswer = await chatPluginResponse.json()
+    }
+
+    // 现有消息列表
+    const chatMessages = await getTongyiMessages(
+      messages!,
+      instruction,
+      inputMaxTokens,
+      contextSize,
+      model
+    )
+
+    // 是否有插件
+    if (chatPlugins && pluginAnswer && pluginAnswer.output.choices[0].message.tool_calls) {
+      // 插件运行
+      const pluginId = pluginAnswer.output.choices[0].message.tool_calls[0].function.name
+      const pluginParams = pluginAnswer.output.choices[0].message.tool_calls[0].function.arguments
+      const pluginResult = await executeJavaScript(
+        `var params = ${pluginParams};${chatPlugins.find((p) => p.id === pluginId)?.code}`
+      )
+      Logger.info('chat2tongyi pluginResult: ', pluginResult)
+      // 插件回复
+      chatMessages.push(pluginAnswer.output.choices[0].message)
+      chatMessages.push({
+        role: 'tool',
+        name: pluginId,
+        content: pluginResult
+      })
+    }
+
     // sse
     await fetchEventSource(getTongyiChatUrl(model), {
       openWhenHidden: true, // 保持后台运行
@@ -64,16 +142,12 @@ export const chat2tongyi = async (option: CommonChatOption) => {
       body: JSON.stringify({
         model,
         input: {
-          messages: await getTongyiMessages(
-            messages!,
-            instruction,
-            inputMaxTokens,
-            contextSize,
-            model
-          )
+          messages: chatMessages
         },
         parameters: {
-          output_tokens: maxTokens
+          output_tokens: maxTokens,
+          result_format: 'message',
+          enable_search: true
         }
       }),
       // 连接开启
@@ -94,7 +168,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
           if (model === 'qwen-vl-plus') {
             content = respJson.output.choices[0].message.content[0].text
           } else {
-            content = respJson.output.text
+            content = respJson.output.choices[0].message.content
           }
           if (waitAnswer) {
             waitAnswer = false

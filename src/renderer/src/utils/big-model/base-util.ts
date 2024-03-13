@@ -80,3 +80,15 @@ export const isSupportPlugin = (providerName: string, modelName: string) => {
   }
   return model['isSupportPlugin']
 }
+
+export const isSupportNetwork = (providerName: string, modelName: string) => {
+  const models = chatModels[providerName]
+  if (!models) {
+    return false
+  }
+  const model = models.find((m) => m.name === modelName)
+  if (!model) {
+    return false
+  }
+  return model['isSupportNetwork']
+}

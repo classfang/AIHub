@@ -167,6 +167,8 @@
     "imageNotSupported": "不支持图片",
     "pluginSupported": "支持插件",
     "pluginNotSupported": "不支持插件",
+    "networkSupported": "支持联网",
+    "networkNotSupported": "不支持联网",
     "maxTokens": "生成最大Token数",
     "inputMaxTokens": "输入最大Token数",
     "contextSize": "上下文大小",

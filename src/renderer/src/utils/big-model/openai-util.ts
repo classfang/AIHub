@@ -191,7 +191,7 @@ export const getOpenAIMessages = async (
       openaiMessages.push({
         role: m.role,
         content: m.content
-      })
+      } as ChatCompletionMessageParam)
     }
   }
 

@@ -97,7 +97,7 @@ const chatMessageLoadMore = (id: string) => {
   })
 }
 
-// 支持图片上传 TODO 'qwen-vl-plus' 暂不支持base64图片
+// 支持图片上传
 const isSupportImageComputed = computed(() => {
   return isSupportImage(data.currentAssistant.provider, data.currentAssistant.model)
 })
@@ -349,6 +349,7 @@ const useBigModel = async () => {
       otherOption = {
         apiKey: settingStore.tongyi.apiKey,
         type: data.currentAssistant.type,
+        chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList),
         imagePrompt: question,
         imageSize: data.currentAssistant.imageSize,
         imageStyle: data.currentAssistant.imageStyle,
