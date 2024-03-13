@@ -10,6 +10,7 @@ import { useNotificationStore } from '@renderer/store/notification'
 import { useSettingStore } from '@renderer/store/setting'
 import { useSystemStore } from '@renderer/store/system'
 import { CommonChatOption, chat2bigModel } from '@renderer/utils/big-model'
+import { isSupportImage, isSupportPlugin } from '@renderer/utils/big-model/base-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile } from '@renderer/utils/download-util'
 import { getContentTokensLength } from '@renderer/utils/gpt-tokenizer-util'
@@ -97,18 +98,13 @@ const chatMessageLoadMore = (id: string) => {
 }
 
 // 支持图片上传 TODO 'qwen-vl-plus' 暂不支持base64图片
-const isSupportImage = computed(() => {
-  return ['gpt-4-vision-preview', 'gemini-pro-vision', 'image-v2.1'].includes(
-    data.currentAssistant.model
-  )
+const isSupportImageComputed = computed(() => {
+  return isSupportImage(data.currentAssistant.provider, data.currentAssistant.model)
 })
 
 // 支持插件
-const isSupportPlugin = computed(() => {
-  return (
-    ['OpenAI'].includes(data.currentAssistant.provider) &&
-    data.currentAssistant.model != 'gpt-4-vision-preview'
-  )
+const isSupportPluginComputed = computed(() => {
+  return isSupportPlugin(data.currentAssistant.provider, data.currentAssistant.model)
 })
 
 // 发送提问
@@ -212,7 +208,7 @@ const useBigModel = async () => {
   if (data.selectImageList[0]) {
     const imagePath = data.selectImageList[0].file?.path
     // 将图片本地链接保存
-    if (isSupportImage.value && imagePath) {
+    if (isSupportImageComputed.value && imagePath) {
       questionImage = await saveFileByPath(
         imagePath,
         `${randomUUID()}${imagePath.substring(imagePath.lastIndexOf('.'))}`
@@ -624,7 +620,7 @@ onMounted(() => {
       <div class="chat-input-bottom">
         <!-- 选择插件 -->
         <a-popover position="tl" trigger="click">
-          <template v-if="isSupportPlugin">
+          <template v-if="isSupportPluginComputed">
             <a-button
               v-if="
                 chatPluginStore.getPluginListByIds(currentAssistant.chatPluginIdList).length > 0
@@ -663,7 +659,7 @@ onMounted(() => {
           </template>
         </a-popover>
         <!-- 选择图片 -->
-        <div v-if="isSupportImage" class="chat-input-select-image">
+        <div v-if="isSupportImageComputed" class="chat-input-select-image">
           <a-upload
             :file-list="selectImageList"
             :limit="1"

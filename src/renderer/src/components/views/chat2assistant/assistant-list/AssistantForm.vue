@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import chatModels from '@renderer/assets/json/chat-models.json'
 import drawingModels from '@renderer/assets/json/drawing-models.json'
+import { isSupportImage, isSupportPlugin } from '@renderer/utils/big-model/base-util'
 import { watch } from 'vue'
 
 defineProps({
@@ -108,11 +109,47 @@ watch(
       </a-form-item>
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
-        <a-select v-model="assistant.model" allow-search>
-          <a-option v-for="m in chatModels[assistant.provider]" :key="m.name" :value="m.value">{{
-            m['name']
-          }}</a-option>
-        </a-select>
+        <a-space direction="vertical" style="width: 100%">
+          <a-select v-model="assistant.model" allow-search>
+            <a-option v-for="m in chatModels[assistant.provider]" :key="m.name" :value="m.value">{{
+              m['name']
+            }}</a-option>
+          </a-select>
+          <a-space>
+            <a-tag
+              v-if="isSupportImage(assistant.provider, assistant.model)"
+              color="green"
+              bordered
+            >
+              <template #icon>
+                <icon-check />
+              </template>
+              {{ $t('assistantList.imageSupported') }}
+            </a-tag>
+            <a-tag v-else color="red" bordered>
+              <template #icon>
+                <icon-close />
+              </template>
+              {{ $t('assistantList.imageNotSupported') }}
+            </a-tag>
+            <a-tag
+              v-if="isSupportPlugin(assistant.provider, assistant.model)"
+              color="green"
+              bordered
+            >
+              <template #icon>
+                <icon-check />
+              </template>
+              {{ $t('assistantList.pluginSupported') }}
+            </a-tag>
+            <a-tag v-else color="red" bordered>
+              <template #icon>
+                <icon-close />
+              </template>
+              {{ $t('assistantList.pluginNotSupported') }}
+            </a-tag>
+          </a-space>
+        </a-space>
       </a-form-item>
       <!-- 生成token限制 -->
       <a-form-item field="maxTokens" :label="$t('assistantList.maxTokens')">

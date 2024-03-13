@@ -53,7 +53,7 @@ export const renderMarkdown = (content: string, isLoading: boolean) => {
   }
 
   // 加载中，显示闪烁光标
-  const endFlag = '[end]'
+  const endFlag = '【end】'
   let htmlCode = markdown.render(content + endFlag)
   console.log(htmlCode)
   // 找到结束标识

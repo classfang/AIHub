@@ -145,7 +145,7 @@ const knowledgeBaseDelete = () => {
       :on-before-ok="handleEditModalBeforeOk"
     >
       <template #title> {{ $t('knowledgeBase.list.edit') }} </template>
-      <div style="height: 60vh; overflow-y: auto">
+      <div style="height: 60vh; padding: 0 10px; overflow-y: auto">
         <KnowledgeBaseForm v-model:knowledgeBase="knowledgeBaseForm" />
       </div>
     </a-modal>

@@ -1,4 +1,5 @@
 import { Message } from '@arco-design/web-vue'
+import chatModels from '@renderer/assets/json/chat-models.json'
 import i18n from '@renderer/i18n'
 import { useNotificationStore } from '@renderer/store/notification'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
@@ -54,4 +55,28 @@ export const limitContext = (
   }
 
   return messages
+}
+
+export const isSupportImage = (providerName: string, modelName: string) => {
+  const models = chatModels[providerName]
+  if (!models) {
+    return false
+  }
+  const model = models.find((m) => m.name === modelName)
+  if (!model) {
+    return false
+  }
+  return model['isSupportImage']
+}
+
+export const isSupportPlugin = (providerName: string, modelName: string) => {
+  const models = chatModels[providerName]
+  if (!models) {
+    return false
+  }
+  const model = models.find((m) => m.name === modelName)
+  if (!model) {
+    return false
+  }
+  return model['isSupportPlugin']
 }

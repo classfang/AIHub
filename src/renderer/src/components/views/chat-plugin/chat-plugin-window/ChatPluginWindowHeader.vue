@@ -110,7 +110,7 @@ const chatPluginDelete = () => {
       :on-before-ok="handleEditModalBeforeOk"
     >
       <template #title> {{ $t('chatPlugin.list.edit') }} </template>
-      <div style="height: 60vh; overflow-y: auto">
+      <div style="height: 60vh; padding: 0 10px; overflow-y: auto">
         <ChatPluginForm v-model:chatPlugin="chatPluginForm" />
       </div>
     </a-modal>

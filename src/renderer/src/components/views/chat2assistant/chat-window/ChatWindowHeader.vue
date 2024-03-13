@@ -194,7 +194,7 @@ const assistantDelete = () => {
       :on-before-ok="handleEditModalBeforeOk"
     >
       <template #title> {{ $t('assistantList.edit') }} </template>
-      <div style="height: 60vh; overflow-y: auto">
+      <div style="height: 60vh; padding: 0 10px; overflow-y: auto">
         <AssistantForm v-model:assistant="assistantForm" />
       </div>
     </a-modal>
