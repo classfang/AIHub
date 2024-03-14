@@ -675,9 +675,8 @@ onMounted(() => {
           position="top"
           mini
           :content-style="{ fontSize: '12px' }"
-          @click="clearContext()"
         >
-          <a-button size="mini" shape="round">
+          <a-button size="mini" shape="round" @click="clearContext()">
             <icon-eraser :size="15" />
           </a-button>
         </a-tooltip>
