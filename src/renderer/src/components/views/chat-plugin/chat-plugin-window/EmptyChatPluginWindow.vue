@@ -5,7 +5,7 @@
     <div class="chat-plugin-window-empty">
       <a-empty>
         <template #image>
-          <icon-code />
+          <icon-experiment />
         </template>
         {{ $t('chatPlugin.slogan') }}
       </a-empty>
