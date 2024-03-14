@@ -780,7 +780,7 @@ onMounted(() => {
           </div>
         </transition>
 
-        <a-space direction="vertical" size="10" style="width: 100%">
+        <a-space direction="vertical" :size="10" style="width: 100%">
           <!-- 文本域 -->
           <a-textarea
             ref="chatInputTextareaRef"
