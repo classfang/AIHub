@@ -420,6 +420,10 @@ const stopAnswer = () => {
 }
 
 // 自定义图片上传
+const selectImageClick = () => {
+  // 每次点击上传按钮，先清空图片列表
+  data.selectImageList = []
+}
 const selectImageRequest = (option: RequestOption) => {
   const { fileItem, onSuccess } = option
   data.selectImageList = [fileItem]
@@ -650,7 +654,7 @@ onMounted(() => {
       </div>
     </a-scrollbar>
     <!-- 输入框区域 -->
-    <div class="chat-input">
+    <div class="chat-input-container">
       <!-- 回到底部 -->
       <div v-if="isToBottomBtnShow" class="chat-message-list-to-bottom" @click="scrollToBottom">
         <icon-arrow-down class="chat-message-list-to-bottom-icon" />
@@ -692,6 +696,24 @@ onMounted(() => {
             <icon-delete :size="15" />
           </a-button>
         </a-tooltip>
+
+        <!-- 选择图片 -->
+        <div v-if="isSupportImageComputed" class="chat-input-select-image">
+          <a-upload
+            :file-list="selectImageList"
+            :limit="1"
+            :on-button-click="selectImageClick"
+            :custom-request="selectImageRequest"
+            accept="image/*"
+            :show-file-list="false"
+          >
+            <template #upload-button>
+              <a-button size="mini" shape="round">
+                <icon-image :size="15" />
+              </a-button>
+            </template>
+          </a-upload>
+        </div>
 
         <!-- 选择插件 -->
         <a-popover position="tl" trigger="click">
@@ -735,69 +757,77 @@ onMounted(() => {
           </template>
         </a-popover>
       </div>
-      <!-- 文本域 -->
-      <a-textarea
-        ref="chatInputTextareaRef"
-        v-model="question"
-        class="chat-input-textarea"
-        :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
-        :auto-size="{
-          minRows: 2,
-          maxRows: 2
-        }"
-        allow-clear
-        @keydown.enter="sendQuestion"
-      />
-      <!-- 输入框区域底部 -->
-      <div class="chat-input-bottom">
-        <!-- 选择图片 -->
-        <div v-if="isSupportImageComputed" class="chat-input-select-image">
-          <a-upload
-            :file-list="selectImageList"
-            :limit="1"
-            :custom-request="selectImageRequest"
-            accept="image/*"
-          >
-            <template #upload-button>
-              <a-button size="small">
+      <div class="chat-input">
+        <transition name="fadein">
+          <div v-if="selectImageList.length > 0" class="chat-input-image">
+            <a-image
+              width="80"
+              height="80"
+              :src="`file://${selectImageList[0].file?.path}`"
+              preview
+              show-loader
+              fit="cover"
+            />
+            <a-button
+              class="chat-input-image-delete-btn"
+              shape="circle"
+              size="mini"
+              status="danger"
+              @click="selectImageList = []"
+            >
+              <icon-delete />
+            </a-button>
+          </div>
+        </transition>
+
+        <a-space direction="vertical" size="10" style="width: 100%">
+          <!-- 文本域 -->
+          <a-textarea
+            ref="chatInputTextareaRef"
+            v-model="question"
+            class="chat-input-textarea"
+            :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
+            :auto-size="{
+              minRows: 2,
+              maxRows: 2
+            }"
+            allow-clear
+            @keydown.enter="sendQuestion"
+          />
+          <!-- 输入框区域底部 -->
+          <div class="chat-input-bottom">
+            <div style="margin-left: auto">
+              <!-- 发送消息按钮 -->
+              <a-button
+                v-if="!systemStore.chatWindowLoading"
+                type="primary"
+                size="small"
+                @click="sendQuestion()"
+              >
                 <a-space :size="5">
-                  <icon-image :size="15" />
-                  <span>{{ $t('chatWindow.selectImage') }}</span>
+                  <icon-send :size="15" />
+                  <span>{{ $t('chatWindow.send') }}</span>
                 </a-space>
               </a-button>
-            </template>
-          </a-upload>
-        </div>
-        <div style="margin-left: auto">
-          <!-- 发送消息按钮 -->
-          <a-button
-            v-if="!systemStore.chatWindowLoading"
-            type="primary"
-            size="small"
-            @click="sendQuestion()"
-          >
-            <a-space :size="5">
-              <icon-send :size="15" />
-              <span>{{ $t('chatWindow.send') }}</span>
-            </a-space>
-          </a-button>
-          <!-- 停止回答按钮 -->
-          <a-button v-if="systemStore.chatWindowLoading" size="small" @click="stopAnswer()">
-            <a-space :size="5">
-              <icon-record-stop :size="15" />
-              <span>{{ $t('chatWindow.stop') }}</span>
-            </a-space>
-          </a-button>
-        </div>
-        <!-- 底部多选操作区域 -->
-        <transition name="slide2top">
-          <MultipleChoiceConsole
-            v-if="multipleChoiceFlag"
-            :current-assistant="currentAssistant"
-            :multiple-choice-list="multipleChoiceList"
-            @close="multipleChoiceClose()"
-          />
-        </transition>
+              <!-- 停止回答按钮 -->
+              <a-button v-if="systemStore.chatWindowLoading" size="small" @click="stopAnswer()">
+                <a-space :size="5">
+                  <icon-record-stop :size="15" />
+                  <span>{{ $t('chatWindow.stop') }}</span>
+                </a-space>
+              </a-button>
+            </div>
+            <!-- 底部多选操作区域 -->
+            <transition name="slide2top">
+              <MultipleChoiceConsole
+                v-if="multipleChoiceFlag"
+                :current-assistant="currentAssistant"
+                :multiple-choice-list="multipleChoiceList"
+                @close="multipleChoiceClose()"
+              />
+            </transition>
+          </div>
+        </a-space>
       </div>
     </div>
   </div>
