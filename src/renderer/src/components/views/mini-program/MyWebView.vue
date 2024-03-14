@@ -47,6 +47,7 @@ const reload = () => {
   webviewRef.value.reload()
 }
 
+// 暴露方法
 defineExpose({
   reload
 })

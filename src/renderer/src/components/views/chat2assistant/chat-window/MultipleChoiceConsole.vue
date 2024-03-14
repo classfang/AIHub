@@ -50,6 +50,11 @@ const multipleChoiceDelete = () => {
       props.multipleChoiceList.forEach((id) => {
         const index = data.currentAssistant.chatMessageList.findIndex((msg) => msg.id === id)
         if (index >= 0) {
+          // 如果清除上下文id指向的消息被删除，清除上下文id设置为上一条消息的id
+          if (index > 0 && id === data.currentAssistant.clearContextMessageId) {
+            data.currentAssistant.clearContextMessageId =
+              data.currentAssistant.chatMessageList[index - 1].id
+          }
           data.currentAssistant.chatMessageList.splice(index, 1)
         }
       })

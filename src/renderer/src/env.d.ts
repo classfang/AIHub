@@ -43,6 +43,7 @@ interface Assistant {
   createTime: number
   lastUpdateTime: number
   chatMessageList: ChatMessage[]
+  clearContextMessageId?: string | null
   chatPluginIdList: string[]
 
   // 对话

@@ -20,7 +20,7 @@ import { saveFileByPath } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 import { renderMarkdown } from '@renderer/utils/markdown-util'
 import dayjs from 'dayjs'
-import { computed, nextTick, onMounted, reactive, ref, toRefs } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 // store
@@ -36,6 +36,7 @@ const { t } = useI18n()
 // 元素 ref
 const chatMessageListScrollbarRef = ref()
 const chatInputTextareaRef = ref()
+const chatWindowHeaderRef = ref()
 
 // 阻断控制
 const abortCtr = new AbortController()
@@ -77,6 +78,19 @@ const {
   isToBottomBtnShow,
   page
 } = toRefs(data)
+
+// 监听消息列表变化
+watch(
+  () => data.currentAssistant.chatMessageList,
+  () => {
+    nextTick(() => {
+      calcToBottomShow()
+    })
+  },
+  {
+    deep: true
+  }
+)
 
 // 计算分页数据
 const chatMessageListPageData = computed(() => {
@@ -228,6 +242,16 @@ const useBigModel = async () => {
   })
   scrollToBottom()
 
+  // 大模型接收的消息列表
+  let bigModelMessageList = data.currentAssistant.chatMessageList
+  // 找到清空上下文的位置
+  const clearContextMessageIndex = bigModelMessageList.findIndex(
+    (msg) => msg.id === data.currentAssistant.clearContextMessageId
+  )
+  if (clearContextMessageIndex >= 0) {
+    bigModelMessageList = bigModelMessageList.slice(clearContextMessageIndex)
+  }
+
   // 大模型通用选项
   const chat2bigModelOption: CommonChatOption = {
     sessionId: data.currentSessionId,
@@ -236,7 +260,7 @@ const useBigModel = async () => {
     inputMaxTokens: data.currentAssistant.inputMaxTokens,
     maxTokens: data.currentAssistant.maxTokens,
     contextSize: data.currentAssistant.contextSize,
-    messages: data.currentAssistant.chatMessageList,
+    messages: bigModelMessageList,
     startAnswer: (sessionId: string, content?: string) => {
       if (data.currentSessionId != sessionId) {
         return
@@ -475,6 +499,23 @@ const calcToBottomShow = () => {
     chatMessageListScrollbarRef.value.containerRef.clientHeight
 }
 
+// 清空上下文
+const clearContext = () => {
+  if (systemStore.chatWindowLoading || data.currentAssistant.chatMessageList.length === 0) {
+    return
+  }
+  // 最后一条消息id
+  const lastMessageId =
+    data.currentAssistant.chatMessageList[data.currentAssistant.chatMessageList.length - 1].id
+  // 清空或者恢复
+  if (data.currentAssistant.clearContextMessageId === lastMessageId) {
+    data.currentAssistant.clearContextMessageId = null
+  } else {
+    data.currentAssistant.clearContextMessageId = lastMessageId
+  }
+  scrollToBottom()
+}
+
 // 挂载完毕
 onMounted(() => {
   // 对话记录滚动到底部
@@ -489,7 +530,7 @@ onMounted(() => {
 <template>
   <div class="chat-window">
     <!-- 头部 -->
-    <ChatWindowHeader :current-assistant="currentAssistant" />
+    <ChatWindowHeader ref="chatWindowHeaderRef" :current-assistant="currentAssistant" />
 
     <!-- 消息列表 -->
     <a-scrollbar
@@ -497,7 +538,7 @@ onMounted(() => {
       :class="{ 'fade-in-to': isLoad }"
       class="fade-in-from"
       outer-class="chat-message-list-container arco-scrollbar-small"
-      style="height: calc(100vh - 127px - 55px); overflow-y: auto"
+      style="height: calc(100vh - 140px - 55px); overflow-y: auto"
       @scroll="onChatMessageListScroll"
     >
       <div class="chat-message-list">
@@ -586,6 +627,16 @@ onMounted(() => {
               }}</a-doption>
             </template>
           </a-dropdown>
+          <!-- 清空上下文提示 -->
+          <transition name="fadein">
+            <a-divider
+              v-if="currentAssistant.clearContextMessageId === msg.id"
+              class="chat-message-clear-context"
+              orientation="center"
+              @click="currentAssistant.clearContextMessageId = null"
+              >{{ $t('chatWindow.clearContextTip') }}</a-divider
+            >
+          </transition>
         </template>
         <!-- 等待回答占位显示 -->
         <div v-if="waitAnswer" class="chat-message">
@@ -604,43 +655,68 @@ onMounted(() => {
       <div v-if="isToBottomBtnShow" class="chat-message-list-to-bottom" @click="scrollToBottom">
         <icon-arrow-down class="chat-message-list-to-bottom-icon" />
       </div>
-      <!-- 文本域 -->
-      <a-textarea
-        ref="chatInputTextareaRef"
-        v-model="question"
-        class="chat-input-textarea"
-        :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
-        :auto-size="{
-          minRows: 3,
-          maxRows: 3
-        }"
-        allow-clear
-        @keydown.enter="sendQuestion"
-      />
-      <!-- 输入框区域底部 -->
-      <div class="chat-input-bottom">
+      <!-- 工具栏 -->
+      <div class="chat-input-tools">
+        <!-- 打开设置 -->
+        <a-tooltip
+          :content="$t('chatWindow.header.edit')"
+          position="top"
+          mini
+          :content-style="{ fontSize: '12px' }"
+        >
+          <a-button size="mini" shape="round" @click="chatWindowHeaderRef.edit()">
+            <icon-settings :size="15" />
+          </a-button>
+        </a-tooltip>
+
+        <!-- 清空上下文 -->
+        <a-tooltip
+          :content="$t('chatWindow.clearContext')"
+          position="top"
+          mini
+          :content-style="{ fontSize: '12px' }"
+          @click="clearContext()"
+        >
+          <a-button size="mini" shape="round">
+            <icon-eraser :size="15" />
+          </a-button>
+        </a-tooltip>
+
+        <!-- 清空记录 -->
+        <a-tooltip
+          :content="$t('chatWindow.header.clear')"
+          position="top"
+          mini
+          :content-style="{ fontSize: '12px' }"
+        >
+          <a-button size="mini" shape="round" @click="chatWindowHeaderRef.clearConfirm()">
+            <icon-delete :size="15" />
+          </a-button>
+        </a-tooltip>
+
         <!-- 选择插件 -->
         <a-popover position="tl" trigger="click">
-          <template v-if="isSupportPluginComputed">
+          <a-tooltip
+            v-if="isSupportPluginComputed"
+            :content="$t('chatWindow.selectPlugin')"
+            position="top"
+            mini
+            :content-style="{ fontSize: '12px' }"
+          >
             <a-button
               v-if="
                 chatPluginStore.getPluginListByIds(currentAssistant.chatPluginIdList).length > 0
               "
-              size="small"
+              size="mini"
               type="primary"
+              shape="round"
             >
-              <a-space :size="5">
-                <icon-code :size="15" />
-                <span>{{ $t('chatWindow.selectPlugin') }}</span>
-              </a-space>
+              <icon-experiment :size="15" />
             </a-button>
-            <a-button v-else size="small">
-              <a-space :size="5">
-                <icon-code :size="15" />
-                <span>{{ $t('chatWindow.selectPlugin') }}</span>
-              </a-space>
+            <a-button v-else size="mini" shape="round">
+              <icon-experiment :size="15" />
             </a-button>
-          </template>
+          </a-tooltip>
           <template #content>
             <div class="chat-plugin-select">
               <a-checkbox-group
@@ -659,6 +735,22 @@ onMounted(() => {
             </div>
           </template>
         </a-popover>
+      </div>
+      <!-- 文本域 -->
+      <a-textarea
+        ref="chatInputTextareaRef"
+        v-model="question"
+        class="chat-input-textarea"
+        :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
+        :auto-size="{
+          minRows: 2,
+          maxRows: 2
+        }"
+        allow-clear
+        @keydown.enter="sendQuestion"
+      />
+      <!-- 输入框区域底部 -->
+      <div class="chat-input-bottom">
         <!-- 选择图片 -->
         <div v-if="isSupportImageComputed" class="chat-input-select-image">
           <a-upload

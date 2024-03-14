@@ -81,6 +81,8 @@ const clearConfirm = () => {
     cancelText: t('common.cancel'),
     onOk: () => {
       data.currentAssistant.chatMessageList = []
+      // 清除上下文id设置为null
+      data.currentAssistant.clearContextMessageId = null
     }
   })
 }
@@ -124,6 +126,12 @@ const assistantDelete = () => {
   )
   assistantStore.currentAssistantId = null
 }
+
+// 暴露方法
+defineExpose({
+  edit,
+  clearConfirm
+})
 </script>
 
 <template>

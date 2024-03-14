@@ -118,7 +118,7 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat') }"
           @click="changePage('chat')"
         />
-        <icon-code
+        <icon-experiment
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat-plugin') }"
           @click="changePage('chat-plugin')"
