@@ -538,7 +538,7 @@ onMounted(() => {
       :class="{ 'fade-in-to': isLoad }"
       class="fade-in-from"
       outer-class="chat-message-list-container arco-scrollbar-small"
-      style="height: calc(100vh - 140px - 55px); overflow-y: auto"
+      style="height: calc(100vh - 160px - 55px); overflow-y: auto"
       @scroll="onChatMessageListScroll"
     >
       <div class="chat-message-list">
