@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Message, Modal } from '@arco-design/web-vue'
+import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
+import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { useCollectionSetStore } from '@renderer/store/collection-set'
 import { nowTimestamp } from '@renderer/utils/date-util'
-import { exportTextFile } from '@renderer/utils/download-util'
+import { downloadFile, exportTextFile } from '@renderer/utils/download-util'
 import { randomUUID } from '@renderer/utils/id-util'
-import { reactive } from 'vue'
+import { renderMarkdown } from '@renderer/utils/markdown-util'
+import html2canvas from 'html2canvas'
+import { reactive, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const assistantStore = useAssistantStore()
@@ -20,8 +24,10 @@ const props = defineProps({
 })
 
 const data = reactive({
-  currentAssistant: assistantStore.getCurrentAssistant
+  currentAssistant: assistantStore.getCurrentAssistant,
+  shareModalVisible: false
 })
+const { currentAssistant, shareModalVisible } = toRefs(data)
 
 const emits = defineEmits(['collect', 'delete', 'close'])
 
@@ -100,6 +106,38 @@ const multipleChoiceDownload = () => {
   exportTextFile(`records-${nowTimestamp()}.md`, content)
   emits('close')
 }
+
+const multipleChoiceShare = () => {
+  data.shareModalVisible = true
+}
+
+const shareModalBeforeOk = async () => {
+  await new Promise<void>((resolve, reject) => {
+    const el = document.getElementById('share-chat-message-list')
+    if (el) {
+      html2canvas(el, {
+        scale: 2, // 缩放比例,默认为1
+        allowTaint: true, // 是否允许跨域图像污染画布
+        useCORS: true // 是否尝试使用CORS从服务器加载图像
+      })
+        .then((canvas) => {
+          // 将图片下载到本地
+          const a = document.createElement('a') // 生成一个a元素
+          a.download = `share-${nowTimestamp()}` // 设置图片名称没有设置则为默认
+          a.href = canvas.toDataURL('image/png') // 将生成的URL设置为a.href属性
+          a.dispatchEvent(new MouseEvent('click')) // 触发a的单击事件
+
+          emits('close')
+          resolve()
+        })
+        .catch((error) => {
+          Message.error(error)
+          reject()
+        })
+    }
+  })
+  return true
+}
 </script>
 
 <template>
@@ -110,16 +148,75 @@ const multipleChoiceDownload = () => {
     <a-button shape="circle" class="multiple-choice-console-btn" @click="multipleChoiceDownload()">
       <icon-download class="multiple-choice-console-icon" />
     </a-button>
+    <a-button shape="circle" class="multiple-choice-console-btn" @click="multipleChoiceShare()">
+      <icon-share-external class="multiple-choice-console-icon" />
+    </a-button>
     <a-button shape="circle" class="multiple-choice-console-btn" @click="multipleChoiceDelete()">
       <icon-delete class="multiple-choice-console-icon" />
     </a-button>
     <a-button shape="circle" class="multiple-choice-console-btn" @click="emits('close')">
       <icon-close class="multiple-choice-console-icon" />
     </a-button>
+
+    <!-- 分享预览Modal -->
+    <a-modal
+      v-model:visible="shareModalVisible"
+      :ok-text="$t('chatWindow.shareDownload')"
+      :cancel-text="$t('common.cancel')"
+      unmount-on-close
+      title-align="start"
+      width="80vw"
+      :on-before-ok="shareModalBeforeOk"
+    >
+      <template #title> {{ $t('chatWindow.sharePreview') }} </template>
+      <div
+        class="chat-message-list-container"
+        style="height: 60vh; padding: 0 10px; overflow-y: auto"
+      >
+        <div id="share-chat-message-list" class="chat-message-list">
+          <div v-for="msg in getSelectChatMessageList()" :key="msg.id" class="chat-message">
+            <div class="chat-message-avatar">
+              <UserAvatar v-if="msg.role === 'user'" :size="30" />
+              <AssistantAvatar
+                v-else-if="msg.role === 'assistant'"
+                :provider="currentAssistant.provider"
+                :size="30"
+              />
+            </div>
+            <div class="chat-message-content select-text">
+              <div v-if="msg.role === 'user'">{{ msg.content }}</div>
+              <div
+                v-else-if="msg.role === 'assistant'"
+                class="chat-message-md"
+                v-html="renderMarkdown(msg.content, false)"
+              ></div>
+              <a-image
+                v-if="msg.image"
+                width="300"
+                height="300"
+                :src="`file://${msg.image}`"
+                show-loader
+                fit="cover"
+              >
+                <template #preview-actions>
+                  <a-image-preview-action
+                    name="下载"
+                    @click="downloadFile(`file://${msg.image}`, `img-${msg.id}.png`)"
+                    ><icon-download
+                  /></a-image-preview-action>
+                </template>
+              </a-image>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a-modal>
   </div>
 </template>
 
 <style lang="less" scoped>
+@import '../../../../assets/css/chat-window.less';
+
 .multiple-choice-console {
   position: absolute;
   top: 0;

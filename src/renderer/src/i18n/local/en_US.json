@@ -219,6 +219,8 @@
     "contextSizeDown": "Subject to the maximum input Token, the number of context items is automatically adjusted to",
     "clearContext": "Clear context",
     "clearContextTip": "Context cleared, Click to restore",
+    "sharePreview": "Share preview",
+    "shareDownload": "Save image",
     "configMiss": {
       "OpenAI": "OpenAI is not configured",
       "Gemini": "Gemini is not configured",
