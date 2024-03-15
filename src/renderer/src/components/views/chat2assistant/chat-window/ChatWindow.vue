@@ -701,7 +701,7 @@ onMounted(() => {
 
         <!-- 打开多选菜单 -->
         <a-tooltip
-          :content="$t('chatWindow.header.clear')"
+          :content="$t('chatWindow.multipleChoice')"
           position="top"
           mini
           :content-style="{ fontSize: '12px' }"
