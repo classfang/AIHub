@@ -444,12 +444,14 @@ const multipleChoiceChange = (id: string) => {
 }
 
 // 开启多选
-const multipleChoiceOpen = (id: string) => {
+const multipleChoiceOpen = (id?: string) => {
   if (systemStore.chatWindowLoading) {
     return
   }
   data.multipleChoiceFlag = true
-  multipleChoiceChange(id)
+  if (id) {
+    multipleChoiceChange(id)
+  }
 }
 
 // 关闭多选
@@ -694,6 +696,18 @@ onMounted(() => {
         >
           <a-button size="mini" shape="round" @click="chatWindowHeaderRef.clearConfirm()">
             <icon-delete :size="15" />
+          </a-button>
+        </a-tooltip>
+
+        <!-- 打开多选菜单 -->
+        <a-tooltip
+          :content="$t('chatWindow.header.clear')"
+          position="top"
+          mini
+          :content-style="{ fontSize: '12px' }"
+        >
+          <a-button size="mini" shape="round" @click="multipleChoiceOpen()">
+            <icon-select-all :size="15" />
           </a-button>
         </a-tooltip>
 
