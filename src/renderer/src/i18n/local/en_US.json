@@ -10,6 +10,7 @@
     "edit": "Edit",
     "delete": "Delete",
     "export": "Export",
+    "download": "Download",
     "loadMore": "Load more",
     "deleteConfirm": "Do you want to delete it?",
     "deleteConfirmContent": "After being deleted, it cannot be restored.",
@@ -353,5 +354,26 @@
       "test": "Test plugin",
       "testResult": "Test result"
     }
+  },
+  "aiDrawing": {
+    "name": "AI Drawing",
+    "provider": "Provider",
+    "model": "Model",
+    "size": "Image size",
+    "quality": "Image quality",
+    "style": "Image style",
+    "styleOption": {
+      "auto": "auto",
+      "3dCartoon": "3D cartoon",
+      "anime": "anime",
+      "oilPainting": "oil painting",
+      "watercolor": "watercolor",
+      "sketch": "sketch",
+      "chinesePainting": "chinese painting",
+      "flatIllustration": "flat illustration"
+    },
+    "promptPlaceholder": "Please enter the prompt word",
+    "start": "Start generation",
+    "stop": "Stop generation"
   }
 }

@@ -1,0 +1,136 @@
+<script setup lang="ts">
+import { useDrawingStore } from '@renderer/store/drawing'
+import { useSystemStore } from '@renderer/store/system'
+import { downloadFile } from '@renderer/utils/download-util'
+import { randomUUID } from '@renderer/utils/id-util'
+
+// store
+const systemStore = useSystemStore()
+const drawingStore = useDrawingStore()
+
+const newDrawingTask = () => {
+  if (systemStore.aiDrawingLoading) {
+    return
+  }
+  drawingStore.drawingTaskList.unshift({
+    id: randomUUID(),
+    provider: 'OpenAI',
+    model: 'dall-e-3',
+    imageList: [],
+    prompt: '',
+    options: { size: '1024x1024', style: 'vivid', quality: 'standard' }
+  })
+}
+
+const drawingTaskClick = (taskId: string) => {
+  if (systemStore.aiDrawingLoading) {
+    return
+  }
+  drawingStore.currentTaskId = taskId
+  console.log(drawingStore.getCurrentTask)
+}
+
+const deleteDrawingTask = (taskId: string) => {
+  if (systemStore.aiDrawingLoading) {
+    return
+  }
+  drawingStore.drawingTaskList = drawingStore.drawingTaskList.filter((t) => t.id !== taskId)
+}
+</script>
+
+<template>
+  <div class="ai-drawing-img-list">
+    <div class="ai-drawing-img-new" @click="newDrawingTask()">
+      <icon-plus />
+    </div>
+    <div
+      v-for="t in drawingStore.drawingTaskList"
+      :key="t.id"
+      class="ai-drawing-img-item"
+      @click="drawingTaskClick(t.id)"
+    >
+      <a-image
+        v-if="t.imageList[0]"
+        width="100"
+        height="100"
+        :src="`file://${t.imageList[0]}`"
+        show-loader
+        fit="cover"
+      >
+        <template #preview-actions>
+          <a-image-preview-action
+            :name="$t('common.download')"
+            @click="downloadFile(`file://${t.imageList[0]}`, `img-${t.id}.png`)"
+            ><icon-download
+          /></a-image-preview-action>
+        </template>
+      </a-image>
+      <div v-else class="ai-drawing-img-default"></div>
+      <a-button
+        class="ai-drawing-img-delete-btn"
+        shape="circle"
+        size="mini"
+        status="danger"
+        @click.stop="deleteDrawingTask(t.id)"
+      >
+        <icon-delete />
+      </a-button>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="less">
+.ai-drawing-img-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  overflow-y: auto;
+  padding-right: 5px;
+  box-sizing: border-box;
+
+  .ai-drawing-img-new {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-fill-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-3);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 200ms;
+
+    &:hover {
+      color: var(--color-text-2);
+    }
+  }
+
+  .ai-drawing-img-item {
+    position: relative;
+
+    .ai-drawing-img-delete-btn {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      opacity: 0;
+      transition: opacity 200ms;
+    }
+
+    &:hover {
+      .ai-drawing-img-delete-btn {
+        opacity: 1;
+      }
+    }
+
+    .ai-drawing-img-default {
+      flex-shrink: 0;
+      width: 100px;
+      height: 100px;
+      background-color: var(--color-fill-3);
+      cursor: pointer;
+    }
+  }
+}
+</style>

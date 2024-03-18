@@ -4,13 +4,14 @@ import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import Notification from '@renderer/components/modal/Notification.vue'
 import Setting from '@renderer/components/modal/Setting.vue'
-import AICalendar from '@renderer/components/views/AICalendar.vue'
-import CollectionSet from '@renderer/components/views/CollectionSet.vue'
-import Translator from '@renderer/components/views/Translator.vue'
+import AICalendar from '@renderer/components/views/ai-calendar/AICalendar.vue'
+import AIDrawing from '@renderer/components/views/ai-drawing/AIDrawing.vue'
 import Chat2Assistant from '@renderer/components/views/chat2assistant/Chat2Assistant.vue'
 import ChatPlugin from '@renderer/components/views/chat-plugin/ChatPlugin.vue'
+import CollectionSet from '@renderer/components/views/collection-set/CollectionSet.vue'
 import KnowledgeBase from '@renderer/components/views/knowledge-base/KnowledgeBase.vue'
 import AIApp from '@renderer/components/views/mini-program/MiniProgram.vue'
+import Translator from '@renderer/components/views/translator/Translator.vue'
 import { useSettingStore } from '@renderer/store/setting'
 import { useSystemStore } from '@renderer/store/system'
 import { startDockAnimation, startDockBounce, stopDockAnimation } from '@renderer/utils/ipc-util'
@@ -123,6 +124,11 @@ onMounted(() => {
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat-plugin') }"
           @click="changePage('chat-plugin')"
         />
+        <icon-palette
+          class="app-sidebar-item no-drag-area"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('ai-drawing') }"
+          @click="changePage('ai-drawing')"
+        />
         <icon-book
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('knowledge-base') }"
@@ -166,6 +172,9 @@ onMounted(() => {
       </div>
       <div v-show="systemStore.isThisPage('chat-plugin')" class="app-body">
         <ChatPlugin />
+      </div>
+      <div v-show="systemStore.isThisPage('ai-drawing')" class="app-body">
+        <AIDrawing />
       </div>
       <div v-show="systemStore.isThisPage('knowledge-base')" class="app-body">
         <KnowledgeBase />

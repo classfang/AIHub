@@ -5,6 +5,7 @@ import { useAssistantStore } from '@renderer/store/assistant'
 import { useCalendarStore } from '@renderer/store/calendar'
 import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { useCollectionSetStore } from '@renderer/store/collection-set'
+import { useDrawingStore } from '@renderer/store/drawing'
 import { useKnowledgeBaseStore } from '@renderer/store/knowledge-base'
 import { useSettingStore } from '@renderer/store/setting'
 import { useSystemStore } from '@renderer/store/system'
@@ -35,6 +36,7 @@ const collectionSetStore = useCollectionSetStore()
 const knowledgeBaseStore = useKnowledgeBaseStore()
 const calendarStore = useCalendarStore()
 const chatPluginStore = useChatPluginStore()
+const drawingStore = useDrawingStore()
 const { t } = useI18n()
 
 const data = reactive({
@@ -79,26 +81,33 @@ const clearCacheHandle = async () => {
   }
   data.clearCacheFlag = true
 
-  // 用户头像、所有对话记录图片、收藏中的图片
-  const images: string[] = []
+  // 用户头像、所有对话记录图片、AI绘画中的图片、收藏中的图片
+  const ignoreImages: string[] = []
   if (userStore.avatar) {
-    images.push(userStore.avatar)
+    ignoreImages.push(userStore.avatar)
   }
   assistantStore.assistantList.forEach((asst) =>
     asst.chatMessageList.forEach((msg) => {
       if (msg.image) {
-        images.push(msg.image)
+        ignoreImages.push(msg.image)
       }
     })
   )
+  drawingStore.drawingTaskList.forEach((task) => {
+    task.imageList.forEach((img) => {
+      if (img) {
+        ignoreImages.push(img)
+      }
+    })
+  })
   collectionSetStore.chatMessageSetList.forEach((set) =>
     set.chatMessageList.forEach((msg) => {
       if (msg.image) {
-        images.push(msg.image)
+        ignoreImages.push(msg.image)
       }
     })
   )
-  await clearCacheFiles(images)
+  await clearCacheFiles(ignoreImages)
   data.clearCacheFlag = false
   Message.success(t('setting.app.backup.cache.clearSuccess'))
 }
@@ -123,6 +132,7 @@ const exportDataBackup = async () => {
       knowledgeBaseStore: knowledgeBaseStore.getStoreJson,
       calendarStore: calendarStore.getStoreJson,
       chatPluginStore: chatPluginStore.getStoreJson,
+      drawingStore: drawingStore.getStoreJson,
       cacheFiles: await getCacheFiles()
     })
   )
@@ -179,6 +189,7 @@ const importDataBackup = () => {
             knowledgeBaseStore.setStoreFromJson(dataBackup.knowledgeBaseStore) || importFlag
           importFlag = calendarStore.setStoreFromJson(dataBackup.calendarStore) || importFlag
           importFlag = chatPluginStore.setStoreFromJson(dataBackup.chatPluginStore) || importFlag
+          importFlag = drawingStore.setStoreFromJson(dataBackup.drawingStore) || importFlag
           importFlag = (await addCacheFiles(dataBackup.cacheFiles)) || importFlag
           if (importFlag) {
             Message.success(t('setting.app.backup.importSuccess'))

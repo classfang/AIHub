@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import { copyObj } from '@renderer/utils/object-util'
+import { defineStore } from 'pinia'
 
 export const useChatPluginStore = defineStore({
   id: 'chat-plugin',

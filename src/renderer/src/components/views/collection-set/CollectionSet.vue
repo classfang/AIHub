@@ -166,7 +166,7 @@ const exportChatMessageList = (id: string) => {
                 >
                   <template #preview-actions>
                     <a-image-preview-action
-                      name="下载"
+                      :name="$t('common.download')"
                       @click="downloadFile(`file://${msg.image}`, `img-${msg.id}.png`)"
                       ><icon-download
                     /></a-image-preview-action>
@@ -190,7 +190,7 @@ const exportChatMessageList = (id: string) => {
 </template>
 
 <style lang="less" scoped>
-@import '../../assets/css/chat-window.less';
+@import '../../../assets/css/chat-window.less';
 
 .collection-set {
   width: 100%;

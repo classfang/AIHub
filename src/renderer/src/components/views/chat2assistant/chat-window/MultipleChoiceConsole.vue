@@ -200,7 +200,7 @@ const shareModalBeforeOk = async () => {
               >
                 <template #preview-actions>
                   <a-image-preview-action
-                    name="下载"
+                    :name="$t('common.download')"
                     @click="downloadFile(`file://${msg.image}`, `img-${msg.id}.png`)"
                     ><icon-download
                   /></a-image-preview-action>

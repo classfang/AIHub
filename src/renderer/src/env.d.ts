@@ -16,6 +16,7 @@ declare module 'markdown-it-mathjax3' {
 type PageName =
   | 'chat'
   | 'chat-plugin'
+  | 'ai-drawing'
   | 'knowledge-base'
   | 'calendar'
   | 'translator'
@@ -140,4 +141,22 @@ interface ChatPluginParameter {
   name: string
   type: ChatPluginParameterType
   description: string
+}
+
+interface DrawingTask {
+  // 公共参数
+  id: string
+  provider: BigModelProvider
+  model: string
+  imageList: string[]
+  prompt: string
+
+  // 可选项
+  options: {
+    // OpenAI
+    n?: number
+    quality?: string
+    size?: string
+    style?: string
+  }
 }

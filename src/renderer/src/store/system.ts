@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import dayjs from 'dayjs'
+import { defineStore } from 'pinia'
 
 export const useSystemStore = defineStore({
   id: 'system',
@@ -7,6 +7,7 @@ export const useSystemStore = defineStore({
     currentPage: 'chat' as PageName,
     globalLoading: false,
     chatWindowLoading: false,
+    aiDrawingLoading: false,
     knowledgeBaseWindowLoading: false,
     aiCalendarLoading: false,
     dayKey: dayjs().format('YYYYMMDD'),
@@ -29,6 +30,7 @@ export const useSystemStore = defineStore({
       if (
         this.globalLoading ||
         this.chatWindowLoading ||
+        this.aiDrawingLoading ||
         this.knowledgeBaseWindowLoading ||
         this.aiCalendarLoading
       ) {
