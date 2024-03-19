@@ -30,6 +30,23 @@ const data = reactive({
   currentSessionId: randomUUID()
 })
 
+// 新建画布
+const newDrawingTask = () => {
+  if (systemStore.aiDrawingLoading) {
+    return
+  }
+  const id = randomUUID()
+  drawingStore.drawingTaskList.unshift({
+    id: id,
+    provider: 'OpenAI',
+    model: 'dall-e-3',
+    imageList: [],
+    prompt: '',
+    options: { size: '1024x1024', style: 'vivid', quality: 'standard' }
+  })
+  drawingStore.currentTaskId = id
+}
+
 // 开始生成
 const startGenerate = () => {
   // 检查大模型配置
@@ -142,6 +159,17 @@ const stopGenerate = () => {
     <!-- 头部 -->
     <div class="ai-drawing-header drag-area">
       <div class="ai-drawing-header-title">{{ $t('aiDrawing.name') }}</div>
+      <a-button
+        class="no-drag-area"
+        :disabled="systemStore.aiDrawingLoading"
+        size="small"
+        @click="newDrawingTask()"
+      >
+        <a-space :size="5">
+          <icon-plus />
+          <span>{{ $t('aiDrawing.new') }}</span>
+        </a-space>
+      </a-button>
     </div>
     <!-- 主体 -->
     <div class="ai-drawing-body">

@@ -2,7 +2,6 @@
 import { Modal } from '@arco-design/web-vue'
 import { useDrawingStore } from '@renderer/store/drawing'
 import { useSystemStore } from '@renderer/store/system'
-import { randomUUID } from '@renderer/utils/id-util'
 import { nextTick, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -28,23 +27,6 @@ watch(
     }
   }
 )
-
-// 新建画布
-const newDrawingTask = () => {
-  if (systemStore.aiDrawingLoading) {
-    return
-  }
-  const id = randomUUID()
-  drawingStore.drawingTaskList.unshift({
-    id: id,
-    provider: 'OpenAI',
-    model: 'dall-e-3',
-    imageList: [],
-    prompt: '',
-    options: { size: '1024x1024', style: 'vivid', quality: 'standard' }
-  })
-  drawingStore.currentTaskId = id
-}
 
 // 切换
 const drawingTaskClick = (taskId: string) => {
@@ -73,17 +55,6 @@ const deleteDrawingTask = (taskId: string) => {
 
 <template>
   <div class="ai-drawing-img-list">
-    <a-button
-      class="no-drag-area"
-      :disabled="systemStore.aiDrawingLoading"
-      size="small"
-      @click="newDrawingTask()"
-    >
-      <a-space :size="5">
-        <icon-plus />
-        <span>{{ $t('aiDrawing.new') }}</span>
-      </a-space>
-    </a-button>
     <transition-group name="fadein">
       <div
         v-for="dt in drawingStore.drawingTaskList"
