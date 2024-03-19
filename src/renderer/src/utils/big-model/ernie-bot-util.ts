@@ -50,7 +50,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
     signal: abortCtr?.signal,
     method: 'POST',
     body: JSON.stringify({
-      messages: await getERNIEBotMessages(messages!, instruction, inputMaxTokens, contextSize),
+      messages: await getERNIEMessages(messages!, instruction, inputMaxTokens, contextSize),
       stream: true
     }),
     // 连接开启
@@ -94,7 +94,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
   })
 }
 
-export const getERNIEBotMessages = async (
+export const getERNIEMessages = async (
   chatMessageList: ChatMessage[],
   instruction: string,
   inputMaxTokens: number | undefined,

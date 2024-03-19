@@ -90,7 +90,7 @@
         "key": "APIKey"
       },
       "ernieBot": {
-        "name": "ERNIE Bot",
+        "name": "Baidu ERNIE",
         "apiKey": "API Key",
         "secretKey": "Secret Key"
       },
@@ -149,7 +149,7 @@
     "OpenAI": "OpenAI",
     "Gemini": "Gemini",
     "Spark": "iFLYTEK Spark",
-    "ERNIEBot": "ERNIE Bot",
+    "ERNIE": "Baidu ERNIE",
     "Tongyi": "Alibaba Tongyi",
     "Tiangong": "Tiangong"
   },
@@ -212,7 +212,7 @@
       "OpenAI": "OpenAI is not configured",
       "Gemini": "Gemini is not configured",
       "Spark": "iFLYTEK Spark is not configured",
-      "ERNIEBot": "ERNIE Bot is not configured",
+      "ERNIE": "Baidu ERNIE is not configured",
       "Tongyi": "Alibaba Tongyi is not configured",
       "Tiangong": "Tiangong is not configured"
     },
@@ -221,7 +221,7 @@
       "OpenAI": "OpenAI call error, please check your configuration",
       "Gemini": "Gemini call error, please check your configuration",
       "Spark": "iFLYTEK Spark call error, please check your configuration",
-      "ERNIEBot": "ERNIE Bot call error, please check your configuration",
+      "ERNIE": "Baidu ERNIE call error, please check your configuration",
       "Tongyi": "Alibaba Tongyi call error, please check your configuration",
       "Tiangong": "Tiangong call error, please check your configuration"
     }

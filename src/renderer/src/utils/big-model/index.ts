@@ -54,7 +54,7 @@ const chatFunctionMap: ChatFunctionMap = {
   OpenAI: chat2openai,
   Gemini: chat2gemini,
   Spark: chat2spark,
-  ERNIEBot: chat2ernieBot,
+  ERNIE: chat2ernieBot,
   Tongyi: chat2tongyi,
   Tiangong: chat2tiangong
 }

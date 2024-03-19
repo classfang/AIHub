@@ -28,7 +28,7 @@ watch(
       case 'Spark':
         assistant.value.model = 'chat-v3.1'
         break
-      case 'ERNIEBot':
+      case 'ERNIE':
         assistant.value.model = 'ERNIE-Bot 4.0'
         break
       case 'Tongyi':

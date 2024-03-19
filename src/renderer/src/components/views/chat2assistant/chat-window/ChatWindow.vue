@@ -172,7 +172,7 @@ const useBigModel = async () => {
         configErrorFlag = true
       }
       break
-    case 'ERNIEBot':
+    case 'ERNIE':
       if (!settingStore.ernieBot.apiKey || !settingStore.ernieBot.secretKey) {
         configErrorFlag = true
       }
@@ -324,7 +324,7 @@ const useBigModel = async () => {
         apiKey: settingStore.spark.key
       }
       break
-    case 'ERNIEBot':
+    case 'ERNIE':
       otherOption = {
         apiKey: settingStore.ernieBot.apiKey,
         secretKey: settingStore.ernieBot.secretKey,

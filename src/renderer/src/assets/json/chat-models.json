@@ -63,7 +63,7 @@
       "isSupportNetwork": true
     }
   ],
-  "ERNIEBot": [
+  "ERNIE": [
     { "name": "ERNIE-4.0", "value": "ERNIE-4.0", "type": "text" },
     { "name": "ERNIE-3.5-8K", "value": "ERNIE-3.5-8K", "type": "text" },
     { "name": "ERNIE-Speed-128K", "value": "ERNIE-Speed-128K", "type": "text" },

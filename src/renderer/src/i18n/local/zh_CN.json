@@ -90,7 +90,7 @@
         "key": "APIKey"
       },
       "ernieBot": {
-        "name": "文心一言",
+        "name": "百度文心",
         "apiKey": "API Key",
         "secretKey": "Secret Key"
       },
@@ -149,7 +149,7 @@
     "OpenAI": "OpenAI",
     "Gemini": "Gemini",
     "Spark": "讯飞星火",
-    "ERNIEBot": "文心一言",
+    "ERNIE": "百度文心",
     "Tongyi": "阿里通义",
     "Tiangong": "天工"
   },
@@ -212,7 +212,7 @@
       "OpenAI": "OpenAI未配置",
       "Gemini": "Gemini未配置",
       "Spark": "星火大模型未配置",
-      "ERNIEBot": "文心一言大模型未配置",
+      "ERNIE": "百度文心大模型未配置",
       "Tongyi": "阿里通义大模型未配置",
       "Tiangong": "天工大模型未配置"
     },
@@ -221,7 +221,7 @@
       "OpenAI": "OpenAI调用错误，请检查你的配置",
       "Gemini": "Gemini调用错误，请检查你的配置",
       "Spark": "星火大模型调用错误，请检查你的配置",
-      "ERNIEBot": "文心一言大模型调用错误，请检查你的配置",
+      "ERNIE": "百度文心大模型调用错误，请检查你的配置",
       "Tongyi": "阿里通义大模型调用错误，请检查你的配置",
       "Tiangong": "天工大模型调用错误，请检查你的配置"
     }
