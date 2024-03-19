@@ -44,6 +44,10 @@ const drawingStore = useDrawingStore()
   justify-content: center;
   cursor: pointer;
 
+  :deep(.arco-image) {
+    border-radius: 0;
+  }
+
   .ai-drawing-img-default {
     width: 500px;
     height: 500px;

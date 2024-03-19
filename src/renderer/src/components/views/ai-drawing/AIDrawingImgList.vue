@@ -63,6 +63,7 @@ const deleteDrawingTask = (taskId: string) => {
       v-for="dt in drawingStore.drawingTaskList"
       :key="dt.id"
       class="ai-drawing-img-item"
+      :class="{ 'ai-drawing-img-item-active': drawingStore.currentTaskId === dt.id }"
       @click="drawingTaskClick(dt.id)"
     >
       <a-image
@@ -122,6 +123,11 @@ const deleteDrawingTask = (taskId: string) => {
   .ai-drawing-img-item {
     position: relative;
     cursor: pointer;
+    border: 3px solid transparent;
+
+    :deep(.arco-image) {
+      border-radius: 0;
+    }
 
     .ai-drawing-img-delete-btn {
       position: absolute;
@@ -147,6 +153,10 @@ const deleteDrawingTask = (taskId: string) => {
       justify-content: center;
       color: var(--color-text-3);
     }
+  }
+
+  .ai-drawing-img-item-active {
+    border-color: rgb(var(--primary-6));
   }
 }
 </style>
