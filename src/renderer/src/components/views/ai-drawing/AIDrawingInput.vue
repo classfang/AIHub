@@ -8,6 +8,25 @@ const drawingStore = useDrawingStore()
 
 // 定义事件
 const emits = defineEmits(['startGenerate', 'stopGenerate'])
+
+// 开始生成
+const startGenerate = (event?: KeyboardEvent) => {
+  // 加载中、内容为空、输入法回车，不发送消息
+  if (
+    systemStore.aiDrawingLoading ||
+    !drawingStore.getCurrentTask.prompt.trim() ||
+    event?.isComposing
+  ) {
+    event?.preventDefault()
+    return
+  } else if (event?.shiftKey) {
+    return
+  } else {
+    event?.preventDefault()
+  }
+
+  emits('startGenerate')
+}
 </script>
 
 <template>
@@ -22,6 +41,7 @@ const emits = defineEmits(['startGenerate', 'stopGenerate'])
         maxRows: 2
       }"
       allow-clear
+      @keydown.enter="startGenerate"
     />
     <!-- 输入框区域底部 -->
     <div class="ai-drawing-prompt-bottom">
@@ -31,7 +51,7 @@ const emits = defineEmits(['startGenerate', 'stopGenerate'])
           v-if="!systemStore.aiDrawingLoading"
           type="primary"
           size="small"
-          @click="emits('startGenerate')"
+          @click="startGenerate()"
         >
           <a-space :size="5">
             <icon-palette :size="15" />
