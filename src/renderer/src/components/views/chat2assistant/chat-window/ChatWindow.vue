@@ -39,7 +39,7 @@ const chatInputTextareaRef = ref()
 const chatWindowHeaderRef = ref()
 
 // 阻断控制
-const abortCtr = new AbortController()
+let abortCtr = new AbortController()
 
 // 数据绑定
 const data = reactive({
@@ -359,6 +359,7 @@ const stopAnswer = () => {
   systemStore.chatWindowLoading = false
   data.waitAnswer = false
   abortCtr.abort()
+  abortCtr = new AbortController()
 }
 
 // 自定义图片上传

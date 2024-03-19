@@ -1,7 +1,12 @@
 import { CommonChatOption, CommonDrawingOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { randomUUID } from '@renderer/utils/id-util'
-import { executeJavaScript, readLocalImageBase64, saveFileByUrl } from '@renderer/utils/ipc-util'
+import {
+  executeJavaScript,
+  readLocalImageBase64,
+  saveFileByBase64,
+  saveFileByUrl
+} from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/chat'
@@ -192,7 +197,7 @@ export const drawingByOpenAI = async (option: CommonDrawingOption) => {
     prompt: prompt!,
     model,
     size: size as '256x256' | '512x512' | '1024x1024' | '1792x1024' | '1024x1792' | null,
-    response_format: 'url',
+    response_format: 'b64_json',
     quality: quality as 'standard' | 'hd',
     style: style as 'vivid' | 'natural' | null,
     n: n
@@ -204,6 +209,13 @@ export const drawingByOpenAI = async (option: CommonDrawingOption) => {
   if (imageUrl) {
     // 保存图片
     imageUrl = await saveFileByUrl(imageUrl, `${randomUUID()}.png`)
+  }
+
+  // 获取图片base64
+  const b64_json = imagesResponse.data[0].b64_json ?? ''
+  if (b64_json) {
+    // 保存图片
+    imageUrl = await saveFileByBase64(b64_json, `${randomUUID()}.png`)
   }
 
   // 返回图片本地地址

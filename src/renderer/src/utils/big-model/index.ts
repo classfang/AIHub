@@ -10,9 +10,7 @@ type ChatFunctionMap = {
 }
 
 type DrawingFunctionMap = {
-  Tongyi: (option: CommonDrawingOption) => Promise<void>
-  OpenAI: (option: CommonDrawingOption) => Promise<void>
-  Spark: (option: CommonDrawingOption) => Promise<void>
+  [provider in AIDrawingProvider]: (option: CommonDrawingOption) => Promise<any>
 }
 
 export interface CommonChatOption {
@@ -46,8 +44,8 @@ export interface CommonDrawingOption {
   quality?: string
   style?: string
   n?: number
-  imageGenerated?: (sessionId: string, content?: string) => void
-  end?: (sessionId: string, err?: any) => void
+  imageGenerated?: (sessionId: string, imageUrl: string) => void
+  end?: (sessionId: string, errMsg?: any) => void
   abortCtr?: AbortController
 }
 

@@ -290,6 +290,9 @@ export const drawingByTongyi = async (option: CommonDrawingOption) => {
               }
             }
           })
+          .catch(() => {
+            clearInterval(interval)
+          })
       }, 3000)
     })
     .catch((err) => {

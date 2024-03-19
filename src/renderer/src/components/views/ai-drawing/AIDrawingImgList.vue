@@ -17,14 +17,16 @@ const newDrawingTask = () => {
   if (systemStore.aiDrawingLoading) {
     return
   }
+  const id = randomUUID()
   drawingStore.drawingTaskList.unshift({
-    id: randomUUID(),
+    id: id,
     provider: 'OpenAI',
     model: 'dall-e-3',
     imageList: [],
     prompt: '',
     options: { size: '1024x1024', style: 'vivid', quality: 'standard' }
   })
+  drawingStore.currentTaskId = id
 }
 
 // 切换
@@ -33,7 +35,6 @@ const drawingTaskClick = (taskId: string) => {
     return
   }
   drawingStore.currentTaskId = taskId
-  console.log(drawingStore.getCurrentTask)
 }
 
 // 删除
@@ -59,18 +60,19 @@ const deleteDrawingTask = (taskId: string) => {
       <icon-plus />
     </div>
     <div
-      v-for="t in drawingStore.drawingTaskList"
-      :key="t.id"
+      v-for="dt in drawingStore.drawingTaskList"
+      :key="dt.id"
       class="ai-drawing-img-item"
-      @click="drawingTaskClick(t.id)"
+      @click="drawingTaskClick(dt.id)"
     >
       <a-image
-        v-if="t.imageList[0]"
+        v-if="dt.imageList[0]"
         width="100"
         height="100"
-        :src="`file://${t.imageList[0]}`"
+        :src="`file://${dt.imageList[0]}`"
         show-loader
         fit="cover"
+        :preview="false"
       >
       </a-image>
       <div v-else class="ai-drawing-img-default">
@@ -81,7 +83,7 @@ const deleteDrawingTask = (taskId: string) => {
         shape="circle"
         size="mini"
         status="danger"
-        @click.stop="deleteDrawingTask(t.id)"
+        @click.stop="deleteDrawingTask(dt.id)"
       >
         <icon-delete />
       </a-button>
@@ -119,6 +121,7 @@ const deleteDrawingTask = (taskId: string) => {
 
   .ai-drawing-img-item {
     position: relative;
+    cursor: pointer;
 
     .ai-drawing-img-delete-btn {
       position: absolute;
@@ -139,7 +142,6 @@ const deleteDrawingTask = (taskId: string) => {
       width: 100px;
       height: 100px;
       background-color: var(--color-fill-3);
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;

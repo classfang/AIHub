@@ -23,6 +23,7 @@ type PageName =
   | 'collect'
   | 'ai-app'
 type BigModelProvider = 'OpenAI' | 'Gemini' | 'Tongyi' | 'ERNIEBot' | 'Spark' | 'Tiangong'
+type AIDrawingProvider = 'OpenAI' | 'Tongyi' | 'Spark'
 type TranslatorProvider = 'youdao' | 'baiduTranslation'
 type AssistantType = 'chat'
 type ChatMsgType = 'text' | 'img'
@@ -146,7 +147,7 @@ interface ChatPluginParameter {
 interface DrawingTask {
   // 公共参数
   id: string
-  provider: BigModelProvider
+  provider: AIDrawingProvider
   model: string
   imageList: string[]
   prompt: string

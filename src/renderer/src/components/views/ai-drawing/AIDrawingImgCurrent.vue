@@ -42,12 +42,12 @@ const drawingStore = useDrawingStore()
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   .ai-drawing-img-default {
     width: 500px;
     height: 500px;
     background-color: var(--color-fill-3);
-    cursor: pointer;
   }
 }
 </style>

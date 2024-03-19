@@ -244,7 +244,7 @@ export const getSparkMessages = async (
 
 export const drawingBySpark = async (option: CommonDrawingOption) => {
   const { appId, apiKey, secretKey, sessionId, prompt, model, size, imageGenerated, end } = option
-  fetch(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey!, secretKey!), {
+  fetch(decodeURIComponent(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey!, secretKey!)), {
     method: 'POST',
     body: getDrawingRequestParam(appId!, prompt!, size!)
   })
