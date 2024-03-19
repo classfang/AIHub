@@ -29,7 +29,7 @@ watch(
   }
 )
 
-// 新建
+// 新建画布
 const newDrawingTask = () => {
   if (systemStore.aiDrawingLoading) {
     return
@@ -73,39 +73,49 @@ const deleteDrawingTask = (taskId: string) => {
 
 <template>
   <div class="ai-drawing-img-list">
-    <div class="ai-drawing-img-new" @click="newDrawingTask()">
-      <icon-plus />
-    </div>
-    <div
-      v-for="dt in drawingStore.drawingTaskList"
-      :key="dt.id"
-      class="ai-drawing-img-item"
-      :class="{ 'ai-drawing-img-item-active': drawingStore.currentTaskId === dt.id }"
-      @click="drawingTaskClick(dt.id)"
+    <a-button
+      class="no-drag-area"
+      :disabled="systemStore.aiDrawingLoading"
+      size="small"
+      @click="newDrawingTask()"
     >
-      <a-image
-        v-if="dt.imageList[0]"
-        width="100"
-        height="100"
-        :src="`file://${dt.imageList[0]}`"
-        show-loader
-        fit="cover"
-        :preview="false"
+      <a-space :size="5">
+        <icon-plus />
+        <span>{{ $t('aiDrawing.new') }}</span>
+      </a-space>
+    </a-button>
+    <transition-group name="fadein">
+      <div
+        v-for="dt in drawingStore.drawingTaskList"
+        :key="dt.id"
+        class="ai-drawing-img-item"
+        :class="{ 'ai-drawing-img-item-active': drawingStore.currentTaskId === dt.id }"
+        @click="drawingTaskClick(dt.id)"
       >
-      </a-image>
-      <div v-else class="ai-drawing-img-default">
-        <icon-image size="20" />
+        <a-image
+          v-if="dt.imageList[0]"
+          width="100"
+          height="100"
+          :src="`file://${dt.imageList[0]}`"
+          show-loader
+          fit="cover"
+          :preview="false"
+        >
+        </a-image>
+        <div v-else class="ai-drawing-img-default">
+          <icon-image size="20" />
+        </div>
+        <a-button
+          class="ai-drawing-img-delete-btn"
+          shape="circle"
+          size="mini"
+          status="danger"
+          @click.stop="deleteDrawingTask(dt.id)"
+        >
+          <icon-delete />
+        </a-button>
       </div>
-      <a-button
-        class="ai-drawing-img-delete-btn"
-        shape="circle"
-        size="mini"
-        status="danger"
-        @click.stop="deleteDrawingTask(dt.id)"
-      >
-        <icon-delete />
-      </a-button>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -118,24 +128,6 @@ const deleteDrawingTask = (taskId: string) => {
   overflow-y: auto;
   padding-right: 5px;
   box-sizing: border-box;
-
-  .ai-drawing-img-new {
-    flex-shrink: 0;
-    width: 100px;
-    height: 100px;
-    background-color: var(--color-fill-3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-3);
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 200ms;
-
-    &:hover {
-      color: var(--color-text-2);
-    }
-  }
 
   .ai-drawing-img-item {
     position: relative;

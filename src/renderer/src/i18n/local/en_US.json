@@ -361,6 +361,7 @@
     "negativePrompt": "Negative prompt",
     "promptPlaceholder": "Please enter the prompt word",
     "start": "Start generation",
-    "stop": "Stop generation"
+    "stop": "Stop generation",
+    "new": "New canvas"
   }
 }
