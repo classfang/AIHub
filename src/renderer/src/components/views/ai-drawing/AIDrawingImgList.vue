@@ -3,6 +3,7 @@ import { Modal } from '@arco-design/web-vue'
 import { useDrawingStore } from '@renderer/store/drawing'
 import { useSystemStore } from '@renderer/store/system'
 import { randomUUID } from '@renderer/utils/id-util'
+import { nextTick, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 // i18n
@@ -11,6 +12,22 @@ const { t } = useI18n()
 // store
 const systemStore = useSystemStore()
 const drawingStore = useDrawingStore()
+
+// 监听页面切换
+watch(
+  () => systemStore.currentPage,
+  () => {
+    // 切换到当前页面时
+    if (systemStore.isThisPage('ai-drawing')) {
+      // 将当前绘画任务显示到视窗
+      nextTick(() => {
+        document
+          .querySelector('.ai-drawing-img-item-active')
+          ?.scrollIntoView({ behavior: 'smooth' })
+      })
+    }
+  }
+)
 
 // 新建
 const newDrawingTask = () => {
