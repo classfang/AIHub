@@ -34,7 +34,8 @@ export const useDrawingStore = defineStore({
     },
     getStoreJson(): string {
       return JSON.stringify({
-        drawingTaskList: [] as DrawingTask[]
+        drawingTaskList: this.drawingTaskList,
+        currentTaskId: this.currentTaskId
       })
     }
   },
@@ -47,6 +48,10 @@ export const useDrawingStore = defineStore({
       const backupData = JSON.parse(json)
       if (backupData.drawingTaskList !== undefined) {
         this.drawingTaskList = backupData.drawingTaskList
+        importFlag = true
+      }
+      if (backupData.currentTaskId !== undefined) {
+        this.currentTaskId = backupData.currentTaskId
         importFlag = true
       }
       return importFlag
