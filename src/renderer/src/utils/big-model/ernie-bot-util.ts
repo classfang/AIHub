@@ -11,6 +11,8 @@ export const getErnieBotChatUrl = (model: string) => {
       return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions'
     case 'ERNIE-Speed-8K':
       return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie_speed'
+    case 'ERNIE-Speed-128K':
+      return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-speed-128k'
     default:
       return ''
   }
