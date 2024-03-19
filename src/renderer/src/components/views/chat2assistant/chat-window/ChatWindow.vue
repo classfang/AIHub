@@ -307,27 +307,7 @@ const useBigModel = async () => {
       otherOption = {
         apiKey: settingStore.openAI.key,
         baseURL: settingStore.openAI.baseUrl,
-        type: data.currentAssistant.type,
-        chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList),
-        imagePrompt: question,
-        imageSize: data.currentAssistant.imageSize,
-        imageQuality: data.currentAssistant.imageQuality,
-        imageStyle: data.currentAssistant.imageStyle,
-        imageGenerated: (sessionId: string, imageUrl: string) => {
-          if (data.currentSessionId != sessionId) {
-            return
-          }
-          data.currentAssistant.chatMessageList.push({
-            id: randomUUID(),
-            type: 'img',
-            role: 'assistant' as ChatRole,
-            content: '',
-            image: imageUrl,
-            createTime: nowTimestamp()
-          })
-          scrollToBottom()
-          data.waitAnswer = false
-        }
+        chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList)
       }
       break
     case 'Gemini':
@@ -341,25 +321,7 @@ const useBigModel = async () => {
       otherOption = {
         appId: settingStore.spark.appId,
         secretKey: settingStore.spark.secret,
-        apiKey: settingStore.spark.key,
-        type: data.currentAssistant.type,
-        imagePrompt: question,
-        imageSize: data.currentAssistant.imageSize,
-        imageGenerated: (sessionId: string, imageUrl: string) => {
-          if (data.currentSessionId != sessionId) {
-            return
-          }
-          data.currentAssistant.chatMessageList.push({
-            id: randomUUID(),
-            type: 'img',
-            role: 'assistant' as ChatRole,
-            content: '',
-            image: imageUrl,
-            createTime: nowTimestamp()
-          })
-          scrollToBottom()
-          data.waitAnswer = false
-        }
+        apiKey: settingStore.spark.key
       }
       break
     case 'ERNIEBot':
@@ -372,34 +334,14 @@ const useBigModel = async () => {
     case 'Tongyi':
       otherOption = {
         apiKey: settingStore.tongyi.apiKey,
-        type: data.currentAssistant.type,
         chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList),
-        imagePrompt: question,
-        imageSize: data.currentAssistant.imageSize,
-        imageStyle: data.currentAssistant.imageStyle,
-        abortCtr,
-        imageGenerated: (sessionId: string, imageUrl: string) => {
-          if (data.currentSessionId != sessionId) {
-            return
-          }
-          data.currentAssistant.chatMessageList.push({
-            id: randomUUID(),
-            type: 'img',
-            role: 'assistant' as ChatRole,
-            content: '',
-            image: imageUrl,
-            createTime: nowTimestamp()
-          })
-          scrollToBottom()
-          data.waitAnswer = false
-        }
+        abortCtr
       }
       break
     case 'Tiangong':
       otherOption = {
         apiKey: settingStore.tiangong.appKey,
-        secretKey: settingStore.tiangong.appSecret,
-        type: data.currentAssistant.type
+        secretKey: settingStore.tiangong.appSecret
       }
       break
   }

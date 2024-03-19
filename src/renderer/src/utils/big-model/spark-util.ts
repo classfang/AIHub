@@ -1,4 +1,4 @@
-import { CommonChatOption } from '.'
+import { CommonChatOption, CommonDrawingOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { readLocalImageBase64, saveFileByBase64 } from '@renderer/utils/ipc-util'
@@ -127,7 +127,6 @@ const getDrawingRequestParam = (appId: string, imagePrompt: string, imageSize: s
 
 export const chat2spark = async (option: CommonChatOption) => {
   const {
-    type,
     model,
     instruction,
     inputMaxTokens,
@@ -137,95 +136,61 @@ export const chat2spark = async (option: CommonChatOption) => {
     apiKey,
     secretKey,
     messages,
-    imagePrompt,
-    imageSize,
     sessionId,
     startAnswer,
     appendAnswer,
-    imageGenerated,
     end
   } = option
 
-  // 对话或者绘画
-  if (type === 'chat') {
-    // 对话
+  // 等待回答
+  let waitAnswer = true
 
-    // 等待回答
-    let waitAnswer = true
+  // websocket 实例
+  const sparkClient = new WebSocket(getAuthUrl(getSparkHostUrl(model), 'GET', apiKey!, secretKey!))
 
-    // websocket 实例
-    const sparkClient = new WebSocket(
-      getAuthUrl(getSparkHostUrl(model), 'GET', apiKey!, secretKey!)
-    )
-
-    // 连接成功
-    sparkClient.onopen = async () => {
-      Logger.info('chat2spark open')
-      // 连接成功，发送消息
-      sparkClient.send(
-        getSparkWsRequestParam(
-          appId!,
-          model,
-          maxTokens,
-          await getSparkMessages(messages!, instruction, inputMaxTokens, contextSize)
-        )
+  // 连接成功
+  sparkClient.onopen = async () => {
+    Logger.info('chat2spark open')
+    // 连接成功，发送消息
+    sparkClient.send(
+      getSparkWsRequestParam(
+        appId!,
+        model,
+        maxTokens,
+        await getSparkMessages(messages!, instruction, inputMaxTokens, contextSize)
       )
-    }
+    )
+  }
 
-    // 收到消息
-    sparkClient.onmessage = (message) => {
-      try {
-        const respJson = JSON.parse(message.data.toString())
-        Logger.info('chat2spark:', respJson)
+  // 收到消息
+  sparkClient.onmessage = (message) => {
+    try {
+      const respJson = JSON.parse(message.data.toString())
+      Logger.info('chat2spark:', respJson)
 
-        const answerContent = respJson.payload.choices.text[0].content
-        if (waitAnswer) {
-          waitAnswer = false
-          startAnswer && startAnswer(sessionId)
-        }
-        appendAnswer && appendAnswer(sessionId, answerContent)
-      } catch (e: any) {
-        Logger.error('chat2spark error', e?.message)
-        end && end(sessionId, message.data)
-        return
+      const answerContent = respJson.payload.choices.text[0].content
+      if (waitAnswer) {
+        waitAnswer = false
+        startAnswer && startAnswer(sessionId)
       }
+      appendAnswer && appendAnswer(sessionId, answerContent)
+    } catch (e: any) {
+      Logger.error('chat2spark error', e?.message)
+      end && end(sessionId, message.data)
+      return
     }
+  }
 
-    // 连接关闭
-    sparkClient.onclose = () => {
-      Logger.info('chat2spark close')
-      end && end(sessionId)
-    }
+  // 连接关闭
+  sparkClient.onclose = () => {
+    Logger.info('chat2spark close')
+    end && end(sessionId)
+  }
 
-    // 连接错误
-    sparkClient.onerror = (e) => {
-      Logger.error('chat2spark websocket connect error', e)
-      end && end(sessionId, 'chat2spark websocket connect error')
-    }
-  } else if (type === 'drawing') {
-    // 绘画
-
-    fetch(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey!, secretKey!), {
-      method: 'POST',
-      body: getDrawingRequestParam(appId!, imagePrompt!, imageSize!)
-    })
-      .then((res) => res.json())
-      .then((resJson) => {
-        if (resJson.header.code === 0) {
-          saveFileByBase64(resJson.payload.choices.text[0].content, `${randomUUID()}.png`).then(
-            (localPath) => {
-              imageGenerated && imageGenerated(sessionId, localPath)
-              end && end(sessionId)
-            }
-          )
-        } else {
-          end && end(sessionId, resJson.header.message)
-        }
-      })
-      .catch((err) => {
-        Logger.error('chat2spark error', err)
-        end && end(sessionId, err)
-      })
+  // 连接错误
+  sparkClient.onerror = (e) => {
+    Logger.error('chat2spark websocket connect error', e)
+    end && end(sessionId, 'chat2spark websocket connect error')
   }
 }
 
@@ -275,4 +240,29 @@ export const getSparkMessages = async (
   }
 
   return sparkMessages
+}
+
+export const drawingBySpark = async (option: CommonDrawingOption) => {
+  const { appId, apiKey, secretKey, sessionId, prompt, model, size, imageGenerated, end } = option
+  fetch(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey!, secretKey!), {
+    method: 'POST',
+    body: getDrawingRequestParam(appId!, prompt!, size!)
+  })
+    .then((res) => res.json())
+    .then((resJson) => {
+      if (resJson.header.code === 0) {
+        saveFileByBase64(resJson.payload.choices.text[0].content, `${randomUUID()}.png`).then(
+          (localPath) => {
+            imageGenerated && imageGenerated(sessionId, localPath)
+            end && end(sessionId)
+          }
+        )
+      } else {
+        end && end(sessionId, resJson.header.message)
+      }
+    })
+    .catch((err) => {
+      Logger.error('drawingBySpark error', err)
+      end && end(sessionId, err)
+    })
 }

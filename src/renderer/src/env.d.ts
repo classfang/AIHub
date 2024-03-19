@@ -24,7 +24,7 @@ type PageName =
   | 'ai-app'
 type BigModelProvider = 'OpenAI' | 'Gemini' | 'Tongyi' | 'ERNIEBot' | 'Spark' | 'Tiangong'
 type TranslatorProvider = 'youdao' | 'baiduTranslation'
-type AssistantType = 'chat' | 'drawing'
+type AssistantType = 'chat'
 type ChatMsgType = 'text' | 'img'
 type ChatRole = 'user' | 'assistant' | 'system' | 'tool'
 type CalendarReportType = 'day' | 'week' | 'month' | 'year'
