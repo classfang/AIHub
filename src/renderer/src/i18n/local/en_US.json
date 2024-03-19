@@ -175,21 +175,7 @@
     "contextSize": "Context size",
     "type": "Assistant type",
     "chat": "Chat",
-    "drawing": "Drawing",
-    "imageSize": "Image size",
-    "search": "Search assistant",
-    "imageQuality": "Image quality",
-    "imageStyle": "Image style",
-    "imageStyleOption": {
-      "auto": "auto",
-      "3dCartoon": "3D cartoon",
-      "anime": "anime",
-      "oilPainting": "oil painting",
-      "watercolor": "watercolor",
-      "sketch": "sketch",
-      "chinesePainting": "chinese painting",
-      "flatIllustration": "flat illustration"
-    }
+    "search": "Search assistant"
   },
   "assistantItem": {
     "content": {
@@ -372,6 +358,7 @@
       "chinesePainting": "chinese painting",
       "flatIllustration": "flat illustration"
     },
+    "negativePrompt": "Negative prompt",
     "promptPlaceholder": "Please enter the prompt word",
     "start": "Start generation",
     "stop": "Stop generation"

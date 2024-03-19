@@ -225,7 +225,18 @@ export const getTongyiMessages = async (
 }
 
 export const drawingByTongyi = async (option: CommonDrawingOption) => {
-  const { apiKey, sessionId, prompt, model, size, style, imageGenerated, end, abortCtr } = option
+  const {
+    apiKey,
+    sessionId,
+    prompt,
+    negativePrompt,
+    model,
+    size,
+    style,
+    imageGenerated,
+    end,
+    abortCtr
+  } = option
 
   // 提交生成图片任务
   fetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', {
@@ -239,7 +250,8 @@ export const drawingByTongyi = async (option: CommonDrawingOption) => {
     body: JSON.stringify({
       model,
       input: {
-        prompt: prompt
+        prompt: prompt,
+        negative_prompt: negativePrompt
       },
       parameters: {
         style: style,

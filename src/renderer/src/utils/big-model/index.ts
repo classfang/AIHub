@@ -39,6 +39,7 @@ export interface CommonDrawingOption {
   baseURL?: string
   sessionId: string
   prompt: string
+  negativePrompt?: string
   model: string
   size?: string
   quality?: string

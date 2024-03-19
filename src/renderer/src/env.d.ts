@@ -145,16 +145,16 @@ interface ChatPluginParameter {
 }
 
 interface DrawingTask {
-  // 公共参数
+  // 关键参数
   id: string
   provider: AIDrawingProvider
   model: string
   imageList: string[]
   prompt: string
+  negativePrompt?: string
 
-  // 可选项
+  // 选项（更换模型时清空）
   options: {
-    // OpenAI
     n?: number
     quality?: string
     size?: string

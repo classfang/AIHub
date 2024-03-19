@@ -79,7 +79,7 @@ watch(
             <a-option value="1792x1024">1792x1024</a-option>
             <a-option value="1024x1792">1024x1792</a-option>
           </template>
-          <template v-if="drawingStore.getCurrentTask.provider === 'Tongyi'">
+          <template v-if="drawingStore.getCurrentTask.model === 'wanx-v1'">
             <a-option value="720x1280">720x1280</a-option>
             <a-option value="1280x720">1280x720</a-option>
           </template>
@@ -109,7 +109,7 @@ watch(
         </a-select>
       </a-form-item>
       <a-form-item
-        v-if="drawingStore.getCurrentTask.provider === 'Tongyi'"
+        v-if="drawingStore.getCurrentTask.model === 'wanx-v1'"
         field="style"
         :label="$t('aiDrawing.style')"
       >
@@ -141,6 +141,21 @@ watch(
           <a-option value="standard">standard</a-option>
           <a-option value="hd">hd</a-option>
         </a-select>
+      </a-form-item>
+      <a-form-item
+        v-if="drawingStore.getCurrentTask.model === 'wanx-v1'"
+        field="negativePrompt"
+        :label="$t('aiDrawing.negativePrompt')"
+      >
+        <a-textarea
+          v-model="drawingStore.getCurrentTask.negativePrompt"
+          :placeholder="$t('aiDrawing.promptPlaceholder')"
+          :auto-size="{
+            minRows: 3,
+            maxRows: 3
+          }"
+          allow-clear
+        />
       </a-form-item>
     </a-form>
   </div>

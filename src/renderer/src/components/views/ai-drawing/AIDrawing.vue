@@ -71,6 +71,7 @@ const startGenerate = () => {
   const options: CommonDrawingOption = {
     sessionId: data.currentSessionId,
     prompt: drawingStore.getCurrentTask.prompt,
+    negativePrompt: drawingStore.getCurrentTask.negativePrompt,
     model: drawingStore.getCurrentTask.model,
     size: drawingStore.getCurrentTask.options.size,
     quality: drawingStore.getCurrentTask.options.quality,
