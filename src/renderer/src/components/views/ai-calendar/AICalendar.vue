@@ -187,7 +187,7 @@ const generateReport = async () => {
       }
       break
     case 'ERNIE':
-      if (!settingStore.ernieBot.apiKey || !settingStore.ernieBot.secretKey) {
+      if (!settingStore.ernie.apiKey || !settingStore.ernie.secretKey) {
         configErrorFlag = true
       }
       break
@@ -277,8 +277,8 @@ const generateReport = async () => {
       break
     case 'ERNIE':
       otherOption = {
-        apiKey: settingStore.ernieBot.apiKey,
-        secretKey: settingStore.ernieBot.secretKey
+        apiKey: settingStore.ernie.apiKey,
+        secretKey: settingStore.ernie.secretKey
       }
       break
     case 'Tongyi':

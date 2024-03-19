@@ -4,5 +4,6 @@
     { "name": "dall-e-2", "value": "dall-e-2" }
   ],
   "Tongyi": [{ "name": "wanx-v1", "value": "wanx-v1" }],
+  "ERNIE": [{ "name": "stable-diffusion-xl", "value": "sd_xl" }],
   "Spark": [{ "name": "tti-v2.1", "value": "tti-v2.1" }]
 }

@@ -461,7 +461,7 @@ onMounted(() => {
                 </a-space>
               </a-tab-pane>
               <!-- 文心一言 -->
-              <a-tab-pane key="ernieBot" :title="$t('setting.bigModel.ernieBot.name')">
+              <a-tab-pane key="ernie" :title="$t('setting.bigModel.ernie.name')">
                 <a-space direction="vertical" :size="20" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('common.officialWebsite') }}</div>
@@ -470,22 +470,22 @@ onMounted(() => {
                     >
                   </a-space>
                   <a-space direction="vertical" :size="10" fill>
-                    <div>{{ $t('setting.bigModel.ernieBot.apiKey') }}</div>
+                    <div>{{ $t('setting.bigModel.ernie.apiKey') }}</div>
                     <a-input-password
-                      v-model="settingStore.ernieBot.apiKey"
+                      v-model="settingStore.ernie.apiKey"
                       size="small"
                       :placeholder="
-                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ernieBot.apiKey')
+                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ernie.apiKey')
                       "
                     />
                   </a-space>
                   <a-space direction="vertical" :size="10" fill>
-                    <div>{{ $t('setting.bigModel.ernieBot.secretKey') }}</div>
+                    <div>{{ $t('setting.bigModel.ernie.secretKey') }}</div>
                     <a-input-password
-                      v-model="settingStore.ernieBot.secretKey"
+                      v-model="settingStore.ernie.secretKey"
                       size="small"
                       :placeholder="
-                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ernieBot.secretKey')
+                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ernie.secretKey')
                       "
                     />
                   </a-space>

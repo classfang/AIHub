@@ -1,6 +1,8 @@
-import { CommonChatOption } from '.'
+import { CommonChatOption, CommonDrawingOption } from '.'
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { randomUUID } from '@renderer/utils/id-util'
+import { saveFileByBase64 } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 
 export const getErnieBotChatUrl = (model: string) => {
@@ -18,7 +20,16 @@ export const getErnieBotChatUrl = (model: string) => {
   }
 }
 
-export const chat2ernieBot = async (option: CommonChatOption) => {
+const getAccessToken = async (apiKey: string | undefined, secretKey: string | undefined) => {
+  // 获取 accessToken
+  const tokenResp = await fetch(
+    `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${apiKey}&client_secret=${secretKey}`
+  )
+  const tokenRespJson = await tokenResp.json()
+  return tokenRespJson.access_token
+}
+
+export const chat2ernie = async (option: CommonChatOption) => {
   const {
     model,
     instruction,
@@ -36,13 +47,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
 
   // 等待回答
   let waitAnswer = true
-
-  // 获取 accessToken
-  const tokenResp = await fetch(
-    `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${apiKey}&client_secret=${secretKey}`
-  )
-  const tokenRespJson = await tokenResp.json()
-  const accessToken = tokenRespJson.access_token
+  const accessToken = await getAccessToken(apiKey, secretKey)
 
   // sse
   await fetchEventSource(`${getErnieBotChatUrl(model)}?access_token=${accessToken}`, {
@@ -59,7 +64,7 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
         return
       } else {
         const respText = await response.text()
-        Logger.error('chat2ernieBot error', respText)
+        Logger.error('chat2ernie error', respText)
         throw new Error(respText)
       }
     },
@@ -67,25 +72,25 @@ export const chat2ernieBot = async (option: CommonChatOption) => {
     onmessage: (message) => {
       try {
         const respJson = JSON.parse(message.data)
-        Logger.info('chat2ernieBot:', respJson)
+        Logger.info('chat2ernie:', respJson)
         if (waitAnswer) {
           waitAnswer = false
           startAnswer && startAnswer(sessionId)
         }
         appendAnswer && appendAnswer(sessionId, respJson.result)
       } catch (e: any) {
-        Logger.error('chat2ernieBot error', e?.message)
+        Logger.error('chat2ernie error', e?.message)
         end && end(sessionId, message.data)
       }
     },
     // 连接关闭
     onclose: () => {
-      Logger.info('chat2ernieBot close')
+      Logger.info('chat2ernie close')
       end && end(sessionId)
     },
     // 连接错误
     onerror: (e: any) => {
-      Logger.error('chat2ernieBot error：', e?.message)
+      Logger.error('chat2ernie error：', e?.message)
       // 抛出异常防止重连
       if (e instanceof Error) {
         throw e
@@ -119,4 +124,69 @@ export const getERNIEMessages = async (
   }
 
   return messages
+}
+
+export const drawingByERNIE = async (option: CommonDrawingOption) => {
+  const {
+    apiKey,
+    secretKey,
+    sessionId,
+    prompt,
+    negativePrompt,
+    model,
+    size,
+    style,
+    steps,
+    samplerIndex,
+    cfgScale,
+    imageGenerated,
+    end,
+    abortCtr
+  } = option
+
+  const accessToken = await getAccessToken(apiKey, secretKey)
+
+  // 提交生成图片任务
+  fetch(
+    `https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/text2image/${model}?access_token=${accessToken}`,
+    {
+      signal: abortCtr?.signal,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        negative_prompt: negativePrompt,
+        size: size,
+        steps: steps,
+        n: 1,
+        sampler_index: samplerIndex,
+        cfg_scale: cfgScale,
+        style: style
+      })
+    }
+  )
+    .then((res) => res.json())
+    .then((respJson) => {
+      const errorCode = respJson?.error_code
+      // 错误码
+      if (errorCode) {
+        end && end(sessionId, respJson?.error_msg)
+        return
+      }
+      // 成功
+      const imageBase64 = respJson?.data[0].b64_image
+      if (imageBase64) {
+        // 保存图片
+        saveFileByBase64(imageBase64, `${randomUUID()}.png`).then((imageUrl) => {
+          imageGenerated && imageGenerated(sessionId, imageUrl)
+          end && end(sessionId)
+        })
+      }
+    })
+    .catch((err) => {
+      Logger.error('drawingByERNIE error', err)
+      end && end(sessionId, err)
+    })
 }

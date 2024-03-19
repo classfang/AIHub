@@ -23,7 +23,7 @@ type PageName =
   | 'collect'
   | 'ai-app'
 type BigModelProvider = 'OpenAI' | 'Gemini' | 'Tongyi' | 'ERNIE' | 'Spark' | 'Tiangong'
-type AIDrawingProvider = 'OpenAI' | 'Tongyi' | 'Spark'
+type AIDrawingProvider = 'OpenAI' | 'Tongyi' | 'ERNIE' | 'Spark'
 type TranslatorProvider = 'youdao' | 'baiduTranslation'
 type AssistantType = 'chat'
 type ChatMsgType = 'text' | 'img'
@@ -159,5 +159,8 @@ interface DrawingTask {
     quality?: string
     size?: string
     style?: string
+    steps?: number
+    samplerIndex?: string
+    cfgScale?: number
   }
 }

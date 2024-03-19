@@ -22,7 +22,7 @@ export const useSettingStore = defineStore({
       secret: '',
       key: ''
     },
-    ernieBot: {
+    ernie: {
       apiKey: '',
       secretKey: ''
     },
@@ -57,7 +57,7 @@ export const useSettingStore = defineStore({
         openAI: this.openAI,
         gemini: this.gemini,
         spark: this.spark,
-        ernieBot: this.ernieBot,
+        ernie: this.ernie,
         tongyi: this.tongyi,
         tiangong: this.tiangong,
         youdao: this.youdao,
@@ -89,8 +89,8 @@ export const useSettingStore = defineStore({
         this.spark = settingBackup.spark
         importFlag = true
       }
-      if (settingBackup.ernieBot !== undefined) {
-        this.ernieBot = settingBackup.ernieBot
+      if (settingBackup.ernie !== undefined) {
+        this.ernie = settingBackup.ernie
         importFlag = true
       }
       if (settingBackup.tongyi !== undefined) {

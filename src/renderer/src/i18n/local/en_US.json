@@ -89,7 +89,7 @@
         "secret": "APISecret",
         "key": "APIKey"
       },
-      "ernieBot": {
+      "ernie": {
         "name": "Baidu ERNIE",
         "apiKey": "API Key",
         "secretKey": "Secret Key"
@@ -356,10 +356,30 @@
       "watercolor": "watercolor",
       "sketch": "sketch",
       "chinesePainting": "chinese painting",
-      "flatIllustration": "flat illustration"
+      "flatIllustration": "flat illustration",
+      "base": "base",
+      "3dModel": "3D model",
+      "analogFilm": "analog film",
+      "cinematic": "cinematic",
+      "comicBook": "comic book",
+      "craftClay": "craft clay",
+      "digitalArt": "digital art",
+      "enhance": "enhance",
+      "fantasyArt": "fantasy art",
+      "isometric": "isometric",
+      "lineArt": "line art",
+      "lowpoly": "lowpoly",
+      "neonpunk": "neonpunk",
+      "origami": "origami",
+      "photographic": "photographic",
+      "pixelArt": "pixel art",
+      "texture": "texture"
     },
     "negativePrompt": "Negative prompt",
     "promptPlaceholder": "Please enter the prompt word",
+    "steps": "Steps",
+    "samplerIndex": "Sampling mode",
+    "cfgScale": "Prompt word correlation",
     "start": "Start generation",
     "stop": "Stop generation",
     "new": "New canvas"

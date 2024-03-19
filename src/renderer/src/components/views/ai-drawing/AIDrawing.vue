@@ -57,13 +57,18 @@ const startGenerate = () => {
         configErrorFlag = true
       }
       break
-    case 'Spark':
-      if (!settingStore.spark.appId || !settingStore.spark.secret || !settingStore.spark.key) {
+    case 'Tongyi':
+      if (!settingStore.tongyi.apiKey) {
         configErrorFlag = true
       }
       break
-    case 'Tongyi':
-      if (!settingStore.tongyi.apiKey) {
+    case 'ERNIE':
+      if (!settingStore.ernie.apiKey || !settingStore.ernie.secretKey) {
+        configErrorFlag = true
+      }
+      break
+    case 'Spark':
+      if (!settingStore.spark.appId || !settingStore.spark.secret || !settingStore.spark.key) {
         configErrorFlag = true
       }
       break
@@ -94,6 +99,9 @@ const startGenerate = () => {
     quality: drawingStore.getCurrentTask.options.quality,
     style: drawingStore.getCurrentTask.options.style,
     n: drawingStore.getCurrentTask.options.n,
+    steps: drawingStore.getCurrentTask.options.steps,
+    samplerIndex: drawingStore.getCurrentTask.options.samplerIndex,
+    cfgScale: drawingStore.getCurrentTask.options.cfgScale,
     imageGenerated: (sessionId: string, imageUrl: string) => {
       if (data.currentSessionId != sessionId) {
         return
@@ -124,16 +132,22 @@ const startGenerate = () => {
         baseURL: settingStore.openAI.baseUrl
       }
       break
+    case 'Tongyi':
+      otherOption = {
+        apiKey: settingStore.tongyi.apiKey
+      }
+      break
+    case 'ERNIE':
+      otherOption = {
+        apiKey: settingStore.ernie.apiKey,
+        secretKey: settingStore.ernie.secretKey
+      }
+      break
     case 'Spark':
       otherOption = {
         appId: settingStore.spark.appId,
         secretKey: settingStore.spark.secret,
         apiKey: settingStore.spark.key
-      }
-      break
-    case 'Tongyi':
-      otherOption = {
-        apiKey: settingStore.tongyi.apiKey
       }
       break
   }
