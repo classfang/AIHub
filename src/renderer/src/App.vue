@@ -80,6 +80,7 @@ const watchLoading = () => {
     if (
       systemStore.globalLoading ||
       systemStore.chatWindowLoading ||
+      systemStore.aiDrawingLoading ||
       systemStore.knowledgeBaseWindowLoading ||
       systemStore.aiCalendarLoading
     ) {
