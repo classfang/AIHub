@@ -54,7 +54,7 @@ const creatTempPath = () => {
 let mainWindow: BrowserWindow
 
 // 创建主窗口
-function createWindow(): void {
+const createWindow = () => {
   // 获取主窗口尺寸
   const mainWindowSize = store.get('main-window-size') as { width: number; height: number }
 
@@ -146,7 +146,7 @@ function createWindow(): void {
 
 // dock图片转动
 let dockAnimationInterval: NodeJS.Timeout | null = null
-function startDockAnimation() {
+const startDockAnimation = () => {
   if (process.platform !== 'darwin') {
     return
   }
@@ -161,7 +161,7 @@ function startDockAnimation() {
     app.dock.setIcon(getDockIcon(iconIndex))
   }, animationInterval)
 }
-function stopDockAnimation() {
+const stopDockAnimation = () => {
   if (dockAnimationInterval) {
     clearInterval(dockAnimationInterval)
   }
