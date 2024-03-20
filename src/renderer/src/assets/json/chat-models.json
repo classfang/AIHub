@@ -33,7 +33,8 @@
     { "name": "gemini-pro", "value": "gemini-pro", "type": "text" }
   ],
   "Tongyi": [
-    { "name": "qwen-vl-plus", "value": "qwen-vl-plus", "type": "vision" },
+    { "name": "qwen-vl-max", "value": "qwen-vl-max", "type": "vision", "isSupportImage": true },
+    { "name": "qwen-vl-plus", "value": "qwen-vl-plus", "type": "vision", "isSupportImage": true },
     {
       "name": "qwen-max-longcontext",
       "value": "qwen-max-longcontext",

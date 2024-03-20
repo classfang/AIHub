@@ -14,10 +14,15 @@ export const getTongyiChatUrl = (model: string) => {
     case 'qwen-max-longcontext':
       return 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation'
     case 'qwen-vl-plus':
+    case 'qwen-vl-max':
       return 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation'
     default:
       return ''
   }
+}
+
+const isVisionModel = (model: string) => {
+  return ['qwen-vl-plus', 'qwen-vl-max'].includes(model)
 }
 
 export const chat2tongyi = async (option: CommonChatOption) => {
@@ -60,7 +65,8 @@ export const chat2tongyi = async (option: CommonChatOption) => {
             instruction,
             inputMaxTokens,
             contextSize,
-            model
+            model,
+            apiKey
           )
         },
         parameters: {
@@ -94,12 +100,13 @@ export const chat2tongyi = async (option: CommonChatOption) => {
   }
 
   // 现有消息列表
-  const chatMessages = await getTongyiMessages(
+  const { chatMessages, hasOSS } = await getTongyiMessages(
     messages!,
     instruction,
     inputMaxTokens,
     contextSize,
-    model
+    model,
+    apiKey
   )
 
   // 是否有插件
@@ -128,7 +135,8 @@ export const chat2tongyi = async (option: CommonChatOption) => {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
-      Accept: 'text/event-stream'
+      Accept: 'text/event-stream',
+      'X-DashScope-OssResourceResolve': hasOSS ? 'enable' : 'disable'
     },
     body: JSON.stringify({
       model,
@@ -156,7 +164,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
         const respJson = JSON.parse(message.data)
         Logger.info('chat2tongyi:', respJson)
         let content: string
-        if (model === 'qwen-vl-plus') {
+        if (isVisionModel(model)) {
           content = respJson.output.choices[0].message.content[0].text
         } else {
           content = respJson.output.choices[0].message.content
@@ -188,12 +196,48 @@ export const chat2tongyi = async (option: CommonChatOption) => {
   })
 }
 
+// 上传图片到 DashScope 临时空间
+const uploadImageToOSS = async (model: string, apiKey: string | undefined, msg: BaseMessage) => {
+  const getPolicyResp = await fetch(
+    `https://dashscope.aliyuncs.com/api/v1/uploads?action=getPolicy&model=${model}`,
+    {
+      headers: {
+        Authorization: `Bearer ${apiKey}`
+      }
+    }
+  )
+  const getPolicyJson = await getPolicyResp.json()
+  const imageResp = await fetch(`file://${msg.image}`)
+  const imageBlob = await imageResp.blob()
+  const formData = new FormData()
+  const imageUploadName = `${randomUUID()}.png`
+  const imageUploadPath = `${getPolicyJson.data.upload_dir}/${imageUploadName}`
+  formData.append('OSSAccessKeyId', getPolicyJson.data.oss_access_key_id)
+  formData.append('Signature', getPolicyJson.data.signature)
+  formData.append('policy', getPolicyJson.data.policy)
+  formData.append('key', `${imageUploadPath}`)
+  formData.append('x-oss-object-acl', getPolicyJson.data.x_oss_object_acl)
+  formData.append('x-oss-forbid-overwrite', getPolicyJson.data.x_oss_forbid_overwrite)
+  formData.append('success_action_status', '200')
+  formData.append('x-oss-content-type', 'image/png')
+  formData.append('file', imageBlob, imageUploadName)
+  await fetch(getPolicyJson.data.upload_host, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`
+    },
+    body: formData
+  })
+  return imageUploadPath
+}
+
 export const getTongyiMessages = async (
   chatMessageList: ChatMessage[],
   instruction: string,
   inputMaxTokens: number | undefined,
   contextSize: number,
-  model: string
+  model: string,
+  apiKey: string | undefined
 ) => {
   // 将消息历史处理为user和assistant轮流对话
   let messages = turnChat(chatMessageList)
@@ -214,14 +258,35 @@ export const getTongyiMessages = async (
     messages.shift()
   }
 
-  // qwen-vl-plus 模型消息格式处理
-  if (model === 'qwen-vl-plus') {
-    return messages.map((msg) => {
-      return { role: msg.role, content: [{ text: msg.content }] }
-    })
+  // 是否拥有OSS资源
+  let hasOSS = false
+
+  // vision模型，处理图片上传，处理消息格式处理
+  if (isVisionModel(model)) {
+    const visionMessages: any[] = []
+    for (const msg of messages) {
+      if (msg.image && msg.role === 'user') {
+        // 图片消息
+        const imageUploadPath = await uploadImageToOSS(model, apiKey, msg)
+
+        const imageUrl = `oss://${imageUploadPath}`
+        visionMessages.push({
+          role: msg.role,
+          content: [{ image: imageUrl }, { text: msg.content }]
+        })
+        hasOSS = true
+      } else {
+        // 纯文本消息
+        visionMessages.push({ role: msg.role, content: [{ text: msg.content }] })
+      }
+    }
+    messages = visionMessages
   }
 
-  return messages
+  return {
+    chatMessages: messages,
+    hasOSS
+  }
 }
 
 export const drawingByTongyi = async (option: CommonDrawingOption) => {
