@@ -31,7 +31,7 @@ export const initLogger = (logsPath: string) => {
     datePattern: 'YYYY-MM-DD',
     zippedArchive: true,
     maxSize: '20m',
-    maxFiles: '14d',
+    maxFiles: '30d',
     frequency: '1m'
   }
 
@@ -53,7 +53,9 @@ export const initLogger = (logsPath: string) => {
     exitOnError: false,
     exceptionHandlers: [
       new DailyRotateFile({
-        filename: join(logsPath, 'exceptions.log')
+        filename: join(logsPath, 'exceptions-%DATE%.log'),
+        level: 'error',
+        ...dailyRotateFileOptions
       })
     ]
   })
