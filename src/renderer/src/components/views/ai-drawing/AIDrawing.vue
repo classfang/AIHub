@@ -188,7 +188,7 @@ const stopGenerate = () => {
     <!-- 主体 -->
     <div class="ai-drawing-body">
       <div class="ai-drawing-body-left">
-        <AIDrawingConsole />
+        <AIDrawingConsole :key="`ai-drawing-console-${drawingStore.currentTaskId}`" />
       </div>
       <div class="ai-drawing-body-right">
         <div class="ai-drawing-img-area">
