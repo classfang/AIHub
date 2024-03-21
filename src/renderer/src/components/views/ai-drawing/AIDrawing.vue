@@ -192,7 +192,10 @@ const stopGenerate = () => {
       </div>
       <div class="ai-drawing-body-right">
         <div class="ai-drawing-img-area">
-          <AIDrawingImgCurrent :key="drawingStore.currentTaskId" class="ai-drawing-img-current" />
+          <AIDrawingImgCurrent
+            :key="`ai-drawing-img-current-${drawingStore.currentTaskId}`"
+            class="ai-drawing-img-current"
+          />
           <AIDrawingImgList class="ai-drawing-img-list" />
         </div>
         <AIDrawingInput
