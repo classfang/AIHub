@@ -205,21 +205,20 @@ export const drawingByOpenAI = async (option: CommonDrawingOption) => {
   Logger.info('chat2openai:', imagesResponse)
 
   // 获取图片地址
-  let imageUrl = imagesResponse.data[0].url ?? ''
-  if (imageUrl) {
+  const imageUrls: string[] = []
+  if (imagesResponse.data) {
     // 保存图片
-    imageUrl = await saveFileByUrl(imageUrl, `${randomUUID()}.png`)
-  }
-
-  // 获取图片base64
-  const b64_json = imagesResponse.data[0].b64_json ?? ''
-  if (b64_json) {
-    // 保存图片
-    imageUrl = await saveFileByBase64(b64_json, `${randomUUID()}.png`)
+    for (const imgData of imagesResponse.data) {
+      if (imgData.url) {
+        imageUrls.push(await saveFileByUrl(imgData.url, `${randomUUID()}.png`))
+      } else if (imgData.b64_json) {
+        imageUrls.push(await saveFileByBase64(imgData.b64_json, `${randomUUID()}.png`))
+      }
+    }
   }
 
   // 返回图片本地地址
-  imageGenerated && imageGenerated(sessionId, imageUrl)
+  imageGenerated && imageGenerated(sessionId, imageUrls)
 
   // 结束
   end && end(sessionId)

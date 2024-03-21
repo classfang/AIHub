@@ -298,82 +298,88 @@ export const drawingByTongyi = async (option: CommonDrawingOption) => {
     model,
     size,
     style,
+    n,
     imageGenerated,
     end,
     abortCtr
   } = option
 
-  // 提交生成图片任务
-  fetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', {
-    signal: abortCtr?.signal,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      'X-DashScope-Async': 'enable'
-    },
-    body: JSON.stringify({
-      model,
-      input: {
-        prompt: prompt,
-        negative_prompt: negativePrompt
-      },
-      parameters: {
-        style: style,
-        size: size?.replace('x', '*'),
-        n: 1
+  try {
+    // 提交生成图片任务
+    const imageTaskResp = await fetch(
+      'https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis',
+      {
+        signal: abortCtr?.signal,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'X-DashScope-Async': 'enable'
+        },
+        body: JSON.stringify({
+          model,
+          input: {
+            prompt: prompt,
+            negative_prompt: negativePrompt
+          },
+          parameters: {
+            style: style,
+            size: size?.replace('x', '*'),
+            n: n
+          }
+        })
       }
-    })
-  })
-    .then((res) => res.json())
-    .then((respJson) => {
-      // 获取任务id
-      const taskId = respJson?.output?.task_id
-      const errMsg = respJson?.message
-      if (!taskId) {
-        end && end(sessionId, errMsg)
-        return
-      }
+    )
+    const imageTaskRespJson = await imageTaskResp.json()
 
-      // 轮询任务结果
-      const interval = setInterval(() => {
-        fetch(`https://dashscope.aliyuncs.com/api/v1/tasks/${taskId}`, {
+    // 获取任务id
+    const taskId = imageTaskRespJson?.output?.task_id
+    const errMsg = imageTaskRespJson?.message
+    if (!taskId) {
+      end && end(sessionId, errMsg)
+      return
+    }
+
+    // 轮询任务结果
+    const interval = setInterval(async () => {
+      try {
+        const taskCheckResp = await fetch(`https://dashscope.aliyuncs.com/api/v1/tasks/${taskId}`, {
           signal: abortCtr?.signal,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${apiKey}`
           }
         })
-          .then((res) => res.json())
-          .then((respJson) => {
-            const taskStatus = respJson?.output?.task_status
-            // 非正常任务状态，直接停止轮询并报错
-            if (!['PENDING', 'RUNNING', 'SUCCEEDED'].includes(taskStatus)) {
-              clearInterval(interval)
-              end && end(sessionId, 'task error')
-              return
-            }
-            // 成功任务状态，获取结果中的图片地址，保存本地并返回
-            if (taskStatus === 'SUCCEEDED') {
-              clearInterval(interval)
-              const imageUrl = respJson?.output?.results[0].url ?? ''
-              if (imageUrl) {
-                saveFileByUrl(imageUrl, `${randomUUID()}.png`).then((localPath) => {
-                  imageGenerated && imageGenerated(sessionId, localPath)
-                  end && end(sessionId)
-                })
-              } else {
-                end && end(sessionId)
+        const taskCheckRespJson = await taskCheckResp.json()
+
+        const taskStatus = taskCheckRespJson?.output?.task_status
+        // 非正常任务状态，直接停止轮询并报错
+        if (!['PENDING', 'RUNNING', 'SUCCEEDED'].includes(taskStatus)) {
+          clearInterval(interval)
+          end && end(sessionId, 'task error')
+          return
+        }
+        // 成功任务状态，获取结果中的图片地址，保存本地并返回
+        if (taskStatus === 'SUCCEEDED') {
+          clearInterval(interval)
+          const imageUrls: string[] = []
+          if (taskCheckRespJson?.output?.results) {
+            for (const result of taskCheckRespJson.output.results) {
+              if (result.url) {
+                imageUrls.push(await saveFileByUrl(result.url, `${randomUUID()}.png`))
               }
             }
-          })
-          .catch(() => {
-            clearInterval(interval)
-          })
-      }, 3000)
-    })
-    .catch((err) => {
-      Logger.error('drawingByTongyi error', err)
-      end && end(sessionId, err)
-    })
+          }
+          imageGenerated && imageGenerated(sessionId, imageUrls)
+          end && end(sessionId)
+        }
+      } catch (err) {
+        clearInterval(interval)
+        end && end(sessionId)
+      }
+    }, 3000)
+  } catch (err) {
+    Logger.error('drawingByTongyi error', err)
+    end && end(sessionId, err)
+  }
 }

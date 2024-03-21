@@ -48,7 +48,7 @@ export interface CommonDrawingOption {
   steps?: number
   samplerIndex?: string
   cfgScale?: number
-  imageGenerated?: (sessionId: string, imageUrl: string) => void
+  imageGenerated?: (sessionId: string, imageUrls: string[]) => void
   end?: (sessionId: string, errMsg?: any) => void
   abortCtr?: AbortController
 }

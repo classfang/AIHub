@@ -136,6 +136,7 @@ export const drawingByERNIE = async (option: CommonDrawingOption) => {
     model,
     size,
     style,
+    n,
     steps,
     samplerIndex,
     cfgScale,
@@ -144,49 +145,50 @@ export const drawingByERNIE = async (option: CommonDrawingOption) => {
     abortCtr
   } = option
 
-  const accessToken = await getAccessToken(apiKey, secretKey)
+  try {
+    const accessToken = await getAccessToken(apiKey, secretKey)
 
-  // 提交生成图片任务
-  fetch(
-    `https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/text2image/${model}?access_token=${accessToken}`,
-    {
-      signal: abortCtr?.signal,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        negative_prompt: negativePrompt,
-        size: size,
-        steps: steps,
-        n: 1,
-        sampler_index: samplerIndex,
-        cfg_scale: cfgScale,
-        style: style
-      })
-    }
-  )
-    .then((res) => res.json())
-    .then((respJson) => {
-      const errorCode = respJson?.error_code
-      // 错误码
-      if (errorCode) {
-        end && end(sessionId, respJson?.error_msg)
-        return
-      }
-      // 成功
-      const imageBase64 = respJson?.data[0].b64_image
-      if (imageBase64) {
-        // 保存图片
-        saveFileByBase64(imageBase64, `${randomUUID()}.png`).then((imageUrl) => {
-          imageGenerated && imageGenerated(sessionId, imageUrl)
-          end && end(sessionId)
+    // 提交生成图片任务
+    const imageTaskResp = await fetch(
+      `https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/text2image/${model}?access_token=${accessToken}`,
+      {
+        signal: abortCtr?.signal,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+          negative_prompt: negativePrompt,
+          size: size,
+          steps: steps,
+          n: n,
+          sampler_index: samplerIndex,
+          cfg_scale: cfgScale,
+          style: style
         })
       }
-    })
-    .catch((err) => {
-      Logger.error('drawingByERNIE error', err)
-      end && end(sessionId, err)
-    })
+    )
+    const imageTaskRespJson = await imageTaskResp.json()
+
+    const errorCode = imageTaskRespJson?.error_code
+    // 错误码
+    if (errorCode) {
+      end && end(sessionId, imageTaskRespJson?.error_msg)
+      return
+    }
+    // 成功
+    const imageUrls: string[] = []
+    if (imageTaskRespJson?.data) {
+      for (const imageData of imageTaskRespJson.data) {
+        // 保存图片
+        imageUrls.push(await saveFileByBase64(imageData.b64_image, `${randomUUID()}.png`))
+      }
+    }
+    imageGenerated && imageGenerated(sessionId, imageUrls)
+    end && end(sessionId)
+  } catch (err) {
+    Logger.error('drawingByERNIE error', err)
+    end && end(sessionId, err)
+  }
 }

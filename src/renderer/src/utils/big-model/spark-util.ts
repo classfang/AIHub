@@ -244,25 +244,32 @@ export const getSparkMessages = async (
 
 export const drawingBySpark = async (option: CommonDrawingOption) => {
   const { appId, apiKey, secretKey, sessionId, prompt, model, size, imageGenerated, end } = option
-  fetch(decodeURIComponent(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey!, secretKey!)), {
-    method: 'POST',
-    body: getDrawingRequestParam(appId!, prompt!, size!)
-  })
-    .then((res) => res.json())
-    .then((resJson) => {
-      if (resJson.header.code === 0) {
-        saveFileByBase64(resJson.payload.choices.text[0].content, `${randomUUID()}.png`).then(
-          (localPath) => {
-            imageGenerated && imageGenerated(sessionId, localPath)
-            end && end(sessionId)
-          }
-        )
-      } else {
-        end && end(sessionId, resJson.header.message)
+
+  try {
+    const imageTaskResp = await fetch(
+      decodeURIComponent(getAuthUrl(getSparkHostUrl(model), 'POST', apiKey!, secretKey!)),
+      {
+        method: 'POST',
+        body: getDrawingRequestParam(appId!, prompt!, size!)
       }
-    })
-    .catch((err) => {
-      Logger.error('drawingBySpark error', err)
-      end && end(sessionId, err)
-    })
+    )
+    const imageTaskRespJson = await imageTaskResp.json()
+
+    if (imageTaskRespJson.header.code === 0) {
+      const imageUrls: string[] = []
+      if (imageTaskRespJson.payload.choices.text) {
+        for (const imageData of imageTaskRespJson.payload.choices.text) {
+          imageUrls.push(await saveFileByBase64(imageData.content, `${randomUUID()}.png`))
+        }
+      }
+
+      imageGenerated && imageGenerated(sessionId, imageUrls)
+      end && end(sessionId)
+    } else {
+      end && end(sessionId, imageTaskRespJson.header.message)
+    }
+  } catch (err) {
+    Logger.error('drawingBySpark error', err)
+    end && end(sessionId, err)
+  }
 }

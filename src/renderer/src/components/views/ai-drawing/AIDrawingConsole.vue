@@ -31,6 +31,7 @@ watch(
   () => drawingStore.getCurrentTask.model,
   () => {
     drawingStore.getCurrentTask.options = {}
+    drawingStore.getCurrentTask.options.n = 1
     drawingStore.getCurrentTask.options.size = '1024x1024'
     switch (drawingStore.getCurrentTask.provider) {
       case 'OpenAI':
@@ -74,6 +75,14 @@ watch(
             >{{ m['name'] }}</a-option
           >
         </a-select>
+      </a-form-item>
+      <!-- 数量 -->
+      <a-form-item
+        v-if="['dall-e-2', 'wanx-v1', 'sd_xl'].includes(drawingStore.getCurrentTask.model)"
+        field="n"
+        :label="$t('aiDrawing.number')"
+      >
+        <a-input-number v-model="drawingStore.getCurrentTask.options.n" :min="1" :max="4" />
       </a-form-item>
       <!-- 图片大小 -->
       <a-form-item field="size" :label="$t('aiDrawing.size')">

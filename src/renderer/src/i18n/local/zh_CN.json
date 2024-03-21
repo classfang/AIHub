@@ -345,6 +345,7 @@
     "name": "AI 绘画",
     "provider": "提供商",
     "model": "模型",
+    "number": "生成数量",
     "size": "图片大小",
     "quality": "图片质量",
     "style": "图片风格",

@@ -345,6 +345,7 @@
     "name": "AI Drawing",
     "provider": "Provider",
     "model": "Model",
+    "number": "Number",
     "size": "Image size",
     "quality": "Image quality",
     "style": "Image style",

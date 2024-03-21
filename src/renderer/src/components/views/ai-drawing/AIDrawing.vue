@@ -42,7 +42,7 @@ const newDrawingTask = () => {
     model: 'dall-e-3',
     imageList: [],
     prompt: '',
-    options: { size: '1024x1024', style: 'vivid', quality: 'standard' }
+    options: { n: 1, size: '1024x1024', style: 'vivid', quality: 'standard' }
   })
   drawingStore.currentTaskId = id
 }
@@ -102,11 +102,11 @@ const startGenerate = () => {
     steps: drawingStore.getCurrentTask.options.steps,
     samplerIndex: drawingStore.getCurrentTask.options.samplerIndex,
     cfgScale: drawingStore.getCurrentTask.options.cfgScale,
-    imageGenerated: (sessionId: string, imageUrl: string) => {
+    imageGenerated: (sessionId: string, imageUrls: string[]) => {
       if (data.currentSessionId != sessionId) {
         return
       }
-      drawingStore.getCurrentTask.imageList[0] = imageUrl
+      drawingStore.getCurrentTask.imageList = imageUrls
     },
     end: (sessionId: string, errMsg?: any) => {
       if (data.currentSessionId != sessionId) {
@@ -192,7 +192,7 @@ const stopGenerate = () => {
       </div>
       <div class="ai-drawing-body-right">
         <div class="ai-drawing-img-area">
-          <AIDrawingImgCurrent class="ai-drawing-img-current" />
+          <AIDrawingImgCurrent :key="drawingStore.currentTaskId" class="ai-drawing-img-current" />
           <AIDrawingImgList class="ai-drawing-img-list" />
         </div>
         <AIDrawingInput
