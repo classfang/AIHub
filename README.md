@@ -20,8 +20,6 @@
 
 ![demo](/demo/2.png)
 
-![demo](/demo/3.png)
-
 ## 🖥️ 功能介绍
 
 ### 1. 强大的AI能力支撑
