@@ -3763,10 +3763,10 @@ make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-mammoth@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.npmmirror.com/mammoth/-/mammoth-1.7.0.tgz#e59b2d89a4907595906429c9d3313729d67afca7"
-  integrity sha512-ptFhft61dqieLffpdpHD7PUS0cX9YvHQIO3n3ejRhj1bi5Na+RL5wovtNHHXAK6Oj554XfGrVcyTuxgegN6umw==
+mammoth@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.npmmirror.com/mammoth/-/mammoth-1.7.1.tgz#8e0b19ba2ce6a0c364e3ea7afa0ecfe67b7f33d3"
+  integrity sha512-ckxfvNH5sUaJh+SbYbxpvB7urZTGS02jA91rFCNiL928CgE9FXXMyXxcJBY0n+CpmKE/eWh7qaV0+v+Dbwun3Q==
   dependencies:
     "@xmldom/xmldom" "^0.8.6"
     argparse "~1.0.3"
