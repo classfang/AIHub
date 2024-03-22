@@ -117,7 +117,7 @@ onMounted(() => {
     <div class="app fade-in-from" :class="{ 'fade-in-to': isLoad }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
-        <div :class="{ 'app-sidebar-avatar': getPlatform().isMacOS }">
+        <div :class="{ 'app-sidebar-avatar-macos': getPlatform().isMacOS }">
           <UserAvatar :editable="true" :size="36" />
         </div>
         <icon-message
@@ -226,7 +226,7 @@ onMounted(() => {
     padding: 15px;
     background-color: var(--color-fill-2);
 
-    .app-sidebar-avatar {
+    .app-sidebar-avatar-macos {
       margin-top: 26px;
     }
 
