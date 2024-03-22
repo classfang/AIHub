@@ -14,7 +14,12 @@ import AIApp from '@renderer/components/views/mini-program/MiniProgram.vue'
 import Translator from '@renderer/components/views/translator/Translator.vue'
 import { useSettingStore } from '@renderer/store/setting'
 import { useSystemStore } from '@renderer/store/system'
-import { startDockAnimation, startDockBounce, stopDockAnimation } from '@renderer/utils/ipc-util'
+import {
+  getPlatform,
+  startDockAnimation,
+  startDockBounce,
+  stopDockAnimation
+} from '@renderer/utils/ipc-util'
 import { startDarkThemeListener, changeTheme } from '@renderer/utils/theme-util'
 import { computed, onMounted, reactive, toRefs, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -112,7 +117,7 @@ onMounted(() => {
     <div class="app fade-in-from" :class="{ 'fade-in-to': isLoad }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
-        <div class="app-sidebar-avatar">
+        <div :class="{ 'app-sidebar-avatar': getPlatform().isMacOS }">
           <UserAvatar :editable="true" :size="36" />
         </div>
         <icon-message
@@ -216,13 +221,13 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 26px;
     box-sizing: border-box;
     padding: 15px;
     background-color: var(--color-fill-2);
 
     .app-sidebar-avatar {
-      margin-top: 30px;
+      margin-top: 26px;
     }
 
     .app-sidebar-item {

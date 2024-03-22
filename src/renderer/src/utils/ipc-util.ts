@@ -1,8 +1,13 @@
-import { copyObj } from '@renderer/utils/object-util'
 import { Message } from '@arco-design/web-vue'
+import { Platform } from '@electron-toolkit/utils'
 import i18n from '@renderer/i18n'
+import { copyObj } from '@renderer/utils/object-util'
 
 const { t } = i18n.global
+
+export const getPlatform = (): Platform => {
+  return window.electron.ipcRenderer.sendSync('process-platform')
+}
 
 export const startDockBounce = () => {
   return window.electron.ipcRenderer.invoke('start-dock-bounce')

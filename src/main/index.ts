@@ -2,7 +2,7 @@ import { appConfig, mainWindowConfig } from './config'
 import { getDockIcon, getDockIconArray } from './dock-icon'
 import { initLogger } from './logger'
 import { initStore } from './store'
-import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import { electronApp, is, optimizer, platform } from '@electron-toolkit/utils'
 import { OpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RedisVectorStore } from '@langchain/redis'
 import { RedisClientOptions } from '@redis/client/dist/lib/client'
@@ -75,7 +75,7 @@ const createWindow = () => {
     },
     // 动态背景色
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#28282B' : '#F2F3F5',
-    ...(process.platform === 'linux' ? { icon: getDockIcon(0) } : {}),
+    ...(platform.isLinux ? { icon: getDockIcon(0) } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       // 允许渲染进程通信（window.electron）
@@ -102,7 +102,7 @@ const createWindow = () => {
 
   // 监听窗口关闭事件
   mainWindow.on('close', (event) => {
-    if (process.platform === 'darwin') {
+    if (platform.isMacOS) {
       // MacOS 阻止窗口默认关闭行为
       event.preventDefault()
 
@@ -147,7 +147,7 @@ const createWindow = () => {
 // dock图片转动
 let dockAnimationInterval: NodeJS.Timeout | null = null
 const startDockAnimation = () => {
-  if (process.platform !== 'darwin') {
+  if (!platform.isMacOS) {
     return
   }
   const animationInterval = 50
@@ -197,7 +197,7 @@ app.whenReady().then(() => {
 
 // 当所有窗口都关闭时退出，除了macOS
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (!platform.isMacOS) {
     app.quit()
   }
 })
@@ -211,6 +211,11 @@ app.on('before-quit', async (e) => {
   app.exit()
 })
 
+// 获取系统类型
+ipcMain.on('process-platform', (event) => {
+  event.returnValue = platform
+})
+
 // 打开开发者控制台
 ipcMain.handle('open-dev-tools', () => {
   mainWindow.webContents.openDevTools()
@@ -219,7 +224,7 @@ ipcMain.handle('open-dev-tools', () => {
 // 开始Dock栏图标跳动
 ipcMain.handle('start-dock-bounce', () => {
   // 获得焦点时不跳动
-  if (process.platform === 'darwin' && !mainWindow.isFocused()) {
+  if (platform.isMacOS && !mainWindow.isFocused()) {
     app.dock.bounce('informational')
   }
 })

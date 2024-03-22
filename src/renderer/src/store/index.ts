@@ -1,6 +1,6 @@
+import electronStore from '@renderer/store/electron-store'
 import { createPinia } from 'pinia'
 import { createPersistedState } from 'pinia-plugin-persistedstate'
-import electronStore from '@renderer/store/electron-store'
 
 const store = createPinia()
 // pinia持久化
