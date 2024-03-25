@@ -10,7 +10,7 @@ import { useSettingStore } from '@renderer/store/setting'
 import { useSystemStore } from '@renderer/store/system'
 import { CommonDrawingOption, drawingByBigModel } from '@renderer/utils/big-model'
 import { randomUUID } from '@renderer/utils/id-util'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 // store
@@ -24,6 +24,9 @@ const { t } = useI18n()
 
 // 阻断控制
 let abortCtr = new AbortController()
+
+// ref
+const imgListRef = ref()
 
 // 数据绑定
 const data = reactive({
@@ -45,6 +48,7 @@ const newDrawingTask = () => {
     options: { n: 1, size: '1024x1024', style: 'vivid', quality: 'standard' }
   })
   drawingStore.currentTaskId = id
+  imgListRef.value.focusCurrentTask()
 }
 
 // 开始生成
@@ -196,7 +200,7 @@ const stopGenerate = () => {
             :key="`ai-drawing-img-current-${drawingStore.currentTaskId}`"
             class="ai-drawing-img-current"
           />
-          <AIDrawingImgList class="ai-drawing-img-list" />
+          <AIDrawingImgList ref="imgListRef" class="ai-drawing-img-list" />
         </div>
         <AIDrawingInput
           class="ai-drawing-input"

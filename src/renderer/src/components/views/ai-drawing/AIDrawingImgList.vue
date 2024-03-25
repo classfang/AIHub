@@ -19,11 +19,7 @@ watch(
     // 切换到当前页面时
     if (systemStore.isThisPage('ai-drawing')) {
       // 将当前绘画任务显示到视窗
-      nextTick(() => {
-        document
-          .querySelector('.ai-drawing-img-item-active')
-          ?.scrollIntoView({ behavior: 'smooth' })
-      })
+      focusCurrentTask()
     }
   }
 )
@@ -51,6 +47,16 @@ const deleteDrawingTask = (taskId: string) => {
     }
   })
 }
+
+// 将当前绘画任务显示到视窗
+const focusCurrentTask = () => {
+  nextTick(() => {
+    document.querySelector('.ai-drawing-img-item-active')?.scrollIntoView({ behavior: 'smooth' })
+  })
+}
+
+// 暴露函数
+defineExpose({ focusCurrentTask })
 </script>
 
 <template>
