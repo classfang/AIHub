@@ -75,12 +75,16 @@
       "name": "大模型",
       "openAI": {
         "name": "OpenAI",
-        "baseUrl": "服务器地址",
+        "baseUrl": "服务地址",
         "key": "OpenAI Key"
+      },
+      "ollama": {
+        "name": "Ollama",
+        "baseUrl": "服务地址"
       },
       "gemini": {
         "name": "Gemini",
-        "baseUrl": "服务器地址",
+        "baseUrl": "服务地址",
         "key": "Gemini Key"
       },
       "spark": {
@@ -147,6 +151,7 @@
   },
   "bigModelProvider": {
     "OpenAI": "OpenAI",
+    "Ollama": "Ollama",
     "Gemini": "Gemini",
     "Spark": "讯飞星火",
     "ERNIE": "百度文心",
@@ -209,8 +214,9 @@
     "sharePreview": "分享预览",
     "shareDownload": "保存图片",
     "configMiss": {
-      "OpenAI": "OpenAI未配置",
-      "Gemini": "Gemini未配置",
+      "OpenAI": "OpenAI 未配置",
+      "Ollama": "Ollama 未配置",
+      "Gemini": "Gemini 未配置",
       "Spark": "星火大模型未配置",
       "ERNIE": "百度文心大模型未配置",
       "Tongyi": "阿里通义大模型未配置",
@@ -218,8 +224,9 @@
     },
     "error": {
       "imageRequires": "你必须上传一张图片",
-      "OpenAI": "OpenAI调用错误，请检查你的配置",
-      "Gemini": "Gemini调用错误，请检查你的配置",
+      "OpenAI": "OpenAI 调用错误，请检查你的配置",
+      "Ollama": "Ollama 调用错误，请检查你的配置",
+      "Gemini": "Gemini 调用错误，请检查你的配置",
       "Spark": "星火大模型调用错误，请检查你的配置",
       "ERNIE": "百度文心大模型调用错误，请检查你的配置",
       "Tongyi": "阿里通义大模型调用错误，请检查你的配置",

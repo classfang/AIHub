@@ -37,6 +37,9 @@ export const useSettingStore = defineStore({
       appId: '',
       secret: ''
     },
+    ollama: {
+      baseUrl: 'http://localhost:11434'
+    },
     baiduTranslation: {
       appId: '',
       secret: ''
@@ -60,6 +63,7 @@ export const useSettingStore = defineStore({
         ernie: this.ernie,
         tongyi: this.tongyi,
         tiangong: this.tiangong,
+        ollama: this.ollama,
         youdao: this.youdao,
         baiduTranslation: this.baiduTranslation,
         aiCalendar: this.aiCalendar
@@ -99,6 +103,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.tiangong !== undefined) {
         this.tiangong = settingBackup.tiangong
+        importFlag = true
+      }
+      if (settingBackup.ollama !== undefined) {
+        this.ollama = settingBackup.ollama
         importFlag = true
       }
       if (settingBackup.youdao !== undefined) {

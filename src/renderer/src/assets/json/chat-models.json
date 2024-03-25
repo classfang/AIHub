@@ -23,6 +23,7 @@
     },
     { "name": "gpt-3.5-turbo", "value": "gpt-3.5-turbo", "type": "text", "isSupportPlugin": true }
   ],
+  "Ollama": [],
   "Gemini": [
     {
       "name": "gemini-pro-vision",
@@ -65,7 +66,7 @@
     }
   ],
   "ERNIE": [
-    { "name": "ERNIE-4.0", "value": "ERNIE-4.0", "type": "text" },
+    { "name": "ERNIE-4.0-8k", "value": "ERNIE-4.0-8k", "type": "text" },
     { "name": "ERNIE-3.5-8K", "value": "ERNIE-3.5-8K", "type": "text" },
     { "name": "ERNIE-Speed-128K", "value": "ERNIE-Speed-128K", "type": "text" },
     { "name": "ERNIE-Speed-8K", "value": "ERNIE-Speed-8K", "type": "text" }

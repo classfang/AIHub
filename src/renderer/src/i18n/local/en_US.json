@@ -78,6 +78,10 @@
         "baseUrl": "Server URL",
         "key": "OpenAI Key"
       },
+      "ollama": {
+        "name": "Ollama",
+        "baseUrl": "Server URL"
+      },
       "gemini": {
         "name": "Gemini",
         "baseUrl": "Server URL",
@@ -147,6 +151,7 @@
   },
   "bigModelProvider": {
     "OpenAI": "OpenAI",
+    "Ollama": "Ollama",
     "Gemini": "Gemini",
     "Spark": "iFLYTEK Spark",
     "ERNIE": "Baidu ERNIE",
@@ -210,6 +215,7 @@
     "shareDownload": "Save image",
     "configMiss": {
       "OpenAI": "OpenAI is not configured",
+      "Ollama": "Ollama is not configured",
       "Gemini": "Gemini is not configured",
       "Spark": "iFLYTEK Spark is not configured",
       "ERNIE": "Baidu ERNIE is not configured",
@@ -219,6 +225,7 @@
     "error": {
       "imageRequires": "You have to upload a picture",
       "OpenAI": "OpenAI call error, please check your configuration",
+      "Ollama": "Ollama call error, please check your configuration",
       "Gemini": "Gemini call error, please check your configuration",
       "Spark": "iFLYTEK Spark call error, please check your configuration",
       "ERNIE": "Baidu ERNIE call error, please check your configuration",

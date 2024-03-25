@@ -388,6 +388,29 @@ onMounted(() => {
                   </a-space>
                 </a-space>
               </a-tab-pane>
+              <!-- Ollama -->
+              <a-tab-pane key="ollama" :title="$t('setting.bigModel.ollama.name')">
+                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('common.officialWebsite') }}</div>
+                      <a-link @click="openInBrowser('https://ollama.com')"
+                        >https://ollama.com</a-link
+                      >
+                    </a-space>
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('setting.bigModel.ollama.baseUrl') }}</div>
+                      <a-input
+                        v-model="settingStore.ollama.baseUrl"
+                        size="small"
+                        :placeholder="
+                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ollama.baseUrl')
+                        "
+                      />
+                    </a-space>
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
               <!-- Gemini -->
               <a-tab-pane key="gemini" :title="$t('setting.bigModel.gemini.name')">
                 <a-space direction="vertical" :size="20" fill class="setting-tab-content">

@@ -15,6 +15,9 @@ defineProps({
   <a-avatar v-if="provider === 'OpenAI'" shape="square" :size="size" class="assistant-avatar">
     <img alt="avatar" src="@renderer/assets/images/openai.png" />
   </a-avatar>
+  <a-avatar v-else-if="provider === 'Ollama'" shape="square" :size="size" class="assistant-avatar">
+    <img alt="avatar" src="@renderer/assets/images/ollama.png" />
+  </a-avatar>
   <a-avatar v-else-if="provider === 'Gemini'" shape="square" :size="size" class="assistant-avatar">
     <img alt="avatar" src="@renderer/assets/images/gemini.png" />
   </a-avatar>
@@ -41,6 +44,10 @@ defineProps({
 .assistant-avatar {
   :deep(.arco-avatar-image) {
     background-color: var(--color-bg-white);
+
+    img {
+      object-fit: contain;
+    }
   }
 }
 </style>

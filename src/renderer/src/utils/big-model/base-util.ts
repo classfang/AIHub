@@ -57,7 +57,11 @@ export const limitContext = (
   return messages
 }
 
-export const isSupportImage = (providerName: string, modelName: string) => {
+export const isSupportImage = (providerName: BigModelProvider, modelName: string) => {
+  // Ollama 始终支持图片上传，暂不根据模型进行判断
+  if (providerName === 'Ollama') {
+    return true
+  }
   const models = chatModels[providerName]
   if (!models) {
     return false
@@ -69,7 +73,7 @@ export const isSupportImage = (providerName: string, modelName: string) => {
   return model['isSupportImage']
 }
 
-export const isSupportPlugin = (providerName: string, modelName: string) => {
+export const isSupportPlugin = (providerName: BigModelProvider, modelName: string) => {
   const models = chatModels[providerName]
   if (!models) {
     return false

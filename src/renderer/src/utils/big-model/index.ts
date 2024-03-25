@@ -1,5 +1,6 @@
 import { chat2ernie, drawingByERNIE } from '@renderer/utils/big-model/ernie-bot-util'
 import { chat2gemini } from '@renderer/utils/big-model/gemini-util'
+import { chat2ollama } from '@renderer/utils/big-model/ollama-util'
 import { chat2openai, drawingByOpenAI } from '@renderer/utils/big-model/openai-util'
 import { chat2spark, drawingBySpark } from '@renderer/utils/big-model/spark-util'
 import { chat2tiangong } from '@renderer/utils/big-model/tiangong-util'
@@ -55,6 +56,7 @@ export interface CommonDrawingOption {
 
 const chatFunctionMap: ChatFunctionMap = {
   OpenAI: chat2openai,
+  Ollama: chat2ollama,
   Gemini: chat2gemini,
   Spark: chat2spark,
   ERNIE: chat2ernie,

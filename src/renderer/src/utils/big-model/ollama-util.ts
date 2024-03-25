@@ -1,19 +1,17 @@
 import { CommonChatOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { Logger } from '@renderer/utils/logger'
-import CryptoJS from 'crypto-js'
 
-export const chat2tiangong = async (option: CommonChatOption) => {
+export const chat2ollama = async (option: CommonChatOption) => {
   const {
     model,
     instruction,
     inputMaxTokens,
-    maxTokens,
     contextSize,
-    apiKey,
-    secretKey,
+    baseURL,
     messages,
     sessionId,
+    abortCtr,
     startAnswer,
     appendAnswer,
     end
@@ -22,42 +20,17 @@ export const chat2tiangong = async (option: CommonChatOption) => {
   // 等待回答
   let waitAnswer = true
 
-  const url = 'https://sky-api.singularity-ai.com/saas/api/v4/generate'
-  const appKey = apiKey! // 这里需要替换你的APIKey
-  const appSecret = secretKey! // 这里需要替换你的APISecret
-  const timestamp = String(Math.floor(Date.now() / 1000))
-  const signContent = appKey! + appSecret! + timestamp
-  const signResult = CryptoJS.MD5(signContent).toString(CryptoJS.enc.Hex)
-
-  // 设置请求头，请求的数据格式为json
-  const headers = {
-    app_key: appKey,
-    timestamp: timestamp,
-    sign: signResult,
-    'Content-Type': 'application/json',
-    stream: 'true'
-  }
-
-  // 设置请求URL和参数
-  const data = {
-    messages: await getTiangongMessages(messages!, instruction, inputMaxTokens, contextSize),
-    model: model,
-    param: {
-      generate_length: maxTokens,
-      top_p: 1,
-      top_k: 3,
-      repetition_penalty: 1.0,
-      length_penalty: 1.0,
-      min_len: 2,
-      temperature: 0.66
-    }
-  }
-
   // 发起请求并获取响应
-  fetch(url, {
+  fetch(`${baseURL}/api/chat`, {
+    signal: abortCtr?.signal,
     method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data)
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: await getOllamaMessages(messages!, instruction, inputMaxTokens, contextSize)
+    })
   })
     .then((response) => {
       // 创建一个ReadableStream的读取器
@@ -80,7 +53,7 @@ export const chat2tiangong = async (option: CommonChatOption) => {
 
               // 处理接收到的数据
               const jsonData = new TextDecoder('utf-8').decode(value)
-              Logger.info('chat2tiangong:', jsonData)
+              Logger.info('chat2ollama:', jsonData)
 
               // 按照换行分行
               const lines = jsonData.split('\n')
@@ -90,36 +63,35 @@ export const chat2tiangong = async (option: CommonChatOption) => {
                 if (line) {
                   const jsonData = JSON.parse(line)
                   // 错误返回
-                  if (jsonData.code != 200) {
-                    end && end(sessionId, jsonData?.code_msg)
+                  if (jsonData.error) {
+                    end && end(sessionId, jsonData.error)
                     return
                   }
-
                   // 正确返回
                   if (waitAnswer) {
                     waitAnswer = false
                     startAnswer && startAnswer(sessionId)
                   }
-                  appendAnswer && appendAnswer(sessionId, jsonData?.resp_data?.reply)
+                  appendAnswer && appendAnswer(sessionId, jsonData.message.content)
                 }
               }
             }
 
             end && end(sessionId)
           } catch (error: any) {
-            Logger.error('chat2tiangong error', error?.message)
+            Logger.error('chat2ollama error', error?.message)
             end && end(sessionId, error?.message)
           }
         }
       })
     })
     .catch((error) => {
-      Logger.error('chat2tiangong error', error?.message)
+      Logger.error('chat2ollama error', error?.message)
       end && end(sessionId, error?.message)
     })
 }
 
-export const getTiangongMessages = async (
+export const getOllamaMessages = async (
   chatMessageList: ChatMessage[],
   instruction: string,
   inputMaxTokens: number | undefined,
@@ -138,12 +110,5 @@ export const getTiangongMessages = async (
       content: instruction
     })
   }
-
-  // 修改消息结构
-  return messages.map((msg) => {
-    return {
-      role: msg.role === 'assistant' ? 'bot' : msg.role,
-      content: msg.content
-    }
-  })
+  return messages
 }

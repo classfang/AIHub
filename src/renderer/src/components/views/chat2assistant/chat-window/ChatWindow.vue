@@ -162,6 +162,11 @@ const useBigModel = async () => {
         configErrorFlag = true
       }
       break
+    case 'Ollama':
+      if (!settingStore.ollama.baseUrl) {
+        configErrorFlag = true
+      }
+      break
     case 'Gemini':
       if (!settingStore.gemini.baseUrl || !settingStore.gemini.key) {
         configErrorFlag = true
@@ -308,6 +313,11 @@ const useBigModel = async () => {
         apiKey: settingStore.openAI.key,
         baseURL: settingStore.openAI.baseUrl,
         chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList)
+      }
+      break
+    case 'Ollama':
+      otherOption = {
+        baseURL: settingStore.ollama.baseUrl
       }
       break
     case 'Gemini':

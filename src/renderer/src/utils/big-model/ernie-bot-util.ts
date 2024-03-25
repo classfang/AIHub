@@ -7,7 +7,7 @@ import { Logger } from '@renderer/utils/logger'
 
 export const getErnieBotChatUrl = (model: string) => {
   switch (model) {
-    case 'ERNIE-4.0':
+    case 'ERNIE-4.0-8k':
       return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro'
     case 'ERNIE-3.5-8K':
       return 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions'
@@ -34,6 +34,7 @@ export const chat2ernie = async (option: CommonChatOption) => {
     model,
     instruction,
     inputMaxTokens,
+    maxTokens,
     contextSize,
     apiKey,
     secretKey,
@@ -56,7 +57,8 @@ export const chat2ernie = async (option: CommonChatOption) => {
     method: 'POST',
     body: JSON.stringify({
       messages: await getERNIEMessages(messages!, instruction, inputMaxTokens, contextSize),
-      stream: true
+      stream: true,
+      max_output_tokens: maxTokens
     }),
     // 连接开启
     async onopen(response) {

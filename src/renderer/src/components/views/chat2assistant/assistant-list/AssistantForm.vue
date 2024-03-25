@@ -22,6 +22,9 @@ watch(
       case 'OpenAI':
         assistant.value.model = 'gpt-4-vision-preview'
         break
+      case 'Ollama':
+        assistant.value.model = ''
+        break
       case 'Gemini':
         assistant.value.model = 'gemini-pro-vision'
         break
@@ -80,65 +83,80 @@ watch(
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('assistantList.model')">
         <a-space direction="vertical" style="width: 100%">
-          <a-select v-model="assistant.model" allow-search>
-            <a-option v-for="m in chatModels[assistant.provider]" :key="m.name" :value="m.value">{{
-              m['name']
-            }}</a-option>
-          </a-select>
-          <a-space>
-            <a-tag
-              v-if="isSupportImage(assistant.provider, assistant.model)"
-              color="green"
-              bordered
-            >
-              <template #icon>
-                <icon-check />
-              </template>
-              {{ $t('assistantList.imageSupported') }}
-            </a-tag>
-            <a-tag v-else color="red" bordered>
-              <template #icon>
-                <icon-close />
-              </template>
-              {{ $t('assistantList.imageNotSupported') }}
-            </a-tag>
-            <a-tag
-              v-if="isSupportPlugin(assistant.provider, assistant.model)"
-              color="green"
-              bordered
-            >
-              <template #icon>
-                <icon-check />
-              </template>
-              {{ $t('assistantList.pluginSupported') }}
-            </a-tag>
-            <a-tag v-else color="red" bordered>
-              <template #icon>
-                <icon-close />
-              </template>
-              {{ $t('assistantList.pluginNotSupported') }}
-            </a-tag>
-            <a-tag
-              v-if="isSupportNetwork(assistant.provider, assistant.model)"
-              color="green"
-              bordered
-            >
-              <template #icon>
-                <icon-check />
-              </template>
-              {{ $t('assistantList.networkSupported') }}
-            </a-tag>
-            <a-tag v-else color="red" bordered>
-              <template #icon>
-                <icon-close />
-              </template>
-              {{ $t('assistantList.networkNotSupported') }}
-            </a-tag>
-          </a-space>
+          <template v-if="assistant.provider === 'Ollama'">
+            <a-input
+              v-model="assistant.model"
+              :placeholder="$t('common.pleaseEnter') + ' ' + $t('assistantList.model')"
+            />
+          </template>
+          <template v-else>
+            <a-select v-model="assistant.model" allow-search>
+              <a-option
+                v-for="m in chatModels[assistant.provider]"
+                :key="m.name"
+                :value="m.value"
+                >{{ m['name'] }}</a-option
+              >
+            </a-select>
+            <a-space>
+              <a-tag
+                v-if="isSupportImage(assistant.provider, assistant.model)"
+                color="green"
+                bordered
+              >
+                <template #icon>
+                  <icon-check />
+                </template>
+                {{ $t('assistantList.imageSupported') }}
+              </a-tag>
+              <a-tag v-else color="red" bordered>
+                <template #icon>
+                  <icon-close />
+                </template>
+                {{ $t('assistantList.imageNotSupported') }}
+              </a-tag>
+              <a-tag
+                v-if="isSupportPlugin(assistant.provider, assistant.model)"
+                color="green"
+                bordered
+              >
+                <template #icon>
+                  <icon-check />
+                </template>
+                {{ $t('assistantList.pluginSupported') }}
+              </a-tag>
+              <a-tag v-else color="red" bordered>
+                <template #icon>
+                  <icon-close />
+                </template>
+                {{ $t('assistantList.pluginNotSupported') }}
+              </a-tag>
+              <a-tag
+                v-if="isSupportNetwork(assistant.provider, assistant.model)"
+                color="green"
+                bordered
+              >
+                <template #icon>
+                  <icon-check />
+                </template>
+                {{ $t('assistantList.networkSupported') }}
+              </a-tag>
+              <a-tag v-else color="red" bordered>
+                <template #icon>
+                  <icon-close />
+                </template>
+                {{ $t('assistantList.networkNotSupported') }}
+              </a-tag>
+            </a-space>
+          </template>
         </a-space>
       </a-form-item>
       <!-- 生成token限制 -->
-      <a-form-item field="maxTokens" :label="$t('assistantList.maxTokens')">
+      <a-form-item
+        v-if="assistant.provider != 'Ollama'"
+        field="maxTokens"
+        :label="$t('assistantList.maxTokens')"
+      >
         <a-input-number
           v-model="assistant.maxTokens"
           :placeholder="$t('common.pleaseEnter') + ' ' + $t('assistantList.maxTokens')"
