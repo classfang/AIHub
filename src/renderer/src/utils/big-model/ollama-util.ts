@@ -1,5 +1,6 @@
 import { CommonChatOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
+import { readLocalImageBase64 } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 
 export const chat2ollama = async (option: CommonChatOption) => {
@@ -109,6 +110,15 @@ export const getOllamaMessages = async (
       role: 'system',
       content: instruction
     })
+  }
+
+  // 处理图片
+  for (const m of messages) {
+    // 处理用户消息中的图片
+    if (m.image && m.role === 'user') {
+      const imageBase64Data = await readLocalImageBase64(m.image)
+      m['images'] = [imageBase64Data]
+    }
   }
   return messages
 }
