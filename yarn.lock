@@ -748,13 +748,14 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@langchain/community@~0.0.36":
-  version "0.0.36"
-  resolved "https://registry.npmmirror.com/@langchain/community/-/community-0.0.36.tgz#dd23f7bd5e1e5e8aa3e1a0656f812b4c6a032a39"
-  integrity sha512-4OOKH6F9orGZZHgbvYvekMV6JesL89JC3cmJxNvAr5x7vr7wNNa4fuLq+H7Ew8tnsQOYZk+K57UMYkcwVuwySA==
+"@langchain/community@~0.0.41":
+  version "0.0.42"
+  resolved "https://registry.npmmirror.com/@langchain/community/-/community-0.0.42.tgz#8c472b2d724ba0bb0a0e80e1b45865db1cb93b70"
+  integrity sha512-Xp3H0w23X9viHRpb3GUiFl+qjB68h/V7ztPOxR1AtaKlmXkjrSwiLqhMjlVsJ9jyPaKIr5ZOV07gYAXJUz/P8Q==
   dependencies:
     "@langchain/core" "~0.1.44"
     "@langchain/openai" "~0.0.19"
+    expr-eval "^2.0.2"
     flat "^5.0.2"
     langsmith "~0.1.1"
     uuid "^9.0.0"
@@ -2749,12 +2750,13 @@ eslint-plugin-prettier@^5.0.0:
     prettier-linter-helpers "^1.0.0"
     synckit "^0.8.6"
 
-eslint-plugin-vue@^9.23.0:
-  version "9.23.0"
-  resolved "https://registry.npmmirror.com/eslint-plugin-vue/-/eslint-plugin-vue-9.23.0.tgz#1354a33b0cd21e0cb373557ff73c5d7a6698fbcd"
-  integrity sha512-Bqd/b7hGYGrlV+wP/g77tjyFmp81lh5TMw0be9093X02SyelxRRfCI6/IsGq/J7Um0YwB9s0Ry0wlFyjPdmtUw==
+eslint-plugin-vue@^9.24.0:
+  version "9.24.0"
+  resolved "https://registry.npmmirror.com/eslint-plugin-vue/-/eslint-plugin-vue-9.24.0.tgz#71209f4652ee767f18c0bf56f25991b7cdc5aa46"
+  integrity sha512-9SkJMvF8NGMT9aQCwFc5rj8Wo1XWSMSHk36i7ZwdI614BU7sIOR28ZjuFPKp8YGymZN12BSEbiSwa7qikp+PBw==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
+    globals "^13.24.0"
     natural-compare "^1.4.0"
     nth-check "^2.1.1"
     postcss-selector-parser "^6.0.15"
@@ -3218,7 +3220,7 @@ globals@^11.1.0:
   resolved "https://registry.npmmirror.com/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e"
   integrity sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==
 
-globals@^13.19.0:
+globals@^13.19.0, globals@^13.24.0:
   version "13.24.0"
   resolved "https://registry.npmmirror.com/globals/-/globals-13.24.0.tgz#8432a19d78ce0c1e833949c36adb345400bb1171"
   integrity sha512-AhO5QUcj8llrbG09iWhPU2B204J1xnPeL8kQmVorSsy+Sjj1sk8gIyh6cUocGmH4L0UuhAJy+hJMRA4mgA4mFQ==
@@ -3724,17 +3726,16 @@ kuler@^2.0.0:
   resolved "https://registry.npmmirror.com/kuler/-/kuler-2.0.0.tgz#e2c570a3800388fb44407e851531c1d670b061b3"
   integrity sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==
 
-langchain@^0.1.28:
-  version "0.1.28"
-  resolved "https://registry.npmmirror.com/langchain/-/langchain-0.1.28.tgz#fd07a9880a68865e5c803dc01decdaa097b7c756"
-  integrity sha512-LNuILtOSFptfOqDwUwQAl7B0dYrBtxzVZ6lDhc5DA8rk+pyTCy12HQO7t8bGqC8oQlEPYPKaom8VRlvfupUBTw==
+langchain@^0.1.29:
+  version "0.1.29"
+  resolved "https://registry.npmmirror.com/langchain/-/langchain-0.1.29.tgz#6195189f6230efd366c50cba83e199f072c5ab9a"
+  integrity sha512-IVS+eyQXp/9oy3+yFoCFgi2ZAZPak9nQJARvcjn8a0PwSXRCUIy8OkNjcV2kdoypbUhGhTyDw19BzFhLKq4vYg==
   dependencies:
     "@anthropic-ai/sdk" "^0.9.1"
-    "@langchain/community" "~0.0.36"
+    "@langchain/community" "~0.0.41"
     "@langchain/core" "~0.1.44"
     "@langchain/openai" "~0.0.19"
     binary-extensions "^2.2.0"
-    expr-eval "^2.0.2"
     js-tiktoken "^1.0.7"
     js-yaml "^4.1.0"
     jsonpointer "^5.0.1"
