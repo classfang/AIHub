@@ -28,7 +28,7 @@
     "@electron-toolkit/utils": "^3.0.0",
     "@langchain/redis": "^0.0.2",
     "electron-store": "^8.2.0",
-    "langchain": "^0.1.29",
+    "langchain": "^0.1.30",
     "mammoth": "^1.7.1",
     "officeparser": "^4.0.8",
     "pdf-parse": "^1.1.1",

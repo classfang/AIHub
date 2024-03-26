@@ -146,7 +146,7 @@ defineExpose({
       </a-space>
     </div>
     <a-popover
-      v-if="currentAssistant"
+      v-if="currentAssistant.id"
       position="br"
       trigger="click"
       :content-style="{ padding: '5px' }"
