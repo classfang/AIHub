@@ -102,15 +102,17 @@ const clearCacheHandle = async () => {
   })
   collectionSetStore.collectionItemList.forEach((item) => {
     if (item.type === 'chat') {
-      item.chat.chatMessageList.forEach((msg) => {
+      item.chat?.chatMessageList.forEach((msg) => {
         if (msg.image) {
           ignoreImages.push(msg.image)
         }
       })
     } else if (item.type === 'image') {
-      if (item.image) {
-        ignoreImages.push(item.image)
-      }
+      item.image?.imageList.forEach((image) => {
+        if (image) {
+          ignoreImages.push(image)
+        }
+      })
     }
   })
   await clearCacheFiles(ignoreImages)

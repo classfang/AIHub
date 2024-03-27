@@ -18,10 +18,6 @@ const props = defineProps({
   currentAssistant: {
     type: Object as () => Assistant,
     default: () => ({})
-  },
-  currentChatMessageSet: {
-    type: Object as () => ChatMessageSet,
-    default: () => ({})
   }
 })
 
@@ -136,13 +132,11 @@ defineExpose({
 
 <template>
   <div class="chat-window-header drag-area">
-    <div class="assistant-name">{{ currentAssistant?.name || currentChatMessageSet.name }}</div>
+    <div class="assistant-name">{{ currentAssistant?.name }}</div>
     <div class="assistant-desc">
       <a-space :size="10">
-        <a-tag>{{
-          $t(`bigModelProvider.${currentAssistant?.provider || currentChatMessageSet.provider}`)
-        }}</a-tag>
-        <a-tag>{{ currentAssistant?.model || currentChatMessageSet.model }}</a-tag>
+        <a-tag>{{ $t(`bigModelProvider.${currentAssistant?.provider}`) }}</a-tag>
+        <a-tag>{{ currentAssistant?.model }}</a-tag>
       </a-space>
     </div>
     <a-popover
