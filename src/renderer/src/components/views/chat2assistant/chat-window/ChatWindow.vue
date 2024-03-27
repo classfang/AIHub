@@ -692,16 +692,14 @@ onMounted(() => {
             :content-style="{ fontSize: '12px' }"
           >
             <a-button
-              v-if="
-                chatPluginStore.getPluginListByIds(currentAssistant.chatPluginIdList).length > 0
-              "
               size="mini"
-              type="primary"
+              :type="
+                chatPluginStore.getPluginListByIds(currentAssistant.chatPluginIdList).length > 0
+                  ? 'primary'
+                  : undefined
+              "
               shape="round"
             >
-              <icon-experiment :size="15" />
-            </a-button>
-            <a-button v-else size="mini" shape="round">
               <icon-experiment :size="15" />
             </a-button>
           </a-tooltip>
