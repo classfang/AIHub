@@ -11,6 +11,7 @@
     "delete": "Delete",
     "export": "Export",
     "download": "Download",
+    "collect": "Collect",
     "loadMore": "Load more",
     "deleteConfirm": "Do you want to delete it?",
     "deleteConfirmContent": "After being deleted, it cannot be restored.",
@@ -206,7 +207,7 @@
     "noPlugin": "No plugin",
     "copy": "Copy",
     "multipleChoice": "Multiple choice",
-    "selectSuccess": "Added to favorites",
+    "collectSuccess": "Added to favorites",
     "inputTokensLimit": "Input tokens limit",
     "contextSizeDown": "Subject to the maximum input Token, the number of context items is automatically adjusted to",
     "clearContext": "Clear context",
@@ -234,8 +235,14 @@
     }
   },
   "collectionSet": {
-    "search": "Search favorites",
-    "empty": "Collect inspiration for chatting with AI"
+    "search": "Search collections",
+    "empty": "Collect inspiration for chatting with AI",
+    "type": {
+      "all": "All",
+      "chat": "Chat",
+      "image": "Image",
+      "note": "Note"
+    }
   },
   "translator": {
     "name": "Text translation",

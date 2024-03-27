@@ -3,12 +3,12 @@ import { defineStore } from 'pinia'
 export const useCollectionSetStore = defineStore({
   id: 'collection-set',
   state: () => ({
-    chatMessageSetList: [] as ChatMessageSet[]
+    collectionItemList: [] as CollectionItem[]
   }),
   getters: {
     getStoreJson(): string {
       return JSON.stringify({
-        chatMessageSetList: this.chatMessageSetList
+        collectionItemList: this.collectionItemList
       })
     }
   },
@@ -19,8 +19,8 @@ export const useCollectionSetStore = defineStore({
         return importFlag
       }
       const collectionSetBackup = JSON.parse(json)
-      if (collectionSetBackup.chatMessageSetList !== undefined) {
-        this.chatMessageSetList = collectionSetBackup.chatMessageSetList
+      if (collectionSetBackup.collectionItemList !== undefined) {
+        this.collectionItemList = collectionSetBackup.collectionItemList
         importFlag = true
       }
       return importFlag

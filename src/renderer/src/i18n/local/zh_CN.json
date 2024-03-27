@@ -11,6 +11,7 @@
     "delete": "删除",
     "export": "导出",
     "download": "下载",
+    "collect": "收藏",
     "loadMore": "加载更多",
     "deleteConfirm": "确认删除吗？",
     "deleteConfirmContent": "删除后将无法恢复。",
@@ -206,7 +207,7 @@
     "noPlugin": "暂无插件",
     "copy": "复制",
     "multipleChoice": "多选",
-    "selectSuccess": "已添加至收藏夹",
+    "collectSuccess": "已添加至收藏夹",
     "inputTokensLimit": "输入Token数超限制",
     "contextSizeDown": "受最大输入Token数限制，上下文条数已自动调整为",
     "clearContext": "清除上下文",
@@ -235,7 +236,13 @@
   },
   "collectionSet": {
     "search": "搜索收藏",
-    "empty": "收藏与AI对话的灵感"
+    "empty": "收藏与AI对话的灵感",
+    "type": {
+      "all": "全部",
+      "chat": "对话",
+      "image": "图片",
+      "note": "笔记"
+    }
   },
   "translator": {
     "name": "文本翻译",

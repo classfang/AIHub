@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import { Message } from '@arco-design/web-vue'
+import { useCollectionSetStore } from '@renderer/store/collection-set'
 import { useDrawingStore } from '@renderer/store/drawing'
 import { useSystemStore } from '@renderer/store/system'
+import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile } from '@renderer/utils/download-util'
+import { randomUUID } from '@renderer/utils/id-util'
+import { copyObj } from '@renderer/utils/object-util'
 import { reactive, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const collectionSetStore = useCollectionSetStore()
+const { t } = useI18n()
 
 // store
 const systemStore = useSystemStore()
@@ -13,6 +22,21 @@ const data = reactive({
   imageListIndex: 0
 })
 const { imageListIndex } = toRefs(data)
+
+// 收藏
+const collectImage = () => {
+  const collectionItem: CollectionItem = {
+    id: randomUUID(),
+    type: 'image',
+    image: {
+      ...copyObj(drawingStore.getCurrentTask),
+      imageList: [drawingStore.getCurrentTask.imageList[data.imageListIndex]]
+    },
+    createTime: nowTimestamp()
+  }
+  collectionSetStore.collectionItemList.unshift(collectionItem)
+  Message.success(t('chatWindow.collectSuccess'))
+}
 </script>
 
 <template>
@@ -35,8 +59,12 @@ const { imageListIndex } = toRefs(data)
                   `img-${drawingStore.getCurrentTask.id}-${imageListIndex}.png`
                 )
               "
-              ><icon-download
-            /></a-image-preview-action>
+            >
+              <icon-download />
+            </a-image-preview-action>
+            <a-image-preview-action :name="$t('common.collect')" @click="collectImage()">
+              <icon-common />
+            </a-image-preview-action>
           </template>
         </a-image>
         <div v-if="drawingStore.getCurrentTask.imageList.length > 1" class="image-index-list">

@@ -8,6 +8,7 @@ import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile, exportTextFile } from '@renderer/utils/download-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { renderMarkdown } from '@renderer/utils/markdown-util'
+import { copyObj } from '@renderer/utils/object-util'
 import html2canvas from 'html2canvas'
 import { reactive, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -79,17 +80,18 @@ const multipleChoiceCollect = () => {
     return
   }
 
-  const chatMessageSet: ChatMessageSet = {
+  const collectionItem: CollectionItem = {
     id: randomUUID(),
-    name: assistantStore.getCurrentAssistant.name,
-    provider: assistantStore.getCurrentAssistant.provider,
-    model: assistantStore.getCurrentAssistant.model,
-    chatMessageList: selectChatMessageList,
+    type: 'chat',
+    chat: {
+      ...copyObj(assistantStore.getCurrentAssistant),
+      chatMessageList: selectChatMessageList
+    },
     createTime: nowTimestamp()
   }
-  collectionSetStore.chatMessageSetList.unshift(chatMessageSet)
+  collectionSetStore.collectionItemList.unshift(collectionItem)
   emits('close')
-  Message.success(t('chatWindow.selectSuccess'))
+  Message.success(t('chatWindow.collectSuccess'))
 }
 
 const multipleChoiceDownload = () => {

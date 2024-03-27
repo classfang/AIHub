@@ -18,8 +18,8 @@ export const downloadFile = (url: string, fileName: string) => {
     })
 }
 
-export const exportTextFile = (fileName: string, fileContent: string) => {
-  const blob = new Blob([fileContent], { type: 'text/plain' })
+export const exportTextFile = (fileName: string, fileContent: string | undefined) => {
+  const blob = new Blob([fileContent ?? ''], { type: 'text/plain' })
   const link = document.createElement('a')
   link.href = window.URL.createObjectURL(blob)
   link.download = fileName

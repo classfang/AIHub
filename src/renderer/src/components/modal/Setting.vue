@@ -100,13 +100,19 @@ const clearCacheHandle = async () => {
       }
     })
   })
-  collectionSetStore.chatMessageSetList.forEach((set) =>
-    set.chatMessageList.forEach((msg) => {
-      if (msg.image) {
-        ignoreImages.push(msg.image)
+  collectionSetStore.collectionItemList.forEach((item) => {
+    if (item.type === 'chat') {
+      item.chat.chatMessageList.forEach((msg) => {
+        if (msg.image) {
+          ignoreImages.push(msg.image)
+        }
+      })
+    } else if (item.type === 'image') {
+      if (item.image) {
+        ignoreImages.push(item.image)
       }
-    })
-  )
+    }
+  })
   await clearCacheFiles(ignoreImages)
   data.clearCacheFlag = false
   Message.success(t('setting.app.backup.cache.clearSuccess'))

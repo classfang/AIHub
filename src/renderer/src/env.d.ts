@@ -34,6 +34,7 @@ type AppNotificationType = 'info' | 'warn' | 'error'
 type ChatPluginType = 'function'
 // https://json-schema.org/understanding-json-schema/reference/type
 type ChatPluginParameterType = 'string' | 'number' | 'integer' | 'object' | 'array' | 'boolean'
+type CollectionItemType = 'chat' | 'image' | 'note'
 
 interface Assistant {
   // 通用
@@ -53,11 +54,6 @@ interface Assistant {
   inputMaxTokens: number
   maxTokens: number
   contextSize: number
-
-  // 生图
-  imageSize: string
-  imageQuality: string
-  imageStyle: string
 }
 
 interface BaseMessage {
@@ -73,13 +69,22 @@ interface ChatMessage extends BaseMessage {
   createTime: number
 }
 
-interface ChatMessageSet {
+interface CollectionItem {
   id: string
-  name: string
-  provider: BigModelProvider
-  model: string
-  chatMessageList: ChatMessage[]
+  type: CollectionItemType
   createTime: number
+
+  // 对话收藏
+  chat?: Assistant
+  // 图片收藏
+  image?: DrawingTask
+  // 笔记收藏
+  note?: CollectionNote
+}
+
+interface CollectionNote {
+  title: string
+  content: string
 }
 
 interface KnowledgeBase {
