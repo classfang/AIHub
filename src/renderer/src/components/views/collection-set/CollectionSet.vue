@@ -297,6 +297,7 @@ const exportChatMessageList = (id: string) => {
     flex-direction: column;
     gap: 15px;
     border-right: 1px solid var(--color-border-1);
+    box-sizing: border-box;
 
     .collection-set-list-search {
       box-sizing: border-box;
