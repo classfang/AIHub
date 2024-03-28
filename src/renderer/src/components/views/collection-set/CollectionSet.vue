@@ -413,6 +413,7 @@ const newNote = () => {
             }
 
             .collection-note-body {
+              width: 100%;
               flex-grow: 1;
               display: flex;
               flex-direction: column;
@@ -420,14 +421,10 @@ const newNote = () => {
 
               .collection-note-title {
                 flex-shrink: 0;
-                line-height: 1.3rem;
+                white-space: nowrap;
                 overflow: hidden;
-                display: -webkit-box;
                 text-overflow: ellipsis;
-                word-break: break-all;
-                line-break: anywhere;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 1;
+                font-weight: 500;
               }
             }
 
