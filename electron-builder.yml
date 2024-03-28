@@ -13,7 +13,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: aihub
+  executableName: AIHub
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
