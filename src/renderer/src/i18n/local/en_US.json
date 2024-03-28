@@ -3,6 +3,7 @@
     "slogan": "The era of artificial intelligence has dawned.",
     "ok": "Confirm",
     "cancel": "Cancel",
+    "save": "Save",
     "close": "Close",
     "run": "Run",
     "pleaseEnter": "Please enter",
@@ -242,6 +243,12 @@
       "chat": "Chat",
       "image": "Image",
       "note": "Note"
+    },
+    "note": {
+      "new": "New note",
+      "defaultTitle": "New note",
+      "titlePlaceholder": "No title",
+      "contentPlaceholder": "Enter the notes here"
     }
   },
   "translator": {

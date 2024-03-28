@@ -3,6 +3,7 @@
     "slogan": "人工智能时代已然到来",
     "ok": "确定",
     "cancel": "取消",
+    "save": "保存",
     "close": "关闭",
     "run": "运行",
     "pleaseEnter": "请输入",
@@ -242,6 +243,12 @@
       "chat": "对话",
       "image": "图片",
       "note": "笔记"
+    },
+    "note": {
+      "new": "新建笔记",
+      "defaultTitle": "新笔记",
+      "titlePlaceholder": "无标题",
+      "contentPlaceholder": "在此输入笔记内容"
     }
   },
   "translator": {

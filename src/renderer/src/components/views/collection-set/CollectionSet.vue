@@ -2,11 +2,13 @@
 import { Modal } from '@arco-design/web-vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
+import NoteEditor from '@renderer/components/views/collection-set/NoteEditor.vue'
 import { useCollectionSetStore } from '@renderer/store/collection-set'
 import { formatDateTime } from '@renderer/utils/date-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile } from '@renderer/utils/download-util'
 import { exportTextFile } from '@renderer/utils/download-util'
+import { randomUUID } from '@renderer/utils/id-util'
 import { renderMarkdown } from '@renderer/utils/markdown-util'
 import { computed, reactive, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -39,6 +41,7 @@ const collectionItemListFilter = computed(() => {
       (item.chat &&
         item.chat.chatMessageList.findIndex((msg) => msg.content.includes(data.keyword)) >= 0) ||
       (item.image && item.image.prompt?.includes(data.keyword)) ||
+      item.note?.title.includes(data.keyword) ||
       item.note?.content.includes(data.keyword)
   )
 })
@@ -70,6 +73,22 @@ const exportChatMessageList = (id: string) => {
     .join('\n\n')
   exportTextFile(`records-${nowTimestamp()}.md`, content)
 }
+
+// 新建笔记
+const newNote = () => {
+  const id = randomUUID()
+  const collectionItem: CollectionItem = {
+    id: id,
+    type: 'note',
+    note: {
+      title: t('collectionSet.note.defaultTitle'),
+      content: ''
+    },
+    createTime: nowTimestamp()
+  }
+  collectionSetStore.collectionItemList.unshift(collectionItem)
+  data.currentCollectionItemId = id
+}
 </script>
 
 <template>
@@ -81,6 +100,7 @@ const exportChatMessageList = (id: string) => {
             <a-option value="all">{{ $t('collectionSet.type.all') }}</a-option>
             <a-option value="chat">{{ $t('collectionSet.type.chat') }}</a-option>
             <a-option value="image">{{ $t('collectionSet.type.image') }}</a-option>
+            <a-option value="note">{{ $t('collectionSet.type.note') }}</a-option>
           </a-select>
         </div>
         <a-input-search
@@ -89,9 +109,15 @@ const exportChatMessageList = (id: string) => {
           class="search-input no-drag-area"
         />
       </div>
+      <a-button class="new-note-btn" @click="newNote()">
+        <a-space :size="5">
+          <icon-plus-circle :size="18" :stroke-width="3" />
+          <span>{{ $t('collectionSet.note.new') }}</span>
+        </a-space>
+      </a-button>
       <a-scrollbar
         outer-class="collection-set-list-container arco-scrollbar-small"
-        style="height: calc(100vh - 60px); overflow-y: auto"
+        style="height: calc(100vh - 60px - 45px); overflow-y: auto"
       >
         <div class="collection-set-list">
           <div
@@ -126,6 +152,14 @@ const exportChatMessageList = (id: string) => {
                 />
                 <div class="collection-content">
                   {{ c.image?.prompt }}
+                </div>
+              </template>
+              <template v-else-if="c.type === 'note'">
+                <div class="collection-note-body">
+                  <div class="collection-note-title">
+                    {{ c.note?.title || $t('collectionSet.note.titlePlaceholder') }}
+                  </div>
+                  <div class="collection-content">{{ c.note?.content }}</div>
                 </div>
               </template>
             </div>
@@ -170,26 +204,37 @@ const exportChatMessageList = (id: string) => {
     <div class="collection-set-right">
       <template v-if="currentCollectionItem">
         <div class="collection-set-header drag-area">
-          <div class="assistant-name">
-            <template v-if="currentCollectionItem.type === 'chat'">
-              {{ currentCollectionItem.chat?.name }}
-            </template>
-            <template v-else-if="currentCollectionItem.type === 'image'">
-              {{ $t('aiDrawing.name') }}
-            </template>
-          </div>
-          <div class="assistant-desc">
-            <a-space :size="10">
+          <a-input
+            v-if="currentCollectionItem.type === 'note'"
+            v-model="currentCollectionItem.note!.title"
+            class="note-title-input no-drag-area"
+          />
+          <template v-else>
+            <div class="assistant-name">
               <template v-if="currentCollectionItem.type === 'chat'">
-                <a-tag>{{ $t(`bigModelProvider.${currentCollectionItem.chat?.provider}`) }}</a-tag>
-                <a-tag>{{ currentCollectionItem.chat?.model }}</a-tag>
+                {{ currentCollectionItem.chat?.name }}
               </template>
               <template v-else-if="currentCollectionItem.type === 'image'">
-                <a-tag>{{ $t(`bigModelProvider.${currentCollectionItem.image?.provider}`) }}</a-tag>
-                <a-tag>{{ currentCollectionItem.image?.model }}</a-tag>
+                {{ $t('aiDrawing.name') }}
               </template>
-            </a-space>
-          </div>
+            </div>
+            <div class="assistant-desc">
+              <a-space :size="10">
+                <template v-if="currentCollectionItem.type === 'chat'">
+                  <a-tag>{{
+                    $t(`bigModelProvider.${currentCollectionItem.chat?.provider}`)
+                  }}</a-tag>
+                  <a-tag>{{ currentCollectionItem.chat?.model }}</a-tag>
+                </template>
+                <template v-else-if="currentCollectionItem.type === 'image'">
+                  <a-tag>{{
+                    $t(`bigModelProvider.${currentCollectionItem.image?.provider}`)
+                  }}</a-tag>
+                  <a-tag>{{ currentCollectionItem.image?.model }}</a-tag>
+                </template>
+              </a-space>
+            </div>
+          </template>
         </div>
         <template v-if="currentCollectionItem.type === 'chat'">
           <a-scrollbar
@@ -266,6 +311,11 @@ const exportChatMessageList = (id: string) => {
             </div>
           </div>
         </template>
+        <NoteEditor
+          v-else-if="currentCollectionItem.type === 'note'"
+          v-model:content="currentCollectionItem.note!.content"
+          class="note-editor"
+        />
       </template>
       <div v-else class="collection-window-empty drag-area">
         <a-empty>
@@ -321,6 +371,11 @@ const exportChatMessageList = (id: string) => {
       }
     }
 
+    .new-note-btn {
+      margin: 0 15px;
+      padding: 3px 0;
+    }
+
     .collection-set-list-container {
       .collection-set-list {
         min-height: 100%;
@@ -351,9 +406,29 @@ const exportChatMessageList = (id: string) => {
             flex-grow: 1;
             display: flex;
             gap: 10px;
+
             .collection-avatar {
               flex-shrink: 0;
               margin-top: 3px;
+            }
+
+            .collection-note-body {
+              flex-grow: 1;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+
+              .collection-note-title {
+                flex-shrink: 0;
+                line-height: 1.3rem;
+                overflow: hidden;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+                word-break: break-all;
+                line-break: anywhere;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+              }
             }
 
             .collection-content {
@@ -404,6 +479,18 @@ const exportChatMessageList = (id: string) => {
       box-sizing: border-box;
       padding: 15px;
 
+      .note-title-input {
+        border: none;
+        background-color: transparent;
+        padding: 0;
+
+        :deep(.arco-input) {
+          font-size: 16px;
+          font-weight: 500;
+          padding: 0;
+        }
+      }
+
       .assistant-name {
         font-size: 16px;
         font-weight: 500;
@@ -432,6 +519,10 @@ const exportChatMessageList = (id: string) => {
         max-height: 100px;
         overflow-y: auto;
       }
+    }
+
+    .note-editor {
+      flex-grow: 1;
     }
 
     .collection-window-empty {
