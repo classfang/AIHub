@@ -44,8 +44,8 @@ const collectImage = () => {
     <a-spin :loading="systemStore.aiDrawingLoading" tip="">
       <template v-if="drawingStore.getCurrentTask.imageList.length > 0">
         <a-image
-          width="500"
-          height="500"
+          width="450"
+          height="450"
           :src="`file://${drawingStore.getCurrentTask.imageList[imageListIndex]}`"
           show-loader
           fit="cover"
@@ -96,7 +96,7 @@ const collectImage = () => {
   }
 
   .image-index-list {
-    margin-top: 10px;
+    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -104,8 +104,8 @@ const collectImage = () => {
   }
 
   .ai-drawing-img-default {
-    width: 500px;
-    height: 500px;
+    width: 450px;
+    height: 450px;
     background-color: var(--color-fill-3);
   }
 }

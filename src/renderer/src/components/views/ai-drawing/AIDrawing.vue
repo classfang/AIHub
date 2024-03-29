@@ -220,7 +220,7 @@ const stopGenerate = () => {
 
   .ai-drawing-header {
     flex-shrink: 0;
-    height: 40px;
+    height: 55px;
     border-bottom: 1px solid var(--color-border-1);
     box-sizing: border-box;
     padding: 15px;

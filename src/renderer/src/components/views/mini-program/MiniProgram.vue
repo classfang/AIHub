@@ -120,7 +120,7 @@ onMounted(() => {
     <!-- 列表 -->
     <a-scrollbar
       outer-class="mini-program-list-container arco-scrollbar-small"
-      style="height: calc(100vh - 40px); overflow-y: auto"
+      style="height: calc(100vh - 55px); overflow-y: auto"
     >
       <div
         v-if="appListFilter.length > 0"
@@ -189,7 +189,7 @@ onMounted(() => {
 
   .mini-program-header {
     flex-shrink: 0;
-    height: 40px;
+    height: 55px;
     border-bottom: 1px solid var(--color-border-1);
     box-sizing: border-box;
     padding: 15px;
@@ -260,7 +260,7 @@ onMounted(() => {
 
     .webview-header {
       flex-shrink: 0;
-      height: 40px;
+      height: 55px;
       border-bottom: 1px solid var(--color-border-1);
       box-sizing: border-box;
       padding: 15px;
@@ -293,7 +293,7 @@ onMounted(() => {
     .webview {
       border: none;
       width: 100%;
-      height: calc(100vh - 40px);
+      height: calc(100vh - 55px);
     }
   }
 }
