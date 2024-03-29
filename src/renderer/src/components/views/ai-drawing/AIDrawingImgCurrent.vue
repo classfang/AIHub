@@ -40,48 +40,40 @@ const collectImage = () => {
 </script>
 
 <template>
-  <div class="ai-drawing-img-current">
-    <a-spin :loading="systemStore.aiDrawingLoading" tip="">
-      <template v-if="drawingStore.getCurrentTask.imageList.length > 0">
-        <a-image
-          width="450"
-          height="450"
-          :src="`file://${drawingStore.getCurrentTask.imageList[imageListIndex]}`"
-          show-loader
-          fit="cover"
-        >
-          <template #preview-actions>
-            <a-image-preview-action
-              :name="$t('common.download')"
-              @click="
-                downloadFile(
-                  `file://${drawingStore.getCurrentTask.imageList[imageListIndex]}`,
-                  `img-${drawingStore.getCurrentTask.id}-${imageListIndex}.png`
-                )
-              "
-            >
-              <icon-download />
-            </a-image-preview-action>
-            <a-image-preview-action :name="$t('common.collect')" @click="collectImage()">
-              <icon-common />
-            </a-image-preview-action>
-          </template>
-        </a-image>
-        <div v-if="drawingStore.getCurrentTask.imageList.length > 1" class="image-index-list">
-          <a-button
-            v-for="i in drawingStore.getCurrentTask.imageList.length"
-            :key="i"
-            size="mini"
-            shape="circle"
-            :type="i === imageListIndex + 1 ? 'primary' : undefined"
-            @click="imageListIndex = i - 1"
-            >{{ i }}</a-button
+  <a-spin :loading="systemStore.aiDrawingLoading" class="ai-drawing-img-current" tip="">
+    <template v-if="drawingStore.getCurrentTask.imageList.length > 0">
+      <a-image :src="`file://${drawingStore.getCurrentTask.imageList[imageListIndex]}`" show-loader>
+        <template #preview-actions>
+          <a-image-preview-action
+            :name="$t('common.download')"
+            @click="
+              downloadFile(
+                `file://${drawingStore.getCurrentTask.imageList[imageListIndex]}`,
+                `img-${drawingStore.getCurrentTask.id}-${imageListIndex}.png`
+              )
+            "
           >
-        </div>
-      </template>
-      <div v-else class="ai-drawing-img-default"></div>
-    </a-spin>
-  </div>
+            <icon-download />
+          </a-image-preview-action>
+          <a-image-preview-action :name="$t('common.collect')" @click="collectImage()">
+            <icon-common />
+          </a-image-preview-action>
+        </template>
+      </a-image>
+      <div v-if="drawingStore.getCurrentTask.imageList.length > 1" class="image-index-list">
+        <a-button
+          v-for="i in drawingStore.getCurrentTask.imageList.length"
+          :key="i"
+          size="mini"
+          shape="circle"
+          :type="i === imageListIndex + 1 ? 'primary' : undefined"
+          @click="imageListIndex = i - 1"
+          >{{ i }}</a-button
+        >
+      </div>
+    </template>
+    <div v-else class="ai-drawing-img-default"></div>
+  </a-spin>
 </template>
 
 <style scoped lang="less">
@@ -90,9 +82,19 @@ const collectImage = () => {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-sizing: border-box;
+  padding: 15px;
 
   :deep(.arco-image) {
+    height: 100%;
+    aspect-ratio: 1 / 1;
     border-radius: 0;
+
+    .arco-image-img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
   }
 
   .image-index-list {
@@ -104,8 +106,8 @@ const collectImage = () => {
   }
 
   .ai-drawing-img-default {
-    width: 450px;
-    height: 450px;
+    height: 100%;
+    aspect-ratio: 1 / 1;
     background-color: var(--color-fill-3);
   }
 }
