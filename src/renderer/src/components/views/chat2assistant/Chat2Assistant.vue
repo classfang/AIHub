@@ -3,7 +3,7 @@ import AssistantList from '@renderer/components/views/chat2assistant/assistant-l
 import ChatWindow from '@renderer/components/views/chat2assistant/chat-window/ChatWindow.vue'
 import EmptyChatWindow from '@renderer/components/views/chat2assistant/chat-window/EmptyChatWindow.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
-import { onMounted, reactive, ref, toRefs } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, toRefs } from 'vue'
 
 // store
 const assistantStore = useAssistantStore()
@@ -20,20 +20,29 @@ const data = reactive({
 })
 const { isLeftClose, isLeftCloseBtnShow } = toRefs(data)
 
+// 侧边栏隐藏按钮显示事件
+const leftCloseBtnShowEvent = (event: MouseEvent) => {
+  // 获取鼠标相对于元素左边框的水平位置
+  const x = event.clientX - chatAssistantRightRef.value.getBoundingClientRect().left
+
+  // 判断鼠标是否接近左边框
+  if (x < 20) {
+    data.isLeftCloseBtnShow = true
+  } else if (x > 40) {
+    data.isLeftCloseBtnShow = false
+  }
+}
+
 // 挂载完毕
 onMounted(() => {
   // 添加鼠标移动事件处理程序
-  chatAssistantRightRef.value.addEventListener('mousemove', function (event) {
-    // 获取鼠标相对于元素左边框的水平位置
-    const x = event.clientX - chatAssistantRightRef.value.getBoundingClientRect().left
+  chatAssistantRightRef.value.addEventListener('mousemove', leftCloseBtnShowEvent)
+})
 
-    // 判断鼠标是否接近左边框
-    if (x < 20) {
-      data.isLeftCloseBtnShow = true
-    } else if (x > 40) {
-      data.isLeftCloseBtnShow = false
-    }
-  })
+// 卸载之前
+onUnmounted(() => {
+  // 移除鼠标移动事件处理程序
+  chatAssistantRightRef.value.removeEventListener('mousemove', leftCloseBtnShowEvent)
 })
 </script>
 
