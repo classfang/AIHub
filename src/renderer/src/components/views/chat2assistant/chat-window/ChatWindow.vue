@@ -192,6 +192,11 @@ const useBigModel = async () => {
         configErrorFlag = true
       }
       break
+    case 'MoonshotAI':
+      if (!settingStore.moonshotAI.apiKey) {
+        configErrorFlag = true
+      }
+      break
   }
   if (configErrorFlag) {
     Modal.confirm({
@@ -352,6 +357,11 @@ const useBigModel = async () => {
       otherOption = {
         apiKey: settingStore.tiangong.appKey,
         secretKey: settingStore.tiangong.appSecret
+      }
+      break
+    case 'MoonshotAI':
+      otherOption = {
+        apiKey: settingStore.moonshotAI.apiKey
       }
       break
   }

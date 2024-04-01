@@ -1,5 +1,6 @@
 import { chat2ernie, drawingByERNIE } from '@renderer/utils/big-model/ernie-bot-util'
 import { chat2gemini } from '@renderer/utils/big-model/gemini-util'
+import { chat2moonshot } from '@renderer/utils/big-model/moonshot-util'
 import { chat2ollama } from '@renderer/utils/big-model/ollama-util'
 import { chat2openai, drawingByOpenAI } from '@renderer/utils/big-model/openai-util'
 import { chat2spark, drawingBySpark } from '@renderer/utils/big-model/spark-util'
@@ -61,7 +62,8 @@ const chatFunctionMap: ChatFunctionMap = {
   Spark: chat2spark,
   ERNIE: chat2ernie,
   Tongyi: chat2tongyi,
-  Tiangong: chat2tiangong
+  Tiangong: chat2tiangong,
+  MoonshotAI: chat2moonshot
 }
 
 const drawingFunctionMap: DrawingFunctionMap = {

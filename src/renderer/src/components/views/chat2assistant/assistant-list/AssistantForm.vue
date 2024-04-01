@@ -40,6 +40,9 @@ watch(
       case 'Tiangong':
         assistant.value.model = 'SkyChat-MegaVerse'
         break
+      case 'MoonshotAI':
+        assistant.value.model = 'moonshot-v1-128k'
+        break
     }
   }
 )

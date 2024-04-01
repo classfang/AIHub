@@ -108,6 +108,10 @@
         "name": "Tiangong",
         "appKey": "app_key",
         "appSecret": "app_secret"
+      },
+      "moonshotAI": {
+        "name": "Moonshot AI",
+        "apiKey": "API Key"
       }
     },
     "aiCalendar": {
@@ -158,7 +162,8 @@
     "Spark": "iFLYTEK Spark",
     "ERNIE": "Baidu ERNIE",
     "Tongyi": "Alibaba Tongyi",
-    "Tiangong": "Tiangong"
+    "Tiangong": "Tiangong",
+    "MoonshotAI": "Moonshot AI"
   },
   "translationProvider": {
     "youdao": "Youdao Translation",
@@ -222,7 +227,8 @@
       "Spark": "iFLYTEK Spark is not configured",
       "ERNIE": "Baidu ERNIE is not configured",
       "Tongyi": "Alibaba Tongyi is not configured",
-      "Tiangong": "Tiangong is not configured"
+      "Tiangong": "Tiangong is not configured",
+      "MoonshotAI": "Moonshot AI is not configured"
     },
     "error": {
       "imageRequires": "You have to upload a picture",
@@ -232,7 +238,8 @@
       "Spark": "iFLYTEK Spark call error, please check your configuration",
       "ERNIE": "Baidu ERNIE call error, please check your configuration",
       "Tongyi": "Alibaba Tongyi call error, please check your configuration",
-      "Tiangong": "Tiangong call error, please check your configuration"
+      "Tiangong": "Tiangong call error, please check your configuration",
+      "MoonshotAI": "Moonshot AI call error, please check your configuration"
     }
   },
   "collectionSet": {

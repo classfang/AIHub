@@ -108,6 +108,10 @@
         "name": "天工",
         "appKey": "app_key",
         "appSecret": "app_secret"
+      },
+      "moonshotAI": {
+        "name": "月之暗面",
+        "apiKey": "API Key"
       }
     },
     "aiCalendar": {
@@ -158,7 +162,8 @@
     "Spark": "讯飞星火",
     "ERNIE": "百度文心",
     "Tongyi": "阿里通义",
-    "Tiangong": "天工"
+    "Tiangong": "天工",
+    "MoonshotAI": "月之暗面"
   },
   "translationProvider": {
     "youdao": "有道翻译",
@@ -222,7 +227,8 @@
       "Spark": "星火大模型未配置",
       "ERNIE": "百度文心大模型未配置",
       "Tongyi": "阿里通义大模型未配置",
-      "Tiangong": "天工大模型未配置"
+      "Tiangong": "天工大模型未配置",
+      "MoonshotAI": "月之暗面大模型未配置"
     },
     "error": {
       "imageRequires": "你必须上传一张图片",
@@ -232,7 +238,8 @@
       "Spark": "星火大模型调用错误，请检查你的配置",
       "ERNIE": "百度文心大模型调用错误，请检查你的配置",
       "Tongyi": "阿里通义大模型调用错误，请检查你的配置",
-      "Tiangong": "天工大模型调用错误，请检查你的配置"
+      "Tiangong": "天工大模型调用错误，请检查你的配置",
+      "MoonshotAI": "月之暗面大模型调用错误"
     }
   },
   "collectionSet": {

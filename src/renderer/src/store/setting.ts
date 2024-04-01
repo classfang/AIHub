@@ -40,6 +40,9 @@ export const useSettingStore = defineStore({
     ollama: {
       baseUrl: 'http://localhost:11434'
     },
+    moonshotAI: {
+      apiKey: ''
+    },
     baiduTranslation: {
       appId: '',
       secret: ''
@@ -64,6 +67,7 @@ export const useSettingStore = defineStore({
         tongyi: this.tongyi,
         tiangong: this.tiangong,
         ollama: this.ollama,
+        moonshotAI: this.moonshotAI,
         youdao: this.youdao,
         baiduTranslation: this.baiduTranslation,
         aiCalendar: this.aiCalendar
@@ -107,6 +111,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.ollama !== undefined) {
         this.ollama = settingBackup.ollama
+        importFlag = true
+      }
+      if (settingBackup.moonshotAI !== undefined) {
+        this.moonshotAI = settingBackup.moonshotAI
         importFlag = true
       }
       if (settingBackup.youdao !== undefined) {

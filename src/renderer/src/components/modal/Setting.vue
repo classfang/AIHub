@@ -578,6 +578,29 @@ onMounted(() => {
                   </a-space>
                 </a-space>
               </a-tab-pane>
+              <!-- 月之暗面 -->
+              <a-tab-pane key="moonshotAI" :title="$t('setting.bigModel.moonshotAI.name')">
+                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('common.officialWebsite') }}</div>
+                      <a-link @click="openInBrowser('https://www.moonshot.cn')"
+                        >https://www.moonshot.cn</a-link
+                      >
+                    </a-space>
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('setting.bigModel.moonshotAI.apiKey') }}</div>
+                      <a-input-password
+                        v-model="settingStore.moonshotAI.apiKey"
+                        size="small"
+                        :placeholder="
+                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.moonshotAI.apiKey')
+                        "
+                      />
+                    </a-space>
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
             </a-tabs>
           </a-tab-pane>
           <!-- AI日历 -->
