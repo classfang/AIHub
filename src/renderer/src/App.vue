@@ -120,54 +120,74 @@ onMounted(() => {
         <div :class="{ 'app-sidebar-avatar-macos': getPlatform().isMacOS }">
           <UserAvatar :editable="true" :size="36" />
         </div>
-        <icon-message
+        <div
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat') }"
           @click="changePage('chat')"
-        />
-        <icon-experiment
+        >
+          <icon-message class="app-sidebar-item-icon" />
+        </div>
+        <div
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat-plugin') }"
           @click="changePage('chat-plugin')"
-        />
-        <icon-palette
+        >
+          <icon-experiment class="app-sidebar-item-icon" />
+        </div>
+        <div
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('ai-drawing') }"
           @click="changePage('ai-drawing')"
-        />
-        <icon-book
+        >
+          <icon-palette class="app-sidebar-item-icon" />
+        </div>
+        <div
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('knowledge-base') }"
           @click="changePage('knowledge-base')"
-        />
-        <icon-calendar
+        >
+          <icon-book class="app-sidebar-item-icon" />
+        </div>
+        <div
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('calendar') }"
           @click="changePage('calendar')"
-        />
-        <icon-translate
+        >
+          <icon-calendar class="app-sidebar-item-icon" />
+        </div>
+        <div
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('translator') }"
           @click="changePage('translator')"
-        />
-        <icon-common
+        >
+          <icon-translate class="app-sidebar-item-icon" />
+        </div>
+        <div
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('collect') }"
           @click="changePage('collect')"
-        />
-        <icon-apps
+        >
+          <icon-common class="app-sidebar-item-icon" />
+        </div>
+        <div
           class="app-sidebar-item no-drag-area"
           :class="{ 'app-sidebar-item-active': systemStore.isThisPage('ai-app') }"
           @click="changePage('ai-app')"
-        />
+        >
+          <icon-apps class="app-sidebar-item-icon" />
+        </div>
         <Notification style="margin-top: auto">
           <template #default>
-            <icon-notification class="app-sidebar-item no-drag-area" />
+            <div class="app-sidebar-item no-drag-area">
+              <icon-notification class="app-sidebar-item-icon" />
+            </div>
           </template>
         </Notification>
         <Setting>
           <template #default>
-            <icon-settings class="app-sidebar-item no-drag-area" />
+            <div class="app-sidebar-item no-drag-area">
+              <icon-settings class="app-sidebar-item-icon" />
+            </div>
           </template>
         </Setting>
       </div>
@@ -221,29 +241,54 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 26px;
     box-sizing: border-box;
-    padding: 15px;
+    padding: 15px 0;
     background-color: var(--color-fill-2);
 
     .app-sidebar-avatar-macos {
-      margin-top: 26px;
+      margin: 26px 0 13px 0;
     }
 
     .app-sidebar-item {
-      font-size: 26px;
-      stroke-width: 3;
-      color: var(--color-text-2);
-      transition: all 200ms;
+      padding: 13px 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .app-sidebar-item-icon {
+        font-size: 26px;
+        stroke-width: 3;
+        color: var(--color-text-2);
+        transition: all 200ms;
+      }
 
       &:hover {
-        stroke-width: 4;
+        .app-sidebar-item-icon {
+          stroke-width: 4;
+        }
       }
     }
 
     .app-sidebar-item-active {
-      stroke-width: 4;
-      color: rgb(var(--primary-6));
+      position: relative;
+
+      .app-sidebar-item-icon {
+        stroke-width: 4;
+        color: rgb(var(--primary-6));
+      }
+
+      &:after {
+        display: inline-block;
+        content: '';
+        height: 26px;
+        width: 10px;
+        background-color: rgb(var(--primary-5));
+        position: absolute;
+        top: 13px;
+        left: -5px;
+        border-radius: 0 5px 5px 0;
+      }
     }
   }
 
