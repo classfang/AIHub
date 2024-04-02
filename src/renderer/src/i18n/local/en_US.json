@@ -115,7 +115,7 @@
       }
     },
     "aiCalendar": {
-      "name": "AI Calendar",
+      "name": "Calendar",
       "weekStart": "The beginning of the week",
       "sunday": "Sunday",
       "monday": "Monday",

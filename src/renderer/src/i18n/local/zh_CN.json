@@ -115,7 +115,7 @@
       }
     },
     "aiCalendar": {
-      "name": "AI日历",
+      "name": "日历",
       "weekStart": "每周的开始",
       "sunday": "周日",
       "monday": "周一",
