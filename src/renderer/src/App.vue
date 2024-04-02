@@ -34,9 +34,43 @@ const arcoDesignLocales = {
 }
 
 const data = reactive({
-  isLoad: false
+  isLoad: false,
+  sidebarConfig: [
+    {
+      name: 'chat',
+      icon: 'IconMessage'
+    },
+    {
+      name: 'chat-plugin',
+      icon: 'IconExperiment'
+    },
+    {
+      name: 'ai-drawing',
+      icon: 'IconPalette'
+    },
+    {
+      name: 'knowledge-base',
+      icon: 'IconBook'
+    },
+    {
+      name: 'calendar',
+      icon: 'IconCalendar'
+    },
+    {
+      name: 'translator',
+      icon: 'IconTranslate'
+    },
+    {
+      name: 'collect',
+      icon: 'IconCommon'
+    },
+    {
+      name: 'ai-app',
+      icon: 'IconApps'
+    }
+  ] as { name: PageName; icon: string }[]
 })
-const { isLoad } = toRefs(data)
+const { isLoad, sidebarConfig } = toRefs(data)
 
 // 主题设置监听
 let stopDarkThemeListener: any = null
@@ -121,60 +155,13 @@ onMounted(() => {
           <UserAvatar :editable="true" :size="36" />
         </div>
         <div
+          v-for="c in sidebarConfig"
+          :key="c.name"
           class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat') }"
-          @click="changePage('chat')"
+          :class="{ 'app-sidebar-item-active': systemStore.isThisPage(c.name) }"
+          @click="changePage(c.name)"
         >
-          <icon-message class="app-sidebar-item-icon" />
-        </div>
-        <div
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('chat-plugin') }"
-          @click="changePage('chat-plugin')"
-        >
-          <icon-experiment class="app-sidebar-item-icon" />
-        </div>
-        <div
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('ai-drawing') }"
-          @click="changePage('ai-drawing')"
-        >
-          <icon-palette class="app-sidebar-item-icon" />
-        </div>
-        <div
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('knowledge-base') }"
-          @click="changePage('knowledge-base')"
-        >
-          <icon-book class="app-sidebar-item-icon" />
-        </div>
-        <div
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('calendar') }"
-          @click="changePage('calendar')"
-        >
-          <icon-calendar class="app-sidebar-item-icon" />
-        </div>
-        <div
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('translator') }"
-          @click="changePage('translator')"
-        >
-          <icon-translate class="app-sidebar-item-icon" />
-        </div>
-        <div
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('collect') }"
-          @click="changePage('collect')"
-        >
-          <icon-common class="app-sidebar-item-icon" />
-        </div>
-        <div
-          class="app-sidebar-item no-drag-area"
-          :class="{ 'app-sidebar-item-active': systemStore.isThisPage('ai-app') }"
-          @click="changePage('ai-app')"
-        >
-          <icon-apps class="app-sidebar-item-icon" />
+          <component :is="c.icon" class="app-sidebar-item-icon" />
         </div>
         <Notification style="margin-top: auto">
           <template #default>
@@ -242,15 +229,14 @@ onMounted(() => {
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    padding: 15px 0;
     background-color: var(--color-fill-2);
 
     .app-sidebar-avatar-macos {
-      margin: 26px 0 13px 0;
+      margin: 30px 0 15px 0;
     }
 
     .app-sidebar-item {
-      padding: 13px 0;
+      padding: 15px 0;
       width: 100%;
       display: flex;
       align-items: center;
