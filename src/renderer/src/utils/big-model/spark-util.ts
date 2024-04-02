@@ -200,18 +200,19 @@ export const getSparkMessages = async (
   inputMaxTokens: number | undefined,
   contextSize: number
 ) => {
-  // 增加指令
-  if (instruction.trim().length > 0) {
-    chatMessageList[chatMessageList.length - 1].content = `${instruction}\n${
-      chatMessageList[chatMessageList.length - 1].content
-    }`
-  }
-
   // 将消息历史处理为user和assistant轮流对话
   let messages = turnChat(chatMessageList)
 
   // 截取指定长度的上下文
   messages = limitContext(inputMaxTokens, contextSize, messages)
+
+  // 增加指令
+  if (instruction.trim().length > 0) {
+    messages.unshift({
+      role: 'system',
+      content: instruction
+    })
+  }
 
   // 转换消息结构
   let sparkMessages: any[] = []
