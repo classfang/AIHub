@@ -28,7 +28,7 @@ watch(
 </script>
 
 <template>
-  <div class="setting">
+  <div class="notification">
     <div @click="openModal()">
       <a-badge :count="isRead ? 0 : 1" dot :dot-style="{ width: '6px', height: '6px' }">
         <slot name="default"></slot>
@@ -44,19 +44,10 @@ watch(
       width="80vw"
     >
       <template #title>
-        <a-space :size="5">
+        <div class="notification-title">
           <span>{{ $t('notification.name') }}</span>
-          <a-button
-            style="width: 20px; height: 20px"
-            size="mini"
-            shape="circle"
-            type="text"
-            status="danger"
-            @click="notificationStore.notifications = []"
-          >
-            <icon-delete />
-          </a-button>
-        </a-space>
+          <icon-delete class="notification-clear-btn" />
+        </div>
       </template>
       <!-- 提醒页 -->
       <div class="notification-page">
@@ -93,6 +84,23 @@ watch(
 </template>
 
 <style lang="less" scoped>
+.notification-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .notification-clear-btn {
+    font-size: 16px;
+    stroke-width: 4;
+    cursor: pointer;
+    color: rgb(var(--danger-5));
+
+    &:active {
+      stroke-width: 5;
+    }
+  }
+}
+
 .notification-page {
   height: 60vh;
   overflow-y: auto;

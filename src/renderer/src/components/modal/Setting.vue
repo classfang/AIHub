@@ -101,13 +101,13 @@ const clearCacheHandle = async () => {
     })
   })
   collectionSetStore.collectionItemList.forEach((item) => {
-    if (item.type === 'chat') {
+    if (item.type === 'chat' && item.chat?.chatMessageList) {
       item.chat?.chatMessageList.forEach((msg) => {
         if (msg.image) {
           ignoreImages.push(msg.image)
         }
       })
-    } else if (item.type === 'image') {
+    } else if (item.type === 'image' && item.image?.imageList) {
       item.image?.imageList.forEach((image) => {
         if (image) {
           ignoreImages.push(image)
@@ -296,69 +296,6 @@ onMounted(() => {
                       "
                       @change="setProxy(settingStore.app.proxy)"
                     />
-                  </a-space>
-                </a-space>
-              </a-tab-pane>
-              <!-- 备份 -->
-              <a-tab-pane key="backup" :title="$t('setting.app.backup.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
-                  <a-space direction="vertical" :size="10">
-                    <div>{{ $t('setting.app.backup.setting.name') }}</div>
-                    <div>
-                      <a-space :size="10">
-                        <a-button size="mini" @click="exportSettingBackup()">
-                          <a-space :size="5">
-                            <icon-download />
-                            <span>{{ $t('setting.app.backup.setting.export') }}</span>
-                          </a-space>
-                        </a-button>
-                        <a-button size="mini" @click="importSettingBackup()">
-                          <a-space :size="5">
-                            <icon-upload />
-                            <span>{{ $t('setting.app.backup.setting.import') }}</span>
-                          </a-space>
-                        </a-button>
-                      </a-space>
-                    </div>
-                  </a-space>
-                  <a-space direction="vertical" :size="10">
-                    <div>{{ $t('setting.app.backup.data.name') }}</div>
-                    <div>
-                      <a-space :size="10">
-                        <a-button size="mini" @click="exportDataBackup()">
-                          <a-space :size="5">
-                            <icon-download />
-                            <span>{{ $t('setting.app.backup.data.export') }}</span>
-                          </a-space>
-                        </a-button>
-                        <a-button size="mini" @click="importDataBackup()">
-                          <a-space :size="5">
-                            <icon-upload />
-                            <span>{{ $t('setting.app.backup.data.import') }}</span>
-                          </a-space>
-                        </a-button>
-                      </a-space>
-                    </div>
-                  </a-space>
-                  <!-- 缓存 -->
-                  <a-space direction="vertical" :size="10">
-                    <div>{{ $t('setting.app.backup.cache.name') }}</div>
-                    <div>
-                      <a-space :size="10">
-                        <a-button size="mini" @click="openCacheDir()">
-                          <a-space :size="5">
-                            <icon-folder />
-                            <span>{{ $t('setting.app.backup.cache.path') }}</span>
-                          </a-space>
-                        </a-button>
-                        <a-button size="mini" :loading="clearCacheFlag" @click="clearCacheHandle()">
-                          <a-space :size="5">
-                            <icon-delete />
-                            <span>{{ $t('setting.app.backup.cache.clear') }}</span>
-                          </a-space>
-                        </a-button>
-                      </a-space>
-                    </div>
                   </a-space>
                 </a-space>
               </a-tab-pane>
@@ -706,6 +643,69 @@ onMounted(() => {
                 </a-space>
               </a-tab-pane>
             </a-tabs>
+          </a-tab-pane>
+          <!-- 备份 -->
+          <a-tab-pane key="backup" :title="$t('setting.app.backup.name')">
+            <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+              <a-space direction="vertical" :size="10">
+                <div>{{ $t('setting.app.backup.setting.name') }}</div>
+                <div>
+                  <a-space :size="10">
+                    <a-button size="mini" @click="exportSettingBackup()">
+                      <a-space :size="5">
+                        <icon-download />
+                        <span>{{ $t('setting.app.backup.setting.export') }}</span>
+                      </a-space>
+                    </a-button>
+                    <a-button size="mini" @click="importSettingBackup()">
+                      <a-space :size="5">
+                        <icon-upload />
+                        <span>{{ $t('setting.app.backup.setting.import') }}</span>
+                      </a-space>
+                    </a-button>
+                  </a-space>
+                </div>
+              </a-space>
+              <a-space direction="vertical" :size="10">
+                <div>{{ $t('setting.app.backup.data.name') }}</div>
+                <div>
+                  <a-space :size="10">
+                    <a-button size="mini" @click="exportDataBackup()">
+                      <a-space :size="5">
+                        <icon-download />
+                        <span>{{ $t('setting.app.backup.data.export') }}</span>
+                      </a-space>
+                    </a-button>
+                    <a-button size="mini" @click="importDataBackup()">
+                      <a-space :size="5">
+                        <icon-upload />
+                        <span>{{ $t('setting.app.backup.data.import') }}</span>
+                      </a-space>
+                    </a-button>
+                  </a-space>
+                </div>
+              </a-space>
+              <!-- 缓存 -->
+              <a-space direction="vertical" :size="10">
+                <div>{{ $t('setting.app.backup.cache.name') }}</div>
+                <div>
+                  <a-space :size="10">
+                    <a-button size="mini" @click="openCacheDir()">
+                      <a-space :size="5">
+                        <icon-folder />
+                        <span>{{ $t('setting.app.backup.cache.path') }}</span>
+                      </a-space>
+                    </a-button>
+                    <a-button size="mini" :loading="clearCacheFlag" @click="clearCacheHandle()">
+                      <a-space :size="5">
+                        <icon-delete />
+                        <span>{{ $t('setting.app.backup.cache.clear') }}</span>
+                      </a-space>
+                    </a-button>
+                  </a-space>
+                </div>
+              </a-space>
+            </a-space>
           </a-tab-pane>
           <!-- 关于 -->
           <a-tab-pane key="about" :title="$t('setting.about.name')">
