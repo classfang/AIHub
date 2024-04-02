@@ -108,7 +108,7 @@ onMounted(() => {
   setTimeout(() => {
     data.isLoad = true
     watchLoading()
-  }, 1000)
+  }, 2000)
 })
 </script>
 

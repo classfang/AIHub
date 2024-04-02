@@ -19,14 +19,12 @@ body {
     position: fixed;
     top: 0;
     right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-image: url('../images/logo.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 120px 120px;
     z-index: -1;
-    content: 'Welcome to AIHub';
-    color: rgb(var(--primary-6));
-    font-size: 30px;
-    font-weight: bold;
+    content: '';
     opacity: 0;
     animation: welcome-fade-in 2000ms 500ms;
   }
@@ -78,7 +76,8 @@ img {
 }
 
 // 部分全屏组件元素不可拖拽
-.arco-modal-mask,.arco-image-preview-img-container {
+.arco-modal-mask,
+.arco-image-preview-img-container {
   -webkit-app-region: no-drag;
 }
 
@@ -137,7 +136,7 @@ img {
   transform: translateY(0);
 }
 
-.fadein-enter-active{
+.fadein-enter-active {
   transition: opacity 500ms;
 }
 .fadein-enter-from,
