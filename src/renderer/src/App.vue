@@ -12,6 +12,7 @@ import CollectionSet from '@renderer/components/views/collection-set/CollectionS
 import KnowledgeBase from '@renderer/components/views/knowledge-base/KnowledgeBase.vue'
 import AIApp from '@renderer/components/views/mini-program/MiniProgram.vue'
 import Translator from '@renderer/components/views/translator/Translator.vue'
+import WelcomePage from '@renderer/components/views/welcome-page/WelcomePage.vue'
 import { useSettingStore } from '@renderer/store/setting'
 import { useSystemStore } from '@renderer/store/system'
 import {
@@ -142,12 +143,14 @@ onMounted(() => {
   setTimeout(() => {
     data.isLoad = true
     watchLoading()
-  }, 0)
+  }, 3000)
 })
 </script>
 
 <template>
   <a-config-provider :locale="arcoDesignLocal">
+    <!-- 欢迎页 -->
+    <WelcomePage v-if="!isLoad" />
     <div class="app fade-in-from" :class="{ 'fade-in-to': isLoad }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
