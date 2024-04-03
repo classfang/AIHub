@@ -4,18 +4,17 @@ import { simulateThreadWait } from '@renderer/utils/thread-util'
 import { nextTick, onMounted, reactive, toRefs } from 'vue'
 
 const data = reactive({
-  providers: ['OpenAI', 'Ollama', 'Gemini', 'Tongyi', 'ERNIE', 'Spark', 'Tiangong', 'MoonshotAI']
+  providers: ['OpenAI', 'Ollama', 'Gemini', 'Tongyi', 'ERNIE', 'Spark', 'Tiangong', 'MoonshotAI'],
+  providerShowIndex: -1
 })
-const { providers } = toRefs(data)
+const { providers, providerShowIndex } = toRefs(data)
 
 onMounted(() => {
+  // 轮流显示提供商Logo
   nextTick(async () => {
-    const providerItems = document.getElementsByClassName('provider-item')
-    if (providerItems) {
-      for (const providerItem of providerItems) {
-        await simulateThreadWait(200)
-        providerItem.classList.add('provider-item-show')
-      }
+    for (let i = 0; i < data.providers.length; i++) {
+      await simulateThreadWait(200)
+      providerShowIndex.value++
     }
   })
 })
@@ -25,9 +24,10 @@ onMounted(() => {
   <div class="welcome-page">
     <div class="provider-list">
       <AssistantAvatar
-        v-for="p in providers"
+        v-for="(p, index) in providers"
         :key="p"
         class="provider-item"
+        :class="{ 'provider-item-show': index <= providerShowIndex }"
         :provider="p"
         :size="50"
       />
