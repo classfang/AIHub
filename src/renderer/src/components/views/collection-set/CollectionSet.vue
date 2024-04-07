@@ -297,8 +297,8 @@ const newNote = () => {
                   :name="$t('common.download')"
                   @click="
                     downloadFile(
-                      `file://${currentCollectionItem.image?.imageList[0]}`,
-                      `img-${currentCollectionItem.image?.imageList[0]}`
+                      `file://${currentCollectionItem?.image?.imageList[0]}`,
+                      `img-${currentCollectionItem?.image?.imageList[0]}`
                     )
                   "
                 >
