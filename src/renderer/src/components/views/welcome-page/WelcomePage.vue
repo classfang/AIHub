@@ -21,7 +21,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="welcome-page">
+  <div class="welcome-page z-index-max">
     <div class="provider-list">
       <AssistantAvatar
         v-for="(p, index) in providers"
