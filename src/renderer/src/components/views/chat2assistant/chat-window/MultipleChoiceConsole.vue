@@ -110,6 +110,9 @@ const multipleChoiceDownload = () => {
 }
 
 const multipleChoiceShare = () => {
+  if (props.multipleChoiceList.length === 0) {
+    return
+  }
   data.shareModalVisible = true
 }
 
