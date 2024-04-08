@@ -30,7 +30,7 @@ watch(
 <template>
   <div class="notification">
     <div @click="openModal()">
-      <a-badge :count="isRead ? 0 : 1" dot :dot-style="{ width: '6px', height: '6px' }">
+      <a-badge :count="isRead ? 0 : 1" dot :dot-style="{ width: '7px', height: '7px' }">
         <slot name="default"></slot>
       </a-badge>
     </div>
@@ -46,7 +46,10 @@ watch(
       <template #title>
         <div class="notification-title">
           <span>{{ $t('notification.name') }}</span>
-          <icon-delete class="notification-clear-btn" />
+          <icon-delete
+            class="notification-clear-btn"
+            @click="notificationStore.notifications = []"
+          />
         </div>
       </template>
       <!-- 提醒页 -->

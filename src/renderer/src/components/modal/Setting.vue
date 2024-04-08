@@ -243,7 +243,7 @@ onMounted(() => {
 <template>
   <div class="setting">
     <div @click="systemStore.openSettingModal()">
-      <a-badge :count="newVersionFlag ? 1 : 0" dot :dot-style="{ width: '6px', height: '6px' }">
+      <a-badge :count="newVersionFlag ? 1 : 0" dot :dot-style="{ width: '7px', height: '7px' }">
         <slot name="default"></slot>
       </a-badge>
     </div>
@@ -718,7 +718,7 @@ onMounted(() => {
                     <a-badge
                       :count="newVersionFlag ? 1 : 0"
                       dot
-                      :dot-style="{ width: '6px', height: '6px' }"
+                      :dot-style="{ width: '7px', height: '7px' }"
                     >
                       <a-button
                         size="mini"

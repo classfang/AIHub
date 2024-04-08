@@ -166,20 +166,20 @@ onMounted(() => {
         >
           <component :is="c.icon" class="app-sidebar-item-icon" />
         </div>
-        <Notification style="margin-top: auto">
-          <template #default>
-            <div class="app-sidebar-item no-drag-area">
+        <div class="app-sidebar-item no-drag-area" style="margin-top: auto">
+          <Notification>
+            <template #default>
               <icon-notification class="app-sidebar-item-icon" />
-            </div>
-          </template>
-        </Notification>
-        <Setting>
-          <template #default>
-            <div class="app-sidebar-item no-drag-area">
+            </template>
+          </Notification>
+        </div>
+        <div class="app-sidebar-item no-drag-area">
+          <Setting>
+            <template #default>
               <icon-settings class="app-sidebar-item-icon" />
-            </div>
-          </template>
-        </Setting>
+            </template>
+          </Setting>
+        </div>
       </div>
 
       <!-- 多页面 -->
