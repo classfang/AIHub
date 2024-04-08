@@ -141,7 +141,7 @@ onMounted(() => {
   systemStore.startDayKeyInterval()
   // 显示主界面，防止夜间主题从白色闪烁到黑色
   setTimeout(() => {
-    // data.isLoad = true
+    data.isLoad = true
     watchLoading()
   }, 3000)
 })
