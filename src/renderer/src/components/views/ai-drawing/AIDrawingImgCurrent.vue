@@ -79,6 +79,7 @@ const collectImage = () => {
 <style scoped lang="less">
 .ai-drawing-img-current {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;

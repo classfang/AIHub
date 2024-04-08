@@ -44,6 +44,9 @@ const deleteDrawingTask = (taskId: string) => {
     cancelText: t('common.cancel'),
     onOk: () => {
       drawingStore.drawingTaskList = drawingStore.drawingTaskList.filter((t) => t.id !== taskId)
+      if (drawingStore.currentTaskId === taskId) {
+        drawingStore.currentTaskId = null
+      }
     }
   })
 }
