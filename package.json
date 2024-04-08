@@ -57,7 +57,7 @@
     "axios": "^1.6.8",
     "clipboard": "^2.0.11",
     "codemirror": ">=5.64.0 <6",
-    "codemirror-editor-vue3": "^2.4.1",
+    "codemirror-editor-vue3": "^2.5.8",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
     "electron": "^29.2.0",
@@ -81,7 +81,7 @@
     "vite": "^5.2.8",
     "vue": "^3.4.21",
     "vue-i18n": "^9.11.0",
-    "vue-tsc": "^2.0.10",
+    "vue-tsc": "^2.0.11",
     "vuedraggable": "^4.1.0"
   }
 }
