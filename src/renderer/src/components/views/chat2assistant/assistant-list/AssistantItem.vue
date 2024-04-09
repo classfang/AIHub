@@ -29,7 +29,7 @@ const assistantItemActive = () => {
 }
 
 // 计算显示的消息时间
-const calcMessageTime = (current: ChatMessage) => {
+const calcMessageTime = (current?: ChatMessage) => {
   if (current) {
     if (dayjs(current.createTime).format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')) {
       return dayjs(current.createTime).format('HH:mm')
