@@ -854,7 +854,8 @@ onBeforeUnmount(() => {
             style="margin-left: auto"
             @click="stopSpeech()"
           >
-            <icon-record-stop :size="15" />
+            <icon-loading v-if="speechStatus === SpeechStatus.LOADING" spin :size="15" />
+            <icon-record-stop v-else :size="15" />
           </a-button>
         </a-tooltip>
       </div>
