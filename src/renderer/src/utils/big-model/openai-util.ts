@@ -1,4 +1,4 @@
-import { CommonChatOption, CommonDrawingOption } from '.'
+import { CommonChatOption, CommonDrawingOption, CommonSpeechOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import {
@@ -222,4 +222,22 @@ export const drawingByOpenAI = async (option: CommonDrawingOption) => {
 
   // 结束
   end && end(sessionId)
+}
+
+export const speechByOpenAI = async (option: CommonSpeechOption) => {
+  const { model, apiKey, baseURL, input, voice, speed } = option
+
+  // OpenAI实例
+  const openai = new OpenAI({
+    apiKey,
+    baseURL,
+    dangerouslyAllowBrowser: true
+  })
+  const mp3 = await openai.audio.speech.create({
+    model: model ?? 'tts-1',
+    voice: voice as 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer',
+    speed: speed ?? 1.0,
+    input
+  })
+  return await mp3.arrayBuffer()
 }

@@ -32,6 +32,7 @@ type BigModelProvider =
   | 'Tiangong'
   | 'MoonshotAI'
 type AIDrawingProvider = 'OpenAI' | 'Tongyi' | 'ERNIE' | 'Spark'
+type AIAudioProvider = 'OpenAI'
 type TranslatorProvider = 'youdao' | 'baiduTranslation'
 type AssistantType = 'chat'
 type ChatMsgType = 'text' | 'img'
@@ -62,6 +63,11 @@ interface Assistant {
   inputMaxTokens: number
   maxTokens: number
   contextSize: number
+
+  // 发音
+  speechModel?: string
+  speechVoice?: string
+  speechSpeed?: number
 }
 
 interface BaseMessage {

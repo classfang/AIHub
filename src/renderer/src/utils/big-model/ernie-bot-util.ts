@@ -109,9 +109,7 @@ export const getERNIEMessages = async (
 ) => {
   // 增加指令
   if (instruction.trim().length > 0) {
-    chatMessageList[chatMessageList.length - 1].content = `${instruction}\n${
-      chatMessageList[chatMessageList.length - 1].content
-    }`
+    chatMessageList.at(-1)!.content = `${instruction}\n${chatMessageList.at(-1)!.content}`
   }
 
   // 将消息历史处理为user和assistant轮流对话

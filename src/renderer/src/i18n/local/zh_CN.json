@@ -7,6 +7,7 @@
     "close": "关闭",
     "run": "运行",
     "pleaseEnter": "请输入",
+    "pleaseSelect": "请选择",
     "required": "不能为空",
     "edit": "编辑",
     "delete": "删除",
@@ -187,7 +188,10 @@
     "contextSize": "上下文大小",
     "type": "助手类型",
     "chat": "对话",
-    "search": "搜索助手"
+    "search": "搜索助手",
+    "speechModel": "发音模型",
+    "speechVoice": "发音人",
+    "speechSpeed": "发音语速"
   },
   "assistantItem": {
     "content": {
@@ -212,6 +216,9 @@
     "selectPlugin": "插件",
     "noPlugin": "暂无插件",
     "copy": "复制",
+    "speech": "发音",
+    "startSpeech": "开始发音",
+    "stopSpeech": "停止发音",
     "multipleChoice": "多选",
     "collectSuccess": "已添加至收藏夹",
     "inputTokensLimit": "输入Token数超限制",

@@ -96,7 +96,7 @@ const newNote = () => {
     <div class="collection-set-left">
       <div class="collection-set-list-search drag-area">
         <div class="search-type-select no-drag-area">
-          <a-select v-model="collectionItemType">
+          <a-select v-model="collectionItemType" :fallback-option="false">
             <a-option value="all">{{ $t('collectionSet.type.all') }}</a-option>
             <a-option value="chat">{{ $t('collectionSet.type.chat') }}</a-option>
             <a-option value="image">{{ $t('collectionSet.type.image') }}</a-option>

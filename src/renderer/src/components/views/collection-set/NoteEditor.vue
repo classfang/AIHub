@@ -11,7 +11,7 @@ const noteEditorInput = (newValue: string) => {
     const lines = content.value.split('\n')
 
     // 序号开头
-    const matchResult = lines[lines.length - 1].match(/^\d+\.\s/)
+    const matchResult = lines.at(-1)?.match(/^\d+\.\s/)
     if (matchResult) {
       // 追加序号
       nextTick(() => {

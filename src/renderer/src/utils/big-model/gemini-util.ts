@@ -114,8 +114,8 @@ export const getGeminiMessages = async (
   contextSize: number
 ) => {
   // 图片问题，不联系上下文
-  const lastChatMessage = chatMessageList[chatMessageList.length - 1]
-  if (lastChatMessage.image) {
+  const lastChatMessage = chatMessageList.at(-1)
+  if (lastChatMessage?.image) {
     const imageBase64Data = await readLocalImageBase64(lastChatMessage.image)
     return [
       {
@@ -137,9 +137,7 @@ export const getGeminiMessages = async (
 
   // 增加指令
   if (instruction.trim().length > 0) {
-    chatMessageList[chatMessageList.length - 1].content = `${instruction}\n${
-      chatMessageList[chatMessageList.length - 1].content
-    }`
+    chatMessageList.at(-1)!.content = `${instruction}\n${chatMessageList.at(-1)!.content}`
   }
 
   // 将消息历史处理为user和assistant轮流对话

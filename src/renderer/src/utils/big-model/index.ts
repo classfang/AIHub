@@ -2,7 +2,7 @@ import { chat2ernie, drawingByERNIE } from '@renderer/utils/big-model/ernie-bot-
 import { chat2gemini } from '@renderer/utils/big-model/gemini-util'
 import { chat2moonshot } from '@renderer/utils/big-model/moonshot-util'
 import { chat2ollama } from '@renderer/utils/big-model/ollama-util'
-import { chat2openai, drawingByOpenAI } from '@renderer/utils/big-model/openai-util'
+import { chat2openai, drawingByOpenAI, speechByOpenAI } from '@renderer/utils/big-model/openai-util'
 import { chat2spark, drawingBySpark } from '@renderer/utils/big-model/spark-util'
 import { chat2tiangong } from '@renderer/utils/big-model/tiangong-util'
 import { chat2tongyi, drawingByTongyi } from '@renderer/utils/big-model/tongyi-util'
@@ -13,6 +13,10 @@ type ChatFunctionMap = {
 
 type DrawingFunctionMap = {
   [provider in AIDrawingProvider]: (option: CommonDrawingOption) => Promise<any>
+}
+
+type SpeechFunctionMap = {
+  [provider in AIAudioProvider]: (option: CommonSpeechOption) => Promise<any>
 }
 
 export interface CommonChatOption {
@@ -55,6 +59,15 @@ export interface CommonDrawingOption {
   abortCtr?: AbortController
 }
 
+export interface CommonSpeechOption {
+  apiKey?: string
+  baseURL?: string
+  model?: string
+  voice?: string
+  speed?: number
+  input: string
+}
+
 const chatFunctionMap: ChatFunctionMap = {
   OpenAI: chat2openai,
   Ollama: chat2ollama,
@@ -73,6 +86,10 @@ const drawingFunctionMap: DrawingFunctionMap = {
   Spark: drawingBySpark
 }
 
+const speechFunctionMap: SpeechFunctionMap = {
+  OpenAI: speechByOpenAI
+}
+
 export const chat2bigModel = async (provider: keyof ChatFunctionMap, option: CommonChatOption) => {
   const chatFunction = chatFunctionMap[provider]
   if (chatFunction) {
@@ -89,6 +106,18 @@ export const drawingByBigModel = async (
   const drawingFunction = drawingFunctionMap[provider]
   if (drawingFunction) {
     return drawingFunction(option)
+  } else {
+    throw new Error(`Unsupported provider: ${provider}`)
+  }
+}
+
+export const speechByBigModel = async (
+  provider: keyof SpeechFunctionMap,
+  option: CommonSpeechOption
+) => {
+  const speechFunction = speechFunctionMap[provider]
+  if (speechFunction) {
+    return speechFunction(option)
   } else {
     throw new Error(`Unsupported provider: ${provider}`)
   }

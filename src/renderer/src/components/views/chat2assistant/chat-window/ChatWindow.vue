@@ -9,18 +9,23 @@ import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { useNotificationStore } from '@renderer/store/notification'
 import { useSettingStore } from '@renderer/store/setting'
 import { useSystemStore } from '@renderer/store/system'
-import { CommonChatOption, chat2bigModel } from '@renderer/utils/big-model'
-import { isSupportImage, isSupportPlugin } from '@renderer/utils/big-model/base-util'
+import { chat2bigModel, CommonChatOption, speechByBigModel } from '@renderer/utils/big-model'
+import {
+  isSupportImage,
+  isSupportPlugin,
+  isSupportSpeech
+} from '@renderer/utils/big-model/base-util'
+import { SpeechStatus } from '@renderer/utils/constant'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile } from '@renderer/utils/download-util'
 import { getContentTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 import { randomUUID } from '@renderer/utils/id-util'
-import { clipboardWriteText } from '@renderer/utils/ipc-util'
-import { saveFileByPath } from '@renderer/utils/ipc-util'
+import { clipboardWriteText, saveFileByPath } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 import { renderMarkdown } from '@renderer/utils/markdown-util'
+import { copyObj } from '@renderer/utils/object-util'
 import dayjs from 'dayjs'
-import { computed, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 // store
@@ -40,6 +45,10 @@ const chatWindowHeaderRef = ref()
 
 // 阻断控制
 let abortCtr = new AbortController()
+
+// 创建一个AudioContext对象来处理音频
+const audioContext = new AudioContext()
+let audioBufferSource = audioContext.createBufferSource()
 
 // 数据绑定
 const data = reactive({
@@ -65,7 +74,10 @@ const data = reactive({
   page: {
     number: 1,
     size: 20
-  }
+  },
+  // 发音标识
+  speechStatus: SpeechStatus.STOP,
+  speechSessionId: randomUUID()
 })
 const {
   isLoad,
@@ -76,7 +88,8 @@ const {
   multipleChoiceFlag,
   multipleChoiceList,
   isToBottomBtnShow,
-  page
+  page,
+  speechStatus
 } = toRefs(data)
 
 // 监听消息列表变化
@@ -119,6 +132,11 @@ const isSupportImageComputed = computed(() => {
 // 支持插件
 const isSupportPluginComputed = computed(() => {
   return isSupportPlugin(data.currentAssistant.provider, data.currentAssistant.model)
+})
+
+// 支持发音
+const isSupportSpeechComputed = computed(() => {
+  return isSupportSpeech(data.currentAssistant.provider)
 })
 
 // 发送提问
@@ -270,7 +288,7 @@ const useBigModel = async () => {
     inputMaxTokens: data.currentAssistant.inputMaxTokens,
     maxTokens: data.currentAssistant.maxTokens,
     contextSize: data.currentAssistant.contextSize,
-    messages: bigModelMessageList,
+    messages: copyObj(bigModelMessageList),
     startAnswer: (sessionId: string, content?: string) => {
       if (data.currentSessionId != sessionId) {
         return
@@ -474,8 +492,7 @@ const clearContext = () => {
     return
   }
   // 最后一条消息id
-  const lastMessageId =
-    data.currentAssistant.chatMessageList[data.currentAssistant.chatMessageList.length - 1].id
+  const lastMessageId = data.currentAssistant.chatMessageList.at(-1)?.id
   // 清空或者恢复
   if (data.currentAssistant.clearContextMessageId === lastMessageId) {
     data.currentAssistant.clearContextMessageId = null
@@ -483,6 +500,77 @@ const clearContext = () => {
     data.currentAssistant.clearContextMessageId = lastMessageId
   }
   scrollToBottom()
+}
+
+// 开始发音
+const startSpeech = async (content?: string) => {
+  // 空内容不播放
+  if (!content) {
+    return
+  }
+
+  // 用于判断播放会话
+  data.speechSessionId = randomUUID()
+  const sessionId = data.speechSessionId
+
+  // 获取音频流
+  data.speechStatus = SpeechStatus.LOADING
+  const audioData = await speechByBigModel(data.currentAssistant.provider as AIAudioProvider, {
+    apiKey: settingStore.openAI.key,
+    baseURL: settingStore.openAI.baseUrl,
+    model: data.currentAssistant.speechModel,
+    voice: data.currentAssistant.speechVoice,
+    speed: data.currentAssistant.speechSpeed,
+    input: content
+  })
+
+  // 判断会话
+  if (sessionId != data.speechSessionId) {
+    return
+  }
+
+  // 断开之前的音频连接
+  stopSpeech()
+  // 创建新的数据源对象
+  audioBufferSource = audioContext.createBufferSource()
+  // 转换音频数据
+  await audioContext.decodeAudioData(
+    audioData,
+    (buffer) => {
+      // 判断会话
+      if (sessionId != data.speechSessionId) {
+        return
+      }
+
+      // 设置缓冲区数据
+      audioBufferSource.buffer = buffer
+
+      // 连接到输出设备
+      audioBufferSource.connect(audioContext.destination)
+
+      // 播放音频
+      audioBufferSource.start()
+      data.speechStatus = SpeechStatus.START
+
+      // 播放结束
+      audioBufferSource.onended = () => {
+        // 判断会话
+        if (sessionId != data.speechSessionId) {
+          return
+        }
+        data.speechStatus = SpeechStatus.STOP
+      }
+    },
+    (error) => {
+      console.error('Error decoding audio data', error)
+    }
+  )
+}
+
+// 终止发音
+const stopSpeech = () => {
+  audioBufferSource.disconnect()
+  data.speechStatus = SpeechStatus.STOP
 }
 
 // 挂载完毕
@@ -493,6 +581,12 @@ onMounted(() => {
   data.isLoad = true
   // 聚焦输入框
   chatInputTextareaRef.value.focus()
+})
+
+// 卸载之前
+onBeforeUnmount(() => {
+  // 断开之前的音频连接
+  stopSpeech()
 })
 </script>
 
@@ -590,6 +684,9 @@ onMounted(() => {
             <template #content>
               <a-doption @click="clipboardWriteText(msg.content)">{{
                 $t('chatWindow.copy')
+              }}</a-doption>
+              <a-doption v-if="isSupportSpeechComputed" @click="startSpeech(msg.content)">{{
+                $t('chatWindow.speech')
               }}</a-doption>
               <a-doption @click="multipleChoiceOpen(msg.id)">{{
                 $t('chatWindow.multipleChoice')
@@ -731,6 +828,35 @@ onMounted(() => {
             </div>
           </template>
         </a-popover>
+
+        <!-- 发音开始/停止 -->
+        <a-tooltip
+          v-if="isSupportSpeech(currentAssistant.provider)"
+          :content="$t('chatWindow.startSpeech')"
+          position="tr"
+          mini
+          :content-style="{ fontSize: '12px' }"
+        >
+          <a-button
+            v-if="speechStatus === SpeechStatus.STOP"
+            size="mini"
+            shape="round"
+            style="margin-left: auto"
+            @click="startSpeech(currentAssistant.chatMessageList.at(-1)?.content)"
+          >
+            <icon-sound :size="15" />
+          </a-button>
+          <a-button
+            v-else
+            size="mini"
+            shape="round"
+            status="danger"
+            style="margin-left: auto"
+            @click="stopSpeech()"
+          >
+            <icon-record-stop :size="15" />
+          </a-button>
+        </a-tooltip>
       </div>
       <div class="chat-input">
         <transition name="fadein">

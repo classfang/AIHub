@@ -44,6 +44,17 @@ watch(
         assistant.value.model = 'moonshot-v1-128k'
         break
     }
+
+    // 发音参数
+    if (value === 'OpenAI') {
+      assistant.value.speechModel = 'tts-1'
+      assistant.value.speechVoice = 'alloy'
+      assistant.value.speechSpeed = 1.0
+    } else {
+      assistant.value.speechModel = undefined
+      assistant.value.speechVoice = undefined
+      assistant.value.speechSpeed = undefined
+    }
   }
 )
 </script>
@@ -77,7 +88,7 @@ watch(
       </a-form-item>
       <!-- 提供商 -->
       <a-form-item field="provider" :label="$t('assistantList.provider')">
-        <a-select v-model="assistant.provider">
+        <a-select v-model="assistant.provider" :fallback-option="false">
           <a-option v-for="p in Object.keys(chatModels)" :key="p" :value="p">{{
             $t(`bigModelProvider.${p}`)
           }}</a-option>
@@ -93,7 +104,7 @@ watch(
             />
           </template>
           <template v-else>
-            <a-select v-model="assistant.model" allow-search>
+            <a-select v-model="assistant.model" allow-search :fallback-option="false">
               <a-option
                 v-for="m in chatModels[assistant.provider]"
                 :key="m.name"
@@ -183,6 +194,45 @@ watch(
           :max="100"
         />
       </a-form-item>
+
+      <!-- 发音 -->
+      <template v-if="assistant.provider === 'OpenAI'">
+        <!-- 发音模型 -->
+        <a-form-item field="speechModel" :label="$t('assistantList.speechModel')">
+          <a-select
+            v-model="assistant.speechModel"
+            :fallback-option="false"
+            :placeholder="$t('common.pleaseSelect') + ' ' + $t('assistantList.speechModel')"
+          >
+            <a-option value="tts-1">tts-1</a-option>
+            <a-option value="tts-1-hd">tts-1-hd</a-option>
+          </a-select>
+        </a-form-item>
+        <!-- 发音人 -->
+        <a-form-item field="speechVoice" :label="$t('assistantList.speechVoice')">
+          <a-select
+            v-model="assistant.speechVoice"
+            :fallback-option="false"
+            :placeholder="$t('common.pleaseSelect') + ' ' + $t('assistantList.speechVoice')"
+          >
+            <a-option value="alloy">alloy</a-option>
+            <a-option value="echo">echo</a-option>
+            <a-option value="fable">fable</a-option>
+            <a-option value="onyx">onyx</a-option>
+            <a-option value="nova">nova</a-option>
+            <a-option value="shimmer">shimmer</a-option>
+          </a-select>
+        </a-form-item>
+        <!-- 发音语速 -->
+        <a-form-item field="speechSpeed" :label="$t('assistantList.speechSpeed')">
+          <a-input-number
+            v-model="assistant.speechSpeed"
+            :min="0.25"
+            :max="4.0"
+            :placeholder="$t('common.pleaseEnter') + ' ' + $t('assistantList.speechSpeed')"
+          />
+        </a-form-item>
+      </template>
     </template>
   </a-form>
 </template>

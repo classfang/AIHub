@@ -276,7 +276,11 @@ onMounted(() => {
                   </a-space>
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('setting.app.appearance.local') }}</div>
-                    <a-select v-model="settingStore.app.locale" size="small">
+                    <a-select
+                      v-model="settingStore.app.locale"
+                      size="small"
+                      :fallback-option="false"
+                    >
                       <a-option value="zh_CN">中文</a-option>
                       <a-option value="en_US">English</a-option>
                     </a-select>
@@ -545,19 +549,22 @@ onMounted(() => {
             <a-space direction="vertical" :size="20" fill class="setting-tab-content">
               <a-space direction="vertical" :size="10" fill>
                 <div>{{ $t('setting.aiCalendar.weekStart') }}</div>
-                <a-select v-model="settingStore.aiCalendar.weekStart">
+                <a-select v-model="settingStore.aiCalendar.weekStart" :fallback-option="false">
                   <a-option :value="0">{{ $t('setting.aiCalendar.sunday') }}</a-option>
                   <a-option :value="1">{{ $t('setting.aiCalendar.monday') }}</a-option>
                 </a-select>
               </a-space>
               <a-space direction="vertical" :size="10" fill>
                 <div>{{ $t('setting.aiCalendar.bigModel') }}</div>
-                <a-select v-model="settingStore.aiCalendar.bigModel.provider">
+                <a-select
+                  v-model="settingStore.aiCalendar.bigModel.provider"
+                  :fallback-option="false"
+                >
                   <a-option v-for="p in Object.keys(chatModels)" :key="p" :value="p">{{
                     $t(`bigModelProvider.${p}`)
                   }}</a-option>
                 </a-select>
-                <a-select v-model="settingStore.aiCalendar.bigModel.model">
+                <a-select v-model="settingStore.aiCalendar.bigModel.model" :fallback-option="false">
                   <template
                     v-for="m in chatModels[settingStore.aiCalendar.bigModel.provider]"
                     :key="m.name"

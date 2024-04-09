@@ -7,6 +7,7 @@
     "close": "Close",
     "run": "Run",
     "pleaseEnter": "Please enter",
+    "pleaseSelect": "Please select",
     "required": "is required",
     "edit": "Edit",
     "delete": "Delete",
@@ -187,7 +188,10 @@
     "contextSize": "Context size",
     "type": "Assistant type",
     "chat": "Chat",
-    "search": "Search assistant"
+    "search": "Search assistant",
+    "speechModel": "Speech model",
+    "speechVoice": "Speech voice",
+    "speechSpeed": "Speech speed"
   },
   "assistantItem": {
     "content": {
@@ -212,6 +216,9 @@
     "selectPlugin": "Plugin",
     "noPlugin": "No plugin",
     "copy": "Copy",
+    "speech": "Speech",
+    "startSpeech": "Start speech",
+    "stopSpeech": "Stop speech",
     "multipleChoice": "Multiple choice",
     "collectSuccess": "Added to favorites",
     "inputTokensLimit": "Input tokens limit",

@@ -22,9 +22,9 @@ const newFormDefault = {
   maxTokens: 1024,
   inputMaxTokens: 1024,
   contextSize: 1,
-  imageSize: '1024x1024',
-  imageQuality: 'standard',
-  imageStyle: 'vivid'
+  speechModel: 'tts-1',
+  speechVoice: 'alloy',
+  speechSpeed: 1.0
 }
 
 const data = reactive({

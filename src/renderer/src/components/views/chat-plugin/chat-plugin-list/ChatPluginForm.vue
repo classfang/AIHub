@@ -7,7 +7,7 @@ const chatPlugin = defineModel<ChatPlugin>('chatPlugin', { default: () => ({}) }
 <template>
   <a-form :model="chatPlugin" layout="vertical">
     <a-form-item field="type" :label="$t('chatPlugin.list.type')">
-      <a-select v-model="chatPlugin.type">
+      <a-select v-model="chatPlugin.type" :fallback-option="false">
         <a-option value="function">Function</a-option>
       </a-select>
     </a-form-item>

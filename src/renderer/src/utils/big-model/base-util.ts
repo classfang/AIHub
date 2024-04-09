@@ -96,3 +96,7 @@ export const isSupportNetwork = (providerName: string, modelName: string) => {
   }
   return model['isSupportNetwork']
 }
+
+export const isSupportSpeech = (providerName: BigModelProvider) => {
+  return providerName === 'OpenAI'
+}

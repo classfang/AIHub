@@ -55,14 +55,14 @@ const calcMessageTime = (current: ChatMessage) => {
           :key="`assistant-item-time-${assistant.id}-${systemStore.dayKey}`"
           class="assistant-item-time"
         >
-          {{ calcMessageTime(assistant.chatMessageList[assistant.chatMessageList.length - 1]) }}
+          {{ calcMessageTime(assistant.chatMessageList.at(-1)) }}
         </div>
       </div>
       <div class="assistant-item-content">
         {{
-          assistant.chatMessageList[assistant.chatMessageList.length - 1]
-            ? assistant.chatMessageList[assistant.chatMessageList.length - 1].content ||
-              (assistant.chatMessageList[assistant.chatMessageList.length - 1].image
+          assistant.chatMessageList.at(-1)
+            ? assistant.chatMessageList.at(-1)?.content ||
+              (assistant.chatMessageList.at(-1)?.image
                 ? $t('assistantItem.content.image')
                 : $t('assistantItem.content.empty'))
             : $t('assistantItem.content.empty')

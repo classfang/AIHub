@@ -141,7 +141,7 @@ const copyResult = (): void => {
     <div class="translator-header drag-area">
       <div class="translator-header-title">{{ $t('translator.name') }}</div>
       <div class="translator-header-provider-select no-drag-area">
-        <a-select v-model="provider" size="small">
+        <a-select v-model="provider" size="small" :fallback-option="false">
           <a-option value="youdao">{{ $t('translationProvider.youdao') }}</a-option>
           <a-option value="baiduTranslation">{{
             $t('translationProvider.baiduTranslation')
@@ -155,7 +155,13 @@ const copyResult = (): void => {
       <div class="query-area">
         <!-- 语言选择 -->
         <div class="lang-type">
-          <a-select v-model="queryType" class="lang-type-select" allow-search :allow-clear="false">
+          <a-select
+            v-model="queryType"
+            class="lang-type-select"
+            allow-search
+            :allow-clear="false"
+            :fallback-option="false"
+          >
             <a-option value="auto">{{ $t('translator.langType.auto') }}</a-option>
             <a-option value="zh-CHS">{{ $t('translator.langType.zh-CHS') }}</a-option>
             <a-option value="en">{{ $t('translator.langType.en') }}</a-option>
@@ -164,7 +170,13 @@ const copyResult = (): void => {
             <a-option value="fr">{{ $t('translator.langType.fr') }}</a-option>
           </a-select>
           <icon-swap :size="30" class="lang-type-swap-btn" @click="swapLangType" />
-          <a-select v-model="resultType" class="lang-type-select" allow-search :allow-clear="false">
+          <a-select
+            v-model="resultType"
+            class="lang-type-select"
+            allow-search
+            :allow-clear="false"
+            :fallback-option="false"
+          >
             <a-option value="auto">{{ $t('translator.langType.auto') }}</a-option>
             <a-option value="zh-CHS">{{ $t('translator.langType.zh-CHS') }}</a-option>
             <a-option value="en">{{ $t('translator.langType.en') }}</a-option>

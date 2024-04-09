@@ -59,7 +59,7 @@ watch(
     <a-form :model="drawingStore.getCurrentTask" layout="vertical">
       <!-- 提供商 -->
       <a-form-item field="provider" :label="$t('aiDrawing.provider')">
-        <a-select v-model="drawingStore.getCurrentTask.provider">
+        <a-select v-model="drawingStore.getCurrentTask.provider" :fallback-option="false">
           <a-option v-for="p in Object.keys(drawingModels)" :key="p" :value="p">{{
             $t(`bigModelProvider.${p}`)
           }}</a-option>
@@ -67,7 +67,7 @@ watch(
       </a-form-item>
       <!-- 模型 -->
       <a-form-item field="model" :label="$t('aiDrawing.model')">
-        <a-select v-model="drawingStore.getCurrentTask.model" allow-search>
+        <a-select v-model="drawingStore.getCurrentTask.model" allow-search :fallback-option="false">
           <a-option
             v-for="m in drawingModels[drawingStore.getCurrentTask.provider]"
             :key="m.name"
@@ -86,7 +86,7 @@ watch(
       </a-form-item>
       <!-- 图片大小 -->
       <a-form-item field="size" :label="$t('aiDrawing.size')">
-        <a-select v-model="drawingStore.getCurrentTask.options.size">
+        <a-select v-model="drawingStore.getCurrentTask.options.size" :fallback-option="false">
           <template v-if="drawingStore.getCurrentTask.model === 'dall-e-2'">
             <a-option value="256x256">256x256</a-option>
             <a-option value="512x512">512x512</a-option>
@@ -137,7 +137,10 @@ watch(
         field="samplerIndex"
         :label="$t('aiDrawing.samplerIndex')"
       >
-        <a-select v-model="drawingStore.getCurrentTask.options.samplerIndex">
+        <a-select
+          v-model="drawingStore.getCurrentTask.options.samplerIndex"
+          :fallback-option="false"
+        >
           <a-option value="Euler">Euler</a-option>
           <a-option value="Euler a">Euler a</a-option>
           <a-option value="DPM++ 2M">DPM++ 2M</a-option>
@@ -169,7 +172,7 @@ watch(
         field="style"
         :label="$t('aiDrawing.style')"
       >
-        <a-select v-model="drawingStore.getCurrentTask.options.style">
+        <a-select v-model="drawingStore.getCurrentTask.options.style" :fallback-option="false">
           <a-option value="vivid">vivid</a-option>
           <a-option value="natural">natural</a-option>
         </a-select>
@@ -179,7 +182,7 @@ watch(
         field="style"
         :label="$t('aiDrawing.style')"
       >
-        <a-select v-model="drawingStore.getCurrentTask.options.style">
+        <a-select v-model="drawingStore.getCurrentTask.options.style" :fallback-option="false">
           <a-option value="<auto>">{{ $t('aiDrawing.styleOption.auto') }}</a-option>
           <a-option value="<3d cartoon>">{{ $t('aiDrawing.styleOption.3dCartoon') }}</a-option>
           <a-option value="<anime>">{{ $t('aiDrawing.styleOption.anime') }}</a-option>
@@ -199,7 +202,7 @@ watch(
         field="style"
         :label="$t('aiDrawing.style')"
       >
-        <a-select v-model="drawingStore.getCurrentTask.options.style">
+        <a-select v-model="drawingStore.getCurrentTask.options.style" :fallback-option="false">
           <a-option value="Base">{{ $t('aiDrawing.styleOption.base') }}</a-option>
           <a-option value="3D Model">{{ $t('aiDrawing.styleOption.3dModel') }}</a-option>
           <a-option value="Analog Film">{{ $t('aiDrawing.styleOption.analogFilm') }}</a-option>
@@ -229,7 +232,7 @@ watch(
         field="quality"
         :label="$t('aiDrawing.quality')"
       >
-        <a-select v-model="drawingStore.getCurrentTask.options.quality">
+        <a-select v-model="drawingStore.getCurrentTask.options.quality" :fallback-option="false">
           <a-option value="standard">standard</a-option>
           <a-option value="hd">hd</a-option>
         </a-select>

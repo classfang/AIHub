@@ -111,7 +111,12 @@ const handleTestModalClose = () => {
           class="param-item"
         >
           <a-input v-model="p.name" size="small" :placeholder="$t('chatPlugin.window.paramName')" />
-          <a-select v-model="p.type" size="small" :placeholder="$t('chatPlugin.window.paramType')">
+          <a-select
+            v-model="p.type"
+            size="small"
+            :placeholder="$t('chatPlugin.window.paramType')"
+            :fallback-option="false"
+          >
             <a-option value="string">string</a-option>
             <a-option value="number">number</a-option>
             <a-option value="integer">integer</a-option>
