@@ -235,7 +235,7 @@ export const speechByOpenAI = async (option: CommonSpeechOption) => {
   })
   const mp3 = await openai.audio.speech.create({
     model: model ?? 'tts-1',
-    voice: voice as 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer',
+    voice: (voice as 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer') ?? 'alloy',
     speed: speed ?? 1.0,
     input
   })

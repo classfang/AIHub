@@ -515,61 +515,69 @@ const startSpeech = async (content?: string) => {
 
   // 获取音频流
   data.speechStatus = SpeechStatus.LOADING
-  const audioData = await speechByBigModel(data.currentAssistant.provider as AIAudioProvider, {
-    apiKey: settingStore.openAI.key,
-    baseURL: settingStore.openAI.baseUrl,
-    model: data.currentAssistant.speechModel,
-    voice: data.currentAssistant.speechVoice,
-    speed: data.currentAssistant.speechSpeed,
-    input: content
-  })
+  try {
+    const audioData = await speechByBigModel(data.currentAssistant.provider as AIAudioProvider, {
+      apiKey: settingStore.openAI.key,
+      baseURL: settingStore.openAI.baseUrl,
+      model: data.currentAssistant.speechModel,
+      voice: data.currentAssistant.speechVoice,
+      speed: data.currentAssistant.speechSpeed,
+      input: content
+    })
 
-  // 判断会话
-  if (sessionId != data.speechSessionId) {
-    return
-  }
+    // 判断会话
+    if (sessionId != data.speechSessionId) {
+      return
+    }
 
-  // 断开之前的音频连接
-  stopSpeech()
-  // 创建新的数据源对象
-  audioBufferSource = audioContext.createBufferSource()
-  // 转换音频数据
-  await audioContext.decodeAudioData(
-    audioData,
-    (buffer) => {
-      // 判断会话
-      if (sessionId != data.speechSessionId) {
-        return
-      }
-
-      // 设置缓冲区数据
-      audioBufferSource.buffer = buffer
-
-      // 连接到输出设备
-      audioBufferSource.connect(audioContext.destination)
-
-      // 播放音频
-      audioBufferSource.start()
-      data.speechStatus = SpeechStatus.START
-
-      // 播放结束
-      audioBufferSource.onended = () => {
+    // 断开之前的音频连接
+    audioBufferSource.disconnect()
+    // 创建新的数据源对象
+    audioBufferSource = audioContext.createBufferSource()
+    // 转换音频数据
+    await audioContext.decodeAudioData(
+      audioData,
+      (buffer) => {
         // 判断会话
         if (sessionId != data.speechSessionId) {
           return
         }
+
+        // 设置缓冲区数据
+        audioBufferSource.buffer = buffer
+
+        // 连接到输出设备
+        audioBufferSource.connect(audioContext.destination)
+
+        // 播放音频
+        audioBufferSource.start()
+        data.speechStatus = SpeechStatus.START
+
+        // 播放结束
+        audioBufferSource.onended = () => {
+          // 判断会话
+          if (sessionId != data.speechSessionId) {
+            return
+          }
+          data.speechStatus = SpeechStatus.STOP
+        }
+      },
+      (error) => {
         data.speechStatus = SpeechStatus.STOP
+        console.error('Error decoding audio data', error)
+        Message.error(error.message)
       }
-    },
-    (error) => {
-      console.error('Error decoding audio data', error)
-    }
-  )
+    )
+  } catch (e: any) {
+    data.speechStatus = SpeechStatus.STOP
+    Message.error(e.message)
+  }
 }
 
 // 终止发音
 const stopSpeech = () => {
   audioBufferSource.disconnect()
+  data.speechSessionId = randomUUID()
   data.speechStatus = SpeechStatus.STOP
 }
 
@@ -586,7 +594,7 @@ onMounted(() => {
 // 卸载之前
 onBeforeUnmount(() => {
   // 断开之前的音频连接
-  stopSpeech()
+  audioBufferSource.disconnect()
 })
 </script>
 
