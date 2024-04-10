@@ -108,5 +108,4 @@ $ yarn build:linux
 
 ## 🌟 Star 曲线
 
-[![Stargazers over time](https://starchart.cc/classfang/AIHub.svg?variant=adaptive)](https://starchart.cc/classfang/AIHub)
-
+[![Star History Chart](https://api.star-history.com/svg?repos=classfang/AIHub&type=Date)](https://star-history.com/#classfang/AIHub&Date)
