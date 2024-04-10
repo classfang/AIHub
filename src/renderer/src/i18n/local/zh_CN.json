@@ -67,7 +67,7 @@
           "importConfirmContent": "选择备份文件导入，将覆盖现有应用数据，操作不可恢复！"
         },
         "cache": {
-          "name": "缓存（对话中的图片）",
+          "name": "缓存文件",
           "path": "缓存目录",
           "clear": "清理缓存",
           "clearSuccess": "缓存清理完成"

@@ -67,7 +67,7 @@
           "importConfirmContent": "Select backup file import, the existing application data will be overwritten, the operation cannot be restored!"
         },
         "cache": {
-          "name": "Cache (images in a conversation)",
+          "name": "Cache files",
           "path": "Cache directory",
           "clear": "Clear cache",
           "clearSuccess": "Cache clearing complete"
