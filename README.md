@@ -100,3 +100,8 @@ $ yarn build:mac
 # For Linux
 $ yarn build:linux
 ```
+
+## Star 曲线
+
+[![Stargazers over time](https://starchart.cc/classfang/AIHub.svg?variant=adaptive)](https://starchart.cc/classfang/AIHub)
+
