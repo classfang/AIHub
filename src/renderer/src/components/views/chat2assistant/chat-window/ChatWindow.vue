@@ -20,7 +20,7 @@ import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile } from '@renderer/utils/download-util'
 import { getContentTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 import { randomUUID } from '@renderer/utils/id-util'
-import { clipboardWriteText, saveFileByPath } from '@renderer/utils/ipc-util'
+import { clipboardWriteText, saveFileByBase64, saveFileByPath } from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 import { renderMarkdown } from '@renderer/utils/markdown-util'
 import { copyObj } from '@renderer/utils/object-util'
@@ -581,6 +581,62 @@ const stopSpeech = () => {
   data.speechStatus = SpeechStatus.STOP
 }
 
+// 输入框粘贴监听
+const handleInputPaste = (event: ClipboardEvent) => {
+  // 获取粘贴的内容
+  const items = event.clipboardData?.items
+  if (!items) {
+    return
+  }
+
+  // 支持图片上传
+  if (isSupportImageComputed.value) {
+    // 只获取第一张图片
+    const item = items[0]
+    if (item.kind === 'file' && item.type.startsWith('image/')) {
+      // 阻止默认粘贴行为
+      event.preventDefault()
+      // 获取图片数据
+      const blob = item.getAsFile()
+      if (blob) {
+        const reader = new FileReader()
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          if (e.target && e.target.result) {
+            // 获取 base64 数据
+            const imageUrl = e.target.result as string
+            if (!imageUrl) {
+              return
+            }
+            const imageBase64 = imageUrl.split('base64,')[1]
+            if (!imageBase64) {
+              return
+            }
+
+            // 随机文件名
+            const fileName = `${randomUUID()}.png`
+
+            // 保存到本地
+            saveFileByBase64(imageBase64, fileName).then((path) => {
+              // 保存成功后添加到图片预览
+              data.selectImageList = [
+                {
+                  uid: randomUUID(),
+                  file: {
+                    name: fileName,
+                    path: path
+                  }
+                } as FileItem
+              ]
+            })
+          }
+        }
+        // 加载图片数据
+        reader.readAsDataURL(blob)
+      }
+    }
+  }
+}
+
 // 挂载完毕
 onMounted(() => {
   // 对话记录滚动到底部
@@ -619,8 +675,8 @@ onBeforeUnmount(() => {
           type="text"
           size="mini"
           @click="chatMessageLoadMore(chatMessageListPageData[0].id)"
-          >{{ $t('common.loadMore') }}</a-button
-        >
+          >{{ $t('common.loadMore') }}
+        </a-button>
         <template v-for="(msg, index) in chatMessageListPageData" :key="msg.id">
           <div
             v-if="calcMessageTime(msg, index === 0)"
@@ -682,23 +738,24 @@ onBeforeUnmount(() => {
                     <a-image-preview-action
                       :name="$t('common.download')"
                       @click="downloadFile(`file://${msg.image}`, `img-${msg.id}.png`)"
-                      ><icon-download
-                    /></a-image-preview-action>
+                    >
+                      <icon-download />
+                    </a-image-preview-action>
                   </template>
                 </a-image>
               </div>
             </div>
             <!-- 右键菜单内容 -->
             <template #content>
-              <a-doption @click="clipboardWriteText(msg.content)">{{
-                $t('chatWindow.copy')
-              }}</a-doption>
-              <a-doption v-if="isSupportSpeechComputed" @click="startSpeech(msg.content)">{{
-                $t('chatWindow.speech')
-              }}</a-doption>
-              <a-doption @click="multipleChoiceOpen(msg.id)">{{
-                $t('chatWindow.multipleChoice')
-              }}</a-doption>
+              <a-doption @click="clipboardWriteText(msg.content)"
+                >{{ $t('chatWindow.copy') }}
+              </a-doption>
+              <a-doption v-if="isSupportSpeechComputed" @click="startSpeech(msg.content)"
+                >{{ $t('chatWindow.speech') }}
+              </a-doption>
+              <a-doption @click="multipleChoiceOpen(msg.id)"
+                >{{ $t('chatWindow.multipleChoice') }}
+              </a-doption>
             </template>
           </a-dropdown>
           <!-- 清空上下文提示 -->
@@ -708,8 +765,8 @@ onBeforeUnmount(() => {
               class="chat-message-clear-context"
               orientation="center"
               @click="currentAssistant.clearContextMessageId = null"
-              >{{ $t('chatWindow.clearContextTip') }}</a-divider
-            >
+              >{{ $t('chatWindow.clearContextTip') }}
+            </a-divider>
           </transition>
         </template>
         <!-- 等待回答占位显示 -->
@@ -825,12 +882,12 @@ onBeforeUnmount(() => {
                 v-model="currentAssistant.chatPluginIdList"
                 direction="vertical"
               >
-                <a-checkbox v-for="p in chatPluginStore.chatPluginList" :key="p.id" :value="p.id">{{
-                  p.name
-                }}</a-checkbox>
+                <a-checkbox v-for="p in chatPluginStore.chatPluginList" :key="p.id" :value="p.id"
+                  >{{ p.name }}
+                </a-checkbox>
               </a-checkbox-group>
               <a-empty v-else>
-                <template #image> </template>
+                <template #image></template>
                 {{ $t('chatWindow.noPlugin') }}
               </a-empty>
             </div>
@@ -903,6 +960,7 @@ onBeforeUnmount(() => {
             }"
             allow-clear
             @keydown.enter="sendQuestion"
+            @paste="handleInputPaste"
           />
           <!-- 输入框区域底部 -->
           <div class="chat-input-bottom">
