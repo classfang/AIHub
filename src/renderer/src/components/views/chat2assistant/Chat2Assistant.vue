@@ -89,7 +89,7 @@ onUnmounted(() => {
 
   .chat-assistant-left-transition-enter-active,
   .chat-assistant-left-transition-leave-active {
-    transition: width 500ms;
+    transition: width 300ms;
   }
   .chat-assistant-left-transition-enter-from,
   .chat-assistant-left-transition-leave-to {

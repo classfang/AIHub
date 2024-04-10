@@ -123,7 +123,7 @@ defineExpose({ focusCurrentTask })
       top: 3px;
       right: 3px;
       opacity: 0;
-      transition: opacity 200ms;
+      transition: opacity 100ms linear;
     }
 
     &:hover {

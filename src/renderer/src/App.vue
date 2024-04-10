@@ -249,7 +249,7 @@ onMounted(() => {
         font-size: 26px;
         stroke-width: 3;
         color: var(--color-text-2);
-        transition: all 200ms;
+        transition: all 100ms linear;
       }
 
       &:hover {
