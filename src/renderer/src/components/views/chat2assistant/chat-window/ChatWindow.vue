@@ -277,7 +277,7 @@ const useBigModel = async () => {
     (msg) => msg.id === data.currentAssistant.clearContextMessageId
   )
   if (clearContextMessageIndex >= 0) {
-    bigModelMessageList = bigModelMessageList.slice(clearContextMessageIndex)
+    bigModelMessageList = bigModelMessageList.slice(clearContextMessageIndex + 1)
   }
 
   // 大模型通用选项
