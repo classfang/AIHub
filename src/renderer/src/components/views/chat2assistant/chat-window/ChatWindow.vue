@@ -780,6 +780,7 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </a-scrollbar>
+
     <!-- 输入框区域 -->
     <div class="chat-input-container">
       <!-- 回到底部 -->
