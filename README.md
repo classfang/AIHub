@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="/resources/icon.png" alt="logo" width="120">
+  <img src="/demo/banner.png" alt="logo" height="100">
 </p>
-<h1 align="center">AIHub</h1>
 <h3 align="center">
   一款集合多家大模型能力的客户端。可以快速、低门槛搭建你的专属AI助手；支持自定义插件，扩展无限可能。 ✨✨
 </h3>
