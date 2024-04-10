@@ -12,6 +12,13 @@
   <a href="/README.md">中文简介</a> | <a href="/README_en.md">English README</a>
 </h4>
 
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/classfang/AIHub/total)
+![GitHub License](https://img.shields.io/github/license/classfang/AIHub)
+![GitHub repo size](https://img.shields.io/github/repo-size/classfang/AIHub)
+
+
+
+
 <h4 align="center">
   🎉🎉🎉 现已支持：OpenAI，Ollama，谷歌 Gemini，讯飞星火大模型，百度文心大模型，阿里通义大模型，天工大模型，月之暗面大模型
 </h4>
