@@ -1,16 +1,21 @@
 <p align="center">
   <img src="/resources/icon.png" alt="logo" width="120">
 </p>
-<p align="center">
-  <h1 align="center">AIHub</h1>
-  <h3 align="center">
-    A collection of large model capabilities of the client. Can quickly, low threshold to build your own AI assistant; Support custom plug-ins, expand unlimited possibilities. ✨✨
-  </h3>
-</p>
+<h1 align="center">AIHub</h1>
+<h3 align="center">
+  A collection of large model capabilities of the client. Can quickly, low threshold to build your own AI assistant; Support custom plug-ins, expand unlimited possibilities. ✨✨
+</h3>
 
 <h4 align="center">
   <a href="/README.md">中文简介</a> | <a href="/README_en.md">English README</a>
 </h4>
+
+![GitHub Release](https://img.shields.io/github/v/release/classfang/AIHub)
+![GitHub Release Date](https://img.shields.io/github/release-date/classfang/AIHub)
+![GitHub last commit](https://img.shields.io/github/last-commit/classfang/AIHub)
+![GitHub License](https://img.shields.io/github/license/classfang/AIHub)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/classfang/AIHub/total)
+![GitHub repo size](https://img.shields.io/github/repo-size/classfang/AIHub)
 
 <h4 align="center">
   🎉🎉🎉 Now supported: OpenAI, Ollama, Google Gemini, iFLYTEK Spark, Baidu ERNIE Bot, Alibaba Tongyi，Tiangong，Moonshot AI

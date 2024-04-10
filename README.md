@@ -1,22 +1,21 @@
 <p align="center">
   <img src="/resources/icon.png" alt="logo" width="120">
 </p>
-<p align="center">
-  <h1 align="center">AIHub</h1>
-  <h3 align="center">
-    一款集合多家大模型能力的客户端。可以快速、低门槛搭建你的专属AI助手；支持自定义插件，扩展无限可能。 ✨✨
-  </h3>
-</p>
+<h1 align="center">AIHub</h1>
+<h3 align="center">
+  一款集合多家大模型能力的客户端。可以快速、低门槛搭建你的专属AI助手；支持自定义插件，扩展无限可能。 ✨✨
+</h3>
 
 <h4 align="center">
   <a href="/README.md">中文简介</a> | <a href="/README_en.md">English README</a>
 </h4>
 
 ![GitHub Release](https://img.shields.io/github/v/release/classfang/AIHub)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/classfang/AIHub/total)
-![GitHub License](https://img.shields.io/github/license/classfang/AIHub)
-![GitHub repo size](https://img.shields.io/github/repo-size/classfang/AIHub)
+![GitHub Release Date](https://img.shields.io/github/release-date/classfang/AIHub)
 ![GitHub last commit](https://img.shields.io/github/last-commit/classfang/AIHub)
+![GitHub License](https://img.shields.io/github/license/classfang/AIHub)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/classfang/AIHub/total)
+![GitHub repo size](https://img.shields.io/github/repo-size/classfang/AIHub)
 
 <h4 align="center">
   🎉🎉🎉 现已支持：OpenAI，Ollama，谷歌 Gemini，讯飞星火大模型，百度文心大模型，阿里通义大模型，天工大模型，月之暗面大模型
