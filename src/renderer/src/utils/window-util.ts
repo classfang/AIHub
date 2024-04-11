@@ -4,3 +4,7 @@ export const openInBrowser = (url: string | undefined) => {
   }
   window.open(url)
 }
+
+export const isZH = (): boolean => {
+  return !!navigator.languages.at(0)?.startsWith('zh')
+}

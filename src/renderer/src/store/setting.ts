@@ -1,3 +1,4 @@
+import { isZH } from '@renderer/utils/window-util'
 import { defineStore } from 'pinia'
 
 export const useSettingStore = defineStore({
@@ -6,7 +7,7 @@ export const useSettingStore = defineStore({
     app: {
       // 主题模式：0自动 1明亮 2黑暗
       themeModel: 0,
-      locale: 'zh_CN',
+      locale: isZH() ? 'zh_CN' : 'en_US',
       proxy: ''
     },
     openAI: {
