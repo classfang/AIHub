@@ -68,7 +68,9 @@ export const youdaoTranslate = async (option: CommonTranslateOption) => {
           returnObj.explains = res.data.basic.explains.join('\n')
         }
         if (res.data.basic.wfs) {
-          returnObj.wfs = res.data.basic.wfs.map((wf) => wf.wf.name + ': ' + wf.wf.value).join('\n')
+          returnObj.wfs = res.data.basic.wfs
+            .map((wf: any) => wf.wf.name + ': ' + wf.wf.value)
+            .join('\n')
         }
         if (res.data.basic['uk-phonetic']) {
           returnObj.uk.phonetic = res.data.basic['uk-phonetic']
@@ -90,7 +92,7 @@ export const youdaoTranslate = async (option: CommonTranslateOption) => {
     })
 }
 
-const youdaoTranslateQueryTruncate = (q): string => {
+const youdaoTranslateQueryTruncate = (q: string): string => {
   const len = q.length
   if (len <= 20) return q
   return q.substring(0, 10) + len + q.substring(len - 10, len)
