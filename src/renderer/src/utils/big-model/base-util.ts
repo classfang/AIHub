@@ -7,6 +7,20 @@ import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 // 多语言
 const { t } = i18n.global
 
+export const defaultAssistant = {
+  name: '',
+  type: 'chat',
+  instruction: '',
+  provider: 'OpenAI',
+  model: 'gpt-4-vision-preview',
+  maxTokens: 1024,
+  inputMaxTokens: 1024,
+  contextSize: 1,
+  speechModel: 'tts-1',
+  speechVoice: 'alloy',
+  speechSpeed: 1.0
+}
+
 export const turnChat = (chatMessageList: ChatMessage[]) => {
   // 将消息历史处理为user和assistant轮流对话
   const messages: BaseMessage[] = []

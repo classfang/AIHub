@@ -3,6 +3,7 @@ import { Message } from '@arco-design/web-vue'
 import AssistantForm from '@renderer/components/views/chat2assistant/assistant-list/AssistantForm.vue'
 import AssistantItem from '@renderer/components/views/chat2assistant/assistant-list/AssistantItem.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
+import { defaultAssistant } from '@renderer/utils/big-model/base-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { copyObj } from '@renderer/utils/object-util'
@@ -13,23 +14,9 @@ import draggable from 'vuedraggable'
 const assistantStore = useAssistantStore()
 const { t } = useI18n()
 
-const newFormDefault = {
-  name: '',
-  type: 'chat',
-  instruction: '',
-  provider: 'OpenAI',
-  model: 'gpt-4-vision-preview',
-  maxTokens: 1024,
-  inputMaxTokens: 1024,
-  contextSize: 1,
-  speechModel: 'tts-1',
-  speechVoice: 'alloy',
-  speechSpeed: 1.0
-}
-
 const data = reactive({
   newModalVisible: false,
-  assistantForm: copyObj(newFormDefault) as Assistant,
+  assistantForm: copyObj(defaultAssistant) as Assistant,
   keyword: ''
 })
 const { newModalVisible, assistantForm, keyword } = toRefs(data)
@@ -71,7 +58,7 @@ const handleNewModalBeforeOk = async () => {
 }
 
 const clearNewModal = () => {
-  data.assistantForm = copyObj(newFormDefault)
+  data.assistantForm = copyObj(defaultAssistant)
 }
 
 onMounted(() => {

@@ -1,9 +1,21 @@
+import { defaultAssistant } from '@renderer/utils/big-model/base-util'
+import { nowTimestamp } from '@renderer/utils/date-util'
+import { randomUUID } from '@renderer/utils/id-util'
 import { defineStore } from 'pinia'
 
 export const useAssistantStore = defineStore({
   id: 'assistant',
   state: () => ({
-    assistantList: [] as Assistant[],
+    assistantList: [
+      {
+        ...defaultAssistant,
+        name: 'AI Bot',
+        id: randomUUID(),
+        createTime: nowTimestamp(),
+        lastUpdateTime: nowTimestamp(),
+        chatMessageList: new Array<ChatMessage>()
+      }
+    ] as Assistant[],
     currentAssistantId: null as null | string
   }),
   getters: {
