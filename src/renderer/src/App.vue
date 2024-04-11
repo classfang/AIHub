@@ -274,7 +274,7 @@ onMounted(() => {
         width: 10px;
         background-color: rgb(var(--primary-5));
         position: absolute;
-        top: 13px;
+        top: 15px;
         left: -5px;
         border-radius: 0 5px 5px 0;
       }
