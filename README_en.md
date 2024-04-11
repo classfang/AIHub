@@ -10,6 +10,7 @@
   <a href="/README.md">中文简介</a> | <a href="/README_en.md">English README</a>
 </h4>
 
+![Static Badge](https://img.shields.io/badge/i18n-2_languages-blue)
 ![GitHub Release](https://img.shields.io/github/v/release/classfang/AIHub)
 ![GitHub Release Date](https://img.shields.io/github/release-date/classfang/AIHub)
 ![GitHub last commit](https://img.shields.io/github/last-commit/classfang/AIHub)
