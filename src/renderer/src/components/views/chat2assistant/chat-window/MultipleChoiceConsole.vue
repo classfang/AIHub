@@ -213,6 +213,10 @@ const shareModalBeforeOk = async () => {
               </a-image>
             </div>
           </div>
+          <div class="share-image-footer">
+            <div>{{ currentAssistant.provider }}</div>
+            <div>{{ currentAssistant.model }}</div>
+          </div>
         </div>
       </div>
     </a-modal>
@@ -242,5 +246,14 @@ const shareModalBeforeOk = async () => {
       font-size: 28px;
     }
   }
+}
+
+.share-image-footer {
+  border-top: 1px solid var(--color-fill-3);
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
 }
 </style>

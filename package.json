@@ -1,6 +1,6 @@
 {
   "name": "aihub",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "An Electron application for AI",
   "main": "./out/main/index.js",
   "author": "junki.cn",
@@ -75,7 +75,7 @@
     "pinia-plugin-persistedstate": "^3.2.1",
     "prettier": "^3.2.5",
     "rollup-plugin-visualizer": "^5.12.0",
-    "sass": "^1.74.1",
+    "sass": "^1.75.0",
     "typescript": "^5.4.5",
     "uuid": "^9.0.1",
     "vite": "^5.2.8",
