@@ -683,26 +683,26 @@
   resolved "https://registry.npmmirror.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
-"@intlify/core-base@9.11.1":
-  version "9.11.1"
-  resolved "https://registry.npmmirror.com/@intlify/core-base/-/core-base-9.11.1.tgz#0cef49b87bc493eba8e024c4ae688aa5503fdb97"
-  integrity sha512-qWXBBlEA+DC0CsHkfJiQK9ELm11c9I6lDpodY4FoOf99eMas1R6JR4woPhrfAcrtxFHp1UmXWdrQNKDegSW9IA==
+"@intlify/core-base@9.12.1":
+  version "9.12.1"
+  resolved "https://registry.npmmirror.com/@intlify/core-base/-/core-base-9.12.1.tgz#910cdbf88ba2dec8d87e598b961c336e95132958"
+  integrity sha512-l7djJEmXLAR44PdtKDEBev/TN9tREQz967/+jvN3WtICqFoy2Cz8kPtjDfvZctqPNzOonp+ESsDCUm+rjHsmdA==
   dependencies:
-    "@intlify/message-compiler" "9.11.1"
-    "@intlify/shared" "9.11.1"
+    "@intlify/message-compiler" "9.12.1"
+    "@intlify/shared" "9.12.1"
 
-"@intlify/message-compiler@9.11.1":
-  version "9.11.1"
-  resolved "https://registry.npmmirror.com/@intlify/message-compiler/-/message-compiler-9.11.1.tgz#6da0ab700c994903ddcac0ccf2d38e7ad4edf912"
-  integrity sha512-y/aWx7DkaTKK2qWUw0hVbJpon8+urWXngeqh15DuIXZh6n/V/oPQiO/Ho1hUKbwap6MVMuz0OcnAJvqh3p9YPg==
+"@intlify/message-compiler@9.12.1":
+  version "9.12.1"
+  resolved "https://registry.npmmirror.com/@intlify/message-compiler/-/message-compiler-9.12.1.tgz#68549cd2107fa72f07fd57de992f3bfcfbc3b1a4"
+  integrity sha512-6QrMGdqKUJSkctyg56nvE+h86tjQZTjYFEfx3ghQAXKPXUd1v5josZXrwnSbIEWWeAentlwtB5qW1FE5r2S8AQ==
   dependencies:
-    "@intlify/shared" "9.11.1"
+    "@intlify/shared" "9.12.1"
     source-map-js "^1.0.2"
 
-"@intlify/shared@9.11.1":
-  version "9.11.1"
-  resolved "https://registry.npmmirror.com/@intlify/shared/-/shared-9.11.1.tgz#03e9ae5a90d62df4800f307d9f1dfc34b6fd8cbc"
-  integrity sha512-yuDG82vjgId2oasNRgZ0PKJrF65zlL33MNyITP5itbLcP4AYOR/NcIuD+/DiI+GHXdxASMKJU0ZiITLc6RC+qw==
+"@intlify/shared@9.12.1":
+  version "9.12.1"
+  resolved "https://registry.npmmirror.com/@intlify/shared/-/shared-9.12.1.tgz#78ca1e820fe44f47defab95b015524fdc3b14dcd"
+  integrity sha512-xAAAxaMS7yUCkwXwqUVQmGCPbXSm6oHqMzcqr2IrxJQmC0DmuqoaW0yBeWyd/pG03PPXqGtWhJLnefsiVElzAQ==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -1069,10 +1069,10 @@
   resolved "https://registry.npmmirror.com/@types/linkify-it/-/linkify-it-3.0.5.tgz#1e78a3ac2428e6d7e6c05c1665c242023a4601d8"
   integrity sha512-yg6E+u0/+Zjva+buc3EIb+29XEg4wltq7cSmd4Uc2EE/1nUVmxyzpX6gUXD0V8jIrG0r7YeOGVIbYRkxeooCtw==
 
-"@types/markdown-it@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.npmmirror.com/@types/markdown-it/-/markdown-it-14.0.0.tgz#baa2d412dafcb67875bce5ebe7c4b16a4b04162f"
-  integrity sha512-2rStaAqMaLQNfo9mg2HNlley75jUTAkZKqlk3pxDSgaFk44zd+CAVpczpoh6/RtOzfUtwpEyD6lsHWUfKbVSDg==
+"@types/markdown-it@^14.0.1":
+  version "14.0.1"
+  resolved "https://registry.npmmirror.com/@types/markdown-it/-/markdown-it-14.0.1.tgz#3d3fdf9dba83b69edececc070d39ec72b84270a7"
+  integrity sha512-6WfOG3jXR78DW8L5cTYCVVGAsIFZskRHCDo5tbqa+qtKVt4oDRVH7hyIWu1SpDQJlmIoEivNQZ5h+AGAOrgOtQ==
   dependencies:
     "@types/linkify-it" "*"
     "@types/mdurl" "*"
@@ -1381,26 +1381,26 @@
   resolved "https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-5.0.4.tgz#508d6a0f2440f86945835d903fcc0d95d1bb8a37"
   integrity sha512-WS3hevEszI6CEVEx28F8RjTX97k3KsrcY6kvTg7+Whm5y3oYvcqzVeGCU3hxSAn4uY2CLCkeokkGKpoctccilQ==
 
-"@volar/language-core@2.2.0-alpha.7":
-  version "2.2.0-alpha.7"
-  resolved "https://registry.npmmirror.com/@volar/language-core/-/language-core-2.2.0-alpha.7.tgz#dee2f33a74cd5bd3a9524f74f4d5cb72b66926a2"
-  integrity sha512-igpp+nTkyl8faVzRJMpSCeA4XlBJ5UVSyc/WGyksmUmP10YbfufbcQCFlxEXv2uMBV+a3L4JVCj+Vju+08FOSA==
+"@volar/language-core@2.2.0-alpha.8":
+  version "2.2.0-alpha.8"
+  resolved "https://registry.npmmirror.com/@volar/language-core/-/language-core-2.2.0-alpha.8.tgz#74120a27ff2498ad297e86d17be95a9c7e1b46f5"
+  integrity sha512-Ew1Iw7/RIRNuDLn60fWJdOLApAlfTVPxbPiSLzc434PReC9kleYtaa//Wo2WlN1oiRqneW0pWQQV0CwYqaimLQ==
   dependencies:
-    "@volar/source-map" "2.2.0-alpha.7"
+    "@volar/source-map" "2.2.0-alpha.8"
 
-"@volar/source-map@2.2.0-alpha.7":
-  version "2.2.0-alpha.7"
-  resolved "https://registry.npmmirror.com/@volar/source-map/-/source-map-2.2.0-alpha.7.tgz#2a4c93f1c33114c78e1944d7ed8b3f2ac7f18327"
-  integrity sha512-iIZM2EovdEnr6mMwlsnt4ciix4xz7HSGHyUSviRaY5cii5PMXGHeUU9UDeb+xzLCx8kdk3L5J4z+ts50AhkYcg==
+"@volar/source-map@2.2.0-alpha.8":
+  version "2.2.0-alpha.8"
+  resolved "https://registry.npmmirror.com/@volar/source-map/-/source-map-2.2.0-alpha.8.tgz#ca090f828fbef7e09ea06a636c41a06aa2afe153"
+  integrity sha512-E1ZVmXFJ5DU4fWDcWHzi8OLqqReqIDwhXvIMhVdk6+VipfMVv4SkryXu7/rs4GA/GsebcRyJdaSkKBB3OAkIcA==
   dependencies:
     muggle-string "^0.4.0"
 
-"@volar/typescript@2.2.0-alpha.7":
-  version "2.2.0-alpha.7"
-  resolved "https://registry.npmmirror.com/@volar/typescript/-/typescript-2.2.0-alpha.7.tgz#19a0ea23233ad7eb3c04cfdea2944d97f87f5071"
-  integrity sha512-qy04/hx4UbW1BdPlzaxlH60D4plubcyqdbYM6Y5vZiascZxFowtd6vE39Td9FYzDxwcKgzb/Crvf/ABhdHnuBA==
+"@volar/typescript@2.2.0-alpha.8":
+  version "2.2.0-alpha.8"
+  resolved "https://registry.npmmirror.com/@volar/typescript/-/typescript-2.2.0-alpha.8.tgz#83a056c52995b4142364be3dda41d955a96f7356"
+  integrity sha512-RLbRDI+17CiayHZs9HhSzlH0FhLl/+XK6o2qoiw2o2GGKcyD1aDoY6AcMd44acYncTOrqoTNoY6LuCiRyiJiGg==
   dependencies:
-    "@volar/language-core" "2.2.0-alpha.7"
+    "@volar/language-core" "2.2.0-alpha.8"
     path-browserify "^1.0.1"
 
 "@vue/compiler-core@3.4.21":
@@ -1467,12 +1467,12 @@
     "@typescript-eslint/parser" "^7.1.1"
     vue-eslint-parser "^9.3.1"
 
-"@vue/language-core@2.0.12":
-  version "2.0.12"
-  resolved "https://registry.npmmirror.com/@vue/language-core/-/language-core-2.0.12.tgz#c2e3fab1179a0b8560ebb184d38ea7f6479dfda7"
-  integrity sha512-aIStDPt69SHOpiIckGTIIjEz/sXc6ZfCMS5uWYL1AcbcRMhzFCLZscGAVte1+ad+RRFepSpKBjGttyPcgKJ7ww==
+"@vue/language-core@2.0.13":
+  version "2.0.13"
+  resolved "https://registry.npmmirror.com/@vue/language-core/-/language-core-2.0.13.tgz#2d1638b882011187b4b57115425d52b0901acab5"
+  integrity sha512-oQgM+BM66SU5GKtUMLQSQN0bxHFkFpLSSAiY87wVziPaiNQZuKVDt/3yA7GB9PiQw0y/bTNL0bOc0jM/siYjKg==
   dependencies:
-    "@volar/language-core" "2.2.0-alpha.7"
+    "@volar/language-core" "2.2.0-alpha.8"
     "@vue/compiler-dom" "^3.4.0"
     "@vue/shared" "^3.4.0"
     computeds "^0.0.1"
@@ -2799,10 +2799,10 @@ eslint-plugin-prettier@^5.0.0:
     prettier-linter-helpers "^1.0.0"
     synckit "^0.8.6"
 
-eslint-plugin-vue@^9.24.1:
-  version "9.24.1"
-  resolved "https://registry.npmmirror.com/eslint-plugin-vue/-/eslint-plugin-vue-9.24.1.tgz#0d90330c939f9dd2f4c759da5a2ad91dc1c8bac4"
-  integrity sha512-wk3SuwmS1pZdcuJlokGYEi/buDOwD6KltvhIZyOnpJ/378dcQ4zchu9PAMbbLAaydCz1iYc5AozszcOOgZIIOg==
+eslint-plugin-vue@^9.25.0:
+  version "9.25.0"
+  resolved "https://registry.npmmirror.com/eslint-plugin-vue/-/eslint-plugin-vue-9.25.0.tgz#615cb7bb6d0e2140d21840b9aa51dce69e803e7a"
+  integrity sha512-tDWlx14bVe6Bs+Nnh3IGrD+hb11kf2nukfm6jLsmJIhmiRQ1SUaksvwY9U5MvPB0pcrg0QK0xapQkfITs3RKOA==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
     globals "^13.24.0"
@@ -5501,13 +5501,13 @@ vue-eslint-parser@^9.4.2:
     lodash "^4.17.21"
     semver "^7.3.6"
 
-vue-i18n@^9.11.1:
-  version "9.11.1"
-  resolved "https://registry.npmmirror.com/vue-i18n/-/vue-i18n-9.11.1.tgz#87d8fceaf8862240d64091227ecf66a1465d6096"
-  integrity sha512-S7Xi8DkLQG4xnnbxkxzipJK6CdfLdZkmApn95st89HFGp8LTmTH0Tv+Zw6puhOCZJCFrH73PHo3Ylwd2+Bmdxg==
+vue-i18n@^9.12.1:
+  version "9.12.1"
+  resolved "https://registry.npmmirror.com/vue-i18n/-/vue-i18n-9.12.1.tgz#025a1228645125387506a7d05f9b872917d69f8c"
+  integrity sha512-cqkBt10YzxF3tNGA7/95VMfFdk8nEoguzB7K7R9rldiSnHyWeokq6GOWMThfK/siTr2lLfM9nqolD/er//t4Iw==
   dependencies:
-    "@intlify/core-base" "9.11.1"
-    "@intlify/shared" "9.11.1"
+    "@intlify/core-base" "9.12.1"
+    "@intlify/shared" "9.12.1"
     "@vue/devtools-api" "^6.5.0"
 
 vue-template-compiler@^2.7.14:
@@ -5518,13 +5518,13 @@ vue-template-compiler@^2.7.14:
     de-indent "^1.0.2"
     he "^1.2.0"
 
-vue-tsc@^2.0.12:
-  version "2.0.12"
-  resolved "https://registry.npmmirror.com/vue-tsc/-/vue-tsc-2.0.12.tgz#e8217c0ebe4327fa828e9871f9d58f10c93ee983"
-  integrity sha512-thlBBWlPYrNdba535oDdxz7PRUufZgRZRVP5Aql5wBVpGSWSeqou4EzFXeKVoZr59lp9hJROubDVzlhACmcEhg==
+vue-tsc@^2.0.13:
+  version "2.0.13"
+  resolved "https://registry.npmmirror.com/vue-tsc/-/vue-tsc-2.0.13.tgz#6ee557705456442e0f43ec0d1774ebf5ffec54f1"
+  integrity sha512-a3nL3FvguCWVJUQW/jFrUxdeUtiEkbZoQjidqvMeBK//tuE2w6NWQAbdrEpY2+6nSa4kZoKZp8TZUMtHpjt4mQ==
   dependencies:
-    "@volar/typescript" "2.2.0-alpha.7"
-    "@vue/language-core" "2.0.12"
+    "@volar/typescript" "2.2.0-alpha.8"
+    "@vue/language-core" "2.0.13"
     semver "^7.5.4"
 
 vue@^3.4.10, vue@^3.4.21:
