@@ -3,7 +3,7 @@ import AssistantList from '@renderer/components/views/chat2assistant/assistant-l
 import ChatWindow from '@renderer/components/views/chat2assistant/chat-window/ChatWindow.vue'
 import EmptyChatWindow from '@renderer/components/views/chat2assistant/chat-window/EmptyChatWindow.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
-import { onMounted, onUnmounted, reactive, ref, toRefs } from 'vue'
+import { reactive, ref, toRefs } from 'vue'
 
 // store
 const assistantStore = useAssistantStore()
@@ -14,36 +14,9 @@ const chatAssistantRightRef = ref()
 // 数据绑定
 const data = reactive({
   // 是否收起左边栏
-  isLeftClose: false,
-  // 是否显示左边栏伸缩按钮
-  isLeftCloseBtnShow: false
+  isLeftClose: false
 })
-const { isLeftClose, isLeftCloseBtnShow } = toRefs(data)
-
-// 侧边栏隐藏按钮显示事件
-const leftCloseBtnShowEvent = (event: MouseEvent) => {
-  // 获取鼠标相对于元素左边框的水平位置
-  const x = event.clientX - chatAssistantRightRef.value.getBoundingClientRect().left
-
-  // 判断鼠标是否接近左边框
-  if (x < 20) {
-    data.isLeftCloseBtnShow = true
-  } else if (x > 40) {
-    data.isLeftCloseBtnShow = false
-  }
-}
-
-// 挂载完毕
-onMounted(() => {
-  // 添加鼠标移动事件处理程序
-  chatAssistantRightRef.value.addEventListener('mousemove', leftCloseBtnShowEvent)
-})
-
-// 卸载之前
-onUnmounted(() => {
-  // 移除鼠标移动事件处理程序
-  chatAssistantRightRef.value.removeEventListener('mousemove', leftCloseBtnShowEvent)
-})
+const { isLeftClose } = toRefs(data)
 </script>
 
 <template>
@@ -56,18 +29,24 @@ onUnmounted(() => {
     </transition>
     <div ref="chatAssistantRightRef" class="chat-assistant-right">
       <!-- 隐藏/显示左边栏按钮 -->
-      <transition name="fadein">
-        <a-button
-          v-if="isLeftCloseBtnShow"
-          shape="circle"
-          class="chat-assistant-left-close-btn"
-          size="small"
-          @click="isLeftClose = !isLeftClose"
-        >
-          <icon-right v-if="isLeftClose" />
-          <icon-left v-else />
-        </a-button>
-      </transition>
+      <a-tooltip
+        :content="$t('chatWindow.closeLeft')"
+        position="right"
+        mini
+        :content-style="{ fontSize: '12px' }"
+      >
+        <div class="chat-assistant-left-close-btn" @click="isLeftClose = !isLeftClose">
+          <div
+            class="left-close-btn-icon"
+            :class="{ 'left-close-btn-icon-right': isLeftClose }"
+          ></div>
+          <div
+            class="left-close-btn-icon"
+            :class="{ 'left-close-btn-icon-right': isLeftClose }"
+          ></div>
+        </div>
+      </a-tooltip>
+
       <!-- 助手聊天窗口 -->
       <ChatWindow
         v-if="assistantStore.currentAssistantId"
@@ -124,10 +103,57 @@ onUnmounted(() => {
     position: relative;
 
     .chat-assistant-left-close-btn {
+      height: 40px;
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       position: absolute;
-      left: 5px;
+      left: 0;
       top: 50%;
       z-index: 1;
+      transform: translateY(-50%);
+      cursor: pointer;
+
+      .left-close-btn-icon {
+        height: 12px;
+        width: 4px;
+        background-color: var(--color-border-2);
+        transition: all 100ms linear;
+      }
+
+      .left-close-btn-icon:first-child {
+        border-radius: 2px 2px 0 0;
+        transform: translateY(2px);
+      }
+
+      .left-close-btn-icon:last-child {
+        border-radius: 0 0 2px 2px;
+        transform: translateY(-2px);
+      }
+
+      &:hover {
+        .left-close-btn-icon {
+          background-color: var(--color-border-4);
+        }
+
+        .left-close-btn-icon:first-child {
+          transform: translateY(2px) rotate(15deg);
+        }
+
+        .left-close-btn-icon:last-child {
+          transform: translateY(-2px) rotate(-15deg);
+        }
+
+        .left-close-btn-icon-right:first-child {
+          transform: translateY(2px) rotate(-15deg);
+        }
+
+        .left-close-btn-icon-right:last-child {
+          transform: translateY(-2px) rotate(15deg);
+        }
+      }
     }
 
     .chat-window {

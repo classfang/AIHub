@@ -227,6 +227,7 @@
     "clearContextTip": "Context cleared, Click to restore",
     "sharePreview": "Share preview",
     "shareDownload": "Save image",
+    "closeLeft": "Close sidebar",
     "configMiss": {
       "OpenAI": "OpenAI is not configured",
       "Ollama": "Ollama is not configured",
