@@ -662,13 +662,11 @@ onBeforeUnmount(() => {
     <!-- 消息列表 -->
     <a-scrollbar
       ref="chatMessageListScrollbarRef"
-      :class="{ 'fade-in-to': isLoad }"
-      class="fade-in-from"
       outer-class="chat-message-list-container arco-scrollbar-small"
       style="height: calc(100vh - 160px - 55px); overflow-y: auto"
       @scroll="onChatMessageListScroll"
     >
-      <div class="chat-message-list">
+      <div class="chat-message-list fade-in-from" :class="{ 'fade-in-to': isLoad }">
         <a-button
           v-if="currentAssistant.chatMessageList.length - page.number * page.size > 0"
           style="background-color: transparent"
