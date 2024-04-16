@@ -60,7 +60,7 @@
     "codemirror-editor-vue3": "^2.5.8",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
-    "electron": "^29.3.0",
+    "electron": "^30.0.0",
     "electron-builder": "^24.13.3",
     "electron-vite": "^2.1.0",
     "eslint": "^8.57.0",
