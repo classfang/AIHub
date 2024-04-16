@@ -269,9 +269,18 @@ onMounted(() => {
                   <a-space direction="vertical" :size="10">
                     <div>{{ $t('setting.app.appearance.theme.name') }}</div>
                     <a-radio-group v-model="settingStore.app.themeModel" type="button" size="small">
-                      <a-radio :value="0">{{ $t('setting.app.appearance.theme.auto') }}</a-radio>
-                      <a-radio :value="1">{{ $t('setting.app.appearance.theme.light') }}</a-radio>
-                      <a-radio :value="2">{{ $t('setting.app.appearance.theme.dark') }}</a-radio>
+                      <a-radio :value="0">
+                        <IconSync />
+                        {{ $t('setting.app.appearance.theme.auto') }}
+                      </a-radio>
+                      <a-radio :value="1">
+                        <IconSun />
+                        {{ $t('setting.app.appearance.theme.light') }}
+                      </a-radio>
+                      <a-radio :value="2">
+                        <IconMoonFill />
+                        {{ $t('setting.app.appearance.theme.dark') }}
+                      </a-radio>
                     </a-radio-group>
                   </a-space>
                   <a-space direction="vertical" :size="10" fill>
