@@ -38,7 +38,9 @@
           "name": "主题",
           "auto": "自动",
           "light": "明亮",
-          "dark": "黑暗"
+          "dark": "黑暗",
+          "custom": "自定义",
+          "customEdit": "编辑自定义主题"
         },
         "local": "语言"
       },

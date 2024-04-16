@@ -21,7 +21,12 @@ import {
   startDockBounce,
   stopDockAnimation
 } from '@renderer/utils/ipc-util'
-import { startDarkThemeListener, changeTheme } from '@renderer/utils/theme-util'
+import {
+  startDarkThemeListener,
+  changeTheme,
+  setDefaultTheme,
+  setCustomTheme
+} from '@renderer/utils/theme-util'
 import { computed, onMounted, reactive, toRefs, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -85,9 +90,19 @@ const updateTheme = () => {
   if (stopDarkThemeListener) {
     stopDarkThemeListener()
   }
+
+  // 自定义样式
+  if (settingStore.app.themeModel === 3) {
+    setCustomTheme(settingStore.app.customTheme)
+  } else {
+    setDefaultTheme()
+  }
+
+  // 跟随系统
   if (settingStore.app.themeModel === 0) {
     stopDarkThemeListener = startDarkThemeListener()
   } else {
+    // 切换样式
     changeTheme(settingStore.app.themeModel === 2)
   }
 }

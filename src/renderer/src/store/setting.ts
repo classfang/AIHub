@@ -5,8 +5,10 @@ export const useSettingStore = defineStore({
   id: 'setting',
   state: () => ({
     app: {
-      // 主题模式：0自动 1明亮 2黑暗
+      // 主题模式：0自动 1明亮 2黑暗 3自定义
       themeModel: 0,
+      // 自定义主题样式表
+      customTheme: {} as Record<string, string>,
       locale: isZH() ? 'zh_CN' : 'en_US',
       proxy: ''
     },

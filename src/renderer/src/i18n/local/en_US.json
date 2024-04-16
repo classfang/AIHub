@@ -38,7 +38,9 @@
           "name": "Theme",
           "auto": "Auto",
           "light": "Light",
-          "dark": "Dark"
+          "dark": "Dark",
+          "custom": "Custom",
+          "customEdit": "Edit custom theme"
         },
         "local": "Language"
       },
