@@ -280,7 +280,7 @@ onMounted(() => {
             <a-tabs position="left">
               <!-- 外观 -->
               <a-tab-pane key="appearance" :title="$t('setting.app.appearance.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10">
                     <div>{{ $t('setting.app.appearance.theme.name') }}</div>
                     <a-radio-group v-model="settingStore.app.themeModel" type="button" size="small">
@@ -344,7 +344,7 @@ onMounted(() => {
               </a-tab-pane>
               <!-- 网络 -->
               <a-tab-pane key="network" :title="$t('setting.app.network.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('setting.app.network.proxy') }}</div>
                     <a-input
@@ -365,7 +365,7 @@ onMounted(() => {
             <a-tabs position="left">
               <!-- OpenAI -->
               <a-tab-pane key="openAI" :title="$t('setting.bigModel.openAI.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('common.officialWebsite') }}</div>
                     <a-link @click="openInBrowser('https://openai.com')">https://openai.com</a-link>
@@ -394,8 +394,8 @@ onMounted(() => {
               </a-tab-pane>
               <!-- Ollama -->
               <a-tab-pane key="ollama" :title="$t('setting.bigModel.ollama.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
-                  <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                     <a-space direction="vertical" :size="10" fill>
                       <div>{{ $t('common.officialWebsite') }}</div>
                       <a-link @click="openInBrowser('https://ollama.com')"
@@ -417,7 +417,7 @@ onMounted(() => {
               </a-tab-pane>
               <!-- Gemini -->
               <a-tab-pane key="gemini" :title="$t('setting.bigModel.gemini.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('common.officialWebsite') }}</div>
                     <a-link @click="openInBrowser('https://ai.google.dev/docs/gemini_api_overview')"
@@ -448,7 +448,7 @@ onMounted(() => {
               </a-tab-pane>
               <!-- 讯飞星火 -->
               <a-tab-pane key="spark" :title="$t('setting.bigModel.spark.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('common.officialWebsite') }}</div>
                     <a-link @click="openInBrowser('https://xinghuo.xfyun.cn')"
@@ -489,7 +489,7 @@ onMounted(() => {
               </a-tab-pane>
               <!-- 文心一言 -->
               <a-tab-pane key="ernie" :title="$t('setting.bigModel.ernie.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('common.officialWebsite') }}</div>
                     <a-link @click="openInBrowser('https://yiyan.baidu.com')"
@@ -520,8 +520,8 @@ onMounted(() => {
               </a-tab-pane>
               <!-- 通义千问 -->
               <a-tab-pane key="tongyi" :title="$t('setting.bigModel.tongyi.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
-                  <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                     <a-space direction="vertical" :size="10" fill>
                       <div>{{ $t('common.officialWebsite') }}</div>
                       <a-link @click="openInBrowser('https://tongyi.aliyun.com')"
@@ -543,8 +543,8 @@ onMounted(() => {
               </a-tab-pane>
               <!-- 天工 -->
               <a-tab-pane key="tiangong" :title="$t('setting.bigModel.tiangong.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
-                  <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                     <a-space direction="vertical" :size="10" fill>
                       <div>{{ $t('common.officialWebsite') }}</div>
                       <a-link @click="openInBrowser('https://model-platform.tiangong.cn')"
@@ -576,8 +576,8 @@ onMounted(() => {
               </a-tab-pane>
               <!-- 月之暗面 -->
               <a-tab-pane key="moonshotAI" :title="$t('setting.bigModel.moonshotAI.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
-                  <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                     <a-space direction="vertical" :size="10" fill>
                       <div>{{ $t('common.officialWebsite') }}</div>
                       <a-link @click="openInBrowser('https://www.moonshot.cn')"
@@ -601,7 +601,7 @@ onMounted(() => {
           </a-tab-pane>
           <!-- AI日历 -->
           <a-tab-pane key="aiCalendar" :title="$t('setting.aiCalendar.name')">
-            <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+            <a-space direction="vertical" :size="25" fill class="setting-tab-content">
               <a-space direction="vertical" :size="10" fill>
                 <div>{{ $t('setting.aiCalendar.weekStart') }}</div>
                 <a-select
@@ -646,7 +646,7 @@ onMounted(() => {
             <a-tabs position="left">
               <!-- 有道翻译 -->
               <a-tab-pane key="youdao" :title="$t('setting.translation.youdao.name')">
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('common.officialWebsite') }}</div>
                     <a-link @click="openInBrowser('https://ai.youdao.com')"
@@ -680,7 +680,7 @@ onMounted(() => {
                 key="baiduTranslation"
                 :title="$t('setting.translation.baiduTranslation.name')"
               >
-                <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('common.officialWebsite') }}</div>
                     <a-link @click="openInBrowser('https://fanyi-api.baidu.com')"
@@ -717,7 +717,7 @@ onMounted(() => {
           </a-tab-pane>
           <!-- 备份 -->
           <a-tab-pane key="backup" :title="$t('setting.app.backup.name')">
-            <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+            <a-space direction="vertical" :size="25" fill class="setting-tab-content">
               <a-space direction="vertical" :size="10">
                 <div>{{ $t('setting.app.backup.setting.name') }}</div>
                 <div>
@@ -780,7 +780,7 @@ onMounted(() => {
           </a-tab-pane>
           <!-- 关于 -->
           <a-tab-pane key="about" :title="$t('setting.about.name')">
-            <a-space direction="vertical" :size="20" fill class="setting-tab-content">
+            <a-space direction="vertical" :size="25" fill class="setting-tab-content">
               <a-space direction="vertical" :size="10">
                 <div>{{ $t('setting.about.version.name') }}</div>
                 <div>
@@ -858,11 +858,12 @@ onMounted(() => {
   }
 
   .custom-theme-list {
-    max-height: 200px;
-    overflow-y: auto;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    background-color: var(--color-fill-1);
+    box-sizing: border-box;
+    padding: 10px;
 
     .custom-theme-list-item {
       display: flex;
