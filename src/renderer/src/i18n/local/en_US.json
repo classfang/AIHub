@@ -40,7 +40,8 @@
           "light": "Light",
           "dark": "Dark",
           "custom": "Custom",
-          "customEdit": "Edit custom theme"
+          "customEdit": "Edit custom theme",
+          "customEditReset": "Reset style"
         },
         "local": "Language"
       },

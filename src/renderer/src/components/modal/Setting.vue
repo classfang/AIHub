@@ -24,6 +24,8 @@ import {
   openDevTools,
   openLogDir
 } from '@renderer/utils/ipc-util'
+import { copyObj } from '@renderer/utils/object-util'
+import { defaultCustomThemeMap, setCustomTheme } from '@renderer/utils/theme-util'
 import { openInBrowser } from '@renderer/utils/window-util'
 import { computed, onMounted, reactive, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -223,6 +225,19 @@ watch(
   }
 )
 
+// 自定义样式实时生效
+watch(
+  () => settingStore.app.customThemeMap,
+  () => {
+    if (settingStore.app.themeModel === 3) {
+      setCustomTheme(settingStore.app.customThemeMap)
+    }
+  },
+  {
+    deep: true
+  }
+)
+
 onMounted(() => {
   getAppVersion().then((v) => {
     data.appVersion = v
@@ -268,36 +283,51 @@ onMounted(() => {
                 <a-space direction="vertical" :size="20" fill class="setting-tab-content">
                   <a-space direction="vertical" :size="10">
                     <div>{{ $t('setting.app.appearance.theme.name') }}</div>
-                    <a-space :size="10">
-                      <a-radio-group
-                        v-model="settingStore.app.themeModel"
-                        type="button"
-                        size="small"
+                    <a-radio-group v-model="settingStore.app.themeModel" type="button" size="small">
+                      <a-radio :value="0">
+                        <IconSync />
+                        {{ $t('setting.app.appearance.theme.auto') }}
+                      </a-radio>
+                      <a-radio :value="1">
+                        <IconSun />
+                        {{ $t('setting.app.appearance.theme.light') }}
+                      </a-radio>
+                      <a-radio :value="2">
+                        <IconMoonFill />
+                        {{ $t('setting.app.appearance.theme.dark') }}
+                      </a-radio>
+                      <a-radio :value="3">
+                        <IconPalette />
+                        {{ $t('setting.app.appearance.theme.custom') }}
+                      </a-radio>
+                    </a-radio-group>
+                  </a-space>
+                  <a-space v-if="settingStore.app.themeModel === 3" direction="vertical" :size="10">
+                    <div>{{ $t('setting.app.appearance.theme.customEdit') }}</div>
+                    <div class="custom-theme-list">
+                      <div
+                        v-for="tk in Object.keys(defaultCustomThemeMap)"
+                        :key="tk"
+                        class="custom-theme-list-item"
                       >
-                        <a-radio :value="0">
-                          <IconSync />
-                          {{ $t('setting.app.appearance.theme.auto') }}
-                        </a-radio>
-                        <a-radio :value="1">
-                          <IconSun />
-                          {{ $t('setting.app.appearance.theme.light') }}
-                        </a-radio>
-                        <a-radio :value="2">
-                          <IconMoonFill />
-                          {{ $t('setting.app.appearance.theme.dark') }}
-                        </a-radio>
-                        <a-radio :value="3">
-                          <IconPalette />
-                          {{ $t('setting.app.appearance.theme.custom') }}
-                        </a-radio>
-                      </a-radio-group>
-                      <a-button size="small" @click="exportDataBackup()">
-                        <a-space :size="5">
-                          <IconPalette />
-                          <span>{{ $t('setting.app.appearance.theme.customEdit') }}</span>
-                        </a-space>
-                      </a-button>
-                    </a-space>
+                        <div class="custom-theme-list-item-label">{{ tk }}</div>
+                        <a-color-picker
+                          v-model="settingStore.app.customThemeMap[tk]"
+                          size="small"
+                          show-text
+                          class="custom-theme-list-item-color-picker"
+                        />
+                      </div>
+                    </div>
+                    <a-button
+                      size="mini"
+                      @click="settingStore.app.customThemeMap = copyObj(defaultCustomThemeMap)"
+                    >
+                      <a-space :size="5">
+                        <icon-reply />
+                        <span>{{ $t('setting.app.appearance.theme.customEditReset') }}</span>
+                      </a-space>
+                    </a-button>
                   </a-space>
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('setting.app.appearance.local') }}</div>
@@ -574,7 +604,11 @@ onMounted(() => {
             <a-space direction="vertical" :size="20" fill class="setting-tab-content">
               <a-space direction="vertical" :size="10" fill>
                 <div>{{ $t('setting.aiCalendar.weekStart') }}</div>
-                <a-select v-model="settingStore.aiCalendar.weekStart" :fallback-option="false">
+                <a-select
+                  v-model="settingStore.aiCalendar.weekStart"
+                  size="small"
+                  :fallback-option="false"
+                >
                   <a-option :value="0">{{ $t('setting.aiCalendar.sunday') }}</a-option>
                   <a-option :value="1">{{ $t('setting.aiCalendar.monday') }}</a-option>
                 </a-select>
@@ -583,13 +617,18 @@ onMounted(() => {
                 <div>{{ $t('setting.aiCalendar.bigModel') }}</div>
                 <a-select
                   v-model="settingStore.aiCalendar.bigModel.provider"
+                  size="small"
                   :fallback-option="false"
                 >
                   <a-option v-for="p in Object.keys(chatModels)" :key="p" :value="p">{{
                     $t(`bigModelProvider.${p}`)
                   }}</a-option>
                 </a-select>
-                <a-select v-model="settingStore.aiCalendar.bigModel.model" :fallback-option="false">
+                <a-select
+                  v-model="settingStore.aiCalendar.bigModel.model"
+                  size="small"
+                  :fallback-option="false"
+                >
                   <template
                     v-for="m in chatModels[settingStore.aiCalendar.bigModel.provider]"
                     :key="m.name"
@@ -683,13 +722,13 @@ onMounted(() => {
                 <div>{{ $t('setting.app.backup.setting.name') }}</div>
                 <div>
                   <a-space :size="10">
-                    <a-button size="mini" @click="exportSettingBackup()">
+                    <a-button size="small" @click="exportSettingBackup()">
                       <a-space :size="5">
                         <icon-download />
                         <span>{{ $t('setting.app.backup.setting.export') }}</span>
                       </a-space>
                     </a-button>
-                    <a-button size="mini" @click="importSettingBackup()">
+                    <a-button size="small" @click="importSettingBackup()">
                       <a-space :size="5">
                         <icon-upload />
                         <span>{{ $t('setting.app.backup.setting.import') }}</span>
@@ -702,13 +741,13 @@ onMounted(() => {
                 <div>{{ $t('setting.app.backup.data.name') }}</div>
                 <div>
                   <a-space :size="10">
-                    <a-button size="mini" @click="exportDataBackup()">
+                    <a-button size="small" @click="exportDataBackup()">
                       <a-space :size="5">
                         <icon-download />
                         <span>{{ $t('setting.app.backup.data.export') }}</span>
                       </a-space>
                     </a-button>
-                    <a-button size="mini" @click="importDataBackup()">
+                    <a-button size="small" @click="importDataBackup()">
                       <a-space :size="5">
                         <icon-upload />
                         <span>{{ $t('setting.app.backup.data.import') }}</span>
@@ -722,13 +761,13 @@ onMounted(() => {
                 <div>{{ $t('setting.app.backup.cache.name') }}</div>
                 <div>
                   <a-space :size="10">
-                    <a-button size="mini" @click="openCacheDir()">
+                    <a-button size="small" @click="openCacheDir()">
                       <a-space :size="5">
                         <icon-folder />
                         <span>{{ $t('setting.app.backup.cache.path') }}</span>
                       </a-space>
                     </a-button>
-                    <a-button size="mini" :loading="clearCacheFlag" @click="clearCacheHandle()">
+                    <a-button size="small" :loading="clearCacheFlag" @click="clearCacheHandle()">
                       <a-space :size="5">
                         <icon-delete />
                         <span>{{ $t('setting.app.backup.cache.clear') }}</span>
@@ -753,7 +792,7 @@ onMounted(() => {
                       :dot-style="{ width: '7px', height: '7px' }"
                     >
                       <a-button
-                        size="mini"
+                        size="small"
                         @click="openInBrowser('https://github.com/classfang/AIHub/releases')"
                       >
                         <a-space :size="5">
@@ -779,10 +818,10 @@ onMounted(() => {
                 <div>{{ $t('setting.about.devTools.name') }}</div>
                 <div>
                   <a-space :size="10">
-                    <a-button size="mini" @click="openDevTools()">
+                    <a-button size="small" @click="openDevTools()">
                       <span>{{ $t('setting.about.devTools.openDevTools') }}</span>
                     </a-button>
-                    <a-button size="mini" @click="openLogDir()">
+                    <a-button size="small" @click="openLogDir()">
                       <span>{{ $t('setting.about.devTools.openLogPath') }}</span>
                     </a-button>
                   </a-space>
@@ -814,6 +853,26 @@ onMounted(() => {
           height: 100%;
           overflow-y: auto;
         }
+      }
+    }
+  }
+
+  .custom-theme-list {
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .custom-theme-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+
+      .custom-theme-list-item-label,
+      .custom-theme-list-item-color-picker {
+        flex-shrink: 0;
       }
     }
   }

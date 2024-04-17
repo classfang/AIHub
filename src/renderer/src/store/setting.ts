@@ -1,3 +1,5 @@
+import { copyObj } from '@renderer/utils/object-util'
+import { defaultCustomThemeMap } from '@renderer/utils/theme-util'
 import { isZH } from '@renderer/utils/window-util'
 import { defineStore } from 'pinia'
 
@@ -8,7 +10,7 @@ export const useSettingStore = defineStore({
       // 主题模式：0自动 1明亮 2黑暗 3自定义
       themeModel: 0,
       // 自定义主题样式表
-      customTheme: {} as Record<string, string>,
+      customThemeMap: copyObj(defaultCustomThemeMap),
       locale: isZH() ? 'zh_CN' : 'en_US',
       proxy: ''
     },

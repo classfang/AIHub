@@ -40,7 +40,8 @@
           "light": "明亮",
           "dark": "黑暗",
           "custom": "自定义",
-          "customEdit": "编辑自定义主题"
+          "customEdit": "编辑自定义主题",
+          "customEditReset": "重置样式"
         },
         "local": "语言"
       },

@@ -1,6 +1,7 @@
 import { defaultAssistant } from '@renderer/utils/big-model/base-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { randomUUID } from '@renderer/utils/id-util'
+import { copyObj } from '@renderer/utils/object-util'
 import { defineStore } from 'pinia'
 
 export const useAssistantStore = defineStore({
@@ -8,7 +9,7 @@ export const useAssistantStore = defineStore({
   state: () => ({
     assistantList: [
       {
-        ...defaultAssistant,
+        ...copyObj(defaultAssistant),
         name: 'AI Bot',
         id: randomUUID(),
         createTime: nowTimestamp(),

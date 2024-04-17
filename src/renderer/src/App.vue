@@ -93,7 +93,7 @@ const updateTheme = () => {
 
   // 自定义样式
   if (settingStore.app.themeModel === 3) {
-    setCustomTheme(settingStore.app.customTheme)
+    setCustomTheme(settingStore.app.customThemeMap)
   } else {
     setDefaultTheme()
   }
