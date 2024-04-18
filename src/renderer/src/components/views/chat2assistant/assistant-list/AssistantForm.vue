@@ -84,6 +84,7 @@ watch(
           v-model="assistant.instruction"
           :placeholder="$t('common.pleaseEnter') + ' ' + $t('assistantList.instruction')"
           allow-clear
+          :auto-size="{ minRows: 3, maxRows: 10 }"
         />
       </a-form-item>
       <!-- 提供商 -->
