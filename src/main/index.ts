@@ -114,6 +114,12 @@ ipcMain.handle('save-file-by-url', async (_event, url: string, fileName: string)
 // 保存base64文件
 ipcMain.handle('save-file-by-base64', async (_event, base64: string, fileName: string) => {
   creatTempPath()
+
+  // 去除base64数据前缀
+  const commaIndex = base64.indexOf(',')
+  if (commaIndex > -1) {
+    base64 = base64.slice(commaIndex + 1)
+  }
   const filePath = join(appConfig.tempPath, fileName)
   fs.writeFileSync(filePath, Buffer.from(base64, 'base64'), 'binary')
 
