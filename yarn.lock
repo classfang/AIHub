@@ -688,26 +688,26 @@
   resolved "https://registry.npmmirror.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
-"@intlify/core-base@9.13.0":
-  version "9.13.0"
-  resolved "https://registry.npmmirror.com/@intlify/core-base/-/core-base-9.13.0.tgz#b6305c99521a613c4577b2a9e7dc503631ebcd85"
-  integrity sha512-Lx8+YTrFpom7AtdbbuJHzgmr612/bceHU92v8ZPU9HU9/rczf+TmCs95BxWPIR4K42xh4MVMLsNzLUWiXcNaLg==
+"@intlify/core-base@9.13.1":
+  version "9.13.1"
+  resolved "https://registry.npmmirror.com/@intlify/core-base/-/core-base-9.13.1.tgz#bd1f38e665095993ef9b67aeeb794f3cabcb515d"
+  integrity sha512-+bcQRkJO9pcX8d0gel9ZNfrzU22sZFSA0WVhfXrf5jdJOS24a+Bp8pozuS9sBI9Hk/tGz83pgKfmqcn/Ci7/8w==
   dependencies:
-    "@intlify/message-compiler" "9.13.0"
-    "@intlify/shared" "9.13.0"
+    "@intlify/message-compiler" "9.13.1"
+    "@intlify/shared" "9.13.1"
 
-"@intlify/message-compiler@9.13.0":
-  version "9.13.0"
-  resolved "https://registry.npmmirror.com/@intlify/message-compiler/-/message-compiler-9.13.0.tgz#3b523a5331d7ac89dde4aefc2f1952e79b49070b"
-  integrity sha512-zhESuudiDpFQhUOx/qrSMd7ZYHbmgCc0QzBc27cDUxaaAj3olbYJnsx3osiHPQyYnv/LuC+WTqoNOEBoHP6dqQ==
+"@intlify/message-compiler@9.13.1":
+  version "9.13.1"
+  resolved "https://registry.npmmirror.com/@intlify/message-compiler/-/message-compiler-9.13.1.tgz#ff8129badf77db3fb648b8d3cceee87c8033ed0a"
+  integrity sha512-SKsVa4ajYGBVm7sHMXd5qX70O2XXjm55zdZB3VeMFCvQyvLew/dLvq3MqnaIsTMF1VkkOb9Ttr6tHcMlyPDL9w==
   dependencies:
-    "@intlify/shared" "9.13.0"
+    "@intlify/shared" "9.13.1"
     source-map-js "^1.0.2"
 
-"@intlify/shared@9.13.0":
-  version "9.13.0"
-  resolved "https://registry.npmmirror.com/@intlify/shared/-/shared-9.13.0.tgz#e723296fdab798d280087b89764aab06791bc7a4"
-  integrity sha512-fUwWcpDz9Wm4dSaz+6XmjoNXWBjZLJtT1Zf1cpLBELbCAOS8WBRscPtgOSfzm6JCqf5KgMI4g917f5TtEeez3A==
+"@intlify/shared@9.13.1":
+  version "9.13.1"
+  resolved "https://registry.npmmirror.com/@intlify/shared/-/shared-9.13.1.tgz#202741d11ece1a9c7480bfd3f27afcf9cb8f72e4"
+  integrity sha512-u3b6BKGhE6j/JeRU6C/RL2FgyJfy6LakbtfeVF8fJXURpZZTzfh3e05J0bu0XPw447Q6/WUp3C4ajv4TMS4YsQ==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -5543,10 +5543,10 @@ verror@^1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vite@^5.2.9:
-  version "5.2.9"
-  resolved "https://registry.npmmirror.com/vite/-/vite-5.2.9.tgz#cd9a356c6ff5f7456c09c5ce74068ffa8df743d9"
-  integrity sha512-uOQWfuZBlc6Y3W/DTuQ1Sr+oIXWvqljLvS881SVmAj00d5RdgShLcuXWxseWPd4HXwiYBFW/vXHfKFeqj9uQnw==
+vite@^5.2.10:
+  version "5.2.10"
+  resolved "https://registry.npmmirror.com/vite/-/vite-5.2.10.tgz#2ac927c91e99d51b376a5c73c0e4b059705f5bd7"
+  integrity sha512-PAzgUZbP7msvQvqdSD+ErD5qGnSFiGOoWmV5yAKUEI0kdhjbH6nMWVyZQC/hSc4aXwc0oJ9aEdIiF9Oje0JFCw==
   dependencies:
     esbuild "^0.20.1"
     postcss "^8.4.38"
@@ -5585,13 +5585,13 @@ vue-eslint-parser@^9.4.2:
     lodash "^4.17.21"
     semver "^7.3.6"
 
-vue-i18n@^9.13.0:
-  version "9.13.0"
-  resolved "https://registry.npmmirror.com/vue-i18n/-/vue-i18n-9.13.0.tgz#bedc0b9c5ebdc299c56296db747d8616db5eebc7"
-  integrity sha512-NlZ+e8rhGSGNk/Vfh4IUvlPRjljPCRslbNYgQmYZY+sLXZgahw8fylQguZU3e8ntJDvitfe40f8p3udOiKMS0A==
+vue-i18n@^9.13.1:
+  version "9.13.1"
+  resolved "https://registry.npmmirror.com/vue-i18n/-/vue-i18n-9.13.1.tgz#a292c8021b7be604ebfca5609ae1f8fafe5c36d7"
+  integrity sha512-mh0GIxx0wPtPlcB1q4k277y0iKgo25xmDPWioVVYanjPufDBpvu5ySTjP5wOrSvlYQ2m1xI+CFhGdauv/61uQg==
   dependencies:
-    "@intlify/core-base" "9.13.0"
-    "@intlify/shared" "9.13.0"
+    "@intlify/core-base" "9.13.1"
+    "@intlify/shared" "9.13.1"
     "@vue/devtools-api" "^6.5.0"
 
 vue-template-compiler@^2.7.14:

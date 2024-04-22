@@ -53,70 +53,60 @@ export const chat2tiangong = async (option: CommonChatOption) => {
     }
   }
 
-  // 发起请求并获取响应
-  fetch(url, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data)
-  })
-    .then((response) => {
-      // 创建一个ReadableStream的读取器
-      const reader = response.body!.getReader()
+  try {
+    // 发起请求并获取响应
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(data)
+    })
 
-      // 读取数据并处理
-      return new ReadableStream({
-        async start(controller) {
-          try {
-            let isDone = false
-            while (!isDone) {
-              const { done, value } = await reader.read()
+    // 创建一个ReadableStream的读取器
+    const reader = response.body!.getReader()
 
-              // 如果读取完成，中止ReadableStream
-              isDone = done
-              if (done) {
-                controller.close()
-                break
-              }
+    // 读取数据并处理
+    let isDone = false
+    while (!isDone) {
+      const { done, value } = await reader.read()
 
-              // 处理接收到的数据
-              const jsonData = new TextDecoder('utf-8').decode(value)
-              Logger.info('chat2tiangong:', jsonData)
+      // 如果读取完成，中止ReadableStream
+      isDone = done
+      if (done) {
+        break
+      }
 
-              // 按照换行分行
-              const lines = jsonData.split('\n')
+      // 处理接收到的数据
+      const jsonData = new TextDecoder('utf-8').decode(value)
+      Logger.info('chat2tiangong:', jsonData)
 
-              // 遍历每一行
-              for (const line of lines) {
-                if (line) {
-                  const jsonData = JSON.parse(line)
-                  // 错误返回
-                  if (jsonData.code != 200) {
-                    end && end(sessionId, jsonData?.code_msg)
-                    return
-                  }
+      // 按照换行分行
+      const lines = jsonData.split('\n')
 
-                  // 正确返回
-                  if (waitAnswer) {
-                    waitAnswer = false
-                    startAnswer && startAnswer(sessionId)
-                  }
-                  appendAnswer && appendAnswer(sessionId, jsonData?.resp_data?.reply)
-                }
-              }
-            }
-
-            end && end(sessionId)
-          } catch (error: any) {
-            Logger.error('chat2tiangong error', error?.message)
-            end && end(sessionId, error?.message)
+      // 遍历每一行
+      for (const line of lines) {
+        if (line) {
+          const jsonData = JSON.parse(line)
+          // 错误返回
+          if (jsonData.code != 200) {
+            end && end(sessionId, jsonData?.code_msg)
+            return
           }
+
+          // 正确返回
+          if (waitAnswer) {
+            waitAnswer = false
+            startAnswer && startAnswer(sessionId)
+          }
+          appendAnswer && appendAnswer(sessionId, jsonData?.resp_data?.reply)
         }
-      })
-    })
-    .catch((error) => {
-      Logger.error('chat2tiangong error', error?.message)
-      end && end(sessionId, error?.message)
-    })
+      }
+    }
+
+    end && end(sessionId)
+  } catch (error: any) {
+    Logger.error('chat2tiangong error', error?.message)
+    end && end(sessionId, error?.message)
+  }
 }
 
 export const getTiangongMessages = async (
