@@ -175,7 +175,6 @@
   },
   "assistantList": {
     "new": "New assistant",
-    "edit": "Edit assistant",
     "name": "Name",
     "instruction": "Instruction",
     "provider": "Provider",
@@ -196,6 +195,9 @@
     "speechVoice": "Speech voice",
     "speechSpeed": "Speech speed"
   },
+  "chatList": {
+    "search": "Search chat"
+  },
   "assistantItem": {
     "content": {
       "image": "[Image]",
@@ -205,9 +207,11 @@
   "chatWindow": {
     "header": {
       "edit": "Edit assistant",
+      "editChat": "Edit chat",
       "export": "Export records",
       "clear": "Clear records",
-      "delete": "Delete assistant"
+      "delete": "Delete assistant",
+      "deleteChat": "Delete chat"
     },
     "inputPlaceholder": {
       "chat": "Enter your question here (Shift + Enter line wrap)",

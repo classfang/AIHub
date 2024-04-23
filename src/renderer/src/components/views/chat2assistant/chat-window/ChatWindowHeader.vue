@@ -15,6 +15,11 @@ const systemStore = useSystemStore()
 const { t } = useI18n()
 
 const props = defineProps({
+  // 是否是虚拟助手模式
+  isVirtual: {
+    type: Boolean,
+    default: () => false
+  },
   currentAssistant: {
     type: Object as () => Assistant,
     default: () => ({})
@@ -38,7 +43,7 @@ const edit = () => {
 
 const handleEditModalBeforeOk = async () => {
   await new Promise<void>((resolve, reject) => {
-    if (!data.assistantForm.name) {
+    if (!props.isVirtual && !data.assistantForm.name) {
       Message.error(`${t('assistantList.name')} ${t('common.required')}`)
       reject()
       return
@@ -109,18 +114,32 @@ const exportChatMessageList = () => {
 }
 
 const assistantUpdate = (newAssistant: Assistant) => {
-  const index = assistantStore.assistantList.findIndex((a) => a.id === newAssistant.id)
+  const index = props.isVirtual
+    ? assistantStore.virtualAssistantList.findIndex((a) => a.id === newAssistant.id)
+    : assistantStore.assistantList.findIndex((a) => a.id === newAssistant.id)
   if (index < 0) {
     return
   }
-  copyFields(newAssistant, assistantStore.assistantList[index])
+  copyFields(
+    newAssistant,
+    props.isVirtual
+      ? assistantStore.virtualAssistantList[index]
+      : assistantStore.assistantList[index]
+  )
 }
 
 const assistantDelete = () => {
-  assistantStore.assistantList = assistantStore.assistantList.filter(
-    (a) => a.id != data.currentAssistant.id
-  )
-  assistantStore.currentAssistantId = null
+  if (props.isVirtual) {
+    assistantStore.virtualAssistantList = assistantStore.virtualAssistantList.filter(
+      (a) => a.id != data.currentAssistant.id
+    )
+    assistantStore.currentVirtualAssistantId = null
+  } else {
+    assistantStore.assistantList = assistantStore.assistantList.filter(
+      (a) => a.id != data.currentAssistant.id
+    )
+    assistantStore.currentAssistantId = null
+  }
 }
 
 // 暴露方法
@@ -132,10 +151,14 @@ defineExpose({
 
 <template>
   <div class="chat-window-header drag-area">
-    <div class="assistant-name">{{ currentAssistant?.name }}</div>
+    <div class="assistant-name">
+      {{
+        isVirtual ? $t(`bigModelProvider.${currentAssistant?.provider}`) : currentAssistant?.name
+      }}
+    </div>
     <div class="assistant-desc">
       <a-space :size="10">
-        <a-tag>{{ $t(`bigModelProvider.${currentAssistant?.provider}`) }}</a-tag>
+        <a-tag v-if="!isVirtual">{{ $t(`bigModelProvider.${currentAssistant?.provider}`) }}</a-tag>
         <a-tag>{{ currentAssistant?.model }}</a-tag>
       </a-space>
     </div>
@@ -156,7 +179,9 @@ defineExpose({
             style="width: 100%; color: var(--color-text-1)"
             size="small"
             @click="edit"
-            >{{ $t('chatWindow.header.edit') }}</a-button
+            >{{
+              isVirtual ? $t('chatWindow.header.editChat') : $t('chatWindow.header.edit')
+            }}</a-button
           >
           <a-button
             type="text"
@@ -179,7 +204,9 @@ defineExpose({
             status="danger"
             size="small"
             @click="deleteConfirm"
-            >{{ $t('chatWindow.header.delete') }}</a-button
+            >{{
+              isVirtual ? $t('chatWindow.header.deleteChat') : $t('chatWindow.header.delete')
+            }}</a-button
           >
         </a-space>
       </template>
@@ -195,9 +222,11 @@ defineExpose({
       width="80vw"
       :on-before-ok="handleEditModalBeforeOk"
     >
-      <template #title> {{ $t('assistantList.edit') }} </template>
+      <template #title>
+        {{ isVirtual ? $t('chatWindow.header.editChat') : $t('chatWindow.header.edit') }}
+      </template>
       <div style="height: 60vh; padding: 0 10px; overflow-y: auto">
-        <AssistantForm v-model:assistant="assistantForm" />
+        <AssistantForm v-model:assistant="assistantForm" :is-virtual="isVirtual" />
       </div>
     </a-modal>
   </div>

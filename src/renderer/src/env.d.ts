@@ -15,6 +15,7 @@ declare module 'markdown-it-mathjax3' {
 
 type PageName =
   | 'chat'
+  | 'chat-assistant'
   | 'chat-plugin'
   | 'ai-drawing'
   | 'knowledge-base'

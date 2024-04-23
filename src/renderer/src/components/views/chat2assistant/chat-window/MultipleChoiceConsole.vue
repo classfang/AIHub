@@ -18,6 +18,11 @@ const collectionSetStore = useCollectionSetStore()
 const { t } = useI18n()
 
 const props = defineProps({
+  // 是否是虚拟助手模式
+  isVirtual: {
+    type: Boolean,
+    default: () => false
+  },
   multipleChoiceList: {
     type: Array,
     default: () => [] as string[]
@@ -25,7 +30,9 @@ const props = defineProps({
 })
 
 const data = reactive({
-  currentAssistant: assistantStore.getCurrentAssistant,
+  currentAssistant: props.isVirtual
+    ? assistantStore.getCurrentVirtualAssistant
+    : assistantStore.getCurrentAssistant,
   shareModalVisible: false
 })
 const { currentAssistant, shareModalVisible } = toRefs(data)
@@ -84,7 +91,11 @@ const multipleChoiceCollect = () => {
     id: randomUUID(),
     type: 'chat',
     chat: {
-      ...copyObj(assistantStore.getCurrentAssistant),
+      ...copyObj(
+        props.isVirtual
+          ? assistantStore.getCurrentVirtualAssistant
+          : assistantStore.getCurrentAssistant
+      ),
       chatMessageList: selectChatMessageList
     },
     createTime: nowTimestamp()

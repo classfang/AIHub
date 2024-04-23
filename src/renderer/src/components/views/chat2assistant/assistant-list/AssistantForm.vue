@@ -8,6 +8,11 @@ import {
 import { watch } from 'vue'
 
 defineProps({
+  // 是否是虚拟助手模式
+  isVirtual: {
+    type: Boolean,
+    default: () => false
+  },
   typeChange: {
     type: Boolean,
     default: () => false
@@ -69,7 +74,7 @@ watch(
     <!--      </a-radio-group>-->
     <!--    </a-form-item>-->
     <!-- 助手名称 -->
-    <a-form-item field="name" :label="$t('assistantList.name')">
+    <a-form-item v-if="!isVirtual" field="name" :label="$t('assistantList.name')">
       <a-input
         v-model="assistant.name"
         :placeholder="$t('common.pleaseEnter') + ' ' + $t('assistantList.name')"

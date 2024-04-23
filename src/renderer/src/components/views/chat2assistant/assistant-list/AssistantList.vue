@@ -14,6 +14,15 @@ import draggable from 'vuedraggable'
 const assistantStore = useAssistantStore()
 const { t } = useI18n()
 
+// 组件传参
+const props = defineProps({
+  // 是否是虚拟助手模式
+  isVirtual: {
+    type: Boolean,
+    default: () => false
+  }
+})
+
 const data = reactive({
   newModalVisible: false,
   assistantForm: copyObj(defaultAssistant) as Assistant,
@@ -43,15 +52,29 @@ const handleNewModalBeforeOk = async () => {
     if (!data.assistantForm.contextSize) {
       data.assistantForm.contextSize = 1
     }
-    assistantStore.assistantList.unshift(
-      copyObj({
-        ...data.assistantForm,
-        id: randomUUID(),
-        createTime: nowTimestamp(),
-        lastUpdateTime: nowTimestamp(),
-        chatMessageList: []
-      })
-    )
+
+    if (props.isVirtual) {
+      assistantStore.virtualAssistantList.unshift(
+        copyObj({
+          ...data.assistantForm,
+          id: randomUUID(),
+          createTime: nowTimestamp(),
+          lastUpdateTime: nowTimestamp(),
+          chatMessageList: []
+        })
+      )
+    } else {
+      assistantStore.assistantList.unshift(
+        copyObj({
+          ...data.assistantForm,
+          id: randomUUID(),
+          createTime: nowTimestamp(),
+          lastUpdateTime: nowTimestamp(),
+          chatMessageList: []
+        })
+      )
+    }
+
     resolve()
   })
   return true
@@ -59,6 +82,23 @@ const handleNewModalBeforeOk = async () => {
 
 const clearNewModal = () => {
   data.assistantForm = copyObj(defaultAssistant)
+}
+
+const newVirtualAssistant = () => {
+  const id = randomUUID()
+  assistantStore.virtualAssistantList.unshift({
+    ...copyObj(
+      assistantStore.getCurrentVirtualAssistant.id
+        ? assistantStore.getCurrentVirtualAssistant
+        : defaultAssistant
+    ),
+    name: '',
+    id: id,
+    createTime: nowTimestamp(),
+    lastUpdateTime: nowTimestamp(),
+    chatMessageList: new Array<ChatMessage>()
+  })
+  assistantStore.currentVirtualAssistantId = id
 }
 
 onMounted(() => {
@@ -72,19 +112,52 @@ onMounted(() => {
     <div class="assistant-header drag-area">
       <a-input-search
         v-model="keyword"
-        :placeholder="$t('assistantList.search')"
+        :placeholder="isVirtual ? $t('chatList.search') : $t('assistantList.search')"
         class="search-input no-drag-area"
       />
-      <a-button class="assistant-new-btn no-drag-area" @click="newModalVisible = true">
+      <a-button
+        v-if="isVirtual"
+        class="assistant-new-btn no-drag-area"
+        @click="newVirtualAssistant()"
+      >
+        <icon-plus :size="16" />
+      </a-button>
+      <a-button v-else class="assistant-new-btn no-drag-area" @click="newModalVisible = true">
         <icon-robot-add :size="16" />
       </a-button>
     </div>
     <a-scrollbar
-      v-if="assistantStore.assistantList.filter((a) => a.name.includes(keyword)).length > 0"
+      v-if="
+        isVirtual
+          ? !keyword ||
+            assistantStore.virtualAssistantList.filter(
+              (a) => a.chatMessageList.findIndex((m) => m.content.includes(keyword)) > -1
+            ).length > 0
+          : assistantStore.assistantList.filter((a) => a.name.includes(keyword)).length > 0
+      "
       outer-class="assistant-list-container arco-scrollbar-small"
       style="height: calc(100vh - 60px); overflow-y: auto"
     >
       <draggable
+        v-if="isVirtual"
+        v-model="assistantStore.virtualAssistantList"
+        group="assistant-list"
+        item-key="id"
+        class="assistant-list-draggable"
+      >
+        <template #item="{ element }">
+          <AssistantItem
+            v-show="
+              !keyword || element.chatMessageList.findIndex((m) => m.content.includes(keyword)) > -1
+            "
+            :assistant="element"
+            class="assistant-item"
+            :is-virtual="isVirtual"
+          />
+        </template>
+      </draggable>
+      <draggable
+        v-else
         v-model="assistantStore.assistantList"
         group="assistant-list"
         item-key="id"
@@ -95,6 +168,7 @@ onMounted(() => {
             v-show="element.name.includes(keyword)"
             :assistant="element"
             class="assistant-item"
+            :is-virtual="isVirtual"
           />
         </template>
       </draggable>
@@ -116,7 +190,11 @@ onMounted(() => {
     >
       <template #title> {{ $t('assistantList.new') }} </template>
       <div style="height: 60vh; padding: 0 10px; overflow-y: auto">
-        <AssistantForm v-model:assistant="assistantForm" :type-change="true" />
+        <AssistantForm
+          v-model:assistant="assistantForm"
+          :is-virtual="isVirtual"
+          :type-change="true"
+        />
       </div>
     </a-modal>
   </div>

@@ -7,6 +7,7 @@ import { defineStore } from 'pinia'
 export const useAssistantStore = defineStore({
   id: 'assistant',
   state: () => ({
+    // 自定义助手
     assistantList: [
       {
         ...copyObj(defaultAssistant),
@@ -17,16 +18,36 @@ export const useAssistantStore = defineStore({
         chatMessageList: new Array<ChatMessage>()
       }
     ] as Assistant[],
-    currentAssistantId: null as null | string
+    currentAssistantId: null as null | string,
+    // 虚拟助手，用于通用对话，每次会话是一个单独的虚拟助手
+    virtualAssistantList: [
+      {
+        ...copyObj(defaultAssistant),
+        name: '',
+        id: randomUUID(),
+        createTime: nowTimestamp(),
+        lastUpdateTime: nowTimestamp(),
+        chatMessageList: new Array<ChatMessage>()
+      }
+    ] as Assistant[],
+    currentVirtualAssistantId: null as null | string
   }),
   getters: {
     getCurrentAssistant(): Assistant {
       return this.assistantList.find((a) => a.id === this.currentAssistantId) ?? ({} as Assistant)
     },
+    getCurrentVirtualAssistant(): Assistant {
+      return (
+        this.virtualAssistantList.find((a) => a.id === this.currentVirtualAssistantId) ??
+        ({} as Assistant)
+      )
+    },
     getStoreJson(): string {
       return JSON.stringify({
         assistantList: this.assistantList,
-        currentAssistantId: this.currentAssistantId
+        currentAssistantId: this.currentAssistantId,
+        virtualAssistantList: this.virtualAssistantList,
+        currentVirtualAssistantId: this.currentVirtualAssistantId
       })
     }
   },
@@ -43,6 +64,14 @@ export const useAssistantStore = defineStore({
       }
       if (assistantBackup.currentAssistantId !== undefined) {
         this.currentAssistantId = assistantBackup.currentAssistantId
+        importFlag = true
+      }
+      if (assistantBackup.virtualAssistantList !== undefined) {
+        this.virtualAssistantList = assistantBackup.virtualAssistantList
+        importFlag = true
+      }
+      if (assistantBackup.currentVirtualAssistantId !== undefined) {
+        this.currentVirtualAssistantId = assistantBackup.currentVirtualAssistantId
         importFlag = true
       }
       return importFlag

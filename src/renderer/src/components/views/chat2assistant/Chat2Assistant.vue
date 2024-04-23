@@ -11,6 +11,15 @@ const assistantStore = useAssistantStore()
 // ref
 const chatAssistantRightRef = ref()
 
+// 组件传参
+defineProps({
+  // 是否是虚拟助手模式
+  isVirtual: {
+    type: Boolean,
+    default: () => false
+  }
+})
+
 // 数据绑定
 const data = reactive({
   // 是否收起左边栏
@@ -24,7 +33,7 @@ const { isLeftClose } = toRefs(data)
     <transition name="chat-assistant-left-transition">
       <div v-if="!isLeftClose" class="chat-assistant-left">
         <!-- 助手列表 -->
-        <AssistantList class="assistant-list" />
+        <AssistantList :is-virtual="isVirtual" class="assistant-list" />
       </div>
     </transition>
     <div ref="chatAssistantRightRef" class="chat-assistant-right">
@@ -49,9 +58,12 @@ const { isLeftClose } = toRefs(data)
 
       <!-- 助手聊天窗口 -->
       <ChatWindow
-        v-if="assistantStore.currentAssistantId"
-        :key="'chat-window-' + assistantStore.currentAssistantId"
+        v-if="
+          isVirtual ? assistantStore.currentVirtualAssistantId : assistantStore.currentAssistantId
+        "
+        :key="`chat-window-${isVirtual ? assistantStore.currentVirtualAssistantId : assistantStore.currentAssistantId}`"
         class="chat-window"
+        :is-virtual="isVirtual"
       />
       <!-- 助手空状态 -->
       <EmptyChatWindow v-else />

@@ -10,6 +10,11 @@ const assistantStore = useAssistantStore()
 const chatPluginStore = useChatPluginStore()
 
 const props = defineProps({
+  // 是否是虚拟助手模式
+  isVirtual: {
+    type: Boolean,
+    default: () => false
+  },
   assistant: {
     type: Object as () => Assistant,
     default: () => ({})
@@ -20,12 +25,23 @@ const assistantItemActive = () => {
   if (systemStore.chatWindowLoading) {
     return
   }
-  assistantStore.currentAssistantId = props.assistant.id
+  if (props.isVirtual) {
+    assistantStore.currentVirtualAssistantId = props.assistant.id
+  } else {
+    assistantStore.currentAssistantId = props.assistant.id
+  }
 
   // 已删除插件过滤
   const pluginIdList = chatPluginStore.chatPluginList.map((p) => p.id)
-  assistantStore.getCurrentAssistant.chatPluginIdList =
-    assistantStore.getCurrentAssistant.chatPluginIdList?.filter((id) => pluginIdList.includes(id))
+  if (props.isVirtual) {
+    assistantStore.getCurrentVirtualAssistant.chatPluginIdList =
+      assistantStore.getCurrentVirtualAssistant.chatPluginIdList?.filter((id) =>
+        pluginIdList.includes(id)
+      )
+  } else {
+    assistantStore.getCurrentAssistant.chatPluginIdList =
+      assistantStore.getCurrentAssistant.chatPluginIdList?.filter((id) => pluginIdList.includes(id))
+  }
 }
 
 // 计算显示的消息时间
@@ -44,7 +60,12 @@ const calcMessageTime = (current?: ChatMessage) => {
 <template>
   <div
     class="assistant-item"
-    :class="{ 'assistant-item-active': assistantStore.currentAssistantId === assistant.id }"
+    :class="{
+      'assistant-item-active':
+        (isVirtual
+          ? assistantStore.currentVirtualAssistantId
+          : assistantStore.currentAssistantId) === assistant.id
+    }"
     @click="assistantItemActive"
   >
     <AssistantAvatar :provider="assistant.provider" :size="35" class="assistant-item-avatar" />

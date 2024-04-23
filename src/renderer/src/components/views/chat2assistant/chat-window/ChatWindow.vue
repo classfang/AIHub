@@ -50,6 +50,15 @@ let abortCtr = new AbortController()
 const audioContext = new AudioContext()
 let audioBufferSource = audioContext.createBufferSource()
 
+// 组件传参
+const props = defineProps({
+  // 是否是虚拟助手模式
+  isVirtual: {
+    type: Boolean,
+    default: () => false
+  }
+})
+
 // 数据绑定
 const data = reactive({
   // 聊天窗口加载完毕
@@ -57,7 +66,9 @@ const data = reactive({
   // 用于判断是否切换聊天窗口
   currentSessionId: randomUUID(),
   // 当前的助手
-  currentAssistant: assistantStore.getCurrentAssistant,
+  currentAssistant: props.isVirtual
+    ? assistantStore.getCurrentVirtualAssistant
+    : assistantStore.getCurrentAssistant,
   // 输入的问题
   question: '',
   // 上传图片选择
@@ -657,7 +668,11 @@ onBeforeUnmount(() => {
 <template>
   <div class="chat-window">
     <!-- 头部 -->
-    <ChatWindowHeader ref="chatWindowHeaderRef" :current-assistant="currentAssistant" />
+    <ChatWindowHeader
+      ref="chatWindowHeaderRef"
+      :is-virtual="isVirtual"
+      :current-assistant="currentAssistant"
+    />
 
     <!-- 消息列表 -->
     <a-scrollbar
@@ -789,7 +804,7 @@ onBeforeUnmount(() => {
       <div class="chat-input-tools">
         <!-- 打开设置 -->
         <a-tooltip
-          :content="$t('chatWindow.header.edit')"
+          :content="isVirtual ? $t('chatWindow.header.editChat') : $t('chatWindow.header.edit')"
           position="top"
           mini
           :content-style="{ fontSize: '12px' }"
@@ -990,6 +1005,7 @@ onBeforeUnmount(() => {
                 v-if="multipleChoiceFlag"
                 :current-assistant="currentAssistant"
                 :multiple-choice-list="multipleChoiceList"
+                :is-virtual="isVirtual"
                 @close="multipleChoiceClose()"
               />
             </transition>

@@ -47,6 +47,10 @@ const data = reactive({
       icon: 'IconMessage'
     },
     {
+      name: 'chat-assistant',
+      icon: 'IconRobot'
+    },
+    {
       name: 'chat-plugin',
       icon: 'IconExperiment'
     },
@@ -199,6 +203,9 @@ onMounted(() => {
 
       <!-- 多页面 -->
       <div v-show="systemStore.isThisPage('chat')" class="app-body">
+        <Chat2Assistant :is-virtual="true" />
+      </div>
+      <div v-show="systemStore.isThisPage('chat-assistant')" class="app-body">
         <Chat2Assistant />
       </div>
       <div v-show="systemStore.isThisPage('chat-plugin')" class="app-body">
@@ -254,7 +261,7 @@ onMounted(() => {
     }
 
     .app-sidebar-item {
-      padding: 15px 0;
+      padding: 13px 0;
       width: 100%;
       display: flex;
       align-items: center;
@@ -289,7 +296,7 @@ onMounted(() => {
         width: 10px;
         background-color: rgb(var(--primary-5));
         position: absolute;
-        top: 15px;
+        top: 13px;
         left: -5px;
         border-radius: 0 5px 5px 0;
       }
