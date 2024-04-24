@@ -85,7 +85,7 @@ watch(
           ' ' +
           (isVirtual ? $t('assistantList.title') : $t('assistantList.name'))
         "
-        :max-length="20"
+        :max-length="30"
       />
     </a-form-item>
     <!-- 对话助手参数 -->

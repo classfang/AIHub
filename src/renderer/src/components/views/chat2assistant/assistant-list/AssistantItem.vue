@@ -4,10 +4,14 @@ import { useAssistantStore } from '@renderer/store/assistant'
 import { useChatPluginStore } from '@renderer/store/chat-plugin'
 import { useSystemStore } from '@renderer/store/system'
 import dayjs from 'dayjs'
+import { watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const systemStore = useSystemStore()
 const assistantStore = useAssistantStore()
 const chatPluginStore = useChatPluginStore()
+
+const { t } = useI18n()
 
 const props = defineProps({
   // 是否是虚拟助手模式
@@ -21,6 +25,7 @@ const props = defineProps({
   }
 })
 
+// 点击激活
 const assistantItemActive = () => {
   if (systemStore.chatWindowLoading) {
     return
@@ -55,6 +60,36 @@ const calcMessageTime = (current?: ChatMessage) => {
   }
   return null
 }
+
+// 删除对话
+const deleteChat = () => {
+  if (props.isVirtual) {
+    assistantStore.virtualAssistantList = assistantStore.virtualAssistantList.filter(
+      (a) => a.id != props.assistant.id
+    )
+    if (assistantStore.currentVirtualAssistantId === props.assistant.id) {
+      assistantStore.currentVirtualAssistantId = null
+    }
+  }
+}
+
+// 监听对话记录并设置标题
+watch(
+  () => props.assistant.chatMessageList,
+  () => {
+    // 如果是默认标题，则修改
+    if (
+      props.isVirtual &&
+      props.assistant.name === t('assistantList.newChat') &&
+      props.assistant.chatMessageList.length === 1
+    ) {
+      assistantStore.getCurrentVirtualAssistant.name = props.assistant.chatMessageList[0].content
+    }
+  },
+  {
+    deep: true
+  }
+)
 </script>
 
 <template>
@@ -71,6 +106,17 @@ const calcMessageTime = (current?: ChatMessage) => {
     <div v-if="isVirtual" class="virtual-assistant-item-body">
       <div class="assistant-item-content">
         {{ assistant.name }}
+      </div>
+      <div class="assistant-item-footer">
+        <div class="assistant-item-message-count">
+          {{ assistant.chatMessageList.length }} {{ $t('assistantItem.messageCount') }}
+        </div>
+        <div
+          :key="`assistant-item-time-${assistant.id}-${systemStore.dayKey}`"
+          class="assistant-item-time"
+        >
+          {{ calcMessageTime(assistant.chatMessageList.at(-1)) }}
+        </div>
       </div>
     </div>
     <template v-else>
@@ -97,6 +143,13 @@ const calcMessageTime = (current?: ChatMessage) => {
         </div>
       </div>
     </template>
+
+    <!-- 删除按钮 -->
+    <icon-close-circle
+      v-if="isVirtual"
+      class="assistant-item-delete-btn"
+      @click.stop="deleteChat()"
+    />
   </div>
 </template>
 
@@ -110,6 +163,7 @@ const calcMessageTime = (current?: ChatMessage) => {
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
 
   .assistant-item-avatar {
     flex-shrink: 0;
@@ -119,12 +173,35 @@ const calcMessageTime = (current?: ChatMessage) => {
     min-width: 0;
     flex-grow: 1;
     display: flex;
+    flex-direction: column;
+    gap: 15px;
 
     .assistant-item-content {
       flex-grow: 1;
+      font-size: 15px;
+      font-weight: 500;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .assistant-item-footer {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .assistant-item-message-count {
+        flex-shrink: 0;
+        font-size: 12px;
+        color: var(--color-text-3);
+      }
+
+      .assistant-item-time {
+        flex-shrink: 0;
+        font-size: 12px;
+        color: var(--color-text-3);
+      }
     }
   }
 
@@ -164,6 +241,26 @@ const calcMessageTime = (current?: ChatMessage) => {
       overflow: hidden;
       text-overflow: ellipsis;
       color: var(--color-text-3);
+    }
+  }
+
+  .assistant-item-delete-btn {
+    font-size: 18px;
+    color: var(--color-text-3);
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    opacity: 0;
+    transition: all 100ms linear;
+
+    &:hover {
+      color: var(--color-text-2);
+    }
+  }
+
+  &:hover {
+    .assistant-item-delete-btn {
+      opacity: 1;
     }
   }
 }

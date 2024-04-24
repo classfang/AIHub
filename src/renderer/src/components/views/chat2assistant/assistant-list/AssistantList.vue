@@ -53,13 +53,14 @@ const handleNewModalBeforeOk = async () => {
       data.assistantForm.contextSize = 1
     }
 
+    const now = nowTimestamp()
     if (props.isVirtual) {
       assistantStore.virtualAssistantList.unshift(
         copyObj({
           ...data.assistantForm,
           id: randomUUID(),
-          createTime: nowTimestamp(),
-          lastUpdateTime: nowTimestamp(),
+          createTime: now,
+          lastUpdateTime: now,
           chatMessageList: []
         })
       )
@@ -68,8 +69,8 @@ const handleNewModalBeforeOk = async () => {
         copyObj({
           ...data.assistantForm,
           id: randomUUID(),
-          createTime: nowTimestamp(),
-          lastUpdateTime: nowTimestamp(),
+          createTime: now,
+          lastUpdateTime: now,
           chatMessageList: []
         })
       )

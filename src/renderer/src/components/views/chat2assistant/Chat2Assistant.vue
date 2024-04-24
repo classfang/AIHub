@@ -59,7 +59,9 @@ const { isLeftClose } = toRefs(data)
       <!-- 助手聊天窗口 -->
       <ChatWindow
         v-if="
-          isVirtual ? assistantStore.currentVirtualAssistantId : assistantStore.currentAssistantId
+          isVirtual
+            ? assistantStore.getCurrentVirtualAssistant.id
+            : assistantStore.getCurrentAssistant.id
         "
         :key="`chat-window-${isVirtual ? assistantStore.currentVirtualAssistantId : assistantStore.currentAssistantId}`"
         class="chat-window"
@@ -82,10 +84,12 @@ const { isLeftClose } = toRefs(data)
   .chat-assistant-left-transition-leave-active {
     transition: width 300ms;
   }
+
   .chat-assistant-left-transition-enter-from,
   .chat-assistant-left-transition-leave-to {
     width: 0;
   }
+
   .chat-assistant-left-transition-enter-to,
   .chat-assistant-left-transition-leave-from {
     width: 270px;

@@ -204,7 +204,8 @@
     "content": {
       "image": "[Image]",
       "empty": "[No chat]"
-    }
+    },
+    "messageCount": "messages"
   },
   "chatWindow": {
     "header": {

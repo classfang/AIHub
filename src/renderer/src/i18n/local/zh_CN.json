@@ -204,7 +204,8 @@
     "content": {
       "image": "[图片]",
       "empty": "[暂无对话]"
-    }
+    },
+    "messageCount": "条对话"
   },
   "chatWindow": {
     "header": {
