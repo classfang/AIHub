@@ -1,8 +1,11 @@
+import i18n from '@renderer/i18n'
 import { defaultAssistant } from '@renderer/utils/big-model/base-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { copyObj } from '@renderer/utils/object-util'
 import { defineStore } from 'pinia'
+
+const { t } = i18n.global
 
 export const useAssistantStore = defineStore({
   id: 'assistant',
@@ -23,7 +26,7 @@ export const useAssistantStore = defineStore({
     virtualAssistantList: [
       {
         ...copyObj(defaultAssistant),
-        name: '',
+        name: t('assistantList.newChat'),
         id: randomUUID(),
         createTime: nowTimestamp(),
         lastUpdateTime: nowTimestamp(),
