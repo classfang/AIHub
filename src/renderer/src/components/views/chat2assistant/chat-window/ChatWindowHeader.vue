@@ -43,12 +43,12 @@ const edit = () => {
 
 const handleEditModalBeforeOk = async () => {
   await new Promise<void>((resolve, reject) => {
-    if (!props.isVirtual && !data.assistantForm.name) {
+    if (data.assistantForm.name.trim().length === 0) {
       Message.error(`${t('assistantList.name')} ${t('common.required')}`)
       reject()
       return
     }
-    if (!data.assistantForm.model) {
+    if (data.assistantForm.model.trim().length === 0) {
       Message.error(`${t('assistantList.model')} ${t('common.required')}`)
       reject()
       return
@@ -152,13 +152,11 @@ defineExpose({
 <template>
   <div class="chat-window-header drag-area">
     <div class="assistant-name">
-      {{
-        isVirtual ? $t(`bigModelProvider.${currentAssistant?.provider}`) : currentAssistant?.name
-      }}
+      {{ currentAssistant?.name }}
     </div>
     <div class="assistant-desc">
       <a-space :size="10">
-        <a-tag v-if="!isVirtual">{{ $t(`bigModelProvider.${currentAssistant?.provider}`) }}</a-tag>
+        <a-tag>{{ $t(`bigModelProvider.${currentAssistant?.provider}`) }}</a-tag>
         <a-tag>{{ currentAssistant?.model }}</a-tag>
       </a-space>
     </div>
@@ -244,11 +242,16 @@ defineExpose({
   padding: 15px;
 
   .assistant-name {
+    flex-grow: 1;
     font-size: 16px;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .assistant-desc {
+    flex-shrink: 0;
     margin-left: auto;
   }
 }

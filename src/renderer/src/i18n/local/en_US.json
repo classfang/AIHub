@@ -175,6 +175,7 @@
   },
   "assistantList": {
     "new": "New assistant",
+    "newChat": "New chat",
     "name": "Name",
     "instruction": "Instruction",
     "provider": "Provider",

@@ -32,12 +32,12 @@ const { newModalVisible, assistantForm, keyword } = toRefs(data)
 
 const handleNewModalBeforeOk = async () => {
   await new Promise<void>((resolve, reject) => {
-    if (data.assistantForm.name.length === 0) {
+    if (data.assistantForm.name.trim().length === 0) {
       Message.error(`${t('assistantList.name')} ${t('common.required')}`)
       reject()
       return
     }
-    if (data.assistantForm.model.length === 0) {
+    if (data.assistantForm.model.trim().length === 0) {
       Message.error(`${t('assistantList.model')} ${t('common.required')}`)
       reject()
       return
@@ -92,7 +92,7 @@ const newVirtualAssistant = () => {
         ? assistantStore.getCurrentVirtualAssistant
         : defaultAssistant
     ),
-    name: '',
+    name: t('assistantList.newChat'),
     id: id,
     createTime: nowTimestamp(),
     lastUpdateTime: nowTimestamp(),

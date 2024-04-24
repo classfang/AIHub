@@ -489,11 +489,16 @@ const newNote = () => {
       }
 
       .assistant-name {
+        flex-grow: 1;
         font-size: 16px;
         font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .assistant-desc {
+        flex-shrink: 0;
         margin-left: auto;
       }
     }

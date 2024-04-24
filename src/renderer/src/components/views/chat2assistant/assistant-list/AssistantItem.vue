@@ -68,28 +68,35 @@ const calcMessageTime = (current?: ChatMessage) => {
     }"
     @click="assistantItemActive"
   >
-    <AssistantAvatar :provider="assistant.provider" :size="35" class="assistant-item-avatar" />
-    <div class="assistant-item-body">
-      <div class="assistant-item-header">
-        <div class="assistant-item-name">{{ assistant.name }}</div>
-        <div
-          :key="`assistant-item-time-${assistant.id}-${systemStore.dayKey}`"
-          class="assistant-item-time"
-        >
-          {{ calcMessageTime(assistant.chatMessageList.at(-1)) }}
-        </div>
-      </div>
+    <div v-if="isVirtual" class="virtual-assistant-item-body">
       <div class="assistant-item-content">
-        {{
-          assistant.chatMessageList.at(-1)
-            ? assistant.chatMessageList.at(-1)?.content ||
-              (assistant.chatMessageList.at(-1)?.image
-                ? $t('assistantItem.content.image')
-                : $t('assistantItem.content.empty'))
-            : $t('assistantItem.content.empty')
-        }}
+        {{ assistant.name }}
       </div>
     </div>
+    <template v-else>
+      <AssistantAvatar :provider="assistant.provider" :size="35" class="assistant-item-avatar" />
+      <div class="assistant-item-body">
+        <div class="assistant-item-header">
+          <div class="assistant-item-name">{{ assistant.name }}</div>
+          <div
+            :key="`assistant-item-time-${assistant.id}-${systemStore.dayKey}`"
+            class="assistant-item-time"
+          >
+            {{ calcMessageTime(assistant.chatMessageList.at(-1)) }}
+          </div>
+        </div>
+        <div class="assistant-item-content">
+          {{
+            assistant.chatMessageList.at(-1)
+              ? assistant.chatMessageList.at(-1)?.content ||
+                (assistant.chatMessageList.at(-1)?.image
+                  ? $t('assistantItem.content.image')
+                  : $t('assistantItem.content.empty'))
+              : $t('assistantItem.content.empty')
+          }}
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -106,6 +113,19 @@ const calcMessageTime = (current?: ChatMessage) => {
 
   .assistant-item-avatar {
     flex-shrink: 0;
+  }
+
+  .virtual-assistant-item-body {
+    min-width: 0;
+    flex-grow: 1;
+    display: flex;
+
+    .assistant-item-content {
+      flex-grow: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .assistant-item-body {
