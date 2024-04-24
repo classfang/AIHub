@@ -177,6 +177,7 @@
     "new": "New assistant",
     "newChat": "New chat",
     "name": "Name",
+    "title": "Title",
     "instruction": "Instruction",
     "provider": "Provider",
     "model": "Model",

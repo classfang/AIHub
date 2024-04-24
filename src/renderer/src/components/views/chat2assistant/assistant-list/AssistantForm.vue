@@ -74,10 +74,17 @@ watch(
     <!--      </a-radio-group>-->
     <!--    </a-form-item>-->
     <!-- 助手名称 -->
-    <a-form-item v-if="!isVirtual" field="name" :label="$t('assistantList.name')">
+    <a-form-item
+      field="name"
+      :label="isVirtual ? $t('assistantList.title') : $t('assistantList.name')"
+    >
       <a-input
         v-model="assistant.name"
-        :placeholder="$t('common.pleaseEnter') + ' ' + $t('assistantList.name')"
+        :placeholder="
+          $t('common.pleaseEnter') +
+          ' ' +
+          (isVirtual ? $t('assistantList.title') : $t('assistantList.name'))
+        "
         :max-length="20"
       />
     </a-form-item>
