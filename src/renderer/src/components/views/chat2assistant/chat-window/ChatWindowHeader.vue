@@ -156,8 +156,10 @@ defineExpose({
     </div>
     <div class="assistant-desc">
       <a-space :size="10">
-        <a-tag>{{ $t(`bigModelProvider.${currentAssistant?.provider}`) }}</a-tag>
-        <a-tag>{{ currentAssistant?.model }}</a-tag>
+        <a-tag class="no-drag-area" @click="edit()">{{
+          $t(`bigModelProvider.${currentAssistant?.provider}`)
+        }}</a-tag>
+        <a-tag class="no-drag-area" @click="edit()">{{ currentAssistant?.model }}</a-tag>
       </a-space>
     </div>
     <a-popover
