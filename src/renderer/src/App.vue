@@ -270,13 +270,13 @@ onMounted(() => {
       .app-sidebar-item-icon {
         font-size: 26px;
         stroke-width: 3;
-        color: var(--color-text-2);
+        color: var(--color-text-1);
         transition: all 100ms linear;
       }
 
-      &:hover {
+      &:active {
         .app-sidebar-item-icon {
-          stroke-width: 4;
+          color: var(--color-text-2);
         }
       }
     }
@@ -286,7 +286,7 @@ onMounted(() => {
 
       .app-sidebar-item-icon {
         stroke-width: 4;
-        color: rgb(var(--primary-6));
+        color: rgb(var(--primary-6)) !important;
       }
 
       &:after {
