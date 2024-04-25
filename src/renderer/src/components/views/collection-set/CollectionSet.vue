@@ -110,7 +110,7 @@ const newNote = () => {
         />
       </div>
       <a-button class="new-note-btn" @click="newNote()">
-        <a-space :size="5">
+        <a-space :size="10">
           <icon-plus-circle :size="18" :stroke-width="3" />
           <span>{{ $t('collectionSet.note.new') }}</span>
         </a-space>
@@ -123,8 +123,8 @@ const newNote = () => {
           <div
             v-for="c in collectionItemListFilter"
             :key="c.id"
-            class="collection"
-            :class="{ 'collection-active': c.id === currentCollectionItemId }"
+            class="collection before-active-border"
+            :class="{ 'active-border': c.id === currentCollectionItemId }"
             @click="currentCollectionItemId = c.id"
           >
             <div class="collection-body">
@@ -395,7 +395,7 @@ const newNote = () => {
 
         .collection {
           box-sizing: border-box;
-          padding: 15px;
+          padding: 13px;
           background-color: var(--color-fill-1);
           border-radius: var(--border-radius-small);
           display: flex;
@@ -450,10 +450,6 @@ const newNote = () => {
               font-size: 13px;
             }
           }
-        }
-
-        .collection-active {
-          background-color: var(--color-fill-3);
         }
       }
     }

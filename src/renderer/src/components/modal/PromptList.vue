@@ -70,12 +70,12 @@ const selectPrompt = (prompt: string) => {
   overflow-y: auto;
 
   .prompt-item {
-    padding: 10px;
-    transition: all 100ms linear;
+    padding: 8px;
     border-radius: var(--border-radius-small);
+    border: 2px solid transparent;
 
     &:hover {
-      background-color: var(--color-fill-2);
+      border: 2px solid var(--color-fill-3);
     }
 
     &:active {

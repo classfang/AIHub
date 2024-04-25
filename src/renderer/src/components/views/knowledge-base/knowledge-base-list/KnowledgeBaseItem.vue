@@ -22,9 +22,9 @@ const itemActive = () => {
 
 <template>
   <div
-    class="knowledge-base-item"
+    class="knowledge-base-item before-active-border"
     :class="{
-      'knowledge-base-item-active': knowledgeBaseStore.currentKnowledgeBaseId === knowledgeBase.id
+      'active-border': knowledgeBaseStore.currentKnowledgeBaseId === knowledgeBase.id
     }"
     @click="itemActive"
   >
@@ -41,7 +41,7 @@ const itemActive = () => {
 .knowledge-base-item {
   width: 100%;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 13px;
   background-color: var(--color-fill-1);
   border-radius: var(--border-radius-small);
   display: flex;
@@ -80,9 +80,5 @@ const itemActive = () => {
       color: var(--color-text-3);
     }
   }
-}
-
-.knowledge-base-item-active {
-  background-color: var(--color-fill-3);
 }
 </style>

@@ -94,9 +94,9 @@ watch(
 
 <template>
   <div
-    class="assistant-item"
+    class="assistant-item before-active-border"
     :class="{
-      'assistant-item-active':
+      'active-border':
         (isVirtual
           ? assistantStore.currentVirtualAssistantId
           : assistantStore.currentAssistantId) === assistant.id
@@ -157,7 +157,7 @@ watch(
 .assistant-item {
   width: 100%;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 13px;
   background-color: var(--color-fill-1);
   border-radius: var(--border-radius-small);
   display: flex;
@@ -263,9 +263,5 @@ watch(
       opacity: 1;
     }
   }
-}
-
-.assistant-item-active {
-  background-color: var(--color-fill-3);
 }
 </style>
