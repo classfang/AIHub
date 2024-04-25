@@ -2,6 +2,7 @@
 import { FileItem, Message, Modal, RequestOption } from '@arco-design/web-vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
+import PromptList from '@renderer/components/modal/PromptList.vue'
 import ChatWindowHeader from '@renderer/components/views/chat2assistant/chat-window/ChatWindowHeader.vue'
 import MultipleChoiceConsole from '@renderer/components/views/chat2assistant/chat-window/MultipleChoiceConsole.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
@@ -88,7 +89,9 @@ const data = reactive({
   },
   // 发音标识
   speechStatus: SpeechStatus.STOP,
-  speechSessionId: randomUUID()
+  speechSessionId: randomUUID(),
+  // 提示词列表modal
+  promptListModalVisible: false
 })
 const {
   isLoad,
@@ -100,7 +103,8 @@ const {
   multipleChoiceList,
   isToBottomBtnShow,
   page,
-  speechStatus
+  speechStatus,
+  promptListModalVisible
 } = toRefs(data)
 
 // 监听消息列表变化
@@ -648,6 +652,11 @@ const handleInputPaste = (event: ClipboardEvent) => {
   }
 }
 
+// 选择快捷指令
+const selectPrompt = (prompt: string) => {
+  data.question = prompt
+}
+
 // 挂载完毕
 onMounted(() => {
   // 对话记录滚动到底部
@@ -850,6 +859,18 @@ onBeforeUnmount(() => {
           </a-button>
         </a-tooltip>
 
+        <!-- 快捷指令 -->
+        <a-tooltip
+          :content="$t('chatWindow.fastPrompt')"
+          position="top"
+          mini
+          :content-style="{ fontSize: '12px' }"
+        >
+          <a-button size="mini" shape="round" @click="promptListModalVisible = true">
+            <icon-bulb :size="15" />
+          </a-button>
+        </a-tooltip>
+
         <!-- 选择图片 -->
         <div v-if="isSupportImageComputed" class="chat-input-select-image">
           <a-upload
@@ -1013,6 +1034,9 @@ onBeforeUnmount(() => {
         </a-space>
       </div>
     </div>
+
+    <!-- 提示词列表modal -->
+    <PromptList v-model:modal-visible="promptListModalVisible" @select-prompt="selectPrompt" />
   </div>
 </template>
 
