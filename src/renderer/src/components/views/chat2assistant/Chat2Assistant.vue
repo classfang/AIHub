@@ -39,7 +39,7 @@ const { isLeftClose } = toRefs(data)
     <div ref="chatAssistantRightRef" class="chat-assistant-right">
       <!-- 隐藏/显示左边栏按钮 -->
       <a-tooltip
-        :content="$t('chatWindow.closeLeft')"
+        :content="isLeftClose ? $t('chatWindow.openLeft') : $t('chatWindow.closeLeft')"
         position="right"
         mini
         :content-style="{ fontSize: '12px' }"
