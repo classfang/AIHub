@@ -136,7 +136,7 @@ watch(
                 </template>
                 {{ $t('assistantList.imageSupported') }}
               </a-tag>
-              <a-tag v-else color="red" bordered>
+              <a-tag v-else color="gray" bordered>
                 <template #icon>
                   <icon-close />
                 </template>
@@ -152,7 +152,7 @@ watch(
                 </template>
                 {{ $t('assistantList.pluginSupported') }}
               </a-tag>
-              <a-tag v-else color="red" bordered>
+              <a-tag v-else color="gray" bordered>
                 <template #icon>
                   <icon-close />
                 </template>
@@ -168,7 +168,7 @@ watch(
                 </template>
                 {{ $t('assistantList.networkSupported') }}
               </a-tag>
-              <a-tag v-else color="red" bordered>
+              <a-tag v-else color="gray" bordered>
                 <template #icon>
                   <icon-close />
                 </template>

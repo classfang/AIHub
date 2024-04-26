@@ -4,6 +4,7 @@ import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import PromptList from '@renderer/components/modal/PromptList.vue'
 import ChatWindowHeader from '@renderer/components/views/chat2assistant/chat-window/ChatWindowHeader.vue'
+import ChatWindowWelcome from '@renderer/components/views/chat2assistant/chat-window/ChatWindowWelcome.vue'
 import MultipleChoiceConsole from '@renderer/components/views/chat2assistant/chat-window/MultipleChoiceConsole.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { useChatPluginStore } from '@renderer/store/chat-plugin'
@@ -691,6 +692,7 @@ onBeforeUnmount(() => {
       @scroll="onChatMessageListScroll"
     >
       <div class="chat-message-list fade-in-from" :class="{ 'fade-in-to': isLoad }">
+        <!-- 加载更多 -->
         <a-button
           v-if="currentAssistant.chatMessageList.length - page.number * page.size > 0"
           style="background-color: transparent"
@@ -699,6 +701,14 @@ onBeforeUnmount(() => {
           @click="chatMessageLoadMore(chatMessageListPageData[0].id)"
           >{{ $t('common.loadMore') }}
         </a-button>
+
+        <!-- 对话欢迎窗口 -->
+        <ChatWindowWelcome
+          v-if="isVirtual && currentAssistant.chatMessageList.length === 0"
+          :assistant="currentAssistant"
+        />
+
+        <!-- 消息体 -->
         <template v-for="(msg, index) in chatMessageListPageData" :key="msg.id">
           <div
             v-if="calcMessageTime(msg, index === 0)"
