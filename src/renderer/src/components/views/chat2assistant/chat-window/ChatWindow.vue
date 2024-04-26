@@ -698,7 +698,7 @@ onBeforeUnmount(() => {
       />
 
       <!-- 消息列表-->
-      <div class="chat-message-list fade-in-from" :class="{ 'fade-in-to': isLoad }">
+      <div v-else class="chat-message-list fade-in-from" :class="{ 'fade-in-to': isLoad }">
         <!-- 加载更多 -->
         <a-button
           v-if="currentAssistant.chatMessageList.length - page.number * page.size > 0"
