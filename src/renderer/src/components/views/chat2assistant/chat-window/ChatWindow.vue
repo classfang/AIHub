@@ -861,6 +861,7 @@ onBeforeUnmount(() => {
 
         <!-- 快捷指令 -->
         <a-tooltip
+          v-if="isVirtual"
           :content="$t('chatWindow.fastPrompt')"
           position="top"
           mini

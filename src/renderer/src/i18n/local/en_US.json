@@ -178,7 +178,7 @@
     "newChat": "New chat",
     "name": "Name",
     "title": "Title",
-    "instruction": "Instruction",
+    "instruction": "System instruction",
     "provider": "Provider",
     "model": "Model",
     "imageSupported": "Image supported",
