@@ -684,13 +684,20 @@ onBeforeUnmount(() => {
       :current-assistant="currentAssistant"
     />
 
-    <!-- 消息列表 -->
+    <!-- 消息列表滚动 -->
     <a-scrollbar
       ref="chatMessageListScrollbarRef"
       outer-class="chat-message-list-container arco-scrollbar-small"
       style="height: calc(100vh - 160px - 55px); overflow-y: auto"
       @scroll="onChatMessageListScroll"
     >
+      <!-- 对话欢迎窗口 -->
+      <ChatWindowWelcome
+        v-if="isVirtual && currentAssistant.chatMessageList.length === 0"
+        :assistant="currentAssistant"
+      />
+
+      <!-- 消息列表-->
       <div class="chat-message-list fade-in-from" :class="{ 'fade-in-to': isLoad }">
         <!-- 加载更多 -->
         <a-button
@@ -701,12 +708,6 @@ onBeforeUnmount(() => {
           @click="chatMessageLoadMore(chatMessageListPageData[0].id)"
           >{{ $t('common.loadMore') }}
         </a-button>
-
-        <!-- 对话欢迎窗口 -->
-        <ChatWindowWelcome
-          v-if="isVirtual && currentAssistant.chatMessageList.length === 0"
-          :assistant="currentAssistant"
-        />
 
         <!-- 消息体 -->
         <template v-for="(msg, index) in chatMessageListPageData" :key="msg.id">

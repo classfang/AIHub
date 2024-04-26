@@ -169,6 +169,16 @@
     "Tiangong": "Tiangong",
     "MoonshotAI": "Moonshot AI"
   },
+  "bigModelProviderWelcome": {
+    "OpenAI": "I_ am_ the_ OpenAI_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "Ollama": "I_ am_ the_ Ollama_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "Gemini": "I_ am_ the_ Gemini_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "Spark": "I_ am_ the_ Xunfei_ Spark_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "ERNIE": "I_ am_ the_ Baidu_ Wenxin_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "Tongyi": "I_ am_ the_ Alibaba_ Tongyi_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "Tiangong": "I_ am_ the_ Tiangong_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "MoonshotAI": "I_ am_ the_ Moonshot AI_ large_ model._ How_ can_ I_ help_ you_ today?"
+  },
   "translationProvider": {
     "youdao": "Youdao Translation",
     "baiduTranslation": "Baidu Translation"

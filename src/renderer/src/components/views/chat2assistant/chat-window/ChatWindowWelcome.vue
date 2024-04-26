@@ -1,90 +1,95 @@
 <script setup lang="ts">
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
-import {
-  isSupportImage,
-  isSupportNetwork,
-  isSupportPlugin
-} from '@renderer/utils/big-model/base-util'
+import { useSettingStore } from '@renderer/store/setting'
+import { nextTick, onMounted, reactive, toRefs, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-defineProps({
+const settingStore = useSettingStore()
+
+const { t } = useI18n()
+
+const props = defineProps({
   assistant: {
     type: Object as () => Assistant,
     default: () => ({})
   }
 })
+
+const data = reactive({
+  welcomeText: ''
+})
+const { welcomeText } = toRefs(data)
+
+// 语言设置监听
+watch(
+  () => settingStore.app.locale,
+  () => {
+    showWelcomeText()
+  }
+)
+
+const showWelcomeText = () => {
+  nextTick(() => {
+    data.welcomeText = ''
+    const welcomeTextArray = t(`bigModelProviderWelcome.${props.assistant.provider}`).split('_')
+    const welcomeTextInterval = setInterval(() => {
+      const item = welcomeTextArray.shift()
+      if (!item) {
+        clearInterval(welcomeTextInterval)
+        return
+      }
+      data.welcomeText += item
+    }, 100)
+  })
+}
+
+onMounted(() => {
+  showWelcomeText()
+})
 </script>
 
 <template>
   <div class="chat-window-welcome">
-    <a-space :size="10">
-      <AssistantAvatar :provider="assistant.provider" :size="30" />
-      <div class="provider-name">{{ assistant.provider }}</div>
-    </a-space>
-    <div class="model-name">{{ assistant.model }}</div>
-    <a-space :size="10">
-      <a-tag v-if="isSupportImage(assistant.provider, assistant.model)" color="green">
-        <template #icon>
-          <icon-check />
-        </template>
-        {{ $t('assistantList.imageSupported') }}
-      </a-tag>
-      <a-tag v-else color="gray">
-        <template #icon>
-          <icon-close />
-        </template>
-        {{ $t('assistantList.imageNotSupported') }}
-      </a-tag>
-      <a-tag v-if="isSupportPlugin(assistant.provider, assistant.model)" color="green">
-        <template #icon>
-          <icon-check />
-        </template>
-        {{ $t('assistantList.pluginSupported') }}
-      </a-tag>
-      <a-tag v-else color="gray">
-        <template #icon>
-          <icon-close />
-        </template>
-        {{ $t('assistantList.pluginNotSupported') }}
-      </a-tag>
-      <a-tag v-if="isSupportNetwork(assistant.provider, assistant.model)" color="green">
-        <template #icon>
-          <icon-check />
-        </template>
-        {{ $t('assistantList.networkSupported') }}
-      </a-tag>
-      <a-tag v-else color="gray">
-        <template #icon>
-          <icon-close />
-        </template>
-        {{ $t('assistantList.networkNotSupported') }}
-      </a-tag>
-    </a-space>
+    <AssistantAvatar :provider="assistant.provider" :size="40" />
+    <div class="welcome-text">
+      <span>{{ welcomeText }}</span>
+      <span class="welcome-text-loading">丨</span>
+    </div>
   </div>
 </template>
 
 <style scoped lang="less">
 .chat-window-welcome {
-  box-sizing: border-box;
-  padding: 15px;
-  background-color: var(--color-fill-1);
+  height: 100%;
   border-radius: var(--border-radius-small);
   display: flex;
   flex-direction: column;
-  gap: 15px;
   align-items: center;
+  justify-content: center;
+  gap: 20px;
 
-  .provider-name {
-    font-size: 24px;
+  .welcome-text {
+    font-size: 16px;
     font-weight: 500;
     color: var(--color-text-1);
-    line-height: 30px;
-  }
 
-  .model-name {
-    font-size: 14px;
-    color: var(--color-text-2);
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--color-text-3);
+    :deep(.welcome-text-loading) {
+      font-weight: 500;
+      color: rgb(var(--primary-6));
+      animation: alternate-hide-show 900ms ease-in-out infinite;
+    }
+
+    @keyframes alternate-hide-show {
+      0%,
+      50%,
+      100% {
+        opacity: 1;
+      }
+      60%,
+      90% {
+        opacity: 0;
+      }
+    }
   }
 }
 </style>

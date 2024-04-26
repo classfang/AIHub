@@ -130,9 +130,9 @@ onMounted(() => {
     <a-scrollbar
       v-if="
         isVirtual
-          ? !keyword ||
-            assistantStore.virtualAssistantList.filter(
-              (a) => a.chatMessageList.findIndex((m) => m.content.includes(keyword)) > -1
+          ? assistantStore.virtualAssistantList.filter(
+              (a) =>
+                !keyword || a.chatMessageList.findIndex((m) => m.content.includes(keyword)) > -1
             ).length > 0
           : assistantStore.assistantList.filter((a) => a.name.includes(keyword)).length > 0
       "
