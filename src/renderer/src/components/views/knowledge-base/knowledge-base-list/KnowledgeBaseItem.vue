@@ -22,7 +22,7 @@ const itemActive = () => {
 
 <template>
   <div
-    class="knowledge-base-item"
+    class="knowledge-base-item item-click"
     :class="{
       'item-active': knowledgeBaseStore.currentKnowledgeBaseId === knowledgeBase.id
     }"

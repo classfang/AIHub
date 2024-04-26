@@ -123,7 +123,7 @@ const newNote = () => {
           <div
             v-for="c in collectionItemListFilter"
             :key="c.id"
-            class="collection"
+            class="collection item-click"
             :class="{ 'item-active': c.id === currentCollectionItemId }"
             @click="currentCollectionItemId = c.id"
           >

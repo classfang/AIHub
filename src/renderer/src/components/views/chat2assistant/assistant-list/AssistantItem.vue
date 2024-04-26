@@ -94,7 +94,7 @@ watch(
 
 <template>
   <div
-    class="assistant-item"
+    class="assistant-item item-click"
     :class="{
       'item-active':
         (isVirtual

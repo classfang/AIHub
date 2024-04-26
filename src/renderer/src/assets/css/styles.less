@@ -135,6 +135,13 @@ img {
 }
 
 // 子项选中样式
+.item-click {
+  transition: background-color 100ms linear;
+
+  &:active {
+    background-color: var(--color-fill-2);
+  }
+}
 .item-active {
   background-color: var(--color-fill-3) !important;
 }

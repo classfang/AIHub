@@ -17,7 +17,7 @@ const itemActive = () => {
 
 <template>
   <div
-    class="chat-plugin-item"
+    class="chat-plugin-item item-click"
     :class="{
       'item-active': chatPluginStore.currentChatPluginId === chatPlugin.id
     }"
