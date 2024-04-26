@@ -123,8 +123,8 @@ const newNote = () => {
           <div
             v-for="c in collectionItemListFilter"
             :key="c.id"
-            class="collection before-active-border"
-            :class="{ 'active-border': c.id === currentCollectionItemId }"
+            class="collection"
+            :class="{ 'item-active': c.id === currentCollectionItemId }"
             @click="currentCollectionItemId = c.id"
           >
             <div class="collection-body">
@@ -395,7 +395,7 @@ const newNote = () => {
 
         .collection {
           box-sizing: border-box;
-          padding: 13px;
+          padding: 15px;
           background-color: var(--color-fill-1);
           border-radius: var(--border-radius-small);
           display: flex;
