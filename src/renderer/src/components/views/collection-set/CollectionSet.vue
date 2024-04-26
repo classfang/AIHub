@@ -306,7 +306,7 @@ const newNote = () => {
                 </a-image-preview-action>
               </template>
             </a-image>
-            <div class="collection-set-image-detail-prompt">
+            <div class="collection-set-image-detail-prompt select-text">
               {{ currentCollectionItem.image?.prompt }}
             </div>
           </div>
