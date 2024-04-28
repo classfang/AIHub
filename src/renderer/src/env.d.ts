@@ -76,12 +76,20 @@ interface BaseMessage {
   name?: string
   content: string
   image?: string
+  fileList?: MessageFile[]
 }
 
 interface ChatMessage extends BaseMessage {
   id: string
   type: ChatMsgType
   createTime: number
+}
+
+interface MessageFile {
+  id: string
+  name: string
+  path: string
+  size: number
 }
 
 interface CollectionItem {

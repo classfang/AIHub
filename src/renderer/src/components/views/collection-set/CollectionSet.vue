@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Modal } from '@arco-design/web-vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
+import FileAvatar from '@renderer/components/avatar/FileAvatar.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import NoteEditor from '@renderer/components/views/collection-set/NoteEditor.vue'
 import { useCollectionSetStore } from '@renderer/store/collection-set'
@@ -8,6 +9,7 @@ import { formatDateTime } from '@renderer/utils/date-util'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile } from '@renderer/utils/download-util'
 import { exportTextFile } from '@renderer/utils/download-util'
+import { formatFileSize } from '@renderer/utils/file-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { renderMarkdown } from '@renderer/utils/markdown-util'
 import { computed, reactive, toRefs } from 'vue'
@@ -278,6 +280,21 @@ const newNote = () => {
                       /></a-image-preview-action>
                     </template>
                   </a-image>
+                  <div class="chat-message-file-list">
+                    <div v-for="f in msg.fileList" :key="f.id" class="chat-message-file">
+                      <FileAvatar
+                        class="chat-message-file-avatar"
+                        :type="f.name.split('.').at(-1)"
+                        :size="30"
+                      />
+                      <div class="chat-message-file-body">
+                        <div class="chat-message-file-name">{{ f.name }}</div>
+                        <div class="chat-message-file-size">
+                          {{ f.name.split('.').at(-1) }} {{ formatFileSize(f.size) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

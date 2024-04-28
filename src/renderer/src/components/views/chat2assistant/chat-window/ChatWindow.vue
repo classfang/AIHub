@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { FileItem, Message, Modal, RequestOption } from '@arco-design/web-vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
+import FileAvatar from '@renderer/components/avatar/FileAvatar.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import PromptList from '@renderer/components/modal/PromptList.vue'
 import ChatWindowFileList from '@renderer/components/views/chat2assistant/chat-window/ChatWindowFileList.vue'
@@ -21,6 +22,7 @@ import {
 import { SpeechStatus } from '@renderer/utils/constant'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile } from '@renderer/utils/download-util'
+import { formatFileSize } from '@renderer/utils/file-util'
 import { getContentTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { clipboardWriteText, saveFileByBase64, saveFileByPath } from '@renderer/utils/ipc-util'
@@ -271,15 +273,28 @@ const useBigModel = async () => {
   // 处理并清空图片数据
   let questionImage = ''
   if (data.selectImageList[0]) {
+    const imageName = data.selectImageList[0].file?.name
     const imagePath = data.selectImageList[0].file?.path
     // 将图片本地链接保存
     if (isSupportImageComputed.value && imagePath) {
-      questionImage = await saveFileByPath(
-        imagePath,
-        `${randomUUID()}${imagePath.substring(imagePath.lastIndexOf('.'))}`
-      )
+      questionImage = await saveFileByPath(imagePath, `${randomUUID()}${imageName}`)
     }
     data.selectImageList = []
+  }
+
+  // 处理并清空文件列表
+  const questionFileList: MessageFile[] = []
+  if (data.selectFileList.length > 0) {
+    for (const f of data.selectFileList) {
+      const fileSavePath = await saveFileByPath(f.file!.path, `${randomUUID()}${f.file!.name}`)
+      questionFileList.push({
+        id: randomUUID(),
+        name: f.file!.name,
+        path: fileSavePath,
+        size: f.file!.size
+      })
+    }
+    data.selectFileList = []
   }
 
   // 用户消息追加
@@ -289,6 +304,7 @@ const useBigModel = async () => {
     role: 'user',
     content: question,
     image: questionImage,
+    fileList: questionFileList,
     createTime: nowTimestamp()
   })
   scrollToBottom()
@@ -783,6 +799,22 @@ onBeforeUnmount(() => {
                     </a-image-preview-action>
                   </template>
                 </a-image>
+                <!-- 消息内容携带的文件列表 -->
+                <div class="chat-message-file-list">
+                  <div v-for="f in msg.fileList" :key="f.id" class="chat-message-file">
+                    <FileAvatar
+                      class="chat-message-file-avatar"
+                      :type="f.name.split('.').at(-1)"
+                      :size="30"
+                    />
+                    <div class="chat-message-file-body">
+                      <div class="chat-message-file-name">{{ f.name }}</div>
+                      <div class="chat-message-file-size">
+                        {{ f.name.split('.').at(-1) }} {{ formatFileSize(f.size) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- 右键菜单内容 -->
