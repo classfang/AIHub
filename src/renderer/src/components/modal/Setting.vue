@@ -76,7 +76,7 @@ const checkNewVersion = () => {
     })
 }
 
-// 清理缓存（图片）
+// 清理缓存
 const clearCacheHandle = async () => {
   if (data.clearCacheFlag) {
     return
@@ -93,6 +93,18 @@ const clearCacheHandle = async () => {
       if (msg.image) {
         ignoreImages.push(msg.image)
       }
+      console.log(msg.fileList)
+      if (msg.fileList && msg.fileList.length > 0) {
+        ignoreImages.push(...msg.fileList.map((f) => f.path))
+      }
+    })
+  )
+  assistantStore.virtualAssistantList.forEach((asst) =>
+    asst.chatMessageList.forEach((msg) => {
+      if (msg.image) {
+        ignoreImages.push(msg.image)
+      }
+      console.log(msg.fileList)
       if (msg.fileList && msg.fileList.length > 0) {
         ignoreImages.push(...msg.fileList.map((f) => f.path))
       }
