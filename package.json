@@ -32,7 +32,7 @@
     "@langchain/redis": "^0.0.3",
     "electron-store": "^8.2.0",
     "langchain": "^0.1.36",
-    "mammoth": "^1.7.1",
+    "mammoth": "^1.7.2",
     "officeparser": "^4.0.8",
     "pdf-parse": "^1.1.1",
     "redis": "^4.6.13",
