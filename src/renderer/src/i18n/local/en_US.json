@@ -251,9 +251,13 @@
       "Tiangong": "Tiangong call error, please check your configuration",
       "MoonshotAI": "Moonshot AI call error, please check your configuration"
     },
+    "fileList": {
+      "select": "Select document"
+    },
     "stop": "Stop",
     "send": "Send",
     "selectImage": "Image",
+    "selectFile": "Document",
     "selectPlugin": "Plugin",
     "noPlugin": "No plugin",
     "copy": "Copy",

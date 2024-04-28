@@ -3,6 +3,7 @@ import { FileItem, Message, Modal, RequestOption } from '@arco-design/web-vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import PromptList from '@renderer/components/modal/PromptList.vue'
+import ChatWindowFileList from '@renderer/components/views/chat2assistant/chat-window/ChatWindowFileList.vue'
 import ChatWindowHeader from '@renderer/components/views/chat2assistant/chat-window/ChatWindowHeader.vue'
 import ChatWindowWelcome from '@renderer/components/views/chat2assistant/chat-window/ChatWindowWelcome.vue'
 import MultipleChoiceConsole from '@renderer/components/views/chat2assistant/chat-window/MultipleChoiceConsole.vue'
@@ -73,6 +74,8 @@ const data = reactive({
     : assistantStore.getCurrentAssistant,
   // 输入的问题
   question: '',
+  // 上传文件选择
+  selectFileList: [] as FileItem[],
   // 上传图片选择
   selectImageList: [] as FileItem[],
   // 判断大模型是否已经回答
@@ -92,12 +95,15 @@ const data = reactive({
   speechStatus: SpeechStatus.STOP,
   speechSessionId: randomUUID(),
   // 提示词列表modal
-  promptListModalVisible: false
+  promptListModalVisible: false,
+  // 文件上传列表modal
+  fileListModalVisible: false
 })
 const {
   isLoad,
   currentAssistant,
   question,
+  selectFileList,
   selectImageList,
   waitAnswer,
   multipleChoiceFlag,
@@ -105,7 +111,8 @@ const {
   isToBottomBtnShow,
   page,
   speechStatus,
-  promptListModalVisible
+  promptListModalVisible,
+  fileListModalVisible
 } = toRefs(data)
 
 // 监听消息列表变化
@@ -894,12 +901,36 @@ onBeforeUnmount(() => {
             :show-file-list="false"
           >
             <template #upload-button>
-              <a-button size="mini" shape="round">
-                <icon-image :size="15" />
-              </a-button>
+              <a-tooltip
+                :content="$t('chatWindow.selectImage')"
+                position="top"
+                mini
+                :content-style="{ fontSize: '12px' }"
+              >
+                <a-button size="mini" shape="round">
+                  <icon-image :size="15" />
+                </a-button>
+              </a-tooltip>
             </template>
           </a-upload>
         </div>
+
+        <!-- 选择文档 -->
+        <a-tooltip
+          :content="$t('chatWindow.selectFile')"
+          position="top"
+          mini
+          :content-style="{ fontSize: '12px' }"
+        >
+          <a-button
+            size="mini"
+            :type="selectFileList.length > 0 ? 'primary' : undefined"
+            shape="round"
+            @click="fileListModalVisible = true"
+          >
+            <icon-file :size="15" />
+          </a-button>
+        </a-tooltip>
 
         <!-- 选择插件 -->
         <a-popover position="tl" trigger="click">
@@ -1049,6 +1080,12 @@ onBeforeUnmount(() => {
 
     <!-- 提示词列表modal -->
     <PromptList v-model:modal-visible="promptListModalVisible" @select-prompt="selectPrompt" />
+
+    <!-- 文件列表modal -->
+    <ChatWindowFileList
+      v-model:modal-visible="fileListModalVisible"
+      v-model:select-file-list="selectFileList"
+    />
   </div>
 </template>
 

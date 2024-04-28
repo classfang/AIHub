@@ -251,9 +251,13 @@
       "Tiangong": "天工大模型调用错误，请检查你的配置",
       "MoonshotAI": "月之暗面大模型调用错误"
     },
+    "fileList": {
+      "select": "选择文档"
+    },
     "stop": "停止",
     "send": "发送",
     "selectImage": "图片",
+    "selectFile": "文档",
     "selectPlugin": "插件",
     "noPlugin": "暂无插件",
     "copy": "复制",
