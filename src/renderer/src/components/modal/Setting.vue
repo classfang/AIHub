@@ -83,7 +83,7 @@ const clearCacheHandle = async () => {
   }
   data.clearCacheFlag = true
 
-  // 用户头像、所有对话记录图片、AI绘画中的图片、收藏中的图片
+  // 用户头像、所有对话记录图片和文件、AI绘画中的图片、收藏中的图片和文件
   const ignoreImages: string[] = []
   if (userStore.avatar) {
     ignoreImages.push(userStore.avatar)
@@ -92,6 +92,9 @@ const clearCacheHandle = async () => {
     asst.chatMessageList.forEach((msg) => {
       if (msg.image) {
         ignoreImages.push(msg.image)
+      }
+      if (msg.fileList && msg.fileList.length > 0) {
+        ignoreImages.push(...msg.fileList.map((f) => f.path))
       }
     })
   )
@@ -107,6 +110,9 @@ const clearCacheHandle = async () => {
       item.chat?.chatMessageList.forEach((msg) => {
         if (msg.image) {
           ignoreImages.push(msg.image)
+        }
+        if (msg.fileList && msg.fileList.length > 0) {
+          ignoreImages.push(...msg.fileList.map((f) => f.path))
         }
       })
     } else if (item.type === 'image' && item.image?.imageList) {
