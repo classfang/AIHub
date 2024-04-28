@@ -252,6 +252,8 @@
       "MoonshotAI": "月之暗面大模型调用错误"
     },
     "fileList": {
+      "title": "文档列表",
+      "tip": "注意文档总字数不能超过大模型 Token 限制！",
       "select": "选择文档"
     },
     "stop": "停止",

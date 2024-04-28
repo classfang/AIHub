@@ -252,6 +252,8 @@
       "MoonshotAI": "Moonshot AI call error, please check your configuration"
     },
     "fileList": {
+      "title": "Document list",
+      "tip": "Note that the total number of words in the document cannot exceed the large model Token limit!",
       "select": "Select document"
     },
     "stop": "Stop",

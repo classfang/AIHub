@@ -88,8 +88,8 @@ export const getOllamaMessages = async (
   inputMaxTokens: number | undefined,
   contextSize: number
 ) => {
-  // 将消息历史处理为user和assistant轮流对话
-  let messages = turnChat(chatMessageList)
+  // 消息格式转换
+  let messages = await turnChat(chatMessageList)
 
   // 截取指定长度的上下文
   messages = limitContext(inputMaxTokens, contextSize, messages)

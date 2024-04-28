@@ -3,6 +3,7 @@ import chatModels from '@renderer/assets/json/chat-models.json'
 import i18n from '@renderer/i18n'
 import { useNotificationStore } from '@renderer/store/notification'
 import { getChatTokensLength } from '@renderer/utils/gpt-tokenizer-util'
+import { langChainLoadFile } from '@renderer/utils/ipc-util'
 
 // 多语言
 const { t } = i18n.global
@@ -21,13 +22,21 @@ export const defaultAssistant = {
   speechSpeed: 1.0
 }
 
-export const turnChat = (chatMessageList: ChatMessage[]) => {
-  // 将消息历史处理为user和assistant轮流对话
+export const turnChat = async (chatMessageList: ChatMessage[]) => {
+  // 消息格式转换
   const messages: BaseMessage[] = []
   let currentRole = 'user' as 'user' | 'assistant'
   for (let i = chatMessageList.length - 1; i >= 0; i--) {
     const chatMessage = chatMessageList[i]
     if (currentRole === chatMessage.role) {
+      // 将文件内容拼接到用户消息中
+      if (chatMessage.fileList && chatMessage.fileList.length > 0) {
+        const fileContentList: Record<string, string> = {}
+        for (const f of chatMessage.fileList) {
+          fileContentList[f.name] = await langChainLoadFile(f.path)
+        }
+        chatMessage.content = `Files Data:\n${JSON.stringify(fileContentList)}\n${chatMessage.content}`
+      }
       messages.unshift({
         role: chatMessage.role,
         content: chatMessage.content,
