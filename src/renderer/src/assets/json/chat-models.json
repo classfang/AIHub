@@ -12,7 +12,7 @@
       "type": "text",
       "isSupportPlugin": true
     },
-    { "name": "gpt-4-32k", "value": "gpt-4-32k", "type": "text", "isSupportPlugin": true },
+    { "name": "gpt-4-turbo", "value": "gpt-4-turbo", "type": "text", "isSupportPlugin": true },
     { "name": "gpt-4", "value": "gpt-4", "type": "text", "isSupportPlugin": true },
     {
       "name": "gpt-3.5-turbo-16k",
