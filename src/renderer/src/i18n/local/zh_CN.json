@@ -300,7 +300,6 @@
     "name": "文本翻译",
     "queryPlaceholder": "输入要翻译的文本",
     "returnPlaceholder": "翻译结果",
-    "returnDetailPlaceholder": "翻译详情",
     "configMiss": {
       "youdao": "有道翻译未配置",
       "baiduTranslation": "百度翻译未配置"

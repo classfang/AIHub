@@ -41,17 +41,7 @@ export const baiduTranslate = async (option: CommonTranslateOption) => {
       const returnObj: TranslateResult = {
         result: '',
         speakUrl: '',
-        tSpeakUrl: '',
-        explains: '',
-        wfs: '',
-        us: {
-          phonetic: '',
-          speech: ''
-        },
-        uk: {
-          phonetic: '',
-          speech: ''
-        }
+        tSpeakUrl: ''
       }
       returnObj.result = res.data.trans_result[0].dst
       success && success(returnObj)

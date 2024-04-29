@@ -9,16 +9,6 @@ export interface TranslateResult {
   result: string
   speakUrl: string
   tSpeakUrl: string
-  explains: string
-  wfs: string
-  us: {
-    phonetic: string
-    speech: string
-  }
-  uk: {
-    phonetic: string
-    speech: string
-  }
 }
 
 export interface CommonTranslateOption {

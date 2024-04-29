@@ -300,7 +300,6 @@
     "name": "Text translation",
     "queryPlaceholder": "Please enter your text to be translated",
     "returnPlaceholder": "Translation result",
-    "returnDetailPlaceholder": "Translation details",
     "configMiss": {
       "youdao": "Youdao Translation is not configured",
       "baiduTranslation": "Baidu Translation is not configured"

@@ -227,50 +227,6 @@ const copyResult = (): void => {
             </div>
           </div>
         </a-spin>
-        <!-- 翻译详情 -->
-        <div class="result-detail select-text">
-          <div
-            v-if="
-              !translateResult.uk.phonetic &&
-              !translateResult.uk.speech &&
-              !translateResult.us.phonetic &&
-              !translateResult.uk.speech &&
-              !translateResult.explains &&
-              !translateResult.wfs
-            "
-            class="result-detail-placeholder"
-          >
-            {{ $t('translator.returnDetailPlaceholder') }}
-          </div>
-          <div class="phonetic-and-speech">
-            <div>
-              <span v-if="translateResult.uk.phonetic || translateResult.uk.speech"> [UK] </span>
-              {{ translateResult.uk.phonetic }}
-              <template v-if="translateResult.uk.speech">
-                <icon-sound
-                  class="speech-btn"
-                  @click="speechAudioPlay(translateResult.uk.speech)"
-                />
-              </template>
-            </div>
-            <div>
-              <span v-if="translateResult.us.phonetic || translateResult.us.speech"> [US] </span>
-              {{ translateResult.us.phonetic }}
-              <template v-if="translateResult.us.speech">
-                <icon-sound
-                  class="speech-btn"
-                  @click="speechAudioPlay(translateResult.us.speech)"
-                />
-              </template>
-            </div>
-          </div>
-          <div>
-            {{ translateResult.explains }}
-          </div>
-          <div>
-            {{ translateResult.wfs }}
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -454,36 +410,6 @@ const copyResult = (): void => {
           .copy-btn-disabled {
             font-size: 15px;
             color: var(--color-text-4);
-          }
-        }
-      }
-
-      .result-detail {
-        flex: 1;
-        min-height: 0;
-        background-color: var(--color-fill-1);
-        box-sizing: border-box;
-        padding: 10px;
-        cursor: text;
-        white-space: pre-line;
-        line-break: anywhere;
-        line-height: 20px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .result-detail-placeholder {
-          color: var(--color-text-3);
-        }
-
-        .phonetic-and-speech {
-          display: flex;
-          gap: 10px;
-
-          .speech-btn {
-            color: rgb(var(--primary-5));
-            cursor: pointer;
           }
         }
       }
