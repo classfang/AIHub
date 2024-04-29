@@ -100,17 +100,7 @@ const clearResult = (): void => {
   data.translateResult = {
     result: '',
     speakUrl: '',
-    tSpeakUrl: '',
-    explains: '',
-    wfs: '',
-    us: {
-      phonetic: '',
-      speech: ''
-    },
-    uk: {
-      phonetic: '',
-      speech: ''
-    }
+    tSpeakUrl: ''
   }
 }
 
