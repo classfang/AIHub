@@ -78,9 +78,10 @@ const data = reactive({
       name: 'ai-app',
       icon: 'IconApps'
     }
-  ] as { name: PageName; icon: string }[]
+  ] as { name: PageName; icon: string }[],
+  alivePages: ['chat'] as PageName[]
 })
-const { isLoad, sidebarConfig } = toRefs(data)
+const { isLoad, sidebarConfig, alivePages } = toRefs(data)
 
 // 主题设置监听
 let stopDarkThemeListener: any = null
@@ -128,6 +129,9 @@ const arcoDesignLocal = computed(() => {
 const changePage = (page: PageName) => {
   if (systemStore.chatWindowLoading) {
     return
+  }
+  if (!data.alivePages.includes(page)) {
+    data.alivePages.push(page)
   }
   systemStore.currentPage = page
 }
@@ -202,31 +206,67 @@ onMounted(() => {
       </div>
 
       <!-- 多页面 -->
-      <div v-show="systemStore.isThisPage('chat')" class="app-body">
+      <div
+        v-if="alivePages.includes('chat')"
+        v-show="systemStore.isThisPage('chat')"
+        class="app-body"
+      >
         <Chat2Assistant :is-virtual="true" />
       </div>
-      <div v-show="systemStore.isThisPage('chat-assistant')" class="app-body">
+      <div
+        v-if="alivePages.includes('chat-assistant')"
+        v-show="systemStore.isThisPage('chat-assistant')"
+        class="app-body"
+      >
         <Chat2Assistant />
       </div>
-      <div v-show="systemStore.isThisPage('chat-plugin')" class="app-body">
+      <div
+        v-if="alivePages.includes('chat-plugin')"
+        v-show="systemStore.isThisPage('chat-plugin')"
+        class="app-body"
+      >
         <ChatPlugin />
       </div>
-      <div v-show="systemStore.isThisPage('ai-drawing')" class="app-body">
+      <div
+        v-if="alivePages.includes('ai-drawing')"
+        v-show="systemStore.isThisPage('ai-drawing')"
+        class="app-body"
+      >
         <AIDrawing />
       </div>
-      <div v-show="systemStore.isThisPage('knowledge-base')" class="app-body">
+      <div
+        v-if="alivePages.includes('knowledge-base')"
+        v-show="systemStore.isThisPage('knowledge-base')"
+        class="app-body"
+      >
         <KnowledgeBase />
       </div>
-      <div v-show="systemStore.isThisPage('calendar')" class="app-body">
+      <div
+        v-if="alivePages.includes('calendar')"
+        v-show="systemStore.isThisPage('calendar')"
+        class="app-body"
+      >
         <AICalendar />
       </div>
-      <div v-show="systemStore.isThisPage('translator')" class="app-body">
+      <div
+        v-if="alivePages.includes('translator')"
+        v-show="systemStore.isThisPage('translator')"
+        class="app-body"
+      >
         <Translator />
       </div>
-      <div v-show="systemStore.isThisPage('collect')" class="app-body">
+      <div
+        v-if="alivePages.includes('collect')"
+        v-show="systemStore.isThisPage('collect')"
+        class="app-body"
+      >
         <CollectionSet />
       </div>
-      <div v-show="systemStore.isThisPage('ai-app')" class="app-body">
+      <div
+        v-if="alivePages.includes('ai-app')"
+        v-show="systemStore.isThisPage('ai-app')"
+        class="app-body"
+      >
         <AIApp />
       </div>
 
