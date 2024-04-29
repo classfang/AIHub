@@ -4,6 +4,7 @@ import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import FileAvatar from '@renderer/components/avatar/FileAvatar.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import PromptList from '@renderer/components/modal/PromptList.vue'
+import ChatMessageFile from '@renderer/components/views/chat2assistant/chat-window/ChatMessageFile.vue'
 import ChatWindowFileList from '@renderer/components/views/chat2assistant/chat-window/ChatWindowFileList.vue'
 import ChatWindowHeader from '@renderer/components/views/chat2assistant/chat-window/ChatWindowHeader.vue'
 import ChatWindowWelcome from '@renderer/components/views/chat2assistant/chat-window/ChatWindowWelcome.vue'
@@ -801,19 +802,7 @@ onBeforeUnmount(() => {
                 </a-image>
                 <!-- 消息内容携带的文件列表 -->
                 <div class="chat-message-file-list">
-                  <div v-for="f in msg.fileList" :key="f.id" class="chat-message-file">
-                    <FileAvatar
-                      class="chat-message-file-avatar"
-                      :type="f.name.split('.').at(-1)"
-                      :size="30"
-                    />
-                    <div class="chat-message-file-body">
-                      <div class="chat-message-file-name">{{ f.name }}</div>
-                      <div class="chat-message-file-size">
-                        {{ f.name.split('.').at(-1) }} {{ formatFileSize(f.size) }}
-                      </div>
-                    </div>
-                  </div>
+                  <ChatMessageFile v-for="f in msg.fileList" :key="f.id" :message-file="f" />
                 </div>
               </div>
             </div>

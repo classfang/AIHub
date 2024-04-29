@@ -230,3 +230,8 @@ ipcMain.handle('execute-js', (_event, jsCode: string) => {
   const context = vm.createContext(Object.assign({ require: require }, global))
   return vm.runInContext(jsCode, context)
 })
+
+// 显示文件所在目录
+ipcMain.handle('show-item-in-folder', (_event, filePath: string) => {
+  return shell.showItemInFolder(filePath)
+})
