@@ -191,6 +191,7 @@
     "instruction": "系统指令",
     "provider": "提供商",
     "model": "模型",
+    "isCustomModel": "自定义模型默认支持所有能力",
     "imageSupported": "支持图片",
     "imageNotSupported": "不支持图片",
     "pluginSupported": "支持插件",

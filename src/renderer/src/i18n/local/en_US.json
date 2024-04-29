@@ -191,6 +191,7 @@
     "instruction": "System instruction",
     "provider": "Provider",
     "model": "Model",
+    "isCustomModel": "Custom models support all capabilities by default",
     "imageSupported": "Image supported",
     "imageNotSupported": "Image sot supported",
     "pluginSupported": "Plugin supported",

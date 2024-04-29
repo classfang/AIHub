@@ -13,9 +13,9 @@ export const defaultAssistant = {
   type: 'chat',
   instruction: '',
   provider: 'OpenAI',
-  model: 'gpt-4-vision-preview',
-  maxTokens: 1024,
-  inputMaxTokens: 1024,
+  model: 'gpt-4-turbo',
+  maxTokens: 2048,
+  inputMaxTokens: 2048,
   contextSize: 1,
   speechModel: 'tts-1',
   speechVoice: 'alloy',
@@ -80,6 +80,15 @@ export const limitContext = (
   return messages
 }
 
+export const isCustomModel = (providerName: BigModelProvider, modelName: string) => {
+  const models = chatModels[providerName]
+  if (!models) {
+    return true
+  }
+  const model = models.find((m) => m.name === modelName)
+  return !model
+}
+
 export const isSupportImage = (providerName: BigModelProvider, modelName: string) => {
   // Ollama 始终支持图片上传，暂不根据模型进行判断
   if (providerName === 'Ollama') {
@@ -91,7 +100,7 @@ export const isSupportImage = (providerName: BigModelProvider, modelName: string
   }
   const model = models.find((m) => m.name === modelName)
   if (!model) {
-    return false
+    return true
   }
   return model['isSupportImage']
 }
@@ -103,7 +112,7 @@ export const isSupportPlugin = (providerName: BigModelProvider, modelName: strin
   }
   const model = models.find((m) => m.name === modelName)
   if (!model) {
-    return false
+    return true
   }
   return model['isSupportPlugin']
 }
@@ -115,7 +124,7 @@ export const isSupportNetwork = (providerName: string, modelName: string) => {
   }
   const model = models.find((m) => m.name === modelName)
   if (!model) {
-    return false
+    return true
   }
   return model['isSupportNetwork']
 }

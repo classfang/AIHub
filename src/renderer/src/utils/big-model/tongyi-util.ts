@@ -7,17 +7,12 @@ import { Logger } from '@renderer/utils/logger'
 
 // 根据模型获取服务地址
 export const getTongyiChatUrl = (model: string) => {
-  switch (model) {
-    case 'qwen-turbo':
-    case 'qwen-plus':
-    case 'qwen-max':
-    case 'qwen-max-longcontext':
-      return 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation'
-    case 'qwen-vl-plus':
-    case 'qwen-vl-max':
-      return 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation'
-    default:
-      return ''
+  if (model.startsWith('qwen-vl-')) {
+    return 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation'
+  } else if (model.startsWith('qwen-')) {
+    return 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation'
+  } else {
+    return ''
   }
 }
 
@@ -42,6 +37,13 @@ export const chat2tongyi = async (option: CommonChatOption) => {
     end
   } = option
 
+  // 模型服务地址
+  const modelUrl = getTongyiChatUrl(model)
+  if (modelUrl === '') {
+    end && end(sessionId, `Unsupported model: ${model}`)
+    return
+  }
+
   // 等待回答
   let waitAnswer = true
 
@@ -51,7 +53,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
   // 是否有插件
   let pluginAnswer: any = null
   if (chatPlugins && chatPlugins.length > 0) {
-    const chatPluginResponse = await fetch(getTongyiChatUrl(model), {
+    const chatPluginResponse = await fetch(modelUrl, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -128,7 +130,7 @@ export const chat2tongyi = async (option: CommonChatOption) => {
   }
 
   // sse
-  await fetchEventSource(getTongyiChatUrl(model), {
+  await fetchEventSource(modelUrl, {
     openWhenHidden: true, // 保持后台运行
     signal: abortCtr?.signal,
     method: 'POST',

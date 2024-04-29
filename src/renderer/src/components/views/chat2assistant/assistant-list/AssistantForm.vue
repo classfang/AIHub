@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import chatModels from '@renderer/assets/json/chat-models.json'
 import {
+  isCustomModel,
   isSupportImage,
   isSupportNetwork,
   isSupportPlugin
@@ -23,31 +24,10 @@ const assistant = defineModel<Assistant>('assistant', { default: () => ({}) })
 watch(
   () => assistant.value.provider,
   (value) => {
-    switch (value) {
-      case 'OpenAI':
-        assistant.value.model = 'gpt-4-vision-preview'
-        break
-      case 'Ollama':
-        assistant.value.model = ''
-        break
-      case 'Gemini':
-        assistant.value.model = 'gemini-pro-vision'
-        break
-      case 'Spark':
-        assistant.value.model = 'chat-v3.1'
-        break
-      case 'ERNIE':
-        assistant.value.model = 'ERNIE-Bot 4.0'
-        break
-      case 'Tongyi':
-        assistant.value.model = 'qwen-vl-plus'
-        break
-      case 'Tiangong':
-        assistant.value.model = 'SkyChat-MegaVerse'
-        break
-      case 'MoonshotAI':
-        assistant.value.model = 'moonshot-v1-128k'
-        break
+    if (chatModels[value] && chatModels[value][0]) {
+      assistant.value.model = chatModels[value][0].name
+    } else {
+      assistant.value.model = ''
     }
 
     // 发音参数
@@ -117,7 +97,7 @@ watch(
             />
           </template>
           <template v-else>
-            <a-select v-model="assistant.model" allow-search :fallback-option="false">
+            <a-select v-model="assistant.model" allow-create allow-search :fallback-option="false">
               <a-option
                 v-for="m in chatModels[assistant.provider]"
                 :key="m.name"
@@ -125,7 +105,13 @@ watch(
                 >{{ m['name'] }}</a-option
               >
             </a-select>
-            <a-space>
+            <a-tag v-if="isCustomModel(assistant.provider, assistant.model)" color="green" bordered>
+              <template #icon>
+                <icon-check />
+              </template>
+              {{ $t('assistantList.isCustomModel') }}
+            </a-tag>
+            <a-space v-else>
               <a-tag
                 v-if="isSupportImage(assistant.provider, assistant.model)"
                 color="green"

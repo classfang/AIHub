@@ -28,6 +28,14 @@ watch(
   }
 )
 
+// 提供商切换监听
+watch(
+  () => props.assistant.provider,
+  () => {
+    showWelcomeText()
+  }
+)
+
 const showWelcomeText = () => {
   nextTick(() => {
     data.welcomeText = ''

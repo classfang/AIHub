@@ -142,11 +142,18 @@ export const chat2spark = async (option: CommonChatOption) => {
     end
   } = option
 
+  // 模型服务地址
+  const modelUrl = getSparkHostUrl(model)
+  if (modelUrl === '') {
+    end && end(sessionId, `Unsupported model: ${model}`)
+    return
+  }
+
   // 等待回答
   let waitAnswer = true
 
   // websocket 实例
-  const sparkClient = new WebSocket(getAuthUrl(getSparkHostUrl(model), 'GET', apiKey!, secretKey!))
+  const sparkClient = new WebSocket(getAuthUrl(modelUrl, 'GET', apiKey!, secretKey!))
 
   // 连接成功
   sparkClient.onopen = async () => {

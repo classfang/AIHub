@@ -59,7 +59,7 @@
     "codemirror": ">=5.64.0 <6",
     "codemirror-editor-vue3": "^2.5.8",
     "crypto-js": "^4.2.0",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.11",
     "electron": "^30.0.1",
     "electron-builder": "^24.13.3",
     "electron-vite": "^2.2.0",

@@ -1,22 +1,16 @@
 {
   "OpenAI": [
     {
-      "name": "gpt-4-vision-preview",
-      "value": "gpt-4-vision-preview",
+      "name": "gpt-4-turbo",
+      "value": "gpt-4-turbo",
       "type": "vision",
-      "isSupportImage": true
-    },
-    {
-      "name": "gpt-4-1106-preview",
-      "value": "gpt-4-1106-preview",
-      "type": "text",
+      "isSupportImage": true,
       "isSupportPlugin": true
     },
-    { "name": "gpt-4-turbo", "value": "gpt-4-turbo", "type": "text", "isSupportPlugin": true },
     { "name": "gpt-4", "value": "gpt-4", "type": "text", "isSupportPlugin": true },
     {
-      "name": "gpt-3.5-turbo-16k",
-      "value": "gpt-3.5-turbo-16k",
+      "name": "gpt-3.5-turbo-instruct",
+      "value": "gpt-3.5-turbo-instruct",
       "type": "text",
       "isSupportImage": true,
       "isSupportPlugin": true
@@ -80,8 +74,8 @@
   ],
   "Tiangong": [{ "name": "SkyChat-MegaVerse", "value": "SkyChat-MegaVerse", "type": "text" }],
   "MoonshotAI": [
-    { "name": "moonshot-v1-8k", "value": "moonshot-v1-8k", "type": "text" },
+    { "name": "moonshot-v1-128k", "value": "moonshot-v1-128k", "type": "text" },
     { "name": "moonshot-v1-32k", "value": "moonshot-v1-32k", "type": "text" },
-    { "name": "moonshot-v1-128k", "value": "moonshot-v1-128k", "type": "text" }
+    { "name": "moonshot-v1-8k", "value": "moonshot-v1-8k", "type": "text" }
   ]
 }
