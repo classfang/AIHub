@@ -46,6 +46,9 @@ defineProps({
   >
     <img alt="avatar" src="@renderer/assets/images/moonshot.png" />
   </a-avatar>
+  <a-avatar v-else-if="provider === 'ZhipuAI'" shape="square" :size="size" class="assistant-avatar">
+    <img alt="avatar" src="@renderer/assets/images/zhipu.png" />
+  </a-avatar>
 </template>
 
 <style lang="less" scoped>

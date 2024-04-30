@@ -48,6 +48,9 @@ export const useSettingStore = defineStore({
     moonshotAI: {
       apiKey: ''
     },
+    zhipuAI: {
+      apiKey: ''
+    },
     baiduTranslation: {
       appId: '',
       secret: ''
@@ -73,6 +76,7 @@ export const useSettingStore = defineStore({
         tiangong: this.tiangong,
         ollama: this.ollama,
         moonshotAI: this.moonshotAI,
+        zhipuAI: this.zhipuAI,
         youdao: this.youdao,
         baiduTranslation: this.baiduTranslation,
         aiCalendar: this.aiCalendar
@@ -120,6 +124,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.moonshotAI !== undefined) {
         this.moonshotAI = settingBackup.moonshotAI
+        importFlag = true
+      }
+      if (settingBackup.zhipuAI !== undefined) {
+        this.zhipuAI = settingBackup.zhipuAI
         importFlag = true
       }
       if (settingBackup.youdao !== undefined) {

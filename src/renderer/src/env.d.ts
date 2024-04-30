@@ -27,6 +27,7 @@ type BigModelProvider =
   | 'OpenAI'
   | 'Ollama'
   | 'Gemini'
+  | 'ZhipuAI'
   | 'Tongyi'
   | 'ERNIE'
   | 'Spark'

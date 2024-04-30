@@ -27,6 +27,16 @@
     },
     { "name": "gemini-pro", "value": "gemini-pro", "type": "text" }
   ],
+  "ZhipuAI": [
+    {
+      "name": "GLM-4V",
+      "value": "glm-4v",
+      "type": "vision",
+      "isSupportImage": true
+    },
+    { "name": "GLM-4", "value": "glm-4", "type": "text", "isSupportPlugin": true },
+    { "name": "GLM-3-Turbo", "value": "glm-3-turbo", "type": "text", "isSupportPlugin": true }
+  ],
   "Tongyi": [
     { "name": "qwen-vl-max", "value": "qwen-vl-max", "type": "vision", "isSupportImage": true },
     { "name": "qwen-vl-plus", "value": "qwen-vl-plus", "type": "vision", "isSupportImage": true },

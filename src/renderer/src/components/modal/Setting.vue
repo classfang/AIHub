@@ -237,9 +237,11 @@ const importDataBackup = () => {
 watch(
   () => settingStore.aiCalendar.bigModel.provider,
   (value) => {
-    settingStore.aiCalendar.bigModel.model = chatModels[value].filter(
-      (m) => m.type === 'text'
-    )[0].value
+    if (chatModels[value] && chatModels[value][0]) {
+      settingStore.aiCalendar.bigModel.model = chatModels[value][0].name
+    } else {
+      settingStore.aiCalendar.bigModel.model = ''
+    }
   }
 )
 
@@ -464,6 +466,83 @@ onMounted(() => {
                   </a-space>
                 </a-space>
               </a-tab-pane>
+              <!-- 智谱 -->
+              <a-tab-pane key="zhipuAI" :title="$t('setting.bigModel.zhipuAI.name')">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('common.officialWebsite') }}</div>
+                      <a-link @click="openInBrowser('https://open.bigmodel.cn')"
+                        >https://open.bigmodel.cn</a-link
+                      >
+                    </a-space>
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('setting.bigModel.zhipuAI.apiKey') }}</div>
+                      <a-input-password
+                        v-model="settingStore.zhipuAI.apiKey"
+                        size="small"
+                        :placeholder="
+                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.zhipuAI.apiKey')
+                        "
+                      />
+                    </a-space>
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
+              <!-- 通义千问 -->
+              <a-tab-pane key="tongyi" :title="$t('setting.bigModel.tongyi.name')">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('common.officialWebsite') }}</div>
+                      <a-link @click="openInBrowser('https://tongyi.aliyun.com')"
+                        >https://tongyi.aliyun.com</a-link
+                      >
+                    </a-space>
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('setting.bigModel.tongyi.apiKey') }}</div>
+                      <a-input-password
+                        v-model="settingStore.tongyi.apiKey"
+                        size="small"
+                        :placeholder="
+                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.tongyi.apiKey')
+                        "
+                      />
+                    </a-space>
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
+              <!-- 文心一言 -->
+              <a-tab-pane key="ernie" :title="$t('setting.bigModel.ernie.name')">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('common.officialWebsite') }}</div>
+                    <a-link @click="openInBrowser('https://yiyan.baidu.com')"
+                      >https://yiyan.baidu.com</a-link
+                    >
+                  </a-space>
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('setting.bigModel.ernie.apiKey') }}</div>
+                    <a-input-password
+                      v-model="settingStore.ernie.apiKey"
+                      size="small"
+                      :placeholder="
+                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ernie.apiKey')
+                      "
+                    />
+                  </a-space>
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('setting.bigModel.ernie.secretKey') }}</div>
+                    <a-input-password
+                      v-model="settingStore.ernie.secretKey"
+                      size="small"
+                      :placeholder="
+                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ernie.secretKey')
+                      "
+                    />
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
               <!-- 讯飞星火 -->
               <a-tab-pane key="spark" :title="$t('setting.bigModel.spark.name')">
                 <a-space direction="vertical" :size="25" fill class="setting-tab-content">
@@ -502,60 +581,6 @@ onMounted(() => {
                         $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.spark.key')
                       "
                     />
-                  </a-space>
-                </a-space>
-              </a-tab-pane>
-              <!-- 文心一言 -->
-              <a-tab-pane key="ernie" :title="$t('setting.bigModel.ernie.name')">
-                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
-                  <a-space direction="vertical" :size="10" fill>
-                    <div>{{ $t('common.officialWebsite') }}</div>
-                    <a-link @click="openInBrowser('https://yiyan.baidu.com')"
-                      >https://yiyan.baidu.com</a-link
-                    >
-                  </a-space>
-                  <a-space direction="vertical" :size="10" fill>
-                    <div>{{ $t('setting.bigModel.ernie.apiKey') }}</div>
-                    <a-input-password
-                      v-model="settingStore.ernie.apiKey"
-                      size="small"
-                      :placeholder="
-                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ernie.apiKey')
-                      "
-                    />
-                  </a-space>
-                  <a-space direction="vertical" :size="10" fill>
-                    <div>{{ $t('setting.bigModel.ernie.secretKey') }}</div>
-                    <a-input-password
-                      v-model="settingStore.ernie.secretKey"
-                      size="small"
-                      :placeholder="
-                        $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.ernie.secretKey')
-                      "
-                    />
-                  </a-space>
-                </a-space>
-              </a-tab-pane>
-              <!-- 通义千问 -->
-              <a-tab-pane key="tongyi" :title="$t('setting.bigModel.tongyi.name')">
-                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
-                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
-                    <a-space direction="vertical" :size="10" fill>
-                      <div>{{ $t('common.officialWebsite') }}</div>
-                      <a-link @click="openInBrowser('https://tongyi.aliyun.com')"
-                        >https://tongyi.aliyun.com</a-link
-                      >
-                    </a-space>
-                    <a-space direction="vertical" :size="10" fill>
-                      <div>{{ $t('setting.bigModel.tongyi.apiKey') }}</div>
-                      <a-input-password
-                        v-model="settingStore.tongyi.apiKey"
-                        size="small"
-                        :placeholder="
-                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.tongyi.apiKey')
-                        "
-                      />
-                    </a-space>
                   </a-space>
                 </a-space>
               </a-tab-pane>
@@ -646,6 +671,7 @@ onMounted(() => {
                   v-model="settingStore.aiCalendar.bigModel.model"
                   size="small"
                   :fallback-option="false"
+                  allow-create
                 >
                   <template
                     v-for="m in chatModels[settingStore.aiCalendar.bigModel.provider]"

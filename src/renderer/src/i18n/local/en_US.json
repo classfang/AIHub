@@ -93,6 +93,10 @@
         "baseUrl": "Server URL",
         "key": "Gemini Key"
       },
+      "zhipuAI": {
+        "name": "Zhipu AI",
+        "apiKey": "API Key"
+      },
       "spark": {
         "name": "iFLYTEK Spark",
         "appId": "APPID",
@@ -163,6 +167,7 @@
     "OpenAI": "OpenAI",
     "Ollama": "Ollama",
     "Gemini": "Gemini",
+    "ZhipuAI": "Zhipu AI",
     "Spark": "iFLYTEK Spark",
     "ERNIE": "Baidu ERNIE",
     "Tongyi": "Alibaba Tongyi",
@@ -173,6 +178,7 @@
     "OpenAI": "I_ am_ the_ OpenAI_ large_ model._ How_ can_ I_ help_ you_ today?",
     "Ollama": "I_ am_ the_ Ollama_ large_ model._ How_ can_ I_ help_ you_ today?",
     "Gemini": "I_ am_ the_ Gemini_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "ZhipuAI": "I_ am_ the_ Zhipu AI_ large_ model._ How_ can_ I_ help_ you_ today?",
     "Spark": "I_ am_ the_ Xunfei_ Spark_ large_ model._ How_ can_ I_ help_ you_ today?",
     "ERNIE": "I_ am_ the_ Baidu_ Wenxin_ large_ model._ How_ can_ I_ help_ you_ today?",
     "Tongyi": "I_ am_ the_ Alibaba_ Tongyi_ large_ model._ How_ can_ I_ help_ you_ today?",
@@ -235,6 +241,7 @@
       "OpenAI": "OpenAI is not configured",
       "Ollama": "Ollama is not configured",
       "Gemini": "Gemini is not configured",
+      "ZhipuAI": "Zhipu AI is not configured",
       "Spark": "iFLYTEK Spark is not configured",
       "ERNIE": "Baidu ERNIE is not configured",
       "Tongyi": "Alibaba Tongyi is not configured",
@@ -246,6 +253,7 @@
       "OpenAI": "OpenAI call error, please check your configuration",
       "Ollama": "Ollama call error, please check your configuration",
       "Gemini": "Gemini call error, please check your configuration",
+      "ZhipuAI": "Zhipu AI call error, please check your configuration",
       "Spark": "iFLYTEK Spark call error, please check your configuration",
       "ERNIE": "Baidu ERNIE call error, please check your configuration",
       "Tongyi": "Alibaba Tongyi call error, please check your configuration",
