@@ -11,19 +11,8 @@ watch(
   () => drawingStore.getCurrentTask.provider,
   (value) => {
     drawingStore.getCurrentTask.options = {}
-    switch (value) {
-      case 'OpenAI':
-        drawingStore.getCurrentTask.model = 'dall-e-3'
-        break
-      case 'Spark':
-        drawingStore.getCurrentTask.model = 'tti-v2.1'
-        break
-      case 'Tongyi':
-        drawingStore.getCurrentTask.model = 'wanx-v1'
-        break
-      case 'ERNIE':
-        drawingStore.getCurrentTask.model = 'sd_xl'
-        break
+    if (drawingModels[value]) {
+      drawingStore.getCurrentTask.model = drawingModels[value][0].name
     }
   }
 )
@@ -85,7 +74,11 @@ watch(
         <a-input-number v-model="drawingStore.getCurrentTask.options.n" :min="1" :max="4" />
       </a-form-item>
       <!-- 图片大小 -->
-      <a-form-item field="size" :label="$t('aiDrawing.size')">
+      <a-form-item
+        v-if="drawingStore.getCurrentTask.model != 'cogview-3'"
+        field="size"
+        :label="$t('aiDrawing.size')"
+      >
         <a-select v-model="drawingStore.getCurrentTask.options.size" :fallback-option="false">
           <template v-if="drawingStore.getCurrentTask.model === 'dall-e-2'">
             <a-option value="256x256">256x256</a-option>

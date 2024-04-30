@@ -284,6 +284,8 @@ const useBigModel = async () => {
     maxTokens: data.currentAssistant.maxTokens,
     contextSize: data.currentAssistant.contextSize,
     messages: copyObj(bigModelMessageList),
+    abortCtr: abortCtr,
+    chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList, true),
     startAnswer: (sessionId: string, content?: string) => {
       if (data.currentSessionId != sessionId) {
         return
@@ -324,11 +326,7 @@ const useBigModel = async () => {
   }
 
   // 各家大模型特有选项
-  const otherOption = settingStore.getBigModelConfig(
-    data.currentAssistant.provider,
-    abortCtr,
-    chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList)
-  )
+  const otherOption = settingStore.getBigModelConfig(data.currentAssistant.provider)
 
   // 大模型能力调用
   await chat2bigModel(data.currentAssistant.provider, {

@@ -33,7 +33,7 @@ type BigModelProvider =
   | 'Spark'
   | 'Tiangong'
   | 'MoonshotAI'
-type AIDrawingProvider = 'OpenAI' | 'Tongyi' | 'ERNIE' | 'Spark'
+type AIDrawingProvider = 'OpenAI' | 'ZhipuAI' | 'Tongyi' | 'ERNIE' | 'Spark'
 type AIAudioProvider = 'OpenAI'
 type TranslatorProvider = 'youdao' | 'baiduTranslation'
 type AssistantType = 'chat'

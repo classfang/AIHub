@@ -202,7 +202,7 @@ export const drawingByOpenAI = async (option: CommonDrawingOption) => {
     style: style as 'vivid' | 'natural' | null,
     n: n
   })
-  Logger.info('chat2openai:', imagesResponse)
+  Logger.info('drawingByOpenAI:', imagesResponse)
 
   // 获取图片地址
   const imageUrls: string[] = []

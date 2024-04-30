@@ -6,7 +6,7 @@ import { chat2openai, drawingByOpenAI, speechByOpenAI } from '@renderer/utils/bi
 import { chat2spark, drawingBySpark } from '@renderer/utils/big-model/spark-util'
 import { chat2tiangong } from '@renderer/utils/big-model/tiangong-util'
 import { chat2tongyi, drawingByTongyi } from '@renderer/utils/big-model/tongyi-util'
-import { chat2zhipu } from '@renderer/utils/big-model/zhipu-util'
+import { chat2zhipu, drawingByZhipu } from '@renderer/utils/big-model/zhipu-util'
 
 type ChatFunctionMap = {
   [provider in BigModelProvider]: (option: CommonChatOption) => Promise<any>
@@ -83,6 +83,7 @@ const chatFunctionMap: ChatFunctionMap = {
 
 const drawingFunctionMap: DrawingFunctionMap = {
   OpenAI: drawingByOpenAI,
+  ZhipuAI: drawingByZhipu,
   Tongyi: drawingByTongyi,
   ERNIE: drawingByERNIE,
   Spark: drawingBySpark

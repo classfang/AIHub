@@ -33,11 +33,21 @@ export const useChatPluginStore = defineStore({
       }
       return importFlag
     },
-    getPluginListByIds(ids: string[]): ChatPlugin[] {
+    getPluginListByIds(ids: string[], newId?: boolean): ChatPlugin[] {
       if (!ids || ids.length === 0) {
         return []
       }
-      return copyObj(this.chatPluginList.filter((p) => ids.includes(p.id)))
+
+      const pluginList = copyObj(this.chatPluginList.filter((p) => ids.includes(p.id)))
+
+      if (newId) {
+        // 重新设置插件id
+        for (let i = 0; i < pluginList.length; i++) {
+          pluginList[i].id = `plugin_${i}`
+        }
+      }
+
+      return pluginList
     }
   },
   persist: {

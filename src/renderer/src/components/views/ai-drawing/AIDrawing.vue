@@ -54,30 +54,7 @@ const newDrawingTask = () => {
 // 开始生成
 const startGenerate = () => {
   // 检查大模型配置
-  let configErrorFlag = false
-  switch (drawingStore.getCurrentTask.provider) {
-    case 'OpenAI':
-      if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
-        configErrorFlag = true
-      }
-      break
-    case 'Tongyi':
-      if (!settingStore.tongyi.apiKey) {
-        configErrorFlag = true
-      }
-      break
-    case 'ERNIE':
-      if (!settingStore.ernie.apiKey || !settingStore.ernie.secretKey) {
-        configErrorFlag = true
-      }
-      break
-    case 'Spark':
-      if (!settingStore.spark.appId || !settingStore.spark.secret || !settingStore.spark.key) {
-        configErrorFlag = true
-      }
-      break
-  }
-  if (configErrorFlag) {
+  if (settingStore.checkBigModelConfig(drawingStore.getCurrentTask.provider)) {
     Modal.confirm({
       title: t('common.configError'),
       content: t(`chatWindow.configMiss.${drawingStore.getCurrentTask.provider}`),
@@ -127,34 +104,9 @@ const startGenerate = () => {
     },
     abortCtr: abortCtr
   }
+
   // 各家大模型特有选项
-  let otherOption = {}
-  switch (drawingStore.getCurrentTask.provider) {
-    case 'OpenAI':
-      otherOption = {
-        apiKey: settingStore.openAI.key,
-        baseURL: settingStore.openAI.baseUrl
-      }
-      break
-    case 'Tongyi':
-      otherOption = {
-        apiKey: settingStore.tongyi.apiKey
-      }
-      break
-    case 'ERNIE':
-      otherOption = {
-        apiKey: settingStore.ernie.apiKey,
-        secretKey: settingStore.ernie.secretKey
-      }
-      break
-    case 'Spark':
-      otherOption = {
-        appId: settingStore.spark.appId,
-        secretKey: settingStore.spark.secret,
-        apiKey: settingStore.spark.key
-      }
-      break
-  }
+  const otherOption = settingStore.getBigModelConfig(drawingStore.getCurrentTask.provider)
 
   // 调用能力
   drawingByBigModel(drawingStore.getCurrentTask.provider, {

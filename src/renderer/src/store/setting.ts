@@ -195,18 +195,13 @@ export const useSettingStore = defineStore({
       }
       return configErrorFlag
     },
-    getBigModelConfig(
-      provider: BigModelProvider,
-      abortCtr: AbortController | null,
-      chatPlugins: ChatPlugin[] | null
-    ) {
+    getBigModelConfig(provider: BigModelProvider) {
       let otherOption = {}
       switch (provider) {
         case 'OpenAI':
           otherOption = {
             apiKey: this.openAI.key,
-            baseURL: this.openAI.baseUrl,
-            chatPlugins
+            baseURL: this.openAI.baseUrl
           }
           break
         case 'Ollama':
@@ -217,15 +212,12 @@ export const useSettingStore = defineStore({
         case 'Gemini':
           otherOption = {
             apiKey: this.gemini.key,
-            baseURL: this.gemini.baseUrl,
-            abortCtr
+            baseURL: this.gemini.baseUrl
           }
           break
         case 'ZhipuAI':
           otherOption = {
-            apiKey: this.zhipuAI.apiKey,
-            abortCtr,
-            chatPlugins
+            apiKey: this.zhipuAI.apiKey
           }
           break
         case 'Spark':
@@ -238,15 +230,12 @@ export const useSettingStore = defineStore({
         case 'ERNIE':
           otherOption = {
             apiKey: this.ernie.apiKey,
-            secretKey: this.ernie.secretKey,
-            abortCtr
+            secretKey: this.ernie.secretKey
           }
           break
         case 'Tongyi':
           otherOption = {
-            apiKey: this.tongyi.apiKey,
-            chatPlugins,
-            abortCtr
+            apiKey: this.tongyi.apiKey
           }
           break
         case 'Tiangong':

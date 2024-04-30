@@ -225,12 +225,7 @@ const generateReport = async () => {
   }
 
   // 各家大模型特有选项
-  // 各家大模型特有选项
-  const otherOption = settingStore.getBigModelConfig(
-    settingStore.aiCalendar.bigModel.provider,
-    null,
-    null
-  )
+  const otherOption = settingStore.getBigModelConfig(settingStore.aiCalendar.bigModel.provider)
 
   // 大模型能力调用
   await chat2bigModel(settingStore.aiCalendar.bigModel.provider, {

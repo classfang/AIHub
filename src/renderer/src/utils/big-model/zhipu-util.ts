@@ -1,10 +1,18 @@
-import { CommonChatOption } from '.'
+import { CommonChatOption, CommonDrawingOption } from '.'
 import { limitContext, turnChat } from '@renderer/utils/big-model/base-util'
-import { executeJavaScript, readLocalImageBase64 } from '@renderer/utils/ipc-util'
+import { randomUUID } from '@renderer/utils/id-util'
+import {
+  executeJavaScript,
+  readLocalImageBase64,
+  saveFileByBase64,
+  saveFileByUrl
+} from '@renderer/utils/ipc-util'
 import { Logger } from '@renderer/utils/logger'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/chat'
 import { ChatCompletion } from 'openai/src/resources/chat/completions'
+
+const baseURL = 'https://open.bigmodel.cn/api/paas/v4/'
 
 export const chat2zhipu = async (option: CommonChatOption) => {
   const {
@@ -25,7 +33,7 @@ export const chat2zhipu = async (option: CommonChatOption) => {
   // OpenAI实例
   const openai = new OpenAI({
     apiKey,
-    baseURL: 'https://open.bigmodel.cn/api/paas/v4/',
+    baseURL,
     dangerouslyAllowBrowser: true
   })
 
@@ -162,4 +170,47 @@ export const getZhipuMessages = async (
   }
 
   return openaiMessages
+}
+
+export const drawingByZhipu = async (option: CommonDrawingOption) => {
+  const { apiKey, sessionId, prompt, model, imageGenerated, end } = option
+
+  // OpenAI实例
+  const openai = new OpenAI({
+    apiKey,
+    baseURL,
+    dangerouslyAllowBrowser: true
+  })
+
+  // OpenAI 绘画
+  try {
+    const imagesResponse = await openai.images.generate({
+      prompt: prompt!,
+      model
+    })
+
+    Logger.info('drawingByZhipu:', imagesResponse)
+
+    // 获取图片地址
+    const imageUrls: string[] = []
+    if (imagesResponse.data) {
+      // 保存图片
+      for (const imgData of imagesResponse.data) {
+        if (imgData.url) {
+          imageUrls.push(await saveFileByUrl(imgData.url, `${randomUUID()}.png`))
+        } else if (imgData.b64_json) {
+          imageUrls.push(await saveFileByBase64(imgData.b64_json, `${randomUUID()}.png`))
+        }
+      }
+    }
+
+    // 返回图片本地地址
+    imageGenerated && imageGenerated(sessionId, imageUrls)
+
+    // 结束
+    end && end(sessionId)
+  } catch (e: any) {
+    Logger.error('drawingByZhipu error:', e.message)
+    end && end(sessionId, e.message)
+  }
 }
