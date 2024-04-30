@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { FileItem, Message, Modal, RequestOption } from '@arco-design/web-vue'
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
-import FileAvatar from '@renderer/components/avatar/FileAvatar.vue'
 import UserAvatar from '@renderer/components/avatar/UserAvatar.vue'
 import PromptList from '@renderer/components/modal/PromptList.vue'
 import ChatMessageFile from '@renderer/components/views/chat2assistant/chat-window/ChatMessageFile.vue'
@@ -23,7 +22,6 @@ import {
 import { SpeechStatus } from '@renderer/utils/constant'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { downloadFile } from '@renderer/utils/download-util'
-import { formatFileSize } from '@renderer/utils/file-util'
 import { getContentTokensLength } from '@renderer/utils/gpt-tokenizer-util'
 import { randomUUID } from '@renderer/utils/id-util'
 import { clipboardWriteText, saveFileByBase64, saveFileByPath } from '@renderer/utils/ipc-util'
@@ -199,50 +197,7 @@ const sendQuestion = async (event?: KeyboardEvent) => {
 // 使用大模型
 const useBigModel = async () => {
   // 检查大模型配置
-  let configErrorFlag = false
-  switch (data.currentAssistant.provider) {
-    case 'OpenAI':
-      if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
-        configErrorFlag = true
-      }
-      break
-    case 'Ollama':
-      if (!settingStore.ollama.baseUrl) {
-        configErrorFlag = true
-      }
-      break
-    case 'Gemini':
-      if (!settingStore.gemini.baseUrl || !settingStore.gemini.key) {
-        configErrorFlag = true
-      }
-      break
-    case 'Spark':
-      if (!settingStore.spark.appId || !settingStore.spark.secret || !settingStore.spark.key) {
-        configErrorFlag = true
-      }
-      break
-    case 'ERNIE':
-      if (!settingStore.ernie.apiKey || !settingStore.ernie.secretKey) {
-        configErrorFlag = true
-      }
-      break
-    case 'Tongyi':
-      if (!settingStore.tongyi.apiKey) {
-        configErrorFlag = true
-      }
-      break
-    case 'Tiangong':
-      if (!settingStore.tiangong.appKey || !settingStore.tiangong.appSecret) {
-        configErrorFlag = true
-      }
-      break
-    case 'MoonshotAI':
-      if (!settingStore.moonshotAI.apiKey) {
-        configErrorFlag = true
-      }
-      break
-  }
-  if (configErrorFlag) {
+  if (settingStore.checkBigModelConfig(data.currentAssistant.provider)) {
     Modal.confirm({
       title: t('common.configError'),
       content: t(`chatWindow.configMiss.${data.currentAssistant.provider}`),
@@ -369,60 +324,11 @@ const useBigModel = async () => {
   }
 
   // 各家大模型特有选项
-  let otherOption = {}
-  switch (data.currentAssistant.provider) {
-    case 'OpenAI':
-      otherOption = {
-        apiKey: settingStore.openAI.key,
-        baseURL: settingStore.openAI.baseUrl,
-        chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList)
-      }
-      break
-    case 'Ollama':
-      otherOption = {
-        baseURL: settingStore.ollama.baseUrl
-      }
-      break
-    case 'Gemini':
-      otherOption = {
-        apiKey: settingStore.gemini.key,
-        baseURL: settingStore.gemini.baseUrl,
-        abortCtr: abortCtr
-      }
-      break
-    case 'Spark':
-      otherOption = {
-        appId: settingStore.spark.appId,
-        secretKey: settingStore.spark.secret,
-        apiKey: settingStore.spark.key
-      }
-      break
-    case 'ERNIE':
-      otherOption = {
-        apiKey: settingStore.ernie.apiKey,
-        secretKey: settingStore.ernie.secretKey,
-        abortCtr: abortCtr
-      }
-      break
-    case 'Tongyi':
-      otherOption = {
-        apiKey: settingStore.tongyi.apiKey,
-        chatPlugins: chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList),
-        abortCtr
-      }
-      break
-    case 'Tiangong':
-      otherOption = {
-        apiKey: settingStore.tiangong.appKey,
-        secretKey: settingStore.tiangong.appSecret
-      }
-      break
-    case 'MoonshotAI':
-      otherOption = {
-        apiKey: settingStore.moonshotAI.apiKey
-      }
-      break
-  }
+  const otherOption = settingStore.getBigModelConfig(
+    data.currentAssistant.provider,
+    abortCtr,
+    chatPluginStore.getPluginListByIds(data.currentAssistant.chatPluginIdList)
+  )
 
   // 大模型能力调用
   await chat2bigModel(data.currentAssistant.provider, {

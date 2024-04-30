@@ -143,6 +143,125 @@ export const useSettingStore = defineStore({
         importFlag = true
       }
       return importFlag
+    },
+    checkBigModelConfig(provider: BigModelProvider) {
+      let configErrorFlag = false
+      switch (provider) {
+        case 'OpenAI':
+          if (!this.openAI.baseUrl || !this.openAI.key) {
+            configErrorFlag = true
+          }
+          break
+        case 'Ollama':
+          if (!this.ollama.baseUrl) {
+            configErrorFlag = true
+          }
+          break
+        case 'Gemini':
+          if (!this.gemini.baseUrl || !this.gemini.key) {
+            configErrorFlag = true
+          }
+          break
+        case 'ZhipuAI':
+          if (!this.zhipuAI.apiKey) {
+            configErrorFlag = true
+          }
+          break
+        case 'Spark':
+          if (!this.spark.appId || !this.spark.secret || !this.spark.key) {
+            configErrorFlag = true
+          }
+          break
+        case 'ERNIE':
+          if (!this.ernie.apiKey || !this.ernie.secretKey) {
+            configErrorFlag = true
+          }
+          break
+        case 'Tongyi':
+          if (!this.tongyi.apiKey) {
+            configErrorFlag = true
+          }
+          break
+        case 'Tiangong':
+          if (!this.tiangong.appKey || !this.tiangong.appSecret) {
+            configErrorFlag = true
+          }
+          break
+        case 'MoonshotAI':
+          if (!this.moonshotAI.apiKey) {
+            configErrorFlag = true
+          }
+          break
+      }
+      return configErrorFlag
+    },
+    getBigModelConfig(
+      provider: BigModelProvider,
+      abortCtr: AbortController | null,
+      chatPlugins: ChatPlugin[] | null
+    ) {
+      let otherOption = {}
+      switch (provider) {
+        case 'OpenAI':
+          otherOption = {
+            apiKey: this.openAI.key,
+            baseURL: this.openAI.baseUrl,
+            chatPlugins
+          }
+          break
+        case 'Ollama':
+          otherOption = {
+            baseURL: this.ollama.baseUrl
+          }
+          break
+        case 'Gemini':
+          otherOption = {
+            apiKey: this.gemini.key,
+            baseURL: this.gemini.baseUrl,
+            abortCtr
+          }
+          break
+        case 'ZhipuAI':
+          otherOption = {
+            apiKey: this.zhipuAI.apiKey,
+            abortCtr,
+            chatPlugins
+          }
+          break
+        case 'Spark':
+          otherOption = {
+            appId: this.spark.appId,
+            secretKey: this.spark.secret,
+            apiKey: this.spark.key
+          }
+          break
+        case 'ERNIE':
+          otherOption = {
+            apiKey: this.ernie.apiKey,
+            secretKey: this.ernie.secretKey,
+            abortCtr
+          }
+          break
+        case 'Tongyi':
+          otherOption = {
+            apiKey: this.tongyi.apiKey,
+            chatPlugins,
+            abortCtr
+          }
+          break
+        case 'Tiangong':
+          otherOption = {
+            apiKey: this.tiangong.appKey,
+            secretKey: this.tiangong.appSecret
+          }
+          break
+        case 'MoonshotAI':
+          otherOption = {
+            apiKey: this.moonshotAI.apiKey
+          }
+          break
+      }
+      return otherOption
     }
   },
   persist: true

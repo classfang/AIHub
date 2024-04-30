@@ -169,35 +169,7 @@ const generateReport = async () => {
   )
 
   // 检查大模型配置
-  let configErrorFlag = false
-  switch (settingStore.aiCalendar.bigModel.provider) {
-    case 'OpenAI':
-      if (!settingStore.openAI.baseUrl || !settingStore.openAI.key) {
-        configErrorFlag = true
-      }
-      break
-    case 'Gemini':
-      if (!settingStore.gemini.baseUrl || !settingStore.gemini.key) {
-        configErrorFlag = true
-      }
-      break
-    case 'Spark':
-      if (!settingStore.spark.appId || !settingStore.spark.secret || !settingStore.spark.key) {
-        configErrorFlag = true
-      }
-      break
-    case 'ERNIE':
-      if (!settingStore.ernie.apiKey || !settingStore.ernie.secretKey) {
-        configErrorFlag = true
-      }
-      break
-    case 'Tongyi':
-      if (!settingStore.tongyi.apiKey) {
-        configErrorFlag = true
-      }
-      break
-  }
-  if (configErrorFlag) {
+  if (settingStore.checkBigModelConfig(settingStore.aiCalendar.bigModel.provider)) {
     Modal.confirm({
       title: t('common.configError'),
       content: t(`chatWindow.configMiss.${settingStore.aiCalendar.bigModel.provider}`),
@@ -253,41 +225,12 @@ const generateReport = async () => {
   }
 
   // 各家大模型特有选项
-  let otherOption = {}
-  switch (settingStore.aiCalendar.bigModel.provider) {
-    case 'OpenAI':
-      otherOption = {
-        apiKey: settingStore.openAI.key,
-        baseURL: settingStore.openAI.baseUrl,
-        type: 'chat'
-      }
-      break
-    case 'Gemini':
-      otherOption = {
-        apiKey: settingStore.gemini.key,
-        baseURL: settingStore.gemini.baseUrl
-      }
-      break
-    case 'Spark':
-      otherOption = {
-        appId: settingStore.spark.appId,
-        secretKey: settingStore.spark.secret,
-        apiKey: settingStore.spark.key
-      }
-      break
-    case 'ERNIE':
-      otherOption = {
-        apiKey: settingStore.ernie.apiKey,
-        secretKey: settingStore.ernie.secretKey
-      }
-      break
-    case 'Tongyi':
-      otherOption = {
-        apiKey: settingStore.tongyi.apiKey,
-        type: 'chat'
-      }
-      break
-  }
+  // 各家大模型特有选项
+  const otherOption = settingStore.getBigModelConfig(
+    settingStore.aiCalendar.bigModel.provider,
+    null,
+    null
+  )
 
   // 大模型能力调用
   await chat2bigModel(settingStore.aiCalendar.bigModel.provider, {
