@@ -3,8 +3,20 @@ import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
 import { simulateThreadWait } from '@renderer/utils/thread-util'
 import { nextTick, onMounted, reactive, toRefs } from 'vue'
 
+const finish = defineModel<boolean>('finish', { default: () => false })
+
 const data = reactive({
-  providers: ['OpenAI', 'Ollama', 'Gemini', 'Tongyi', 'ERNIE', 'Spark', 'Tiangong', 'MoonshotAI'],
+  providers: [
+    'OpenAI',
+    'Ollama',
+    'Gemini',
+    'ZhipuAI',
+    'Tongyi',
+    'ERNIE',
+    'Spark',
+    'Tiangong',
+    'MoonshotAI'
+  ],
   providerShowIndex: -1
 })
 const { providers, providerShowIndex } = toRefs(data)
@@ -16,6 +28,8 @@ onMounted(() => {
       await simulateThreadWait(200)
       providerShowIndex.value++
     }
+    await simulateThreadWait(2000)
+    finish.value = true
   })
 })
 </script>
@@ -48,7 +62,7 @@ onMounted(() => {
   justify-content: center;
 
   .provider-list {
-    width: calc(50px * 4 + 40px * 3);
+    width: calc(50px * 5 + 40px * 4);
     display: flex;
     flex-wrap: wrap;
     gap: 40px;

@@ -40,7 +40,7 @@ const arcoDesignLocales = {
 }
 
 const data = reactive({
-  isLoad: false,
+  isWelcomeFinish: false,
   sidebarConfig: [
     {
       name: 'chat',
@@ -81,7 +81,7 @@ const data = reactive({
   ] as { name: PageName; icon: string }[],
   alivePages: ['chat'] as PageName[]
 })
-const { isLoad, sidebarConfig, alivePages } = toRefs(data)
+const { isWelcomeFinish, sidebarConfig, alivePages } = toRefs(data)
 
 // 主题设置监听
 let stopDarkThemeListener: any = null
@@ -162,9 +162,8 @@ onMounted(() => {
   locale.value = settingStore.app.locale
   // 刷新 dayKey，用于更具日期自动刷新组件
   systemStore.startDayKeyInterval()
-  // 显示主界面，防止夜间主题从白色闪烁到黑色
+  // 延迟监听加载状态
   setTimeout(() => {
-    data.isLoad = true
     watchLoading()
   }, 3000)
 })
@@ -173,8 +172,8 @@ onMounted(() => {
 <template>
   <a-config-provider :locale="arcoDesignLocal">
     <!-- 欢迎页 -->
-    <WelcomePage v-if="!isLoad" />
-    <div class="app fade-in-from" :class="{ 'fade-in-to': isLoad }">
+    <WelcomePage v-if="!isWelcomeFinish" v-model:finish="isWelcomeFinish" />
+    <div class="app fade-in-from" :class="{ 'fade-in-to': isWelcomeFinish }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
         <div :class="{ 'app-sidebar-avatar-macos': getPlatform().isMacOS }">
