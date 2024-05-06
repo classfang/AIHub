@@ -4,7 +4,7 @@ import Store from 'electron-store'
 
 export const initStore = () => {
   // 存储相关
-  const store = new Store()
+  const store: Record<string, any> = new Store()
   ipcMain.handle('get-store-value', (_event, key) => {
     return store.get(key)
   })

@@ -3,11 +3,12 @@ import { mainWindowConfig } from './config'
 import { getDockIcon } from './dock'
 import { is, platform } from '@electron-toolkit/utils'
 import { BrowserWindow, nativeTheme, shell } from 'electron'
-import Store from 'electron-store'
 import { join } from 'path'
 import { Logger } from 'winston'
 
-export const createWindow = (store: Store, logger: Logger) => {
+const __dirname = import.meta.dirname
+
+export const createWindow = (store: Record<string, any>, logger: Logger) => {
   // 获取主窗口尺寸
   const mainWindowSize = store.get('main-window-size') as { width: number; height: number }
 

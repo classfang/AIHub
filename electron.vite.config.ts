@@ -1,11 +1,19 @@
-import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import { resolve } from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    publicDir: 'resources',
+    build: {
+      rollupOptions: {
+        output: {
+          format: 'es'
+        }
+      }
+    }
   },
   preload: {
     plugins: [externalizeDepsPlugin()]
