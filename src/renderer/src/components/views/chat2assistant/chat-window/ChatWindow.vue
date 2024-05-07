@@ -68,7 +68,7 @@ const props = defineProps({
 const data = reactive({
   // 聊天窗口加载完毕
   isLoad: false,
-  // 用于判断是否切换聊天窗口
+  // 用于判断会话是否变换
   currentSessionId: randomUUID(),
   // 当前的助手
   currentAssistant: props.isVirtual
@@ -267,7 +267,7 @@ const useBigModel = async () => {
     fileList: questionFileList,
     createTime: nowTimestamp()
   })
-  scrollToBottom()
+  scrollToBottom(false)
 
   // 大模型接收的消息列表
   let bigModelMessageList = data.currentAssistant.chatMessageList
@@ -301,7 +301,7 @@ const useBigModel = async () => {
         content: content ?? '',
         createTime: nowTimestamp()
       })
-      scrollToBottom()
+      scrollToBottom(true)
       data.waitAnswer = false
     },
     appendAnswer: (sessionId: string, content: string) => {
@@ -311,7 +311,7 @@ const useBigModel = async () => {
       data.currentAssistant.chatMessageList[
         data.currentAssistant.chatMessageList.length - 1
       ].content += content
-      scrollToBottom()
+      scrollToBottom(true)
     },
     end: (sessionId: string, errMsg: any) => {
       if (data.currentSessionId != sessionId) {
@@ -411,11 +411,13 @@ const calcMessageTime = (current: ChatMessage, isFirst: boolean) => {
 }
 
 // 对话记录滚动到底部
-const scrollToBottom = () => {
+const scrollToBottom = (isAuto: boolean) => {
   nextTick(() => {
-    chatMessageListScrollbarRef.value.scrollTop(
-      chatMessageListScrollbarRef.value.containerRef.scrollHeight
-    )
+    if (!isAuto || !data.isToBottomBtnShow) {
+      chatMessageListScrollbarRef.value.scrollTop(
+        chatMessageListScrollbarRef.value.containerRef.scrollHeight
+      )
+    }
   })
 }
 
@@ -426,12 +428,12 @@ const onChatMessageListScroll = () => {
 
 // 计算置底按钮是否显示
 const calcToBottomShow = () => {
-  // 滚动超过一个窗口的高度时，显示置底按钮
+  // 滚动超过一定高度时，显示置底按钮
   data.isToBottomBtnShow =
     chatMessageListScrollbarRef.value.containerRef.scrollHeight -
       chatMessageListScrollbarRef.value.containerRef.clientHeight -
       chatMessageListScrollbarRef.value.containerRef.scrollTop >
-    chatMessageListScrollbarRef.value.containerRef.clientHeight
+    100
 }
 
 // 清空上下文
@@ -447,7 +449,7 @@ const clearContext = () => {
   } else {
     data.currentAssistant.clearContextMessageId = lastMessageId
   }
-  scrollToBottom()
+  scrollToBottom(false)
 }
 
 // 开始发音
@@ -593,7 +595,7 @@ const selectPrompt = (prompt: string) => {
 // 挂载完毕
 onMounted(() => {
   // 对话记录滚动到底部
-  scrollToBottom()
+  scrollToBottom(false)
   // 防止滚动闪烁
   data.isLoad = true
   // 聚焦输入框
@@ -753,7 +755,11 @@ onBeforeUnmount(() => {
     <!-- 输入框区域 -->
     <div class="chat-input-container">
       <!-- 回到底部 -->
-      <div v-if="isToBottomBtnShow" class="chat-message-list-to-bottom" @click="scrollToBottom">
+      <div
+        v-if="isToBottomBtnShow"
+        class="chat-message-list-to-bottom"
+        @click="scrollToBottom(false)"
+      >
         <icon-arrow-down class="chat-message-list-to-bottom-icon" />
       </div>
       <!-- 工具栏 -->
