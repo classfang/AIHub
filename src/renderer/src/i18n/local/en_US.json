@@ -359,6 +359,7 @@
   "aiCalendar": {
     "name": "AI Calendar",
     "generate": "AI generate",
+    "stopGenerate": "Stop generate",
     "noDayReportError": "There are no daily papers available during the week",
     "dayReport": {
       "name": "Daily report",

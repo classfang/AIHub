@@ -677,9 +677,7 @@ onMounted(() => {
                     v-for="m in chatModels[settingStore.aiCalendar.bigModel.provider]"
                     :key="m.name"
                   >
-                    <a-option v-if="m['type'] === 'text'" :value="m.value">{{
-                      m['name']
-                    }}</a-option>
+                    <a-option :value="m.value">{{ m['name'] }}</a-option>
                   </template>
                 </a-select>
               </a-space>

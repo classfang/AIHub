@@ -19,6 +19,9 @@ const calendarStore = useCalendarStore()
 // i18n
 const { t } = useI18n()
 
+// 阻断控制
+let abortCtr = new AbortController()
+
 // 数据绑定
 const data = reactive({
   currentSessionId: randomUUID(),
@@ -233,6 +236,14 @@ const generateReport = async () => {
     ...otherOption
   })
 }
+
+// 手动结束
+const stopGenerateReport = () => {
+  data.currentSessionId = randomUUID()
+  systemStore.aiCalendarLoading = false
+  abortCtr.abort()
+  abortCtr = new AbortController()
+}
 </script>
 
 <template>
@@ -356,16 +367,20 @@ const generateReport = async () => {
       </div>
       <template #footer>
         <div style="display: flex; gap: 10px">
-          <a-button
-            v-if="reportModalType != 'day'"
-            :loading="systemStore.aiCalendarLoading"
-            @click="generateReport"
-          >
-            <span>{{ $t('aiCalendar.generate') }}</span>
-            <template #icon>
-              <icon-robot />
-            </template>
-          </a-button>
+          <template v-if="reportModalType != 'day'">
+            <a-button v-if="!systemStore.aiCalendarLoading" @click="generateReport">
+              <span>{{ $t('aiCalendar.generate') }}</span>
+              <template #icon>
+                <icon-robot />
+              </template>
+            </a-button>
+            <a-button v-else @click="stopGenerateReport">
+              <span>{{ $t('aiCalendar.stopGenerate') }}</span>
+              <template #icon>
+                <icon-record-stop />
+              </template>
+            </a-button>
+          </template>
           <a-button style="margin-left: auto" @click="handleReportModalCancel"
             >{{ $t('common.cancel') }}
           </a-button>
