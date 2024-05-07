@@ -4,7 +4,8 @@ export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     avatar: '',
-    nickname: 'Some one'
+    nickname: 'Some one',
+    lastStartupTime: 0
   }),
   getters: {
     getStoreJson(): string {

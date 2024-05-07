@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
+import { useUserStore } from '@renderer/store/user'
+import { nowTimestamp } from '@renderer/utils/date-util'
 import { simulateThreadWait } from '@renderer/utils/thread-util'
 import { nextTick, onMounted, reactive, toRefs } from 'vue'
+
+const userStore = useUserStore()
 
 const finish = defineModel<boolean>('finish', { default: () => false })
 
@@ -24,12 +28,15 @@ const { providers, providerShowIndex } = toRefs(data)
 onMounted(() => {
   // 轮流显示提供商Logo
   nextTick(async () => {
-    for (let i = 0; i < data.providers.length; i++) {
-      await simulateThreadWait(200)
-      providerShowIndex.value++
+    if (nowTimestamp() - userStore.lastStartupTime > 24 * 60 * 60 * 1000) {
+      for (let i = 0; i < data.providers.length; i++) {
+        await simulateThreadWait(200)
+        providerShowIndex.value++
+      }
+      await simulateThreadWait(2000)
     }
-    await simulateThreadWait(2000)
     finish.value = true
+    userStore.lastStartupTime = nowTimestamp()
   })
 })
 </script>
