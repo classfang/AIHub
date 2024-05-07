@@ -193,6 +193,7 @@ const generateReport = async () => {
 
   // 大模型通用选项
   const chat2bigModelOption: CommonChatOption = {
+    abortCtr: abortCtr,
     sessionId: data.currentSessionId,
     model: settingStore.aiCalendar.bigModel.model,
     instruction,
