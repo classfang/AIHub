@@ -386,6 +386,8 @@
   "notification": {
     "name": "提醒",
     "empty": "暂无提醒",
+    "clear": "清空",
+    "issues": "错误反馈",
     "type": {
       "info": "普通日志",
       "warn": "警告日志",

@@ -386,6 +386,8 @@
   "notification": {
     "name": "Notification",
     "empty": "No notification",
+    "clear": "Clear",
+    "issues": "Feedback",
     "type": {
       "info": "Info log",
       "warn": "Warn log",

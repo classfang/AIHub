@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useNotificationStore } from '@renderer/store/notification'
+import { clipboardWriteText } from '@renderer/utils/ipc-util'
+import { openInBrowser } from '@renderer/utils/window-util'
 import dayjs from 'dayjs'
 import { reactive, toRefs, watch } from 'vue'
 
@@ -36,22 +38,8 @@ watch(
     </div>
 
     <!-- 提醒Modal -->
-    <a-modal
-      v-model:visible="modalVisible"
-      :footer="false"
-      unmount-on-close
-      title-align="start"
-      width="80vw"
-    >
-      <template #title>
-        <div class="notification-title">
-          <span>{{ $t('notification.name') }}</span>
-          <icon-delete
-            class="notification-clear-btn"
-            @click="notificationStore.notifications = []"
-          />
-        </div>
-      </template>
+    <a-modal v-model:visible="modalVisible" unmount-on-close title-align="start" width="80vw">
+      <template #title>{{ $t('notification.name') }}</template>
       <!-- 提醒页 -->
       <div class="notification-page">
         <a-space
@@ -60,7 +48,11 @@ watch(
           direction="vertical"
           :size="10"
         >
-          <div v-for="n in notificationStore.notifications" :key="n.createTime">
+          <div
+            v-for="n in notificationStore.notifications"
+            :key="n.createTime"
+            @click="clipboardWriteText(n.content)"
+          >
             <a-tag
               class="notification-item select-text"
               :color="n.type === 'error' ? 'red' : n.type === 'warn' ? 'orangered' : 'blue'"
@@ -82,28 +74,31 @@ watch(
           </a-empty>
         </div>
       </div>
+      <template #footer>
+        <div style="display: flex; gap: 10px">
+          <a-button size="small" @click="notificationStore.notifications = []">
+            <a-space :size="5">
+              <icon-delete />
+              <span>{{ $t('notification.clear') }}</span>
+            </a-space>
+          </a-button>
+          <a-button
+            style="margin-left: auto"
+            size="small"
+            @click="openInBrowser('https://github.com/classfang/AIHub/issues/new')"
+          >
+            <a-space :size="5">
+              <icon-bug />
+              <span>{{ $t('notification.issues') }}</span>
+            </a-space>
+          </a-button>
+        </div>
+      </template>
     </a-modal>
   </div>
 </template>
 
 <style lang="less" scoped>
-.notification-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  .notification-clear-btn {
-    font-size: 16px;
-    stroke-width: 4;
-    cursor: pointer;
-    color: rgb(var(--danger-5));
-
-    &:active {
-      stroke-width: 5;
-    }
-  }
-}
-
 .notification-page {
   height: 60vh;
   overflow-y: auto;
@@ -117,6 +112,9 @@ watch(
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      cursor: pointer;
+      padding: 10px;
+      gap: 10px;
 
       .notification-title {
         width: 100%;

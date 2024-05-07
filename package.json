@@ -33,7 +33,7 @@
     "electron-store": "^9.0.0",
     "langchain": "^0.1.36",
     "mammoth": "^1.7.2",
-    "officeparser": "^4.0.8",
+    "officeparser": "^4.1.1",
     "pdf-parse": "^1.1.1",
     "redis": "^4.6.13",
     "winston": "^3.13.0",
