@@ -24,6 +24,7 @@ export const chat2openai = async (option: CommonChatOption) => {
     messages,
     sessionId,
     chatPlugins,
+    abortCtr,
     startAnswer,
     appendAnswer,
     end
@@ -40,37 +41,42 @@ export const chat2openai = async (option: CommonChatOption) => {
   let pluginAnswer: ChatCompletion | null = null
   if (chatPlugins && chatPlugins.length > 0) {
     // 非流式插件提问
-    pluginAnswer = await openai.chat.completions.create({
-      messages: (await getOpenAIMessages(
-        messages!,
-        instruction,
-        inputMaxTokens,
-        contextSize
-      )) as ChatCompletionMessageParam[],
-      tools: chatPlugins.map((p) => {
-        return {
-          type: p.type,
-          function: {
-            name: p.id,
-            description: p.description,
-            parameters: {
-              type: 'object',
-              properties: p.parameters.reduce((acc, param) => {
-                acc[param.name] = {
-                  type: param.type,
-                  description: param.description
-                }
-                return acc
-              }, {}),
-              required: p.parameters.map((param) => param.name)
+    pluginAnswer = await openai.chat.completions.create(
+      {
+        messages: (await getOpenAIMessages(
+          messages!,
+          instruction,
+          inputMaxTokens,
+          contextSize
+        )) as ChatCompletionMessageParam[],
+        tools: chatPlugins.map((p) => {
+          return {
+            type: p.type,
+            function: {
+              name: p.id,
+              description: p.description,
+              parameters: {
+                type: 'object',
+                properties: p.parameters.reduce((acc, param) => {
+                  acc[param.name] = {
+                    type: param.type,
+                    description: param.description
+                  }
+                  return acc
+                }, {}),
+                required: p.parameters.map((param) => param.name)
+              }
             }
           }
-        }
-      }),
-      model,
-      stream: false,
-      max_tokens: maxTokens
-    })
+        }),
+        model,
+        stream: false,
+        max_tokens: maxTokens
+      },
+      {
+        signal: abortCtr?.signal
+      }
+    )
   }
 
   // 现有消息列表
@@ -101,16 +107,20 @@ export const chat2openai = async (option: CommonChatOption) => {
   }
 
   // 流式对话
-  const stream = await openai.chat.completions.create({
-    messages: chatMessages,
-    model,
-    stream: true,
-    max_tokens: maxTokens
-  })
+  const stream = await openai.chat.completions.create(
+    {
+      messages: chatMessages,
+      model,
+      stream: true,
+      max_tokens: maxTokens
+    },
+    {
+      signal: abortCtr?.signal
+    }
+  )
 
   // 开始回答
   startAnswer && startAnswer(sessionId)
-
   // 连续回答
   for await (const chunk of stream) {
     Logger.info('chat2openai:', chunk)
@@ -181,6 +191,7 @@ export const drawingByOpenAI = async (option: CommonDrawingOption) => {
     quality,
     style,
     n,
+    abortCtr,
     imageGenerated,
     end
   } = option
@@ -193,15 +204,20 @@ export const drawingByOpenAI = async (option: CommonDrawingOption) => {
   })
 
   // OpenAI 绘画
-  const imagesResponse = await openai.images.generate({
-    prompt: prompt!,
-    model,
-    size: size as '256x256' | '512x512' | '1024x1024' | '1792x1024' | '1024x1792' | null,
-    response_format: 'b64_json',
-    quality: quality as 'standard' | 'hd',
-    style: style as 'vivid' | 'natural' | null,
-    n: n
-  })
+  const imagesResponse = await openai.images.generate(
+    {
+      prompt: prompt!,
+      model,
+      size: size as '256x256' | '512x512' | '1024x1024' | '1792x1024' | '1024x1792' | null,
+      response_format: 'b64_json',
+      quality: quality as 'standard' | 'hd',
+      style: style as 'vivid' | 'natural' | null,
+      n: n
+    },
+    {
+      signal: abortCtr?.signal
+    }
+  )
   Logger.info('drawingByOpenAI:', imagesResponse)
 
   // 获取图片地址

@@ -25,6 +25,7 @@ export const chat2zhipu = async (option: CommonChatOption) => {
     messages,
     sessionId,
     chatPlugins,
+    abortCtr,
     startAnswer,
     appendAnswer,
     end
@@ -41,37 +42,42 @@ export const chat2zhipu = async (option: CommonChatOption) => {
   let pluginAnswer: ChatCompletion | null = null
   if (chatPlugins && chatPlugins.length > 0) {
     // 非流式插件提问
-    pluginAnswer = await openai.chat.completions.create({
-      messages: (await getZhipuMessages(
-        messages!,
-        instruction,
-        inputMaxTokens,
-        contextSize
-      )) as ChatCompletionMessageParam[],
-      tools: chatPlugins.map((p) => {
-        return {
-          type: p.type,
-          function: {
-            name: p.id,
-            description: p.description,
-            parameters: {
-              type: 'object',
-              properties: p.parameters.reduce((acc, param) => {
-                acc[param.name] = {
-                  type: param.type,
-                  description: param.description
-                }
-                return acc
-              }, {}),
-              required: p.parameters.map((param) => param.name)
+    pluginAnswer = await openai.chat.completions.create(
+      {
+        messages: (await getZhipuMessages(
+          messages!,
+          instruction,
+          inputMaxTokens,
+          contextSize
+        )) as ChatCompletionMessageParam[],
+        tools: chatPlugins.map((p) => {
+          return {
+            type: p.type,
+            function: {
+              name: p.id,
+              description: p.description,
+              parameters: {
+                type: 'object',
+                properties: p.parameters.reduce((acc, param) => {
+                  acc[param.name] = {
+                    type: param.type,
+                    description: param.description
+                  }
+                  return acc
+                }, {}),
+                required: p.parameters.map((param) => param.name)
+              }
             }
           }
-        }
-      }),
-      model,
-      stream: false,
-      max_tokens: maxTokens
-    })
+        }),
+        model,
+        stream: false,
+        max_tokens: maxTokens
+      },
+      {
+        signal: abortCtr?.signal
+      }
+    )
   }
 
   // 现有消息列表
@@ -102,12 +108,17 @@ export const chat2zhipu = async (option: CommonChatOption) => {
   }
 
   // 流式对话
-  const stream = await openai.chat.completions.create({
-    messages: chatMessages,
-    model,
-    stream: true,
-    max_tokens: maxTokens
-  })
+  const stream = await openai.chat.completions.create(
+    {
+      messages: chatMessages,
+      model,
+      stream: true,
+      max_tokens: maxTokens
+    },
+    {
+      signal: abortCtr?.signal
+    }
+  )
 
   // 开始回答
   startAnswer && startAnswer(sessionId)

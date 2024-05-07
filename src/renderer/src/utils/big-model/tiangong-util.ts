@@ -14,6 +14,7 @@ export const chat2tiangong = async (option: CommonChatOption) => {
     secretKey,
     messages,
     sessionId,
+    abortCtr,
     startAnswer,
     appendAnswer,
     end
@@ -58,7 +59,8 @@ export const chat2tiangong = async (option: CommonChatOption) => {
     const response = await fetch(url, {
       method: 'POST',
       headers: headers,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      signal: abortCtr?.signal
     })
 
     // 创建一个ReadableStream的读取器
