@@ -185,10 +185,7 @@ const sendQuestion = async (event?: KeyboardEvent) => {
   try {
     await useBigModel()
   } catch (e: any) {
-    Logger.error('big model error: ', e?.message)
-    const errMsg = e ? e + '' : t(`chatWindow.error.${data.currentAssistant.provider}`)
-    Message.error(errMsg)
-    notificationStore.error(errMsg)
+    Logger.error('ChatWindow useBigModel error: ', e?.message)
     systemStore.chatWindowLoading = false
     data.waitAnswer = false
   }
