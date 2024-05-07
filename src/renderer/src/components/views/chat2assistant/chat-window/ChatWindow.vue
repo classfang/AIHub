@@ -29,6 +29,7 @@ import { Logger } from '@renderer/utils/logger'
 import { renderMarkdown } from '@renderer/utils/markdown-util'
 import { copyObj } from '@renderer/utils/object-util'
 import dayjs from 'dayjs'
+import { APIUserAbortError } from 'openai'
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -185,7 +186,13 @@ const sendQuestion = async (event?: KeyboardEvent) => {
   try {
     await useBigModel()
   } catch (e: any) {
-    Logger.error('ChatWindow useBigModel error: ', e?.message)
+    Logger.error('big model error: ', e?.message)
+    // 除了手动中断异常
+    if (!(e instanceof APIUserAbortError)) {
+      const errMsg = e ? e + '' : t(`chatWindow.error.${data.currentAssistant.provider}`)
+      Message.error(errMsg)
+      notificationStore.error(errMsg)
+    }
     systemStore.chatWindowLoading = false
     data.waitAnswer = false
   }
@@ -702,7 +709,7 @@ onBeforeUnmount(() => {
                   </template>
                 </a-image>
                 <!-- 消息内容携带的文件列表 -->
-                <div class="chat-message-file-list">
+                <div v-if="msg.fileList && msg.fileList.length > 0" class="chat-message-file-list">
                   <ChatMessageFile v-for="f in msg.fileList" :key="f.id" :message-file="f" />
                 </div>
               </div>

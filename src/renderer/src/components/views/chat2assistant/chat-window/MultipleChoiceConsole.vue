@@ -223,7 +223,7 @@ const shareModalBeforeOk = async () => {
                   /></a-image-preview-action>
                 </template>
               </a-image>
-              <div class="chat-message-file-list">
+              <div v-if="msg.fileList && msg.fileList.length > 0" class="chat-message-file-list">
                 <ChatMessageFile v-for="f in msg.fileList" :key="f.id" :message-file="f" />
               </div>
             </div>
