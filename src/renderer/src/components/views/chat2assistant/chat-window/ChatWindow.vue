@@ -433,7 +433,7 @@ const calcToBottomShow = () => {
     chatMessageListScrollbarRef.value.containerRef.scrollHeight -
       chatMessageListScrollbarRef.value.containerRef.clientHeight -
       chatMessageListScrollbarRef.value.containerRef.scrollTop >
-    100
+    50
 }
 
 // 清空上下文

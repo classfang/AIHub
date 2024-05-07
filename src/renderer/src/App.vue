@@ -27,7 +27,7 @@ import {
   setDefaultTheme,
   setCustomTheme
 } from '@renderer/utils/theme-util'
-import { computed, onMounted, reactive, toRefs, watch, watchEffect } from 'vue'
+import { computed, onMounted, reactive, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const systemStore = useSystemStore()
@@ -139,20 +139,17 @@ const changePage = (page: PageName) => {
 // 监听各类加载状态
 const watchLoading = () => {
   // 监听聊天框加载中状态
-  watchEffect(() => {
-    if (
-      systemStore.globalLoading ||
-      systemStore.chatWindowLoading ||
-      systemStore.aiDrawingLoading ||
-      systemStore.knowledgeBaseWindowLoading ||
-      systemStore.aiCalendarLoading
-    ) {
-      startDockAnimation()
-    } else {
-      stopDockAnimation()
-      startDockBounce()
+  watch(
+    () => systemStore.isLoading,
+    (value) => {
+      if (value) {
+        startDockAnimation()
+      } else {
+        stopDockAnimation()
+        startDockBounce()
+      }
     }
-  })
+  )
 }
 
 onMounted(() => {

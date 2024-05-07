@@ -1,18 +1,22 @@
-import icon10deg from '../../resources/icon-deg/icon-10deg.png'
-import icon20deg from '../../resources/icon-deg/icon-20deg.png'
-import icon30deg from '../../resources/icon-deg/icon-30deg.png'
-import icon40deg from '../../resources/icon-deg/icon-40deg.png'
-import icon50deg from '../../resources/icon-deg/icon-50deg.png'
-import icon60deg from '../../resources/icon-deg/icon-60deg.png'
-import icon70deg from '../../resources/icon-deg/icon-70deg.png'
-import icon80deg from '../../resources/icon-deg/icon-80deg.png'
-import icon90deg from '../../resources/icon-deg/icon-90deg.png'
-import icon100deg from '../../resources/icon-deg/icon-100deg.png'
-import icon110deg from '../../resources/icon-deg/icon-110deg.png'
-import icon from '../../resources/icon.png'
 import { platform } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, nativeImage } from 'electron'
+import * as path from 'node:path'
 import { clearInterval } from 'node:timers'
+
+const icon10deg = '../../resources/icon-deg/icon-10deg.png'
+const icon20deg = '../../resources/icon-deg/icon-20deg.png'
+const icon30deg = '../../resources/icon-deg/icon-30deg.png'
+const icon40deg = '../../resources/icon-deg/icon-40deg.png'
+const icon50deg = '../../resources/icon-deg/icon-50deg.png'
+const icon60deg = '../../resources/icon-deg/icon-60deg.png'
+const icon70deg = '../../resources/icon-deg/icon-70deg.png'
+const icon80deg = '../../resources/icon-deg/icon-80deg.png'
+const icon90deg = '../../resources/icon-deg/icon-90deg.png'
+const icon100deg = '../../resources/icon-deg/icon-100deg.png'
+const icon110deg = '../../resources/icon-deg/icon-110deg.png'
+const icon = '../../resources/icon.png'
+
+const __dirname = import.meta.dirname
 
 // 图标列表
 const iconArray = [
@@ -35,7 +39,7 @@ export const getDockIconArray = () => {
 }
 
 export const getDockIcon = (index: number) => {
-  return iconArray[index]
+  return path.join(__dirname, iconArray[index])
 }
 
 // dock图片转动

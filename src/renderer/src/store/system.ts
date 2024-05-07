@@ -16,6 +16,17 @@ export const useSystemStore = defineStore({
       visible: false
     }
   }),
+  getters: {
+    isLoading(): boolean {
+      return (
+        this.globalLoading ||
+        this.chatWindowLoading ||
+        this.aiDrawingLoading ||
+        this.knowledgeBaseWindowLoading ||
+        this.aiCalendarLoading
+      )
+    }
+  },
   actions: {
     isThisPage(pageName: PageName) {
       return this.currentPage === pageName
