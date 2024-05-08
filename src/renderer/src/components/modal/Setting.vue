@@ -665,6 +665,29 @@ onMounted(() => {
                   </a-space>
                 </a-space>
               </a-tab-pane>
+              <!-- 阶跃星辰 -->
+              <a-tab-pane key="stepFun" :title="$t('setting.bigModel.stepFun.name')">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('common.officialWebsite') }}</div>
+                      <a-link @click="openInBrowser('https://platform.stepfun.com')"
+                        >https://platform.stepfun.com</a-link
+                      >
+                    </a-space>
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('setting.bigModel.stepFun.apiKey') }}</div>
+                      <a-input-password
+                        v-model="settingStore.stepFun.apiKey"
+                        size="small"
+                        :placeholder="
+                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.stepFun.apiKey')
+                        "
+                      />
+                    </a-space>
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
             </a-tabs>
           </a-tab-pane>
           <!-- AI日历 -->

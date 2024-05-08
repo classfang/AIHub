@@ -19,7 +19,8 @@ const data = reactive({
     'ERNIE',
     'Spark',
     'Tiangong',
-    'MoonshotAI'
+    'MoonshotAI',
+    'StepFun'
   ],
   providerShowIndex: -1
 })

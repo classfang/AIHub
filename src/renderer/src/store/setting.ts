@@ -55,6 +55,9 @@ export const useSettingStore = defineStore({
     zhipuAI: {
       apiKey: ''
     },
+    stepFun: {
+      apiKey: ''
+    },
     baiduTranslation: {
       appId: '',
       secret: ''
@@ -81,6 +84,7 @@ export const useSettingStore = defineStore({
         ollama: this.ollama,
         moonshotAI: this.moonshotAI,
         zhipuAI: this.zhipuAI,
+        stepFun: this.stepFun,
         youdao: this.youdao,
         baiduTranslation: this.baiduTranslation,
         aiCalendar: this.aiCalendar
@@ -132,6 +136,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.zhipuAI !== undefined) {
         this.zhipuAI = settingBackup.zhipuAI
+        importFlag = true
+      }
+      if (settingBackup.stepFun !== undefined) {
+        this.stepFun = settingBackup.stepFun
         importFlag = true
       }
       if (settingBackup.youdao !== undefined) {
@@ -196,6 +204,11 @@ export const useSettingStore = defineStore({
             configErrorFlag = true
           }
           break
+        case 'StepFun':
+          if (!this.stepFun.apiKey) {
+            configErrorFlag = true
+          }
+          break
       }
       return configErrorFlag
     },
@@ -251,6 +264,11 @@ export const useSettingStore = defineStore({
         case 'MoonshotAI':
           otherOption = {
             apiKey: this.moonshotAI.apiKey
+          }
+          break
+        case 'StepFun':
+          otherOption = {
+            apiKey: this.stepFun.apiKey
           }
           break
       }

@@ -115,6 +115,7 @@ watch(
       cursor: pointer;
       padding: 10px;
       gap: 10px;
+      font-size: var(--font-size-sm);
 
       .notification-title {
         width: 100%;

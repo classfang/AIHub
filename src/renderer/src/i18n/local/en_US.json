@@ -123,6 +123,10 @@
       "moonshotAI": {
         "name": "Moonshot AI",
         "apiKey": "API Key"
+      },
+      "stepFun": {
+        "name": "Jie Yue",
+        "apiKey": "API Key"
       }
     },
     "aiCalendar": {
@@ -175,7 +179,8 @@
     "ERNIE": "Baidu ERNIE",
     "Tongyi": "Alibaba Tongyi",
     "Tiangong": "Tiangong",
-    "MoonshotAI": "Moonshot AI"
+    "MoonshotAI": "Moonshot AI",
+    "StepFun": "Jie Yue"
   },
   "bigModelProviderWelcome": {
     "OpenAI": "I_ am_ the_ OpenAI_ large_ model._ How_ can_ I_ help_ you_ today?",
@@ -186,7 +191,8 @@
     "ERNIE": "I_ am_ the_ Baidu_ Wenxin_ large_ model._ How_ can_ I_ help_ you_ today?",
     "Tongyi": "I_ am_ the_ Alibaba_ Tongyi_ large_ model._ How_ can_ I_ help_ you_ today?",
     "Tiangong": "I_ am_ the_ Tiangong_ large_ model._ How_ can_ I_ help_ you_ today?",
-    "MoonshotAI": "I_ am_ the_ Moonshot AI_ large_ model._ How_ can_ I_ help_ you_ today?"
+    "MoonshotAI": "I_ am_ the_ Moonshot AI_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "StepFun": "I_ am_ the_ Jie Yue_ large_ model._ How_ can_ I_ help_ you_ today?"
   },
   "translationProvider": {
     "youdao": "Youdao Translation",
@@ -249,7 +255,8 @@
       "ERNIE": "Baidu ERNIE is not configured",
       "Tongyi": "Alibaba Tongyi is not configured",
       "Tiangong": "Tiangong is not configured",
-      "MoonshotAI": "Moonshot AI is not configured"
+      "MoonshotAI": "Moonshot AI is not configured",
+      "StepFun": "Jie Yue is not configured"
     },
     "error": {
       "imageRequires": "You have to upload a picture",
@@ -261,7 +268,8 @@
       "ERNIE": "Baidu ERNIE call error, please check your configuration",
       "Tongyi": "Alibaba Tongyi call error, please check your configuration",
       "Tiangong": "Tiangong call error, please check your configuration",
-      "MoonshotAI": "Moonshot AI call error, please check your configuration"
+      "MoonshotAI": "Moonshot AI call error, please check your configuration",
+      "StepFun": "Jie Yue call error, please check your configuration"
     },
     "fileList": {
       "title": "Document list",

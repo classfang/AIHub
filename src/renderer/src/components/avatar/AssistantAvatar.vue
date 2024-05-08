@@ -49,6 +49,9 @@ defineProps({
   <a-avatar v-else-if="provider === 'ZhipuAI'" shape="square" :size="size" class="assistant-avatar">
     <img alt="avatar" src="@renderer/assets/images/zhipu.png" />
   </a-avatar>
+  <a-avatar v-else-if="provider === 'StepFun'" shape="square" :size="size" class="assistant-avatar">
+    <img alt="avatar" src="@renderer/assets/images/step_fun.png" />
+  </a-avatar>
 </template>
 
 <style lang="less" scoped>
