@@ -229,8 +229,17 @@ onMounted(() => {
       .mini-program-card {
         width: 280px;
 
+        :deep(.arco-card-header-title) {
+          font-size: var(--font-size-lg);
+        }
+
         :deep(.arco-card-header-extra) {
           color: var(--color-text-2);
+          font-size: var(--font-size-default);
+        }
+
+        :deep(.arco-card-body) {
+          font-size: var(--font-size-default);
         }
       }
     }
