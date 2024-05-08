@@ -99,7 +99,7 @@ const handleTestModalClose = () => {
           :placeholder="$t('chatPlugin.window.codePlaceholder')"
           height="400"
           width="100%"
-          style="font-size: 14px"
+          style="font-size: var(--font-size-md)"
         />
       </a-space>
 

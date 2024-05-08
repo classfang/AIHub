@@ -59,7 +59,7 @@ const itemActive = () => {
 
       .chat-plugin-item-name {
         flex-grow: 1;
-        font-size: 15px;
+        font-size: var(--font-size-md);
         font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
@@ -68,7 +68,7 @@ const itemActive = () => {
     }
 
     .chat-plugin-item-content {
-      font-size: 12px;
+      font-size: var(--font-size-xs);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

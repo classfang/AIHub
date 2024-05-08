@@ -182,7 +182,7 @@ const stopGenerate = () => {
 
     .ai-drawing-header-title {
       flex-grow: 1;
-      font-size: 15px;
+      font-size: var(--font-size-lg);
       font-weight: 500;
     }
   }

@@ -43,7 +43,10 @@
           "customEdit": "Edit custom theme",
           "customEditReset": "Reset style"
         },
-        "local": "Language"
+        "local": "Language",
+        "fontSize": "Text size",
+        "min": "min",
+        "max": "max"
       },
       "network": {
         "name": "Network",

@@ -1,5 +1,5 @@
 import { copyObj } from '@renderer/utils/object-util'
-import { defaultCustomThemeMap } from '@renderer/utils/theme-util'
+import { defaultCustomThemeMap, defaultFontSizeLevel } from '@renderer/utils/theme-util'
 import { isZH } from '@renderer/utils/window-util'
 import { defineStore } from 'pinia'
 
@@ -11,7 +11,11 @@ export const useSettingStore = defineStore({
       themeModel: 0,
       // 自定义主题样式表
       customThemeMap: copyObj(defaultCustomThemeMap),
+      // 字体大小 1-5
+      fontSize: defaultFontSizeLevel,
+      // 本地化
       locale: isZH() ? 'zh_CN' : 'en_US',
+      // 网络代理
       proxy: ''
     },
     openAI: {

@@ -170,7 +170,7 @@ defineExpose({
     >
       <icon-more
         :class="{ 'no-drag-area': !systemStore.chatWindowLoading }"
-        style="font-size: 24px; flex-shrink: 0"
+        style="font-size: var(--font-size-xxl); flex-shrink: 0"
       />
       <template #content>
         <a-space direction="vertical" fill>
@@ -245,7 +245,7 @@ defineExpose({
 
   .assistant-name {
     flex-grow: 1;
-    font-size: 16px;
+    font-size: var(--font-size-lg);
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;

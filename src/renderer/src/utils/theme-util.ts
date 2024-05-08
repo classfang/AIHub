@@ -13,6 +13,20 @@ export const defaultCustomThemeMap: Record<string, string> = {
   '--color-border-4': '#868C9C'
 }
 
+export const defaultFontSizeMap: Record<string, string> = {
+  '--font-size-default': '14px',
+  '--font-size-xxs': '11px',
+  '--font-size-xs': '12px',
+  '--font-size-sm': '13px',
+  '--font-size-md': '15px',
+  '--font-size-lg': '16px',
+  '--font-size-xl': '18px',
+  '--font-size-xxl': '24px',
+  '--font-size-xxxl': '28px'
+}
+
+export const defaultFontSizeLevel = 3
+
 export const startDarkThemeListener = () => {
   const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -55,4 +69,11 @@ export const setCustomTheme = (customThemeMap: Record<string, string>) => {
 
 export const setDefaultTheme = () => {
   Object.keys(defaultCustomThemeMap).forEach((key) => document.body.style.removeProperty(key))
+}
+
+export const setCustomFontSize = (level: number) => {
+  Object.keys(defaultFontSizeMap).forEach((key) => {
+    const value = Number(defaultFontSizeMap[key].replace('px', '')) + (level - defaultFontSizeLevel)
+    document.body.style.setProperty(key, value + 'px')
+  })
 }

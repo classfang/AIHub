@@ -172,7 +172,7 @@ const newNote = () => {
                 :content-style="{ padding: '5px' }"
                 @click.stop
               >
-                <icon-more style="font-size: 15px; font-weight: 500; flex-shrink: 0" />
+                <icon-more class="collection-more-btn" />
                 <template #content>
                   <a-space direction="vertical" fill>
                     <a-button
@@ -437,7 +437,7 @@ const newNote = () => {
 
             .collection-content {
               flex-grow: 1;
-              line-height: 1.3rem;
+              line-height: var(--line-height-sm);
               overflow: hidden;
               display: -webkit-box;
               text-overflow: ellipsis;
@@ -452,9 +452,16 @@ const newNote = () => {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             .collection-time {
               flex-shrink: 0;
-              font-size: 13px;
+              font-size: var(--font-size-sm);
+            }
+
+            .collection-more-btn {
+              font-size: var(--font-size-md);
+              font-weight: 500;
+              flex-shrink: 0;
             }
           }
         }
@@ -485,7 +492,7 @@ const newNote = () => {
         padding: 0;
 
         :deep(.arco-input) {
-          font-size: 16px;
+          font-size: var(--font-size-lg);
           font-weight: 500;
           padding: 0;
         }
@@ -493,7 +500,7 @@ const newNote = () => {
 
       .assistant-name {
         flex-grow: 1;
-        font-size: 16px;
+        font-size: var(--font-size-lg);
         font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
@@ -516,7 +523,7 @@ const newNote = () => {
       padding: 15px;
 
       .collection-set-image-detail-prompt {
-        line-height: 1.3rem;
+        line-height: var(--line-height-md);
         white-space: pre-wrap;
         line-break: anywhere;
         text-align: center;

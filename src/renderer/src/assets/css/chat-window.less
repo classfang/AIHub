@@ -94,7 +94,7 @@
 
     .chat-message-time {
       text-align: center;
-      font-size: 12px;
+      font-size: var(--font-size-xs);
       color: var(--color-text-3);
     }
 
@@ -134,8 +134,9 @@
         background-color: var(--color-fill-1);
         padding: 10px;
         border-radius: var(--border-radius-small);
+        font-size: var(--font-size-default);
         min-height: 1rem;
-        line-height: 1.3rem;
+        line-height: var(--line-height-md);
         display: flex;
         flex-direction: column;
         gap: 5px;
@@ -189,7 +190,7 @@
       cursor: pointer;
 
       :deep(.arco-divider-text) {
-        font-size: 12px;
+        font-size: var(--font-size-xs);
         color: var(--color-text-3);
         transition: color 100ms linear;
         background-color: var(--color-bg-1);

@@ -523,7 +523,7 @@ watchEffect(() => {
         background-color: var(--color-fill-1);
         border-radius: var(--border-radius-small);
         cursor: text;
-        line-height: 1.3rem;
+        line-height: var(--line-height-md);
         box-sizing: border-box;
         padding: 10px;
       }
@@ -537,7 +537,7 @@ watchEffect(() => {
         white-space: pre-wrap;
         line-break: anywhere;
         cursor: text;
-        line-height: 1.3rem;
+        line-height: var(--line-height-md);
         box-sizing: border-box;
         padding: 10px;
       }
@@ -563,8 +563,8 @@ watchEffect(() => {
           border-radius: var(--border-radius-small);
 
           .knowledge-base-file-content {
-            font-size: 14px;
-            line-height: 1.3rem;
+            font-size: var(--font-size-default);
+            line-height: var(--line-height-md);
             overflow: hidden;
             display: -webkit-box;
             text-overflow: ellipsis;
@@ -575,7 +575,7 @@ watchEffect(() => {
           }
 
           .knowledge-base-file-footer {
-            font-size: 13px;
+            font-size: var(--font-size-sm);
             color: var(--color-text-3);
             margin-top: 10px;
             display: flex;
@@ -637,7 +637,7 @@ watchEffect(() => {
   }
 
   .select-file-tip {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     color: var(--color-text-2);
   }
 

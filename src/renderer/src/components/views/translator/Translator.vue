@@ -240,7 +240,7 @@ const copyResult = (): void => {
 
     .translator-header-title {
       flex-grow: 1;
-      font-size: 15px;
+      font-size: var(--font-size-lg);
       font-weight: 500;
     }
 
@@ -312,26 +312,26 @@ const copyResult = (): void => {
           justify-content: space-between;
 
           .speech-btn {
-            font-size: 15px;
+            font-size: var(--font-size-md);
             color: rgb(var(--primary-5));
             cursor: pointer;
           }
 
           .clear-btn {
-            font-size: 15px;
+            font-size: var(--font-size-md);
             color: rgb(var(--danger-5));
             cursor: pointer;
           }
 
           .copy-btn {
-            font-size: 15px;
+            font-size: var(--font-size-md);
             color: rgb(var(--success-5));
             cursor: pointer;
           }
 
           .speech-btn-disabled,
           .clear-btn-disabled {
-            font-size: 15px;
+            font-size: var(--font-size-md);
             color: var(--color-text-4);
           }
         }
@@ -378,19 +378,19 @@ const copyResult = (): void => {
           justify-content: space-between;
 
           .speech-btn {
-            font-size: 15px;
+            font-size: var(--font-size-md);
             color: rgb(var(--primary-5));
             cursor: pointer;
           }
 
           .clear-btn {
-            font-size: 15px;
+            font-size: var(--font-size-md);
             color: rgb(var(--danger-5));
             cursor: pointer;
           }
 
           .copy-btn {
-            font-size: 15px;
+            font-size: var(--font-size-md);
             color: rgb(var(--success-5));
             cursor: pointer;
           }
@@ -398,7 +398,7 @@ const copyResult = (): void => {
           .speech-btn-disabled,
           .clear-btn-disabled,
           .copy-btn-disabled {
-            font-size: 15px;
+            font-size: var(--font-size-md);
             color: var(--color-text-4);
           }
         }

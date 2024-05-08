@@ -53,7 +53,7 @@ defineProps({
     justify-content: space-between;
 
     .chat-message-file-name {
-      font-size: 13px;
+      font-size: var(--font-size-sm);
       font-weight: 500;
       color: var(--color-text-1);
       white-space: nowrap;
@@ -62,7 +62,7 @@ defineProps({
     }
 
     .chat-message-file-size {
-      font-size: 11px;
+      font-size: var(--font-size-xxs);
       color: var(--color-text-2);
       white-space: nowrap;
       overflow: hidden;

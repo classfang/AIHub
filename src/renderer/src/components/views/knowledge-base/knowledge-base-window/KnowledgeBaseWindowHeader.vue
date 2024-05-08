@@ -111,7 +111,7 @@ const knowledgeBaseDelete = () => {
     <a-popover position="br" trigger="click" :content-style="{ padding: '5px' }">
       <icon-more
         :class="{ 'no-drag-area': !systemStore.knowledgeBaseWindowLoading }"
-        style="font-size: 24px; flex-shrink: 0"
+        style="font-size: var(--font-size-xxl); flex-shrink: 0"
       />
       <template #content>
         <a-space direction="vertical" fill>
@@ -164,7 +164,7 @@ const knowledgeBaseDelete = () => {
   padding: 15px;
 
   .knowledge-base-name {
-    font-size: 16px;
+    font-size: var(--font-size-lg);
     font-weight: 500;
   }
 

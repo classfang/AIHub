@@ -410,7 +410,7 @@ const stopGenerateReport = () => {
 
     .ai-calendar-header-title {
       flex-grow: 1;
-      font-size: 15px;
+      font-size: var(--font-size-lg);
       font-weight: 500;
     }
 
@@ -485,7 +485,7 @@ const stopGenerateReport = () => {
                     .calendar-cell-body {
                       flex: 1;
                       color: var(--color-text-2);
-                      font-size: 12px;
+                      font-size: var(--font-size-xs);
                       overflow-y: auto;
                       word-break: break-all;
                       line-break: anywhere;

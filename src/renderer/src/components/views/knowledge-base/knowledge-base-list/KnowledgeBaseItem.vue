@@ -64,7 +64,7 @@ const itemActive = () => {
 
       .knowledge-base-item-name {
         flex-grow: 1;
-        font-size: 15px;
+        font-size: var(--font-size-md);
         font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
@@ -73,7 +73,7 @@ const itemActive = () => {
     }
 
     .knowledge-base-item-content {
-      font-size: 12px;
+      font-size: var(--font-size-xs);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

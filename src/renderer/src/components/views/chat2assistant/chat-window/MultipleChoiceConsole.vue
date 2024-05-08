@@ -258,7 +258,7 @@ const shareModalBeforeOk = async () => {
 
     .multiple-choice-console-icon {
       stroke-width: 2;
-      font-size: 28px;
+      font-size: var(--font-size-xxxl);
     }
   }
 }
@@ -272,7 +272,7 @@ const shareModalBeforeOk = async () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: var(--font-size-xs);
   }
 }
 </style>

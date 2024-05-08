@@ -178,7 +178,7 @@ watch(
 
     .assistant-item-content {
       flex-grow: 1;
-      font-size: 15px;
+      font-size: var(--font-size-md);
       font-weight: 500;
       white-space: nowrap;
       overflow: hidden;
@@ -193,13 +193,13 @@ watch(
 
       .assistant-item-message-count {
         flex-shrink: 0;
-        font-size: 12px;
+        font-size: var(--font-size-xs);
         color: var(--color-text-3);
       }
 
       .assistant-item-time {
         flex-shrink: 0;
-        font-size: 12px;
+        font-size: var(--font-size-xs);
         color: var(--color-text-3);
       }
     }
@@ -221,7 +221,7 @@ watch(
 
       .assistant-item-name {
         flex-grow: 1;
-        font-size: 15px;
+        font-size: var(--font-size-md);
         font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
@@ -230,13 +230,13 @@ watch(
 
       .assistant-item-time {
         flex-shrink: 0;
-        font-size: 11px;
+        font-size: var(--font-size-xxs);
         color: var(--color-text-3);
       }
     }
 
     .assistant-item-content {
-      font-size: 12px;
+      font-size: var(--font-size-xs);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -245,7 +245,7 @@ watch(
   }
 
   .assistant-item-delete-btn {
-    font-size: 18px;
+    font-size: var(--font-size-xl);
     color: var(--color-text-3);
     position: absolute;
     top: 5px;

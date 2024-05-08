@@ -43,7 +43,10 @@
           "customEdit": "编辑自定义主题",
           "customEditReset": "重置样式"
         },
-        "local": "语言"
+        "local": "语言",
+        "fontSize": "文字大小",
+        "min": "小",
+        "max": "大"
       },
       "network": {
         "name": "网络",

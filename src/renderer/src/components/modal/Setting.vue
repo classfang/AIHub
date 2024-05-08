@@ -25,7 +25,11 @@ import {
   openLogDir
 } from '@renderer/utils/ipc-util'
 import { copyObj } from '@renderer/utils/object-util'
-import { defaultCustomThemeMap, setCustomTheme } from '@renderer/utils/theme-util'
+import {
+  defaultCustomThemeMap,
+  setCustomFontSize,
+  setCustomTheme
+} from '@renderer/utils/theme-util'
 import { openInBrowser } from '@renderer/utils/window-util'
 import { computed, onMounted, reactive, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -258,6 +262,14 @@ watch(
   }
 )
 
+// 字体大小修改实时生效
+watch(
+  () => settingStore.app.fontSize,
+  (value) => {
+    setCustomFontSize(value)
+  }
+)
+
 onMounted(() => {
   getAppVersion().then((v) => {
     data.appVersion = v
@@ -334,7 +346,6 @@ onMounted(() => {
                         <a-color-picker
                           v-model="settingStore.app.customThemeMap[tk]"
                           size="small"
-                          show-text
                           class="custom-theme-list-item-color-picker"
                         />
                       </div>
@@ -348,6 +359,19 @@ onMounted(() => {
                         <span>{{ $t('setting.app.appearance.theme.customEditReset') }}</span>
                       </a-space>
                     </a-button>
+                  </a-space>
+                  <a-space direction="vertical" :size="10" fill>
+                    <div>{{ $t('setting.app.appearance.fontSize') }}</div>
+                    <a-space :size="10">
+                      <div>{{ $t('setting.app.appearance.min') }}</div>
+                      <a-slider
+                        v-model="settingStore.app.fontSize"
+                        :min="1"
+                        :max="5"
+                        style="width: 300px"
+                      />
+                      <div>{{ $t('setting.app.appearance.max') }}</div>
+                    </a-space>
                   </a-space>
                   <a-space direction="vertical" :size="10" fill>
                     <div>{{ $t('setting.app.appearance.local') }}</div>

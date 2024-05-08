@@ -77,7 +77,7 @@ onMounted(() => {
   gap: 20px;
 
   .welcome-text {
-    font-size: 16px;
+    font-size: var(--font-size-lg);
     font-weight: 500;
     color: var(--color-text-1);
 

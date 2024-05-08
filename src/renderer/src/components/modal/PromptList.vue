@@ -83,7 +83,7 @@ const selectPrompt = (prompt: string) => {
     }
 
     .prompt-item-name {
-      font-size: 14px;
+      font-size: var(--font-size-default);
       font-weight: 500;
       color: var(--color-text-1);
       white-space: nowrap;
@@ -92,7 +92,7 @@ const selectPrompt = (prompt: string) => {
     }
 
     .prompt-item-prompt {
-      font-size: 14px;
+      font-size: var(--font-size-default);
       color: var(--color-text-2);
       white-space: nowrap;
       overflow: hidden;
