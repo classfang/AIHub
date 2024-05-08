@@ -412,6 +412,10 @@ const stopGenerateReport = () => {
       flex-grow: 1;
       font-size: var(--font-size-lg);
       font-weight: 500;
+
+      :deep(.arco-tag) {
+        font-size: var(--font-size-xs);
+      }
     }
 
     .ai-calendar-header-btn-group {

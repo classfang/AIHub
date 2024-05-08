@@ -282,6 +282,7 @@ onMounted(() => {
   display: flex;
   background-color: var(--color-bg-1);
   color: var(--color-text-1);
+  font-size: var(--font-size-default);
 
   .app-sidebar {
     flex-shrink: 0;

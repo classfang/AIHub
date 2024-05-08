@@ -906,9 +906,14 @@ onMounted(() => {
 .setting-page {
   height: 60vh;
   overflow-y: auto;
+  font-size: var(--font-size-default);
 
   :deep(.arco-tabs) {
     height: 100%;
+
+    .arco-tabs-tab-title {
+      font-size: var(--font-size-default);
+    }
 
     .arco-tabs-content-list {
       height: 100%;
