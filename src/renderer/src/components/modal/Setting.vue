@@ -368,6 +368,7 @@ onMounted(() => {
                         v-model="settingStore.app.fontSize"
                         :min="1"
                         :max="5"
+                        show-ticks
                         style="width: 300px"
                       />
                       <div>{{ $t('setting.app.appearance.max') }}</div>

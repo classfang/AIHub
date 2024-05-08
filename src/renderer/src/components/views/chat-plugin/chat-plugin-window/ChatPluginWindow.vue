@@ -244,6 +244,10 @@ const handleTestModalClose = () => {
     flex-shrink: 0;
     border: none;
     background-color: var(--color-fill-2);
+
+    :deep(.arco-textarea) {
+      font-size: var(--font-size-default);
+    }
   }
 }
 </style>

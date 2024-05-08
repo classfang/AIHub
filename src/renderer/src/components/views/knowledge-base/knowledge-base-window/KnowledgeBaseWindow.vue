@@ -651,6 +651,7 @@ watchEffect(() => {
     :deep(.arco-textarea) {
       resize: none;
       flex-grow: 1;
+      font-size: var(--font-size-default);
     }
   }
 }

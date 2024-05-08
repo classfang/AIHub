@@ -272,6 +272,7 @@ onMounted(() => {
       .webview-header-title {
         margin-right: auto;
         font-weight: bold;
+        font-size: var(--font-size-lg);
       }
 
       .webview-header-btn {

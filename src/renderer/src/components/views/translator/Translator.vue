@@ -302,6 +302,7 @@ const copyResult = (): void => {
           resize: none;
           box-sizing: border-box;
           padding: 10px;
+          font-size: var(--font-size-default);
         }
 
         .query-footer {
@@ -368,6 +369,7 @@ const copyResult = (): void => {
           resize: none;
           box-sizing: border-box;
           padding: 10px;
+          font-size: var(--font-size-default);
         }
 
         .result-footer {

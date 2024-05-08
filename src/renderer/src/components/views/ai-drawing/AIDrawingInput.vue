@@ -82,6 +82,10 @@ const startGenerate = (event?: KeyboardEvent) => {
     background-color: transparent;
     box-sizing: border-box;
     padding: 0 3px;
+
+    :deep(.arco-textarea) {
+      font-size: var(--font-size-default);
+    }
   }
 
   .ai-drawing-prompt-bottom {

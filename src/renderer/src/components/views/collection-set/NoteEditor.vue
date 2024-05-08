@@ -43,6 +43,7 @@ const noteEditorInput = (newValue: string) => {
       resize: none;
       height: 100%;
       padding: 15px;
+      font-size: var(--font-size-default);
     }
   }
 }
