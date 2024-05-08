@@ -28,6 +28,7 @@ import { clipboardWriteText, saveFileByBase64, saveFileByPath } from '@renderer/
 import { Logger } from '@renderer/utils/logger'
 import { renderMarkdown } from '@renderer/utils/markdown-util'
 import { copyObj } from '@renderer/utils/object-util'
+import { getSelectedText } from '@renderer/utils/window-util'
 import dayjs from 'dayjs'
 import { APIUserAbortError } from 'openai'
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, toRefs, watch } from 'vue'
@@ -543,7 +544,7 @@ const handleInputPaste = (event: ClipboardEvent) => {
   if (isSupportImageComputed.value) {
     // 只获取第一张图片
     const item = items[0]
-    if (item.kind === 'file' && item.type.startsWith('image/')) {
+    if (item && item.kind === 'file' && item.type.startsWith('image/')) {
       // 阻止默认粘贴行为
       event.preventDefault()
       // 获取图片数据
@@ -718,10 +719,12 @@ onBeforeUnmount(() => {
             </div>
             <!-- 右键菜单内容 -->
             <template #content>
-              <a-doption @click="clipboardWriteText(msg.content)"
+              <a-doption @click="clipboardWriteText(getSelectedText(msg.content))"
                 >{{ $t('chatWindow.copy') }}
               </a-doption>
-              <a-doption v-if="isSupportSpeechComputed" @click="startSpeech(msg.content)"
+              <a-doption
+                v-if="isSupportSpeechComputed"
+                @click="startSpeech(getSelectedText(msg.content))"
                 >{{ $t('chatWindow.speech') }}
               </a-doption>
               <a-doption @click="multipleChoiceOpen(msg.id)"
