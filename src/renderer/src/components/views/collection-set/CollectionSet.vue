@@ -510,6 +510,10 @@ const newNote = () => {
       .assistant-desc {
         flex-shrink: 0;
         margin-left: auto;
+
+        :deep(.arco-tag) {
+          font-size: var(--font-size-xs);
+        }
       }
     }
 

@@ -769,7 +769,7 @@ onBeforeUnmount(() => {
           :content="isVirtual ? $t('chatWindow.header.editChat') : $t('chatWindow.header.edit')"
           position="top"
           mini
-          :content-style="{ fontSize: '12px' }"
+          :content-style="{ fontSize: 'var(--font-size-xs)' }"
         >
           <a-button size="mini" shape="round" @click="chatWindowHeaderRef.edit()">
             <icon-settings :size="15" />
@@ -781,7 +781,7 @@ onBeforeUnmount(() => {
           :content="$t('chatWindow.clearContext')"
           position="top"
           mini
-          :content-style="{ fontSize: '12px' }"
+          :content-style="{ fontSize: 'var(--font-size-xs)' }"
         >
           <a-button size="mini" shape="round" @click="clearContext()">
             <icon-eraser :size="15" />
@@ -793,7 +793,7 @@ onBeforeUnmount(() => {
           :content="$t('chatWindow.header.clear')"
           position="top"
           mini
-          :content-style="{ fontSize: '12px' }"
+          :content-style="{ fontSize: 'var(--font-size-xs)' }"
         >
           <a-button size="mini" shape="round" @click="chatWindowHeaderRef.clearConfirm()">
             <icon-delete :size="15" />
@@ -805,7 +805,7 @@ onBeforeUnmount(() => {
           :content="$t('chatWindow.multipleChoice')"
           position="top"
           mini
-          :content-style="{ fontSize: '12px' }"
+          :content-style="{ fontSize: 'var(--font-size-xs)' }"
         >
           <a-button size="mini" shape="round" @click="multipleChoiceOpen()">
             <icon-select-all :size="15" />
@@ -818,7 +818,7 @@ onBeforeUnmount(() => {
           :content="$t('chatWindow.fastPrompt')"
           position="top"
           mini
-          :content-style="{ fontSize: '12px' }"
+          :content-style="{ fontSize: 'var(--font-size-xs)' }"
         >
           <a-button size="mini" shape="round" @click="promptListModalVisible = true">
             <icon-bulb :size="15" />
@@ -840,7 +840,7 @@ onBeforeUnmount(() => {
                 :content="$t('chatWindow.selectImage')"
                 position="top"
                 mini
-                :content-style="{ fontSize: '12px' }"
+                :content-style="{ fontSize: 'var(--font-size-xs)' }"
               >
                 <a-button size="mini" shape="round">
                   <icon-image :size="15" />
@@ -855,7 +855,7 @@ onBeforeUnmount(() => {
           :content="$t('chatWindow.selectFile')"
           position="top"
           mini
-          :content-style="{ fontSize: '12px' }"
+          :content-style="{ fontSize: 'var(--font-size-xs)' }"
         >
           <a-button
             size="mini"
@@ -874,7 +874,7 @@ onBeforeUnmount(() => {
             :content="$t('chatWindow.selectPlugin')"
             position="top"
             mini
-            :content-style="{ fontSize: '12px' }"
+            :content-style="{ fontSize: 'var(--font-size-xs)' }"
           >
             <a-button
               size="mini"
