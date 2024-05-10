@@ -34,6 +34,7 @@ type BigModelProvider =
   | 'Tiangong'
   | 'MoonshotAI'
   | 'StepFun'
+  | 'DeepSeek'
 type AIDrawingProvider = 'OpenAI' | 'ZhipuAI' | 'Tongyi' | 'ERNIE' | 'Spark'
 type AIAudioProvider = 'OpenAI'
 type TranslatorProvider = 'youdao' | 'baiduTranslation'

@@ -20,8 +20,9 @@ const data = reactive({
     'Spark',
     'Tiangong',
     'MoonshotAI',
-    'StepFun'
-  ],
+    'StepFun',
+    'DeepSeek'
+  ] as BigModelProvider[],
   providerShowIndex: -1
 })
 const { providers, providerShowIndex } = toRefs(data)

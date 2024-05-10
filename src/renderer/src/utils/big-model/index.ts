@@ -1,3 +1,4 @@
+import { chat2deepSeek } from '@renderer/utils/big-model/deep-seek-util'
 import { chat2ernie, drawingByERNIE } from '@renderer/utils/big-model/ernie-bot-util'
 import { chat2gemini } from '@renderer/utils/big-model/gemini-util'
 import { chat2moonshot } from '@renderer/utils/big-model/moonshot-util'
@@ -80,7 +81,8 @@ const chatFunctionMap: ChatFunctionMap = {
   Tongyi: chat2tongyi,
   Tiangong: chat2tiangong,
   MoonshotAI: chat2moonshot,
-  StepFun: chat2step
+  StepFun: chat2step,
+  DeepSeek: chat2deepSeek
 }
 
 const drawingFunctionMap: DrawingFunctionMap = {

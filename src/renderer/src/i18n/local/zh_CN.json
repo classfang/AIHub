@@ -127,6 +127,10 @@
       "stepFun": {
         "name": "阶跃星辰",
         "apiKey": "API Key"
+      },
+      "deepSeek": {
+        "name": "DeepSeek",
+        "apiKey": "API Key"
       }
     },
     "aiCalendar": {
@@ -180,7 +184,8 @@
     "Tongyi": "阿里通义",
     "Tiangong": "天工",
     "MoonshotAI": "月之暗面",
-    "StepFun": "阶跃星辰"
+    "StepFun": "阶跃星辰",
+    "DeepSeek": "DeepSeek"
   },
   "bigModelProviderWelcome": {
     "OpenAI": "我_是_ Open_AI _大_模_型，_请_问_有_什_么_可_以_帮_你_？",
@@ -192,7 +197,8 @@
     "Tongyi": "我_是_阿里_通义_大_模_型，_请_问_有_什_么_可_以_帮_你_？",
     "Tiangong": "我_是_天工_大_模_型，_请_问_有_什_么_可_以_帮_你_？",
     "MoonshotAI": "我_是_月之_暗面_大_模_型，_请_问_有_什_么_可_以_帮_你_？",
-    "StepFun": "我_是_阶跃_星辰_大_模_型，_请_问_有_什_么_可_以_帮_你_？"
+    "StepFun": "我_是_阶跃_星辰_大_模_型，_请_问_有_什_么_可_以_帮_你_？",
+    "DeepSeek": "我_是_ DeepSeek _大_模_型，_请_问_有_什_么_可_以_帮_你_？"
   },
   "translationProvider": {
     "youdao": "有道翻译",
@@ -256,20 +262,22 @@
       "Tongyi": "阿里通义大模型未配置",
       "Tiangong": "天工大模型未配置",
       "MoonshotAI": "月之暗面大模型未配置",
-      "StepFun": "阶跃星辰大模型未配置"
+      "StepFun": "阶跃星辰大模型未配置",
+      "DeepSeek": "DeepSeek 大模型未配置"
     },
     "error": {
       "imageRequires": "你必须上传一张图片",
-      "OpenAI": "OpenAI 调用错误，请检查你的配置",
-      "Ollama": "Ollama 调用错误，请检查你的配置",
-      "Gemini": "Gemini 调用错误，请检查你的配置",
-      "ZhipuAI": "智谱AI 调用错误，请检查你的配置",
-      "Spark": "星火大模型调用错误，请检查你的配置",
-      "ERNIE": "百度文心大模型调用错误，请检查你的配置",
-      "Tongyi": "阿里通义大模型调用错误，请检查你的配置",
-      "Tiangong": "天工大模型调用错误，请检查你的配置",
+      "OpenAI": "OpenAI 调用错误",
+      "Ollama": "Ollama 调用错误",
+      "Gemini": "Gemini 调用错误",
+      "ZhipuAI": "智谱AI 调用错误",
+      "Spark": "星火大模型调用错误",
+      "ERNIE": "百度文心大模型调用错误",
+      "Tongyi": "阿里通义大模型调用错误",
+      "Tiangong": "天工大模型调用错误",
       "MoonshotAI": "月之暗面大模型调用错误",
-      "StepFun": "阶跃星辰大模型调用错误"
+      "StepFun": "阶跃星辰大模型调用错误",
+      "DeepSeek": "DeepSeek 大模型调用错误"
     },
     "fileList": {
       "title": "文档列表",
@@ -324,8 +332,8 @@
       "baiduTranslation": "百度翻译未配置"
     },
     "error": {
-      "youdao": "有道翻译调用错误，请检查你的配置",
-      "baiduTranslation": "百度翻译调用错误，请检查你的配置"
+      "youdao": "有道翻译调用错误",
+      "baiduTranslation": "百度翻译调用错误"
     },
     "langType": {
       "auto": "自动",

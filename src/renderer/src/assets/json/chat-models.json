@@ -115,5 +115,17 @@
       "value": "step-1-32k",
       "type": "text"
     }
+  ],
+  "DeepSeek": [
+    {
+      "name": "deepseek-chat",
+      "value": "deepseek-chat",
+      "type": "text"
+    },
+    {
+      "name": "deepseek-coder",
+      "value": "deepseek-coder",
+      "type": "text"
+    }
   ]
 }

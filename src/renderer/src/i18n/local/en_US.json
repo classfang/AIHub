@@ -127,6 +127,10 @@
       "stepFun": {
         "name": "Jie Yue",
         "apiKey": "API Key"
+      },
+      "deepSeek": {
+        "name": "DeepSeek",
+        "apiKey": "API Key"
       }
     },
     "aiCalendar": {
@@ -180,7 +184,8 @@
     "Tongyi": "Alibaba Tongyi",
     "Tiangong": "Tiangong",
     "MoonshotAI": "Moonshot AI",
-    "StepFun": "Jie Yue"
+    "StepFun": "Jie Yue",
+    "DeepSeek": "DeepSeek"
   },
   "bigModelProviderWelcome": {
     "OpenAI": "I_ am_ the_ OpenAI_ large_ model._ How_ can_ I_ help_ you_ today?",
@@ -192,7 +197,8 @@
     "Tongyi": "I_ am_ the_ Alibaba_ Tongyi_ large_ model._ How_ can_ I_ help_ you_ today?",
     "Tiangong": "I_ am_ the_ Tiangong_ large_ model._ How_ can_ I_ help_ you_ today?",
     "MoonshotAI": "I_ am_ the_ Moonshot AI_ large_ model._ How_ can_ I_ help_ you_ today?",
-    "StepFun": "I_ am_ the_ Jie Yue_ large_ model._ How_ can_ I_ help_ you_ today?"
+    "StepFun": "I_ am_ the_ Jie Yue_ large_ model._ How_ can_ I_ help_ you_ today?",
+    "DeepSeek": "I_ am_ the_ DeepSeek_ large_ model._ How_ can_ I_ help_ you_ today?"
   },
   "translationProvider": {
     "youdao": "Youdao Translation",
@@ -256,20 +262,22 @@
       "Tongyi": "Alibaba Tongyi is not configured",
       "Tiangong": "Tiangong is not configured",
       "MoonshotAI": "Moonshot AI is not configured",
-      "StepFun": "Jie Yue is not configured"
+      "StepFun": "Jie Yue is not configured",
+      "DeepSeek": "DeepSeek is not configured"
     },
     "error": {
       "imageRequires": "You have to upload a picture",
-      "OpenAI": "OpenAI call error, please check your configuration",
-      "Ollama": "Ollama call error, please check your configuration",
-      "Gemini": "Gemini call error, please check your configuration",
-      "ZhipuAI": "Zhipu AI call error, please check your configuration",
-      "Spark": "iFLYTEK Spark call error, please check your configuration",
-      "ERNIE": "Baidu ERNIE call error, please check your configuration",
-      "Tongyi": "Alibaba Tongyi call error, please check your configuration",
-      "Tiangong": "Tiangong call error, please check your configuration",
-      "MoonshotAI": "Moonshot AI call error, please check your configuration",
-      "StepFun": "Jie Yue call error, please check your configuration"
+      "OpenAI": "OpenAI call error",
+      "Ollama": "Ollama call error",
+      "Gemini": "Gemini call error",
+      "ZhipuAI": "Zhipu AI call error",
+      "Spark": "iFLYTEK Spark call error",
+      "ERNIE": "Baidu ERNIE call error",
+      "Tongyi": "Alibaba Tongyi call error",
+      "Tiangong": "Tiangong call error",
+      "MoonshotAI": "Moonshot AI call error",
+      "StepFun": "Jie Yue call error",
+      "DeepSeek": "DeepSeek call error"
     },
     "fileList": {
       "title": "Document list",
@@ -324,8 +332,8 @@
       "baiduTranslation": "Baidu Translation is not configured"
     },
     "error": {
-      "youdao": "Youdao Translation call error, please check your configuration",
-      "baiduTranslation": "Baidu Translation call error, please check your configuration"
+      "youdao": "Youdao Translation call error",
+      "baiduTranslation": "Baidu Translation call error"
     },
     "langType": {
       "auto": "Auto",

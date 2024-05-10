@@ -58,6 +58,9 @@ export const useSettingStore = defineStore({
     stepFun: {
       apiKey: ''
     },
+    deepSeek: {
+      apiKey: ''
+    },
     baiduTranslation: {
       appId: '',
       secret: ''
@@ -85,6 +88,7 @@ export const useSettingStore = defineStore({
         moonshotAI: this.moonshotAI,
         zhipuAI: this.zhipuAI,
         stepFun: this.stepFun,
+        deepSeek: this.deepSeek,
         youdao: this.youdao,
         baiduTranslation: this.baiduTranslation,
         aiCalendar: this.aiCalendar
@@ -140,6 +144,10 @@ export const useSettingStore = defineStore({
       }
       if (settingBackup.stepFun !== undefined) {
         this.stepFun = settingBackup.stepFun
+        importFlag = true
+      }
+      if (settingBackup.deepSeek !== undefined) {
+        this.deepSeek = settingBackup.deepSeek
         importFlag = true
       }
       if (settingBackup.youdao !== undefined) {
@@ -209,6 +217,11 @@ export const useSettingStore = defineStore({
             configErrorFlag = true
           }
           break
+        case 'DeepSeek':
+          if (!this.deepSeek.apiKey) {
+            configErrorFlag = true
+          }
+          break
       }
       return configErrorFlag
     },
@@ -269,6 +282,11 @@ export const useSettingStore = defineStore({
         case 'StepFun':
           otherOption = {
             apiKey: this.stepFun.apiKey
+          }
+          break
+        case 'DeepSeek':
+          otherOption = {
+            apiKey: this.deepSeek.apiKey
           }
           break
       }

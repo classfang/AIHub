@@ -688,6 +688,29 @@ onMounted(() => {
                   </a-space>
                 </a-space>
               </a-tab-pane>
+              <!-- DeepSeek -->
+              <a-tab-pane key="deepSeek" :title="$t('setting.bigModel.deepSeek.name')">
+                <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                  <a-space direction="vertical" :size="25" fill class="setting-tab-content">
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('common.officialWebsite') }}</div>
+                      <a-link @click="openInBrowser('https://platform.deepseek.com')"
+                        >https://platform.deepseek.com</a-link
+                      >
+                    </a-space>
+                    <a-space direction="vertical" :size="10" fill>
+                      <div>{{ $t('setting.bigModel.deepSeek.apiKey') }}</div>
+                      <a-input-password
+                        v-model="settingStore.deepSeek.apiKey"
+                        size="small"
+                        :placeholder="
+                          $t('common.pleaseEnter') + ' ' + $t('setting.bigModel.deepSeek.apiKey')
+                        "
+                      />
+                    </a-space>
+                  </a-space>
+                </a-space>
+              </a-tab-pane>
             </a-tabs>
           </a-tab-pane>
           <!-- AI日历 -->
