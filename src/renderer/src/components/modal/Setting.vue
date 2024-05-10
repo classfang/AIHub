@@ -937,6 +937,9 @@ onMounted(() => {
                     <a-button size="small" @click="openLogDir()">
                       <span>{{ $t('setting.about.devTools.openLogPath') }}</span>
                     </a-button>
+                    <a-button size="small" @click="systemStore.isWelcomeShow = true">
+                      <span>{{ $t('setting.about.devTools.welcomePage') }}</span>
+                    </a-button>
                   </a-space>
                 </div>
               </a-space>

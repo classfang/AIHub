@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import AssistantAvatar from '@renderer/components/avatar/AssistantAvatar.vue'
+import { useSystemStore } from '@renderer/store/system'
 import { useUserStore } from '@renderer/store/user'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { simulateThreadWait } from '@renderer/utils/thread-util'
+import { sys } from 'typescript'
 import { nextTick, onMounted, reactive, toRefs } from 'vue'
 
 const userStore = useUserStore()
-
-const finish = defineModel<boolean>('finish', { default: () => false })
+const systemStore = useSystemStore()
 
 const data = reactive({
   providers: [
@@ -30,21 +31,27 @@ const { providers, providerShowIndex } = toRefs(data)
 onMounted(() => {
   // 轮流显示提供商Logo
   nextTick(async () => {
-    if (nowTimestamp() - userStore.lastStartupTime > 24 * 60 * 60 * 1000) {
+    if (
+      nowTimestamp() - userStore.lastStartupTime > 24 * 60 * 60 * 1000 ||
+      !systemStore.isStartup
+    ) {
       for (let i = 0; i < data.providers.length; i++) {
         await simulateThreadWait(200)
         providerShowIndex.value++
       }
       await simulateThreadWait(2000)
     }
-    finish.value = true
-    userStore.lastStartupTime = nowTimestamp()
+    if (systemStore.isStartup) {
+      systemStore.isStartup = false
+      systemStore.isWelcomeShow = false
+      userStore.lastStartupTime = nowTimestamp()
+    }
   })
 })
 </script>
 
 <template>
-  <div class="welcome-page z-index-max">
+  <div class="welcome-page z-index-max" @click="systemStore.isWelcomeShow = false">
     <div class="provider-list">
       <AssistantAvatar
         v-for="(p, index) in providers"

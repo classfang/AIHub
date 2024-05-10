@@ -165,7 +165,8 @@
       "devTools": {
         "name": "Developer tools",
         "openDevTools": "Open dev tools",
-        "openLogPath": "Open log directory"
+        "openLogPath": "Open log directory",
+        "welcomePage": "Open welcome page"
       }
     }
   },

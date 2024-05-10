@@ -4,6 +4,8 @@ import { defineStore } from 'pinia'
 export const useSystemStore = defineStore({
   id: 'system',
   state: () => ({
+    isStartup: true,
+    isWelcomeShow: true,
     currentPage: 'chat' as PageName,
     globalLoading: false,
     chatWindowLoading: false,

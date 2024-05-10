@@ -40,7 +40,6 @@ const arcoDesignLocales = {
 }
 
 const data = reactive({
-  isWelcomeFinish: false,
   sidebarConfig: [
     {
       name: 'chat',
@@ -81,7 +80,7 @@ const data = reactive({
   ] as { name: PageName; icon: string }[],
   alivePages: ['chat'] as PageName[]
 })
-const { isWelcomeFinish, sidebarConfig, alivePages } = toRefs(data)
+const { sidebarConfig, alivePages } = toRefs(data)
 
 // 主题设置监听
 let stopDarkThemeListener: any = null
@@ -169,8 +168,8 @@ onMounted(() => {
 <template>
   <a-config-provider :locale="arcoDesignLocal">
     <!-- 欢迎页 -->
-    <WelcomePage v-if="!isWelcomeFinish" v-model:finish="isWelcomeFinish" />
-    <div class="app fade-in-from" :class="{ 'fade-in-to': isWelcomeFinish }">
+    <WelcomePage v-if="systemStore.isWelcomeShow" />
+    <div class="app fade-in-from" :class="{ 'fade-in-to': !systemStore.isWelcomeShow }">
       <!-- 侧边栏 -->
       <div class="app-sidebar drag-area">
         <div :class="{ 'app-sidebar-avatar-macos': getPlatform().isMacOS }">
