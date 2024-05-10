@@ -170,6 +170,9 @@
       }
     }
   },
+  "welcomePage": {
+    "title": "Now supported"
+  },
   "userSetting": {
     "name": "User Info",
     "selectAvatar": "Select",

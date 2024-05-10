@@ -170,6 +170,9 @@
       }
     }
   },
+  "welcomePage": {
+    "title": "现已支持"
+  },
   "userSetting": {
     "name": "用户信息",
     "selectAvatar": "选择",

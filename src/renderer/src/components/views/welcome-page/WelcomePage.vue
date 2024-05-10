@@ -4,7 +4,6 @@ import { useSystemStore } from '@renderer/store/system'
 import { useUserStore } from '@renderer/store/user'
 import { nowTimestamp } from '@renderer/utils/date-util'
 import { simulateThreadWait } from '@renderer/utils/thread-util'
-import { sys } from 'typescript'
 import { nextTick, onMounted, reactive, toRefs } from 'vue'
 
 const userStore = useUserStore()
@@ -53,6 +52,10 @@ onMounted(() => {
 <template>
   <div class="welcome-page z-index-max" @click="systemStore.isWelcomeShow = false">
     <div class="provider-list">
+      <div class="provider-list-title">
+        <div class="provider-list-title-left">{{ $t('welcomePage.title') }}</div>
+        <div class="provider-list-title-right">&copy; 2024 Junki</div>
+      </div>
       <AssistantAvatar
         v-for="(p, index) in providers"
         :key="p"
@@ -74,6 +77,7 @@ onMounted(() => {
   top: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -82,6 +86,23 @@ onMounted(() => {
     display: flex;
     flex-wrap: wrap;
     gap: 40px;
+
+    .provider-list-title {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      .provider-list-title-left {
+        font-size: var(--font-size-xl);
+        font-weight: 500;
+      }
+
+      .provider-list-title-right {
+        color: var(--color-text-2);
+        font-size: var(--font-size-sm);
+      }
+    }
 
     .provider-item {
       opacity: 0;
