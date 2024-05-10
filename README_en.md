@@ -19,7 +19,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/classfang/AIHub)
 
 <h4 align="center">
-  🎉🎉🎉 Now supported: OpenAI, Ollama, Google Gemini, iFLYTEK Spark, Baidu ERNIE Bot, Alibaba Tongyi，Tiangong，Moonshot AI, Zhipu AI
+  🎉🎉🎉 Now supported: OpenAI, Ollama, Google Gemini, iFLYTEK Spark, Baidu ERNIE Bot, Alibaba Tongyi，Tiangong，Moonshot AI, Zhipu AI，Jieyue，DeepSeek
 </h4>
 
 ## 🖥️ Function introduction
