@@ -1,6 +1,13 @@
 {
   "OpenAI": [
     {
+      "name": "gpt-4o",
+      "value": "gpt-4o",
+      "type": "vision",
+      "isSupportImage": true,
+      "isSupportPlugin": true
+    },
+    {
       "name": "gpt-4-turbo",
       "value": "gpt-4-turbo",
       "type": "vision",
