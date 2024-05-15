@@ -623,7 +623,7 @@ onBeforeUnmount(() => {
     <a-scrollbar
       ref="chatMessageListScrollbarRef"
       outer-class="chat-message-list-container arco-scrollbar-small"
-      style="height: calc(100vh - 160px - 55px); overflow-y: auto"
+      style="height: calc(100vh - 158px - 55px); overflow-y: auto"
       @scroll="onChatMessageListScroll"
     >
       <!-- 对话欢迎窗口 -->
