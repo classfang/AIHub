@@ -35,7 +35,7 @@
       align-items: center;
       gap: 10px;
       box-sizing: border-box;
-      padding: 15px 15px 10px 15px;
+      padding: 15px 15px 0 15px;
 
       .chat-input-select-image {
         :deep(.arco-upload-hide) {
@@ -49,7 +49,7 @@
       align-items: end;
       gap: 10px;
       box-sizing: border-box;
-      padding: 0 15px;
+      padding: 15px;
 
       .chat-input-image {
         position: relative;
@@ -72,11 +72,10 @@
       .chat-input-textarea {
         border: none;
         background-color: transparent;
-        box-sizing: border-box;
-        padding: 0 3px;
 
         :deep(.arco-textarea) {
           font-size: var(--font-size-default);
+          padding: 0;
         }
       }
 
