@@ -480,8 +480,8 @@
     "steps": "Steps",
     "samplerIndex": "Sampling mode",
     "cfgScale": "Prompt word correlation",
-    "start": "Start generation",
-    "stop": "Stop generation",
+    "start": "Generation",
+    "stop": "Stop",
     "new": "New canvas"
   }
 }

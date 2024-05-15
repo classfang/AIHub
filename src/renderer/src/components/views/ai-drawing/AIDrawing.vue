@@ -202,12 +202,14 @@ const stopGenerate = () => {
 
     .ai-drawing-body-right {
       flex-grow: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
 
       .ai-drawing-img-area {
         flex: 1;
         min-height: 0;
+        width: 100%;
         display: flex;
         gap: 10px;
         box-sizing: border-box;
@@ -215,6 +217,7 @@ const stopGenerate = () => {
 
         .ai-drawing-img-current {
           flex-grow: 1;
+          min-width: 0;
         }
 
         .ai-drawing-img-list {
