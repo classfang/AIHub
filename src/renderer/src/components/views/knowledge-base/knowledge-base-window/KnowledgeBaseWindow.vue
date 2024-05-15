@@ -388,7 +388,11 @@ watchEffect(() => {
         @press-enter="sendQuestion"
       >
         <template #suffix>
-          <icon-arrow-up class="search-input-send-btn" @click="sendQuestion" />
+          <icon-arrow-up
+            :class="{ 'search-input-send-btn-active': question.trim().length > 0 }"
+            class="search-input-send-btn"
+            @click="sendQuestion"
+          />
         </template>
       </a-input>
     </div>
@@ -605,7 +609,14 @@ watchEffect(() => {
 
       .search-input-send-btn {
         cursor: pointer;
+        stroke-width: 6;
         color: rgb(var(--primary-5));
+        transition: color 100ms linear;
+      }
+
+      .search-input-send-btn-active {
+        stroke-width: 6;
+        color: rgb(var(--primary-6));
       }
     }
   }
