@@ -1,6 +1,6 @@
 {
   "name": "aihub",
-  "version": "1.8.8",
+  "version": "1.8.9",
   "description": "An Electron application for AI",
   "main": "./out/main/index.mjs",
   "author": "junki.cn",
