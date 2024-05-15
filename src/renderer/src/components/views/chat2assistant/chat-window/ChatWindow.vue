@@ -963,56 +963,54 @@ onBeforeUnmount(() => {
           </div>
         </transition>
 
-        <a-space direction="vertical" :size="10" style="width: 100%">
-          <!-- 文本域 -->
-          <a-textarea
-            ref="chatInputTextareaRef"
-            v-model="question"
-            class="chat-input-textarea"
-            :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
-            :auto-size="{
-              minRows: 2,
-              maxRows: 2
-            }"
-            allow-clear
-            @keydown.enter="sendQuestion"
-            @paste="handleInputPaste"
+        <!-- 文本域 -->
+        <a-textarea
+          ref="chatInputTextareaRef"
+          v-model="question"
+          class="chat-input-textarea"
+          :placeholder="$t('chatWindow.inputPlaceholder.' + currentAssistant.type)"
+          :auto-size="{
+            minRows: 4,
+            maxRows: 4
+          }"
+          allow-clear
+          @keydown.enter="sendQuestion"
+          @paste="handleInputPaste"
+        />
+
+        <!-- 输入框按钮区域 -->
+        <div class="chat-input-button">
+          <!-- 发送消息按钮 -->
+          <a-button
+            v-if="!systemStore.chatWindowLoading"
+            type="primary"
+            size="small"
+            @click="sendQuestion()"
+          >
+            <a-space :size="5">
+              <icon-send :size="15" />
+              <span>{{ $t('chatWindow.send') }}</span>
+            </a-space>
+          </a-button>
+          <!-- 停止回答按钮 -->
+          <a-button v-if="systemStore.chatWindowLoading" size="small" @click="stopAnswer()">
+            <a-space :size="5">
+              <icon-record-stop :size="15" />
+              <span>{{ $t('chatWindow.stop') }}</span>
+            </a-space>
+          </a-button>
+        </div>
+
+        <!-- 底部多选操作区域 -->
+        <transition name="slide2top">
+          <MultipleChoiceConsole
+            v-if="multipleChoiceFlag"
+            :current-assistant="currentAssistant"
+            :multiple-choice-list="multipleChoiceList"
+            :is-virtual="isVirtual"
+            @close="multipleChoiceClose()"
           />
-          <!-- 输入框区域底部 -->
-          <div class="chat-input-bottom">
-            <div style="margin-left: auto">
-              <!-- 发送消息按钮 -->
-              <a-button
-                v-if="!systemStore.chatWindowLoading"
-                type="primary"
-                size="small"
-                @click="sendQuestion()"
-              >
-                <a-space :size="5">
-                  <icon-send :size="15" />
-                  <span>{{ $t('chatWindow.send') }}</span>
-                </a-space>
-              </a-button>
-              <!-- 停止回答按钮 -->
-              <a-button v-if="systemStore.chatWindowLoading" size="small" @click="stopAnswer()">
-                <a-space :size="5">
-                  <icon-record-stop :size="15" />
-                  <span>{{ $t('chatWindow.stop') }}</span>
-                </a-space>
-              </a-button>
-            </div>
-            <!-- 底部多选操作区域 -->
-            <transition name="slide2top">
-              <MultipleChoiceConsole
-                v-if="multipleChoiceFlag"
-                :current-assistant="currentAssistant"
-                :multiple-choice-list="multipleChoiceList"
-                :is-virtual="isVirtual"
-                @close="multipleChoiceClose()"
-              />
-            </transition>
-          </div>
-        </a-space>
+        </transition>
       </div>
     </div>
 

@@ -46,9 +46,12 @@
 
     .chat-input {
       display: flex;
+      align-items: end;
+      gap: 10px;
+      box-sizing: border-box;
+      padding: 0 15px;
 
       .chat-input-image {
-        margin: 10px 0 0 15px;
         position: relative;
 
         .chat-input-image-delete-btn {
@@ -77,9 +80,7 @@
         }
       }
 
-      .chat-input-bottom {
-        box-sizing: border-box;
-        padding: 0 15px 15px 15px;
+      .chat-input-button {
         display: flex;
         align-items: center;
         gap: 10px;
