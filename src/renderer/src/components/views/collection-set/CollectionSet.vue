@@ -70,9 +70,9 @@ const exportChatMessageList = (id: string) => {
     return
   }
   const content = collectionSet.chat?.chatMessageList
-    .map((r) => r.role + ': \n' + r.content)
+    .map((r) => `[${formatDateTime(new Date(r.createTime))}] ${r.role} : \n${r.content}`)
     .join('\n\n')
-  exportTextFile(`records-${nowTimestamp()}.md`, content)
+  exportTextFile(`chat-records-${nowTimestamp()}.md`, content)
 }
 
 // 新建笔记

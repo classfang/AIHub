@@ -3,7 +3,7 @@ import { Message, Modal } from '@arco-design/web-vue'
 import AssistantForm from '@renderer/components/views/chat2assistant/assistant-list/AssistantForm.vue'
 import { useAssistantStore } from '@renderer/store/assistant'
 import { useSystemStore } from '@renderer/store/system'
-import { nowTimestamp } from '@renderer/utils/date-util'
+import { formatDateTime, nowTimestamp } from '@renderer/utils/date-util'
 import { exportTextFile } from '@renderer/utils/download-util'
 import { copyObj } from '@renderer/utils/object-util'
 import { copyFields } from '@renderer/utils/object-util'
@@ -108,9 +108,9 @@ const exportChatMessageList = () => {
     return
   }
   const content = data.currentAssistant.chatMessageList
-    .map((r) => r.role + ': \n' + r.content)
+    .map((r) => `[${formatDateTime(new Date(r.createTime))}] ${r.role} : \n${r.content}`)
     .join('\n\n')
-  exportTextFile(`records-${nowTimestamp()}.md`, content)
+  exportTextFile(`chat-records-${nowTimestamp()}.md`, content)
 }
 
 const assistantUpdate = (newAssistant: Assistant) => {
