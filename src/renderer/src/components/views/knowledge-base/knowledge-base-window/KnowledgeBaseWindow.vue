@@ -88,7 +88,7 @@ const sendQuestion = () => {
     data.currentQuestion
   )
     .then((res) => {
-      data.answer = res?.text
+      data.answer = res?.answer
     })
     .catch((err: Error) => {
       Message.error(err.message)

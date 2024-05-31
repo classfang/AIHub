@@ -1,13 +1,15 @@
 // langChain-redis 新增文件
+import { DocxLoader } from '@langchain/community/document_loaders/fs/docx'
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf'
+import { PPTXLoader } from '@langchain/community/document_loaders/fs/pptx'
+import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { OpenAI, OpenAIEmbeddings } from '@langchain/openai'
 import { RedisVectorStore } from '@langchain/redis'
 import { RedisClientOptions } from '@redis/client/dist/lib/client'
 import { ipcMain } from 'electron'
-import { RetrievalQAChain } from 'langchain/chains'
+import { createStuffDocumentsChain } from 'langchain/chains/combine_documents'
+import { createRetrievalChain } from 'langchain/chains/retrieval'
 import { BaseDocumentLoader } from 'langchain/dist/document_loaders/base'
-import { DocxLoader } from 'langchain/document_loaders/fs/docx'
-import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
-import { PPTXLoader } from 'langchain/document_loaders/fs/pptx'
 import { TextLoader } from 'langchain/document_loaders/fs/text'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { createClient } from 'redis'
@@ -38,7 +40,7 @@ export const initLangChain = () => {
           }
         }),
         {
-          redisClient: client,
+          redisClient: client as any,
           indexName: indexName
         }
       )
@@ -167,7 +169,7 @@ export const initLangChain = () => {
           }
         }),
         {
-          redisClient: client,
+          redisClient: client as any,
           indexName: indexName
         }
       )
@@ -180,16 +182,25 @@ export const initLangChain = () => {
           baseURL: openaiConfig.baseUrl
         }
       })
-      // @ts-ignore
-      const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever())
+      const combineDocsChain = await createStuffDocumentsChain({
+        llm: model,
+        prompt: ChatPromptTemplate.fromTemplate(`{context}\n\n{input}`)
+      })
+      const retriever = vectorStore.asRetriever()
+      const chain = await createRetrievalChain({
+        combineDocsChain,
+        retriever
+      })
 
       // 提问
       const response = await chain.invoke({
-        query: question
+        input: question
       })
 
       // redis 断连
       await client.disconnect()
+
+      console.log(response)
 
       // 返回结果
       return response
