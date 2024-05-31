@@ -200,8 +200,6 @@ export const initLangChain = () => {
       // redis 断连
       await client.disconnect()
 
-      console.log(response)
-
       // 返回结果
       return response
     }
