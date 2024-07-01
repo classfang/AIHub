@@ -6,6 +6,10 @@
   一款集合多家大模型能力的客户端。可以快速、低门槛搭建你的专属AI助手；支持自定义插件，扩展无限可能。 ✨✨
 </h3>
 
+<h3 align="center">
+OpenAI 用户强烈推荐专属客户端 <a href="[/README_en.md](https://github.com/classfang/chatgpt-plus)">ChatGPT Plus</a>
+</h3>
+
 <h4 align="center">
   <a href="/README.md">中文简介</a> | <a href="/README_en.md">English README</a>
 </h4>
