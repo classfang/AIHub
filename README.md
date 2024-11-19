@@ -7,7 +7,7 @@
 </h3>
 
 <h3 align="center">
-OpenAI 用户强烈推荐专属客户端 <a href="https://github.com/classfang/chatgpt-plus">ChatGPT Plus</a>
+OpenAI 用户强烈推荐专属客户端 <a href="https://github.com/classfang/strawberry">Strawberry</a>
 </h3>
 
 <h4 align="center">
